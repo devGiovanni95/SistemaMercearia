@@ -20,11 +20,13 @@ import javax.swing.JComboBox;
 import javax.swing.JFormattedTextField;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.text.MaskFormatter;
 import javax.swing.ListSelectionModel;
 import java.awt.FlowLayout;
 import java.awt.BorderLayout;
 import javax.swing.BoxLayout;
 import java.awt.event.ActionListener;
+import java.text.ParseException;
 import java.awt.event.ActionEvent;
 
 public class ViewCadastroCliente extends JFrame {
@@ -66,8 +68,9 @@ public class ViewCadastroCliente extends JFrame {
 
 	/**
 	 * Create the frame.
+	 * @throws ParseException 
 	 */
-	public ViewCadastroCliente() {
+	public ViewCadastroCliente() throws ParseException {
 		setForeground(new Color(24, 52, 70));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1265, 694);
@@ -198,18 +201,21 @@ public class ViewCadastroCliente extends JFrame {
 		
 		tfCelular = new JTextField();
 		tfCelular.setColumns(10);
+		tfCelular  = new JFormattedTextField(new MaskFormatter("(##) # ####-####"));
 		
 		JLabel lblNewLabel_1_2_1 = new JLabel("Telefone:");
 		lblNewLabel_1_2_1.setFont(new Font("Arial", Font.BOLD, 14));
 		
 		tfTelefone = new JFormattedTextField();
 		tfTelefone.setColumns(10);
+		tfTelefone  = new JFormattedTextField(new MaskFormatter("(##) ####-####"));
 		
 		JLabel lblNewLabel_1_1 = new JLabel("CEP:");
 		lblNewLabel_1_1.setFont(new Font("Arial", Font.BOLD, 14));
 		
 		tfCep = new JFormattedTextField();
 		tfCep.setColumns(10);
+		tfCep = new JFormattedTextField(new MaskFormatter("##.###-###"));
 		
 		JComboBox cbUf = new JComboBox();
 		

@@ -1,14 +1,18 @@
 package view;
 
 import java.awt.EventQueue;
+import java.awt.Graphics;
+import java.awt.Image;
 
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
 import javax.swing.JMenuItem;
 import javax.swing.ImageIcon;
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.JLabel;
+import javax.swing.JDesktopPane;
 
 public class ViewMenuPrincipal extends JFrame {
 
@@ -42,8 +46,7 @@ public class ViewMenuPrincipal extends JFrame {
 		menuBar.add(mnVendas);
 		
 		JMenuItem mntmNewMenuItem = new JMenuItem("Ir Para PDV");
-		mntmNewMenuItem.setSelectedIcon(new ImageIcon("E:\\Analise e Desenvolvimento de Software Fatec\\3Semestre\\Poo\\SistemaMercearia\\src\\assets\\de-dinheiro.png"));
-		mntmNewMenuItem.setIcon(new ImageIcon("E:\\Analise e Desenvolvimento de Software Fatec\\3Semestre\\Poo\\SistemaMercearia\\src\\assets\\venda.png"));
+		mntmNewMenuItem.setIcon(new ImageIcon(getClass().getResource("/assets/venda.png")));
 		mntmNewMenuItem.setSize(35,35);
 		mnVendas.add(mntmNewMenuItem);
 		
@@ -51,76 +54,96 @@ public class ViewMenuPrincipal extends JFrame {
 		menuBar.add(mnNewMenu_1);
 		
 		JMenuItem mntmNewMenuItem_2 = new JMenuItem("Cadastrar Produto");
-		mntmNewMenuItem_2.setIcon(new ImageIcon("E:\\Analise e Desenvolvimento de Software Fatec\\3Semestre\\Poo\\SistemaMercearia\\src\\assets\\produto.png"));
+		mntmNewMenuItem_2.setIcon(new ImageIcon(getClass().getResource("/assets/produto.png")));
 		mnNewMenu_1.add(mntmNewMenuItem_2);
 		
 		JMenuItem mntmNewMenuItem_1 = new JMenuItem("Devolução");
-		mntmNewMenuItem_1.setIcon(new ImageIcon("E:\\Analise e Desenvolvimento de Software Fatec\\3Semestre\\Poo\\SistemaMercearia\\src\\assets\\fornecedor.png"));
+		mntmNewMenuItem_1.setIcon(new ImageIcon(getClass().getResource("/assets/fornecedor.png")));
 		mnNewMenu_1.add(mntmNewMenuItem_1);
 		
 		JMenu mnNewMenu_3 = new JMenu("Fornecedores");
 		menuBar.add(mnNewMenu_3);
 		
 		JMenuItem mntmNewMenuItem_3 = new JMenuItem("Cadastrar Fornecedor");
-		mntmNewMenuItem_3.setIcon(new ImageIcon("E:\\Analise e Desenvolvimento de Software Fatec\\3Semestre\\Poo\\SistemaMercearia\\src\\assets\\entregador.png"));
+		mntmNewMenuItem_3.setIcon(new ImageIcon(getClass().getResource("/assets/entregador.png")));
 		mnNewMenu_3.add(mntmNewMenuItem_3);
 		
 		JMenuItem mntmNewMenuItem_4 = new JMenuItem("Consultar Fornecedor");
-		mntmNewMenuItem_4.setIcon(new ImageIcon("E:\\Analise e Desenvolvimento de Software Fatec\\3Semestre\\Poo\\SistemaMercearia\\src\\assets\\lista-de-controle.png"));
+		mntmNewMenuItem_4.setIcon(new ImageIcon(getClass().getResource("/assets/lista-de-controle.png")));
 		mnNewMenu_3.add(mntmNewMenuItem_4);
 		
 		JMenu mnNewMenu_2 = new JMenu("Clientes");
 		menuBar.add(mnNewMenu_2);
 		
 		JMenuItem mntmNewMenuItem_5 = new JMenuItem("Cadastrar Cliente");
-		mntmNewMenuItem_5.setIcon(new ImageIcon("E:\\Analise e Desenvolvimento de Software Fatec\\3Semestre\\Poo\\SistemaMercearia\\src\\assets\\cliente.png"));
+		mntmNewMenuItem_5.setIcon(new ImageIcon(getClass().getResource("/assets/cliente.png")));
 		mnNewMenu_2.add(mntmNewMenuItem_5);
 		
 		JMenuItem mntmNewMenuItem_5_1 = new JMenuItem("Consultar Cliente");
-		mntmNewMenuItem_5_1.setIcon(new ImageIcon("E:\\Analise e Desenvolvimento de Software Fatec\\3Semestre\\Poo\\SistemaMercearia\\src\\assets\\pesquisa.png"));
+		mntmNewMenuItem_5_1.setIcon(new ImageIcon(getClass().getResource("/assets/pesquisa.png")));
 		mnNewMenu_2.add(mntmNewMenuItem_5_1);
 		
 		JMenu mnNewMenu_4 = new JMenu("Funcionários");
 		menuBar.add(mnNewMenu_4);
 		
 		JMenuItem mntmNewMenuItem_5_3 = new JMenuItem("Cadastrar Funcionário");
-		mntmNewMenuItem_5_3.setIcon(new ImageIcon("E:\\Analise e Desenvolvimento de Software Fatec\\3Semestre\\Poo\\SistemaMercearia\\src\\assets\\funcionarios.png"));
+		mntmNewMenuItem_5_3.setIcon(new ImageIcon(getClass().getResource("/assets/funcionarios.png")));
 		mnNewMenu_4.add(mntmNewMenuItem_5_3);
 		
 		JMenuItem mntmNewMenuItem_5_2 = new JMenuItem("Consultar Funcionário");
-		mntmNewMenuItem_5_2.setIcon(new ImageIcon("E:\\Analise e Desenvolvimento de Software Fatec\\3Semestre\\Poo\\SistemaMercearia\\src\\assets\\consulta.png"));
+		mntmNewMenuItem_5_2.setIcon(new ImageIcon(getClass().getResource("/assets/consulta.png")));
 		mnNewMenu_4.add(mntmNewMenuItem_5_2);
 		
 		JMenu mnNewMenu_5 = new JMenu("Acessos");
 		menuBar.add(mnNewMenu_5);
 		
 		JMenuItem mntmNewMenuItem_5_4 = new JMenuItem("Alterar Acessos");
-		mntmNewMenuItem_5_4.setIcon(new ImageIcon("E:\\Analise e Desenvolvimento de Software Fatec\\3Semestre\\Poo\\SistemaMercearia\\src\\assets\\acesso.png"));
+		mntmNewMenuItem_5_4.setIcon(new ImageIcon(getClass().getResource("/assets/acesso.png")));
 		mnNewMenu_5.add(mntmNewMenuItem_5_4);
 		
 		JMenu mnNewMenu_6 = new JMenu("Configuração");
 		menuBar.add(mnNewMenu_6);
 		
 		JMenuItem mntmNewMenuItem_5_5 = new JMenuItem("Configurar");
-		mntmNewMenuItem_5_5.setIcon(new ImageIcon("E:\\Analise e Desenvolvimento de Software Fatec\\3Semestre\\Poo\\SistemaMercearia\\src\\assets\\configuracao.png"));
+		mntmNewMenuItem_5_5.setIcon(new ImageIcon(getClass().getResource("/assets/configuracao.png")));
 		mnNewMenu_6.add(mntmNewMenuItem_5_5);
 		
 		JMenu mnNewMenu = new JMenu("Sair");
 		menuBar.add(mnNewMenu);
 		
 		JMenuItem mntmNewMenuItem_6 = new JMenuItem("Trocar Usuário");
-		mntmNewMenuItem_6.setIcon(new ImageIcon("E:\\Analise e Desenvolvimento de Software Fatec\\3Semestre\\Poo\\SistemaMercearia\\src\\assets\\sair.png"));
+		mntmNewMenuItem_6.setIcon(new ImageIcon(getClass().getResource("/assets/sair.png")));
 		mnNewMenu.add(mntmNewMenuItem_6);
 		
 		JMenuItem mntmNewMenuItem_7 = new JMenuItem("Sair do Sistema");
-		mntmNewMenuItem_7.setIcon(new ImageIcon("E:\\Analise e Desenvolvimento de Software Fatec\\3Semestre\\Poo\\SistemaMercearia\\src\\assets\\do-utilizador.png"));
+		mntmNewMenuItem_7.setIcon(new ImageIcon(getClass().getResource("/assets/do-utilizador.png")));
 		mnNewMenu.add(mntmNewMenuItem_7);
 		
 		JMenuItem menuItem = new JMenuItem("");
 		menuBar.add(menuItem);
+		
+		//Creindo plano de fundo
+		ImageIcon icon = new ImageIcon(getClass().getResource("/assets/fundo.png"));
+		Image image = icon.getImage();
+		JDesktopPane painelDesktop = new JDesktopPane(){
+			public void paintComponent(Graphics g) {
+				g.drawImage(image,0,0,getWidth(),getHeight(),this);
+			}
+		};
+		
+		
+		GroupLayout groupLayout = new GroupLayout(getContentPane());
+		groupLayout.setHorizontalGroup(
+			groupLayout.createParallelGroup(Alignment.LEADING)
+				.addComponent(painelDesktop, GroupLayout.DEFAULT_SIZE, 1254, Short.MAX_VALUE)
+		);
+		groupLayout.setVerticalGroup(
+			groupLayout.createParallelGroup(Alignment.LEADING)
+				.addComponent(painelDesktop, GroupLayout.DEFAULT_SIZE, 596, Short.MAX_VALUE)
+		);
+		getContentPane().setLayout(groupLayout);
 		JMenuBar barraMenu = new JMenuBar();
 		JMenu pontoDeVenda = new JMenu("Arqui");
 		barraMenu.add(pontoDeVenda);
 	}
-
 }
