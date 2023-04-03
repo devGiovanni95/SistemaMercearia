@@ -20,11 +20,13 @@ import javax.swing.JComboBox;
 import javax.swing.JFormattedTextField;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.text.MaskFormatter;
 import javax.swing.ListSelectionModel;
 import java.awt.FlowLayout;
 import java.awt.BorderLayout;
 import javax.swing.BoxLayout;
 import java.awt.event.ActionListener;
+import java.text.ParseException;
 import java.awt.event.ActionEvent;
 
 public class ViewCadastroFuncionarios extends JFrame {
@@ -48,7 +50,7 @@ public class ViewCadastroFuncionarios extends JFrame {
 	private JTextField tfSenha;
 	private JTextField tfCargo;
 	private JTextField tfPisPasep;
-	private JTextField textField_1;
+	private JTextField tfJornada;
 	private JTextField tfCarteiraTrabalho;
 	private JTextField tfEstadoCivil;
 	private JTextField tfJornadaTrabalho;
@@ -74,8 +76,9 @@ public class ViewCadastroFuncionarios extends JFrame {
 
 	/**
 	 * Create the frame.
+	 * @throws ParseException 
 	 */
-	public ViewCadastroFuncionarios() {
+	public ViewCadastroFuncionarios() throws ParseException {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1265, 694);
 		contentPane = new JPanel();
@@ -203,7 +206,7 @@ public class ViewCadastroFuncionarios extends JFrame {
 		JLabel lblTelefone = new JLabel("Telefone:");
 		lblTelefone.setFont(new Font("Arial", Font.BOLD, 14));
 		
-		tfTelefone = new JFormattedTextField();
+		tfTelefone = new JFormattedTextField(new MaskFormatter("(##) # ####-####"));
 		tfTelefone.setColumns(10);
 		
 		JLabel lblCep = new JLabel("CEP:");
@@ -258,8 +261,8 @@ public class ViewCadastroFuncionarios extends JFrame {
 		tfPisPasep = new JTextField();
 		tfPisPasep.setColumns(10);
 		
-		textField_1 = new JTextField();
-		textField_1.setColumns(10);
+		tfJornada = new JTextField();
+		tfJornada.setColumns(10);
 		
 		JLabel lblSalario = new JLabel("Salário:");
 		lblSalario.setFont(new Font("Arial", Font.BOLD, 14));
@@ -388,7 +391,7 @@ public class ViewCadastroFuncionarios extends JFrame {
 					.addGap(10)
 					.addComponent(lblSalario)
 					.addGap(13)
-					.addComponent(textField_1, GroupLayout.PREFERRED_SIZE, 176, GroupLayout.PREFERRED_SIZE))
+					.addComponent(tfJornada, GroupLayout.PREFERRED_SIZE, 176, GroupLayout.PREFERRED_SIZE))
 				.addGroup(gl_abaDadosPessoais.createSequentialGroup()
 					.addGap(76)
 					.addComponent(lblPisPasep)
@@ -538,7 +541,7 @@ public class ViewCadastroFuncionarios extends JFrame {
 							.addComponent(lblSalario))
 						.addGroup(gl_abaDadosPessoais.createSequentialGroup()
 							.addGap(1)
-							.addComponent(textField_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+							.addComponent(tfJornada, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
 					.addGap(18)
 					.addGroup(gl_abaDadosPessoais.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_abaDadosPessoais.createSequentialGroup()
@@ -607,10 +610,10 @@ public class ViewCadastroFuncionarios extends JFrame {
 			}
 		});
 		
-		JButton btnNewButton_1_1 = new JButton("Adicionar");
+		JButton btnNewButton_1_1 = new JButton("Editar");
 		btnNewButton_1_1.setFont(new Font("Arial", Font.BOLD, 18));
 		
-		JButton btnNewButton_1_2 = new JButton("Editar");
+		JButton btnNewButton_1_2 = new JButton("Salvar");
 		btnNewButton_1_2.setFont(new Font("Arial", Font.BOLD, 18));
 		
 		JButton btnNewButton_1_3 = new JButton("Excluir");

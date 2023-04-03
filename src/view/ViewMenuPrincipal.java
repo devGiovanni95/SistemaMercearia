@@ -43,6 +43,7 @@ public class ViewMenuPrincipal extends JFrame {
 		setJMenuBar(menuBar);
 		
 		JMenu mnVendas = new JMenu("Ponto de Vendas");
+		mnVendas.setIcon(new ImageIcon(ViewMenuPrincipal.class.getResource("/assets/ponto-de-venda (1).png")));
 		menuBar.add(mnVendas);
 		
 		JMenuItem mntmNewMenuItem = new JMenuItem("Ir Para PDV");
@@ -51,6 +52,7 @@ public class ViewMenuPrincipal extends JFrame {
 		mnVendas.add(mntmNewMenuItem);
 		
 		JMenu mnNewMenu_1 = new JMenu("Estoque");
+		mnNewMenu_1.setIcon(new ImageIcon(ViewMenuPrincipal.class.getResource("/assets/lista-de-controle.png")));
 		menuBar.add(mnNewMenu_1);
 		
 		JMenuItem mntmNewMenuItem_2 = new JMenuItem("Cadastrar Produto");
@@ -62,6 +64,7 @@ public class ViewMenuPrincipal extends JFrame {
 		mnNewMenu_1.add(mntmNewMenuItem_1);
 		
 		JMenu mnNewMenu_3 = new JMenu("Fornecedores");
+		mnNewMenu_3.setIcon(new ImageIcon(ViewMenuPrincipal.class.getResource("/assets/fornecedor (3).png")));
 		menuBar.add(mnNewMenu_3);
 		
 		JMenuItem mntmNewMenuItem_3 = new JMenuItem("Cadastrar Fornecedor");
@@ -73,6 +76,7 @@ public class ViewMenuPrincipal extends JFrame {
 		mnNewMenu_3.add(mntmNewMenuItem_4);
 		
 		JMenu mnNewMenu_2 = new JMenu("Clientes");
+		mnNewMenu_2.setIcon(new ImageIcon(ViewMenuPrincipal.class.getResource("/assets/cliente.png")));
 		menuBar.add(mnNewMenu_2);
 		
 		JMenuItem mntmNewMenuItem_5 = new JMenuItem("Cadastrar Cliente");
@@ -84,6 +88,7 @@ public class ViewMenuPrincipal extends JFrame {
 		mnNewMenu_2.add(mntmNewMenuItem_5_1);
 		
 		JMenu mnNewMenu_4 = new JMenu("Funcionários");
+		mnNewMenu_4.setIcon(new ImageIcon(ViewMenuPrincipal.class.getResource("/assets/funcionarios.png")));
 		menuBar.add(mnNewMenu_4);
 		
 		JMenuItem mntmNewMenuItem_5_3 = new JMenuItem("Cadastrar Funcionário");
@@ -95,6 +100,7 @@ public class ViewMenuPrincipal extends JFrame {
 		mnNewMenu_4.add(mntmNewMenuItem_5_2);
 		
 		JMenu mnNewMenu_5 = new JMenu("Acessos");
+		mnNewMenu_5.setIcon(new ImageIcon(ViewMenuPrincipal.class.getResource("/assets/acesso.png")));
 		menuBar.add(mnNewMenu_5);
 		
 		JMenuItem mntmNewMenuItem_5_4 = new JMenuItem("Alterar Acessos");
@@ -102,6 +108,7 @@ public class ViewMenuPrincipal extends JFrame {
 		mnNewMenu_5.add(mntmNewMenuItem_5_4);
 		
 		JMenu mnNewMenu_6 = new JMenu("Configuração");
+		mnNewMenu_6.setIcon(new ImageIcon(ViewMenuPrincipal.class.getResource("/assets/configuracao2.png")));
 		menuBar.add(mnNewMenu_6);
 		
 		JMenuItem mntmNewMenuItem_5_5 = new JMenuItem("Configurar");
@@ -109,6 +116,7 @@ public class ViewMenuPrincipal extends JFrame {
 		mnNewMenu_6.add(mntmNewMenuItem_5_5);
 		
 		JMenu mnNewMenu = new JMenu("Sair");
+		mnNewMenu.setIcon(new ImageIcon(ViewMenuPrincipal.class.getResource("/assets/sair1.png")));
 		menuBar.add(mnNewMenu);
 		
 		JMenuItem mntmNewMenuItem_6 = new JMenuItem("Trocar Usuário");

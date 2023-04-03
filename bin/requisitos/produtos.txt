@@ -1,0 +1,143 @@
+Produto  
+Um cadastro de produto pode incluir vários campos de informação, dependendo do objetivo do cadastro e das necessidades do negócio. No entanto, alguns campos comuns que podem estar presentes em um cadastro de produto incluem:
+
+Nome do produto
+Descrição do produto
+Código do produto
+Categoria do produto
+Marca do produto
+Preço do produto
+Quantidade em estoque
+Unidade de medida
+Peso do produto
+Dimensões do produto
+Imagens do produto
+Fornecedor do produto
+Data de validade (para produtos perecíveis)
+Número do lote (para produtos que requerem rastreabilidade)
+Impostos aplicáveis ao produto
+Promoções ou descontos aplicáveis ao produto
+Variações do produto (por exemplo, tamanho, cor, sabor, etc.)
+
+Esses campos são apenas exemplos e podem variar dependendo das necessidades específicas de cada empresa ou sistema de cadastro de produtos.
+
+
+//=======================================completo=========================================================
+
+Existem muitos campos que podem estar presentes em um cadastro de produto, dependendo das necessidades do negócio e do sistema utilizado. A seguir, segue uma lista não exaustiva de campos que podem ser encontrados em um cadastro de produto:
+
+Nome do produto
+Descrição do produto
+Código do produto
+SKU (Stock Keeping Unit) do produto
+Código de barras do produto
+Categoria do produto
+Subcategoria do produto
+Marca do produto
+Modelo do produto
+Preço do produto
+Preço de custo do produto
+Margem de lucro do produto
+Quantidade em estoque
+Quantidade mínima em estoque
+Unidade de medida do produto
+Peso do produto
+Dimensões do produto
+Volume do produto
+Imagens do produto
+Vídeos do produto
+Ficha técnica do produto
+Garantia do produto
+Fornecedor do produto
+Fabricante do produto
+Data de fabricação do produto
+Data de validade do produto
+Número do lote do produto
+Localização no estoque do produto
+Impostos aplicáveis ao produto
+Promoções ou descontos aplicáveis ao produto
+Variações do produto (por exemplo, tamanho, cor, sabor, etc.)
+Tags ou etiquetas associadas ao produto
+Atributos do produto (por exemplo, material, estilo, etc.)
+Classificação do produto (por exemplo, popular, exclusivo, etc.)
+Esses são apenas alguns exemplos de campos que podem ser encontrados em um cadastro de produto. A lista completa de campos pode variar dependendo das necessidades específicas do negócio e do sistema utilizado.
+
+
+
+//=======================================completo=========================================================
+Não é comum um cadastro de produto ter 100 campos, já que seria um número excessivamente grande de informações. No entanto, é possível listar uma ampla variedade de campos que podem ser incluídos em um cadastro de produto:
+
+Nome do produto
+Código do produto
+Descrição do produto
+Categoria do produto
+Subcategoria do produto
+Marca do produto
+Modelo do produto
+Fabricante do produto
+Fornecedor do produto
+Data de fabricação do produto
+Data de validade do produto
+Número do lote
+Quantidade em estoque
+Unidade de medida
+Peso do produto
+Dimensões do produto
+Tipo de embalagem
+Material da embalagem
+Preço do produto
+Impostos aplicáveis ao produto
+Descontos aplicáveis ao produto
+Promoções aplicáveis ao produto
+Data de criação do cadastro
+Data de atualização do cadastro
+Imagens do produto
+Vídeos do produto
+Arquivos de áudio do produto
+Comentários e avaliações do produto
+Nível de estoque mínimo do produto
+Nível de estoque máximo do produto
+Nível de estoque de alerta do produto
+Classificação de periculosidade do produto
+Classificação de inflamabilidade do produto
+Classificação de toxicidade do produto
+Países de origem do produto
+Países de destino do produto
+Prazo de entrega do produto
+Região de entrega do produto
+Opções de entrega do produto
+Opções de pagamento do produto
+Histórico de preços do produto
+Histórico de vendas do produto
+Histórico de compras do produto
+Histórico de devoluções do produto
+Histórico de trocas do produto
+Pontos de fidelidade do produto
+Status do produto
+Descrição do status do produto
+Motivo do status do produto
+Observações adicionais do produto
+Número de série do produto
+Garantia do produto
+Certificações do produto
+Variações do produto (por exemplo, tamanho, cor, sabor, etc.)
+Categorias de variação do produto
+Subcategorias de variação do produto
+Opções de variação do produto
+Imagens de variação do produto
+Preços de variação do produto
+Impostos de variação do produto
+Descontos de variação do produto
+Promoções de variação do produto
+Quantidade em estoque de variação do produto
+Data de fabricação de variação do produto
+Data de validade de variação do produto
+Número do lote de variação do produto
+Unidade de medida de variação do produto
+Peso de variação do produto
+Dimensões de variação do produto
+Tipo de embalagem de variação do produto
+Material da embalagem de variação do produto
+Imagens adicionais de variação do produto
+Vídeos adicionais de variação do produto
+

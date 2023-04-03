@@ -53,7 +53,7 @@ public class ViewLogin extends JFrame {
 		setBounds(100, 100, 914, 611);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(0, 0, 0, 0));
-
+		this.setLocationRelativeTo(null);//tela centralizada
 		setContentPane(contentPane);
 		
 		//JDesktopPane desktopPane = new JDesktopPane();
@@ -184,17 +184,29 @@ public class ViewLogin extends JFrame {
 					.addGap(22))
 		);
 		panel_4.setLayout(gl_panel_4);
+		
+		JButton btnEntrar = new JButton("Entrar");
+		btnEntrar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ViewMenuPrincipal telaMenuPrincipal = new ViewMenuPrincipal();
+				telaMenuPrincipal.setVisible(true);
+			}
+		});
 		GroupLayout gl_desktopPane = new GroupLayout(desktopPane);
 		gl_desktopPane.setHorizontalGroup(
 			gl_desktopPane.createParallelGroup(Alignment.LEADING)
 				.addComponent(panel, GroupLayout.PREFERRED_SIZE, 888, GroupLayout.PREFERRED_SIZE)
-				.addComponent(panel_1, GroupLayout.DEFAULT_SIZE, 888, Short.MAX_VALUE)
+				.addComponent(panel_1, GroupLayout.DEFAULT_SIZE, 898, Short.MAX_VALUE)
 				.addComponent(panel_2, GroupLayout.PREFERRED_SIZE, 888, GroupLayout.PREFERRED_SIZE)
-				.addComponent(panel_3, GroupLayout.DEFAULT_SIZE, 888, Short.MAX_VALUE)
+				.addComponent(panel_3, GroupLayout.DEFAULT_SIZE, 898, Short.MAX_VALUE)
 				.addGroup(gl_desktopPane.createSequentialGroup()
 					.addGap(10)
-					.addComponent(panel_4, GroupLayout.DEFAULT_SIZE, 868, Short.MAX_VALUE)
+					.addComponent(panel_4, GroupLayout.DEFAULT_SIZE, 878, Short.MAX_VALUE)
 					.addGap(10))
+				.addGroup(gl_desktopPane.createSequentialGroup()
+					.addGap(339)
+					.addComponent(btnEntrar, GroupLayout.PREFERRED_SIZE, 198, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(361, Short.MAX_VALUE))
 		);
 		gl_desktopPane.setVerticalGroup(
 			gl_desktopPane.createParallelGroup(Alignment.LEADING)
@@ -208,8 +220,10 @@ public class ViewLogin extends JFrame {
 					.addGap(11)
 					.addComponent(panel_3, GroupLayout.DEFAULT_SIZE, 91, Short.MAX_VALUE)
 					.addGap(35)
-					.addComponent(panel_4, GroupLayout.DEFAULT_SIZE, 86, Short.MAX_VALUE)
-					.addGap(149))
+					.addComponent(panel_4, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+					.addGap(18)
+					.addComponent(btnEntrar, GroupLayout.PREFERRED_SIZE, 47, GroupLayout.PREFERRED_SIZE)
+					.addGap(80))
 		);
 		desktopPane.setLayout(gl_desktopPane);
 		contentPane.setLayout(gl_contentPane);
