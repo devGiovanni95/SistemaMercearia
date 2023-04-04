@@ -56,7 +56,6 @@ public class ClienteController {
 			preparedStatement.close();
 			
 			JOptionPane.showMessageDialog(null, "Cadastrado com sucesso");
-			System.out.println("controler");
 			
 			
 		} catch (SQLException erro) {
@@ -80,20 +79,15 @@ public class ClienteController {
 					preparedStatement.close();
 					
 					JOptionPane.showMessageDialog(null, "Excluido com sucesso");
-					System.out.println("controler");
-					
+
 					
 				} catch (SQLException erro) {
 					JOptionPane.showMessageDialog(null, "Erro: " + erro);
 				}
 	}
+
 	
-	//metodo cadastrar cliente
-	public void editarCliente() {
-		
-	}
-	
-	//metodo alterae cliente
+	//metodo alterar cliente
 	public void alterarCliente(Cliente cliente) {
 		try {
 				
@@ -119,12 +113,12 @@ public class ClienteController {
 				preparedStatement.setString(14, cliente.getComplemento());
 				preparedStatement.setDouble(15, cliente.getLimite());
 				preparedStatement.setString(16, cliente.getCpf());
+				
 				//3 passo - executar o comando sql
 				preparedStatement.execute();
 				preparedStatement.close();
 				
 				JOptionPane.showMessageDialog(null, "Alterado com sucesso");
-				System.out.println("controler");
 				
 				
 			} catch (SQLException erro) {
@@ -170,7 +164,51 @@ public class ClienteController {
 			
 			
 		} catch (SQLException e) {
-			JOptionPane.showInternalMessageDialog(null, "Erro: " + e );
+			JOptionPane.showMessageDialog(null, "Erro: " + e );
+			return null;
+		}
+	}
+	
+	
+	public List<Cliente> buscarClientePeloNome(String nome) {
+		try {
+			
+			//Criando a lista
+			List<Cliente> lista = new ArrayList<>();
+			
+			//criar sql, organizar e executar
+			String sql = "select * from tb_clientes where nome like ?";
+			PreparedStatement preparedStatement = connection.prepareStatement(sql);
+			preparedStatement.setString(1,nome);			
+			ResultSet resultSet = preparedStatement.executeQuery();
+			
+			while(resultSet.next()) {
+				Cliente cliente = new Cliente();
+				
+				cliente.setNome(resultSet.getString("nome"));
+				cliente.setEmail(resultSet.getString("email"));
+				cliente.setCpf(resultSet.getString("cpf"));
+				cliente.setRg(resultSet.getString("rg"));
+				cliente.setEndereco(resultSet.getString("endereco"));
+				cliente.setTelefone(resultSet.getString("telefone"));
+				cliente.setCelular(resultSet.getString("celular"));
+				cliente.setNumero(resultSet.getInt("numero"));
+				cliente.setCep(resultSet.getString("cep"));
+				cliente.setDataNascimento(resultSet.getString("dataNascimento"));
+				cliente.setBairro(resultSet.getString("bairro"));
+				cliente.setCidade(resultSet.getString("cidade"));
+				cliente.setUf(resultSet.getString("uf"));
+				cliente.setComplemento(resultSet.getString("complemento"));
+				cliente.setLimite(resultSet.getDouble("limite"));
+				
+				lista.add(cliente);
+			}
+			
+			return lista;
+			
+			
+		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(null, "Erro: " + e );
 			return null;
 		}
 	}
