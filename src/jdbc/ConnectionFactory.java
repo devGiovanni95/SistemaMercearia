@@ -10,11 +10,14 @@ public class ConnectionFactory {
 
 	
 	public Connection getConnection() {
+		//Class.forName("com.mysql.cj.jdbc.Driver");
 		Connection conn =null;
 		
 		try {
 			
-			return DriverManager.getConnection("jdbc:mysql://localhost:3306/usuario","root","admin");
+			return conn =  DriverManager.getConnection("jdbc:mysql://aws.connect.psdb.cloud/sistemamercado?sslMode=VERIFY_IDENTITY",
+					  "d8nsy4zm8bacaeu2d0k2",
+					  "pscale_pw_e5AZ0CuPPdOCst6cRRXM5KLKm5zaSwn4K6k04JfY6bR");
 			
 		} catch (SQLException erro) {
 			throw new RuntimeException(erro);
