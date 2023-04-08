@@ -437,7 +437,7 @@ public class FrmFornecedor extends JFrame {
 		);
 		abaDadosPessoais.setLayout(gl_abaDadosPessoais);
 		
-		JLabel lblNewLabel = new JLabel("Cadastro de Fornecedores");
+		JLabel lblNewLabel = new JLabel("Fornecedores");
 		lblNewLabel.setForeground(Color.WHITE);
 		lblNewLabel.setFont(new Font("Arial Black", Font.BOLD, 30));
 		GroupLayout gl_panel = new GroupLayout(panel);

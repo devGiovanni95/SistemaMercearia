@@ -60,6 +60,8 @@ public class ClienteController {
 			
 		} catch (SQLException erro) {
 			JOptionPane.showMessageDialog(null, "Erro: " + erro);
+		} catch(NumberFormatException erro) {
+			JOptionPane.showMessageDialog(null, "Erro: " + erro);
 		}
 	}
 	

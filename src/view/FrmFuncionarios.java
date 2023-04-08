@@ -1,62 +1,66 @@
 package view;
 
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
 import java.awt.Color;
-import javax.swing.JLabel;
+import java.awt.EventQueue;
 import java.awt.Font;
-import javax.swing.JTabbedPane;
-import javax.swing.LayoutStyle.ComponentPlacement;
-import javax.swing.JTextField;
-import javax.swing.JButton;
-import javax.swing.JSpinner;
-import javax.swing.JList;
-import javax.swing.JComboBox;
-import javax.swing.JFormattedTextField;
-import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.text.MaskFormatter;
-import javax.swing.ListSelectionModel;
-import java.awt.FlowLayout;
-import java.awt.BorderLayout;
-import javax.swing.BoxLayout;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.ParseException;
-import java.awt.event.ActionEvent;
+
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFormattedTextField;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.ListSelectionModel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.text.MaskFormatter;
+
+import controller.FuncionarioController;
+import model.Funcionario;
+import util.LimparCampos;
 
 public class FrmFuncionarios extends JFrame {
 
+
+	private static final long serialVersionUID = 1L;
+	
 	private JPanel contentPane;
 	private JTextField tfCodigo;
 	private JTextField tfNome;
 	private JTextField tfEmail;
 	private JTextField tfNumero;
-	private JTextField tfCpfCnpj;
+	private JFormattedTextField tfCpf;
 	private JTextField tfBairro;
 	private JTextField tfCidade;
-	private JTextField tfCelular;
+	private JFormattedTextField tfCelular;
 	private JFormattedTextField tfTelefone;
 	private JFormattedTextField tfCep;
 	private JTextField tfLimite;
 	private JTextField tfComplemento;
-	private JTextField textField;
+	private JTextField tfNomePesquisa;
 	private JTable table;
-	private JTextField tfRg;
+	private JFormattedTextField tfRg;
 	private JTextField tfSenha;
 	private JTextField tfCargo;
 	private JTextField tfPisPasep;
-	private JTextField tfJornada;
+	private JTextField tfSalario;
 	private JTextField tfCarteiraTrabalho;
-	private JTextField tfEstadoCivil;
+	private JComboBox cbEstadoCivil;
 	private JTextField tfJornadaTrabalho;
-	private JTextField lblAdmissão;
-	private JTextField textField_2;
-	private JTextField textField_3;
+	private JTextField tfAdmissao;
+	private JTextField tfEndereco;
+	private JTextField tfDemissao;
+	private JComboBox<String> cbNivelAcesso_1;
+	private JComboBox<String> cbAtivo_1;
 
 	/**
 	 * Launch the application.
@@ -94,8 +98,8 @@ public class FrmFuncionarios extends JFrame {
 		JPanel abaConsultaCliente = new JPanel();
 		tabbedPane.addTab("Consulta Funcionário", null, abaConsultaCliente, null);
 		
-		textField = new JTextField();
-		textField.setColumns(10);
+		tfNomePesquisa = new JTextField();
+		tfNomePesquisa.setColumns(10);
 		
 		JLabel lbCodigo_1 = new JLabel("Código: ");
 		lbCodigo_1.setFont(new Font("Arial", Font.BOLD, 14));
@@ -125,7 +129,7 @@ public class FrmFuncionarios extends JFrame {
 							.addGap(30)
 							.addComponent(lbCodigo_1)
 							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(textField, GroupLayout.PREFERRED_SIZE, 483, GroupLayout.PREFERRED_SIZE)
+							.addComponent(tfNomePesquisa, GroupLayout.PREFERRED_SIZE, 483, GroupLayout.PREFERRED_SIZE)
 							.addGap(18)
 							.addComponent(btnNewButton, GroupLayout.PREFERRED_SIZE, 119, GroupLayout.PREFERRED_SIZE))
 						.addGroup(gl_abaConsultaCliente.createSequentialGroup()
@@ -138,7 +142,7 @@ public class FrmFuncionarios extends JFrame {
 				.addGroup(gl_abaConsultaCliente.createSequentialGroup()
 					.addGap(22)
 					.addGroup(gl_abaConsultaCliente.createParallelGroup(Alignment.BASELINE)
-						.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(tfNomePesquisa, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(lbCodigo_1)
 						.addComponent(btnNewButton))
 					.addPreferredGap(ComponentPlacement.RELATED, 7, Short.MAX_VALUE)
@@ -153,18 +157,21 @@ public class FrmFuncionarios extends JFrame {
 		lbCodigo.setFont(new Font("Arial", Font.BOLD, 14));
 		
 		tfCodigo = new JTextField();
+		tfCodigo.setFont(new Font("Arial", Font.BOLD, 14));
 		tfCodigo.setColumns(10);
 		
 		JLabel lblNome = new JLabel("Nome:");
 		lblNome.setFont(new Font("Arial", Font.BOLD, 14));
 		
 		tfNome = new JTextField();
+		tfNome.setFont(new Font("Arial", Font.BOLD, 14));
 		tfNome.setColumns(10);
 		
 		JLabel lblEmail = new JLabel("E-mail:");
 		lblEmail.setFont(new Font("Arial", Font.BOLD, 14));
 		
 		tfEmail = new JTextField();
+		tfEmail.setFont(new Font("Arial", Font.BOLD, 14));
 		tfEmail.setColumns(10);
 		
 		JLabel lblEndereo = new JLabel("Endereço:");
@@ -174,6 +181,7 @@ public class FrmFuncionarios extends JFrame {
 		lblNumero.setFont(new Font("Arial", Font.BOLD, 14));
 		
 		tfNumero = new JTextField();
+		tfNumero.setFont(new Font("Arial", Font.BOLD, 14));
 		tfNumero.setColumns(10);
 		
 		JLabel lblCpf = new JLabel("CPF:");
@@ -183,12 +191,14 @@ public class FrmFuncionarios extends JFrame {
 		lblBairro.setFont(new Font("Arial", Font.BOLD, 14));
 		
 		tfBairro = new JTextField();
+		tfBairro.setFont(new Font("Arial", Font.BOLD, 14));
 		tfBairro.setColumns(10);
 		
 		JLabel lblCidade = new JLabel("Cidade:");
 		lblCidade.setFont(new Font("Arial", Font.BOLD, 14));
 		
 		tfCidade = new JTextField();
+		tfCidade.setFont(new Font("Arial", Font.BOLD, 14));
 		tfCidade.setColumns(10);
 		
 		JLabel lblCnpj_1_3 = new JLabel("CNPJ: ");
@@ -200,22 +210,27 @@ public class FrmFuncionarios extends JFrame {
 		JLabel lblCelular = new JLabel("Celular:");
 		lblCelular.setFont(new Font("Arial", Font.BOLD, 14));
 		
-		tfCelular = new JTextField();
+		tfCelular = new JFormattedTextField(new MaskFormatter("(##) ####-####"));
+		tfCelular.setFont(new Font("Arial", Font.BOLD, 14));
 		tfCelular.setColumns(10);
 		
 		JLabel lblTelefone = new JLabel("Telefone:");
 		lblTelefone.setFont(new Font("Arial", Font.BOLD, 14));
 		
 		tfTelefone = new JFormattedTextField(new MaskFormatter("(##) # ####-####"));
+		tfTelefone.setFont(new Font("Arial", Font.BOLD, 14));
 		tfTelefone.setColumns(10);
 		
 		JLabel lblCep = new JLabel("CEP:");
 		lblCep.setFont(new Font("Arial", Font.BOLD, 14));
 		
-		tfCep = new JFormattedTextField();
+		tfCep = new JFormattedTextField(new MaskFormatter("##.###-###"));
+		tfCep.setFont(new Font("Arial", Font.BOLD, 14));
 		tfCep.setColumns(10);
 		
-		JComboBox cbUf = new JComboBox();
+		JComboBox<String> cbUf = new JComboBox<String>();
+		cbUf.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] {"", "AC", "AL", "AP", "AM", "BA", "CE", "DF", "ES", "GO", "MA", "MT", "MS", "MG", "PA", "PB", "PR", "PE", "PI", "RJ", "RN", "RS", "RO", "RR", "SC", "SP", "SE", "TO" }));
+		cbUf.setFont(new Font("Arial", Font.BOLD, 14));
 		
 		JLabel lblUf = new JLabel("UF:");
 		lblUf.setFont(new Font("Arial", Font.BOLD, 14));
@@ -224,45 +239,58 @@ public class FrmFuncionarios extends JFrame {
 		lblLimite.setFont(new Font("Arial", Font.BOLD, 14));
 		
 		tfLimite = new JTextField();
+		tfLimite.setFont(new Font("Arial", Font.BOLD, 14));
 		tfLimite.setColumns(10);
 		
 		tfComplemento = new JTextField();
+		tfComplemento.setFont(new Font("Arial", Font.BOLD, 14));
 		tfComplemento.setColumns(10);
 		
-		tfCpfCnpj = new JTextField();
-		tfCpfCnpj.setColumns(10);
+		tfCpf = new JFormattedTextField(new MaskFormatter("###.###.###-##"));
+		tfCpf.setFont(new Font("Arial", Font.BOLD, 14));
+		tfCpf.setColumns(10);
 		
 		JLabel lblRg = new JLabel("RG:");
 		lblRg.setFont(new Font("Arial", Font.BOLD, 14));
 		
-		tfRg = new JTextField();
+		tfRg = new JFormattedTextField(new MaskFormatter("##.###.###-#"));
+		tfRg.setFont(new Font("Arial", Font.BOLD, 14));
 		tfRg.setColumns(10);
 		
 		JLabel lblSenha = new JLabel("Senha:");
 		lblSenha.setFont(new Font("Arial", Font.BOLD, 14));
 		
 		tfSenha = new JTextField();
+		tfSenha.setFont(new Font("Arial", Font.BOLD, 14));
 		tfSenha.setColumns(10);
 		
 		JLabel lblNivelDeAcesso = new JLabel("Nível de Acesso:");
 		lblNivelDeAcesso.setFont(new Font("Arial", Font.BOLD, 14));
 		
-		JComboBox cbNivelAcesso = new JComboBox();
+		JComboBox<String> cbNivelAcesso = new JComboBox<String>();
+		cbNivelAcesso.setFont(new Font("Arial", Font.BOLD, 14));
+		cbNivelAcesso_1 = new JComboBox<String>();
+		cbNivelAcesso_1.setFont(new Font("Arial", Font.PLAIN, 14));
+		cbNivelAcesso_1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] {"","Gerente","Estoquista","Caixa"}));
+
 		
 		JLabel lblCargo = new JLabel("Cargo:");
 		lblCargo.setFont(new Font("Arial", Font.BOLD, 14));
 		
 		tfCargo = new JTextField();
+		tfCargo.setFont(new Font("Arial", Font.BOLD, 14));
 		tfCargo.setColumns(10);
 		
 		JLabel lblPisPasep = new JLabel("PIS / PASEP:");
 		lblPisPasep.setFont(new Font("Arial", Font.BOLD, 14));
 		
 		tfPisPasep = new JTextField();
+		tfPisPasep.setFont(new Font("Arial", Font.BOLD, 14));
 		tfPisPasep.setColumns(10);
 		
-		tfJornada = new JTextField();
-		tfJornada.setColumns(10);
+		tfSalario = new JTextField();
+		tfSalario.setFont(new Font("Arial", Font.BOLD, 14));
+		tfSalario.setColumns(10);
 		
 		JLabel lblSalario = new JLabel("Salário:");
 		lblSalario.setFont(new Font("Arial", Font.BOLD, 14));
@@ -270,161 +298,189 @@ public class FrmFuncionarios extends JFrame {
 		JLabel lblCtps = new JLabel("CTPS:");
 		lblCtps.setFont(new Font("Arial", Font.BOLD, 14));
 		
-		tfCarteiraTrabalho = new JTextField();
+		tfCarteiraTrabalho = new JFormattedTextField(new MaskFormatter("#######-####"));
+		tfCarteiraTrabalho.setFont(new Font("Arial", Font.BOLD, 14));
 		tfCarteiraTrabalho.setColumns(10);
 		
 		JLabel lblCtps_1 = new JLabel("Estado Civil:");
 		lblCtps_1.setFont(new Font("Arial", Font.BOLD, 14));
 		
-		tfEstadoCivil = new JTextField();
-		tfEstadoCivil.setColumns(10);
+		JComboBox<String> cbEstadoCivil = new JComboBox<String>();
+		cbEstadoCivil.setFont(new Font("Arial", Font.BOLD, 14));
+		cbEstadoCivil.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] {"","Solteiro(a)","Casado(a)","Divorciado(a)"}));
 		
 		JLabel lblJornada = new JLabel("Jornada:");
 		lblJornada.setFont(new Font("Arial", Font.BOLD, 14));
 		
 		tfJornadaTrabalho = new JTextField();
+		tfJornadaTrabalho.setFont(new Font("Arial", Font.BOLD, 14));
 		tfJornadaTrabalho.setColumns(10);
 		
-		JLabel lblAdmisso = new JLabel("Admissão:");
-		lblAdmisso.setFont(new Font("Arial", Font.BOLD, 14));
+		JLabel lblAdmissao = new JLabel("Admissão:");
+		lblAdmissao.setFont(new Font("Arial", Font.BOLD, 14));
 		
-		lblAdmissão = new JTextField();
-		lblAdmissão.setColumns(10);
+		tfAdmissao = new JFormattedTextField(new MaskFormatter("##/##/####"));
+		tfAdmissao.setFont(new Font("Arial", Font.BOLD, 14));
+		tfAdmissao.setColumns(10);
 		
 		JLabel lblAtivo = new JLabel("Ativo:");
 		lblAtivo.setFont(new Font("Arial", Font.BOLD, 14));
 		
-		JComboBox cbNivelAcesso_1 = new JComboBox();
+		JComboBox<String> cbAtivo = new JComboBox<String>();
+		cbAtivo.setFont(new Font("Arial", Font.BOLD, 14));
+		cbAtivo_1 = new JComboBox<String>();
+		cbAtivo_1.setFont(new Font("Arial", Font.PLAIN, 14));
+		cbAtivo_1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] {"","Ativo","Inativo"}));
 		
-		textField_2 = new JTextField();
-		textField_2.setColumns(10);
+		
+		tfEndereco = new JTextField();
+		tfEndereco.setFont(new Font("Arial", Font.BOLD, 14));
+		tfEndereco.setColumns(10);
 		
 		JLabel lblDemisso = new JLabel("Demissão:");
 		lblDemisso.setFont(new Font("Arial", Font.BOLD, 14));
 		
-		textField_3 = new JTextField();
-		textField_3.setColumns(10);
+		tfDemissao = new JFormattedTextField(new MaskFormatter("##/##/####"));
+		tfDemissao.setFont(new Font("Arial", Font.BOLD, 14));
+		tfDemissao.setColumns(10);
+		
+		JLabel lblDataNascimento = new JLabel("Data Nascimento: ");
+		lblDataNascimento.setFont(new Font("Arial", Font.BOLD, 14));
+		
+		JFormattedTextField tfDataNascimento = new JFormattedTextField(new MaskFormatter("##/##/####"));
 		GroupLayout gl_abaDadosPessoais = new GroupLayout(abaDadosPessoais);
 		gl_abaDadosPessoais.setHorizontalGroup(
 			gl_abaDadosPessoais.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_abaDadosPessoais.createSequentialGroup()
-					.addGap(91)
-					.addComponent(lbCodigo)
-					.addGap(14)
-					.addComponent(tfCodigo, GroupLayout.PREFERRED_SIZE, 190, GroupLayout.PREFERRED_SIZE))
-				.addGroup(gl_abaDadosPessoais.createSequentialGroup()
-					.addGap(115)
-					.addComponent(lblNome)
-					.addGap(4)
-					.addComponent(tfNome, GroupLayout.PREFERRED_SIZE, 509, GroupLayout.PREFERRED_SIZE)
-					.addGap(30)
-					.addComponent(lblCpf, GroupLayout.PREFERRED_SIZE, 33, GroupLayout.PREFERRED_SIZE)
-					.addGap(4)
-					.addComponent(tfCpfCnpj, GroupLayout.PREFERRED_SIZE, 217, GroupLayout.PREFERRED_SIZE)
-					.addGap(39)
-					.addComponent(lblRg)
-					.addGap(4)
-					.addComponent(tfRg, GroupLayout.PREFERRED_SIZE, 174, GroupLayout.PREFERRED_SIZE))
-				.addGroup(gl_abaDadosPessoais.createSequentialGroup()
-					.addGap(113)
-					.addComponent(lblEmail)
-					.addGap(4)
-					.addComponent(tfEmail, GroupLayout.PREFERRED_SIZE, 509, GroupLayout.PREFERRED_SIZE)
-					.addGap(4)
-					.addComponent(lblTelefone)
-					.addGap(14)
-					.addComponent(tfTelefone, GroupLayout.PREFERRED_SIZE, 198, GroupLayout.PREFERRED_SIZE)
-					.addGap(10)
-					.addComponent(lblCelular)
-					.addGap(6)
-					.addComponent(tfCelular, GroupLayout.PREFERRED_SIZE, 174, GroupLayout.PREFERRED_SIZE))
-				.addGroup(gl_abaDadosPessoais.createSequentialGroup()
-					.addGap(87)
-					.addComponent(lblEndereo)
-					.addGap(4)
-					.addComponent(textField_2, GroupLayout.PREFERRED_SIZE, 509, GroupLayout.PREFERRED_SIZE)
-					.addGap(10)
-					.addComponent(lblNumero)
-					.addGap(11)
-					.addComponent(tfNumero, GroupLayout.PREFERRED_SIZE, 198, GroupLayout.PREFERRED_SIZE)
-					.addGap(32)
-					.addComponent(lblCep)
-					.addGap(6)
-					.addComponent(tfCep, GroupLayout.PREFERRED_SIZE, 174, GroupLayout.PREFERRED_SIZE))
-				.addGroup(gl_abaDadosPessoais.createSequentialGroup()
-					.addGap(112)
-					.addComponent(lblBairro)
-					.addGap(4)
-					.addComponent(tfBairro, GroupLayout.PREFERRED_SIZE, 509, GroupLayout.PREFERRED_SIZE)
-					.addGap(21)
 					.addGroup(gl_abaDadosPessoais.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_abaDadosPessoais.createSequentialGroup()
-							.addGap(63)
-							.addComponent(tfCidade, GroupLayout.PREFERRED_SIZE, 198, GroupLayout.PREFERRED_SIZE))
-						.addComponent(lblCidade, GroupLayout.PREFERRED_SIZE, 64, GroupLayout.PREFERRED_SIZE))
-					.addGap(41)
-					.addComponent(lblUf)
-					.addGap(6)
-					.addComponent(cbUf, GroupLayout.PREFERRED_SIZE, 174, GroupLayout.PREFERRED_SIZE))
-				.addGroup(gl_abaDadosPessoais.createSequentialGroup()
-					.addGap(58)
-					.addComponent(lblComplemento)
-					.addGap(4)
-					.addComponent(tfComplemento, GroupLayout.PREFERRED_SIZE, 784, GroupLayout.PREFERRED_SIZE)
-					.addGap(18)
-					.addComponent(lblLimite)
-					.addGap(13)
-					.addComponent(tfLimite, GroupLayout.PREFERRED_SIZE, 174, GroupLayout.PREFERRED_SIZE))
-				.addGroup(gl_abaDadosPessoais.createSequentialGroup()
-					.addGap(111)
-					.addComponent(lblSenha)
-					.addGap(4)
-					.addComponent(tfSenha, GroupLayout.PREFERRED_SIZE, 174, GroupLayout.PREFERRED_SIZE)
-					.addGap(31)
-					.addComponent(lblNivelDeAcesso)
-					.addGap(4)
-					.addComponent(cbNivelAcesso, GroupLayout.PREFERRED_SIZE, 174, GroupLayout.PREFERRED_SIZE)
-					.addGap(33)
-					.addComponent(lblCargo)
-					.addGap(4)
-					.addComponent(tfCargo, GroupLayout.PREFERRED_SIZE, 201, GroupLayout.PREFERRED_SIZE)
-					.addGap(10)
-					.addComponent(lblSalario)
-					.addGap(13)
-					.addComponent(tfJornada, GroupLayout.PREFERRED_SIZE, 176, GroupLayout.PREFERRED_SIZE))
-				.addGroup(gl_abaDadosPessoais.createSequentialGroup()
-					.addGap(76)
-					.addComponent(lblPisPasep)
-					.addGap(4)
-					.addComponent(tfPisPasep, GroupLayout.PREFERRED_SIZE, 174, GroupLayout.PREFERRED_SIZE)
-					.addGap(31)
-					.addComponent(lblCtps)
-					.addGap(4)
-					.addComponent(tfCarteiraTrabalho, GroupLayout.PREFERRED_SIZE, 199, GroupLayout.PREFERRED_SIZE)
-					.addGap(46)
-					.addComponent(lblCtps_1)
-					.addGap(4)
-					.addComponent(tfEstadoCivil, GroupLayout.PREFERRED_SIZE, 199, GroupLayout.PREFERRED_SIZE)
-					.addGap(10)
-					.addComponent(lblJornada)
-					.addGap(4)
-					.addComponent(tfJornadaTrabalho, GroupLayout.PREFERRED_SIZE, 176, GroupLayout.PREFERRED_SIZE))
-				.addGroup(gl_abaDadosPessoais.createSequentialGroup()
-					.addGap(88)
-					.addComponent(lblAdmisso)
-					.addGap(4)
-					.addComponent(lblAdmissão, GroupLayout.PREFERRED_SIZE, 174, GroupLayout.PREFERRED_SIZE)
-					.addGap(31)
-					.addComponent(lblAtivo)
-					.addGap(4)
-					.addComponent(cbNivelAcesso_1, GroupLayout.PREFERRED_SIZE, 88, GroupLayout.PREFERRED_SIZE)
-					.addGap(27)
-					.addComponent(lblDemisso)
-					.addGap(4)
-					.addComponent(textField_3, GroupLayout.PREFERRED_SIZE, 174, GroupLayout.PREFERRED_SIZE))
-				.addGroup(gl_abaDadosPessoais.createSequentialGroup()
-					.addGap(10)
-					.addComponent(lblCnpj_1_3))
+							.addGap(91)
+							.addComponent(lbCodigo)
+							.addGap(14)
+							.addComponent(tfCodigo, GroupLayout.PREFERRED_SIZE, 190, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_abaDadosPessoais.createSequentialGroup()
+							.addGap(115)
+							.addComponent(lblNome)
+							.addGap(4)
+							.addComponent(tfNome, GroupLayout.PREFERRED_SIZE, 509, GroupLayout.PREFERRED_SIZE)
+							.addGap(30)
+							.addComponent(lblCpf, GroupLayout.PREFERRED_SIZE, 33, GroupLayout.PREFERRED_SIZE)
+							.addGap(4)
+							.addComponent(tfCpf, GroupLayout.PREFERRED_SIZE, 217, GroupLayout.PREFERRED_SIZE)
+							.addGap(39)
+							.addComponent(lblRg)
+							.addGap(4)
+							.addComponent(tfRg, GroupLayout.PREFERRED_SIZE, 174, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_abaDadosPessoais.createSequentialGroup()
+							.addGap(113)
+							.addComponent(lblEmail)
+							.addGap(4)
+							.addComponent(tfEmail, GroupLayout.PREFERRED_SIZE, 509, GroupLayout.PREFERRED_SIZE)
+							.addGap(4)
+							.addComponent(lblTelefone)
+							.addGap(14)
+							.addComponent(tfTelefone, GroupLayout.PREFERRED_SIZE, 198, GroupLayout.PREFERRED_SIZE)
+							.addGap(10)
+							.addComponent(lblCelular)
+							.addGap(6)
+							.addComponent(tfCelular, GroupLayout.PREFERRED_SIZE, 174, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_abaDadosPessoais.createSequentialGroup()
+							.addGap(58)
+							.addComponent(lblComplemento)
+							.addGap(4)
+							.addComponent(tfComplemento, GroupLayout.PREFERRED_SIZE, 784, GroupLayout.PREFERRED_SIZE)
+							.addGap(18)
+							.addComponent(lblLimite)
+							.addGap(13)
+							.addComponent(tfLimite, GroupLayout.PREFERRED_SIZE, 174, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_abaDadosPessoais.createSequentialGroup()
+							.addGap(111)
+							.addComponent(lblSenha)
+							.addGap(4)
+							.addComponent(tfSenha, GroupLayout.PREFERRED_SIZE, 174, GroupLayout.PREFERRED_SIZE)
+							.addGap(31)
+							.addComponent(lblNivelDeAcesso)
+							.addGap(4)
+							.addComponent(cbNivelAcesso_1, GroupLayout.PREFERRED_SIZE, 174, GroupLayout.PREFERRED_SIZE)
+							.addGap(33)
+							.addComponent(lblCargo)
+							.addGap(4)
+							.addComponent(tfCargo, GroupLayout.PREFERRED_SIZE, 201, GroupLayout.PREFERRED_SIZE)
+							.addGap(10)
+							.addComponent(lblSalario)
+							.addGap(13)
+							.addComponent(tfSalario, GroupLayout.PREFERRED_SIZE, 176, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_abaDadosPessoais.createSequentialGroup()
+							.addGap(76)
+							.addComponent(lblPisPasep)
+							.addGap(4)
+							.addComponent(tfPisPasep, GroupLayout.PREFERRED_SIZE, 174, GroupLayout.PREFERRED_SIZE)
+							.addGap(31)
+							.addComponent(lblCtps)
+							.addGap(4)
+							.addComponent(tfCarteiraTrabalho, GroupLayout.PREFERRED_SIZE, 199, GroupLayout.PREFERRED_SIZE)
+							.addGap(46)
+							.addComponent(lblCtps_1)
+							.addGap(4)
+							.addComponent(cbEstadoCivil, GroupLayout.PREFERRED_SIZE, 199, GroupLayout.PREFERRED_SIZE)
+							.addGap(10)
+							.addComponent(lblJornada)
+							.addGap(4)
+							.addComponent(tfJornadaTrabalho, GroupLayout.PREFERRED_SIZE, 176, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_abaDadosPessoais.createSequentialGroup()
+							.addGap(88)
+							.addComponent(lblAdmissao)
+							.addGap(4)
+							.addComponent(tfAdmissao, GroupLayout.PREFERRED_SIZE, 174, GroupLayout.PREFERRED_SIZE)
+							.addGap(31)
+							.addComponent(lblAtivo)
+							.addGap(4)
+							.addComponent(cbAtivo_1, GroupLayout.PREFERRED_SIZE, 88, GroupLayout.PREFERRED_SIZE)
+							.addGap(27)
+							.addComponent(lblDemisso)
+							.addGap(4)
+							.addComponent(tfDemissao, GroupLayout.PREFERRED_SIZE, 174, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_abaDadosPessoais.createSequentialGroup()
+							.addGap(10)
+							.addComponent(lblCnpj_1_3))
+						.addGroup(gl_abaDadosPessoais.createSequentialGroup()
+							.addGroup(gl_abaDadosPessoais.createParallelGroup(Alignment.TRAILING, false)
+								.addGroup(Alignment.LEADING, gl_abaDadosPessoais.createSequentialGroup()
+									.addGap(87)
+									.addComponent(lblEndereo)
+									.addGap(4)
+									.addComponent(tfEndereco, GroupLayout.PREFERRED_SIZE, 509, GroupLayout.PREFERRED_SIZE)
+									.addGap(10)
+									.addComponent(lblNumero)
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addComponent(tfNumero, GroupLayout.PREFERRED_SIZE, 63, GroupLayout.PREFERRED_SIZE)
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addComponent(lblCep)
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addComponent(tfCep, 0, 0, Short.MAX_VALUE))
+								.addGroup(Alignment.LEADING, gl_abaDadosPessoais.createSequentialGroup()
+									.addGap(112)
+									.addComponent(lblBairro)
+									.addGap(4)
+									.addComponent(tfBairro, GroupLayout.PREFERRED_SIZE, 509, GroupLayout.PREFERRED_SIZE)
+									.addGap(21)
+									.addGroup(gl_abaDadosPessoais.createParallelGroup(Alignment.LEADING)
+										.addGroup(gl_abaDadosPessoais.createSequentialGroup()
+											.addGap(63)
+											.addComponent(tfCidade, GroupLayout.PREFERRED_SIZE, 198, GroupLayout.PREFERRED_SIZE))
+										.addComponent(lblCidade, GroupLayout.PREFERRED_SIZE, 64, GroupLayout.PREFERRED_SIZE))))
+							.addGroup(gl_abaDadosPessoais.createParallelGroup(Alignment.LEADING, false)
+								.addGroup(gl_abaDadosPessoais.createSequentialGroup()
+									.addGap(41)
+									.addComponent(lblUf)
+									.addGap(6)
+									.addComponent(cbUf, GroupLayout.PREFERRED_SIZE, 174, GroupLayout.PREFERRED_SIZE))
+								.addGroup(gl_abaDadosPessoais.createSequentialGroup()
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addComponent(lblDataNascimento)
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addComponent(tfDataNascimento)))))
+					.addGap(41))
 		);
 		gl_abaDadosPessoais.setVerticalGroup(
 			gl_abaDadosPessoais.createParallelGroup(Alignment.LEADING)
@@ -446,7 +502,7 @@ public class FrmFuncionarios extends JFrame {
 							.addComponent(lblCpf))
 						.addGroup(gl_abaDadosPessoais.createSequentialGroup()
 							.addGap(1)
-							.addComponent(tfCpfCnpj, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+							.addComponent(tfCpf, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 						.addGroup(gl_abaDadosPessoais.createSequentialGroup()
 							.addGap(2)
 							.addComponent(lblRg))
@@ -476,19 +532,16 @@ public class FrmFuncionarios extends JFrame {
 						.addGroup(gl_abaDadosPessoais.createSequentialGroup()
 							.addGap(3)
 							.addComponent(lblEndereo))
-						.addComponent(textField_2, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
+						.addComponent(tfEndereco, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
 						.addGroup(gl_abaDadosPessoais.createSequentialGroup()
 							.addGap(3)
-							.addComponent(lblNumero))
-						.addGroup(gl_abaDadosPessoais.createSequentialGroup()
-							.addGap(2)
-							.addComponent(tfNumero, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-						.addGroup(gl_abaDadosPessoais.createSequentialGroup()
-							.addGap(3)
-							.addComponent(lblCep))
-						.addGroup(gl_abaDadosPessoais.createSequentialGroup()
-							.addGap(2)
-							.addComponent(tfCep, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+							.addGroup(gl_abaDadosPessoais.createParallelGroup(Alignment.BASELINE)
+								.addComponent(lblNumero)
+								.addComponent(tfNumero, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addComponent(lblCep)
+								.addComponent(tfCep, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addComponent(lblDataNascimento)
+								.addComponent(tfDataNascimento, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))))
 					.addGap(18)
 					.addGroup(gl_abaDadosPessoais.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_abaDadosPessoais.createSequentialGroup()
@@ -529,7 +582,7 @@ public class FrmFuncionarios extends JFrame {
 						.addGroup(gl_abaDadosPessoais.createSequentialGroup()
 							.addGap(2)
 							.addComponent(lblNivelDeAcesso))
-						.addComponent(cbNivelAcesso, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(cbNivelAcesso_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addGroup(gl_abaDadosPessoais.createSequentialGroup()
 							.addGap(2)
 							.addComponent(lblCargo))
@@ -541,7 +594,7 @@ public class FrmFuncionarios extends JFrame {
 							.addComponent(lblSalario))
 						.addGroup(gl_abaDadosPessoais.createSequentialGroup()
 							.addGap(1)
-							.addComponent(tfJornada, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+							.addComponent(tfSalario, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
 					.addGap(18)
 					.addGroup(gl_abaDadosPessoais.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_abaDadosPessoais.createSequentialGroup()
@@ -555,7 +608,7 @@ public class FrmFuncionarios extends JFrame {
 						.addGroup(gl_abaDadosPessoais.createSequentialGroup()
 							.addGap(1)
 							.addComponent(lblCtps_1))
-						.addComponent(tfEstadoCivil, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(cbEstadoCivil, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addGroup(gl_abaDadosPessoais.createSequentialGroup()
 							.addGap(1)
 							.addComponent(lblJornada))
@@ -564,20 +617,20 @@ public class FrmFuncionarios extends JFrame {
 					.addGroup(gl_abaDadosPessoais.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_abaDadosPessoais.createSequentialGroup()
 							.addGap(2)
-							.addComponent(lblAdmisso))
+							.addComponent(lblAdmissao))
 						.addGroup(gl_abaDadosPessoais.createSequentialGroup()
 							.addGap(1)
-							.addComponent(lblAdmissão, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+							.addComponent(tfAdmissao, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 						.addGroup(gl_abaDadosPessoais.createSequentialGroup()
 							.addGap(2)
 							.addComponent(lblAtivo))
-						.addComponent(cbNivelAcesso_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(cbAtivo_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addGroup(gl_abaDadosPessoais.createSequentialGroup()
 							.addGap(2)
 							.addComponent(lblDemisso))
 						.addGroup(gl_abaDadosPessoais.createSequentialGroup()
 							.addGap(1)
-							.addComponent(textField_3, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+							.addComponent(tfDemissao, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
 					.addGap(837)
 					.addComponent(lblCnpj_1_3))
 		);
@@ -603,33 +656,75 @@ public class FrmFuncionarios extends JFrame {
 		
 		JPanel panel_1 = new JPanel();
 		
-		JButton btnNewButton_1 = new JButton("Novo");
-		btnNewButton_1.setFont(new Font("Arial", Font.BOLD, 18));
-		btnNewButton_1.addActionListener(new ActionListener() {
+		JButton btnNovo = new JButton("Novo");
+		btnNovo.setFont(new Font("Arial", Font.BOLD, 18));
+		btnNovo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
 		
-		JButton btnNewButton_1_1 = new JButton("Editar");
-		btnNewButton_1_1.setFont(new Font("Arial", Font.BOLD, 18));
+		JButton btnEditar = new JButton("Editar");
+		btnEditar.setFont(new Font("Arial", Font.BOLD, 18));
 		
-		JButton btnNewButton_1_2 = new JButton("Salvar");
-		btnNewButton_1_2.setFont(new Font("Arial", Font.BOLD, 18));
+		JButton btnSalvar = new JButton("Salvar");
+		btnSalvar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Funcionario funcionario = new Funcionario();
+				
+				funcionario.setNome(tfNome.getText());
+				funcionario.setEmail(tfEmail.getText());
+				funcionario.setCpf(tfCpf.getText());
+				funcionario.setRg(tfRg.getText());
+				funcionario.setEndereco(tfEndereco.getText());
+				funcionario.setTelefone(tfTelefone.getText());
+				funcionario.setCelular(tfCelular.getText());
+				funcionario.setNumero(Integer.parseInt(tfNumero.getText()));
+				funcionario.setCep(tfCep.getText());
+				funcionario.setDataNascimento(tfDataNascimento.getText());
+				funcionario.setBairro(tfBairro.getText());
+				funcionario.setCidade(tfCidade.getText());
+				funcionario.setUf(cbUf.getSelectedItem().toString());
+				funcionario.setComplemento(tfComplemento.getText());
+				funcionario.setLimite(Double.parseDouble(tfLimite.getText()));
+				funcionario.setCodigo(tfCodigo.getText());				
+				funcionario.setSenha(tfSenha.getText());
+				funcionario.setCargo(tfCargo.getText());
+				funcionario.setNivelAcesso(cbNivelAcesso_1.getSelectedItem().toString());
+				funcionario.setPisPasep(tfPisPasep.getText());
+				funcionario.setSalario(Double.parseDouble(tfSalario.getText()));
+				funcionario.setCarteiraTrabalho(tfCarteiraTrabalho.getText());
+				funcionario.setEstadoCivil(cbEstadoCivil.getSelectedItem().toString());
+				funcionario.setJornadaTrabalho(tfJornadaTrabalho.getText());
+				funcionario.setAdmissao(tfAdmissao.getText());
+				funcionario.setDemissao(tfDemissao.getText());
+				funcionario.setAtivo(cbAtivo_1.getSelectedItem().toString());
+				
+				
+				
+				
+			FuncionarioController funcionarioController = new FuncionarioController();	
+				
+			funcionarioController.cadastrarFuncionario(funcionario);
+				
+				new LimparCampos().Limpar(abaDadosPessoais);
+			}
+		});
+		btnSalvar.setFont(new Font("Arial", Font.BOLD, 18));
 		
-		JButton btnNewButton_1_3 = new JButton("Excluir");
-		btnNewButton_1_3.setFont(new Font("Arial", Font.BOLD, 18));
+		JButton btnExcluir = new JButton("Excluir");
+		btnExcluir.setFont(new Font("Arial", Font.BOLD, 18));
 		GroupLayout gl_panel_1 = new GroupLayout(panel_1);
 		gl_panel_1.setHorizontalGroup(
 			gl_panel_1.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel_1.createSequentialGroup()
 					.addGap(154)
-					.addComponent(btnNewButton_1, GroupLayout.PREFERRED_SIZE, 214, GroupLayout.PREFERRED_SIZE)
+					.addComponent(btnNovo, GroupLayout.PREFERRED_SIZE, 214, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(btnNewButton_1_1, GroupLayout.PREFERRED_SIZE, 214, GroupLayout.PREFERRED_SIZE)
+					.addComponent(btnEditar, GroupLayout.PREFERRED_SIZE, 214, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(btnNewButton_1_2, GroupLayout.PREFERRED_SIZE, 214, GroupLayout.PREFERRED_SIZE)
+					.addComponent(btnSalvar, GroupLayout.PREFERRED_SIZE, 214, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(btnNewButton_1_3, GroupLayout.PREFERRED_SIZE, 214, GroupLayout.PREFERRED_SIZE)
+					.addComponent(btnExcluir, GroupLayout.PREFERRED_SIZE, 214, GroupLayout.PREFERRED_SIZE)
 					.addContainerGap(216, Short.MAX_VALUE))
 		);
 		gl_panel_1.setVerticalGroup(
@@ -637,10 +732,10 @@ public class FrmFuncionarios extends JFrame {
 				.addGroup(gl_panel_1.createSequentialGroup()
 					.addContainerGap()
 					.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
-						.addComponent(btnNewButton_1_3, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
-						.addComponent(btnNewButton_1_2, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
-						.addComponent(btnNewButton_1_1, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
-						.addComponent(btnNewButton_1, GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE))
+						.addComponent(btnExcluir, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
+						.addComponent(btnSalvar, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
+						.addComponent(btnEditar, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
+						.addComponent(btnNovo, GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE))
 					.addContainerGap())
 		);
 		panel_1.setLayout(gl_panel_1);

@@ -218,7 +218,7 @@ public class FrmCliente extends JFrame {
 					
 						
 						cbUf = new JComboBox<String>();
-						cbUf.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "AC", "AL", "AP", "AM", "BA", "CE", "DF", "ES", "GO", "MA", "MT", "MS", "MG", "PA", "PB", "PR", "PE", "PI", "RJ", "RN", "RS", "RO", "RR", "SC", "SP", "SE", "TO" }));
+						cbUf.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] {"", "AC", "AL", "AP", "AM", "BA", "CE", "DF", "ES", "GO", "MA", "MT", "MS", "MG", "PA", "PB", "PR", "PE", "PI", "RJ", "RN", "RS", "RO", "RR", "SC", "SP", "SE", "TO" }));
 						cbUf.setBackground(Color.WHITE);
 						cbUf.setForeground(Color.BLACK);
 						cbUf.setFont(new Font("Arial", Font.BOLD, 14));
@@ -538,7 +538,7 @@ public class FrmCliente extends JFrame {
 		);
 		abaConsultaCliente.setLayout(gl_abaConsultaCliente);
 		
-		JLabel lblNewLabel = new JLabel("Cadastro de Clientes");
+		JLabel lblNewLabel = new JLabel("Clientes");
 		lblNewLabel.setForeground(Color.WHITE);
 		lblNewLabel.setFont(new Font("Arial Black", Font.BOLD, 30));
 		GroupLayout gl_panel = new GroupLayout(panel);
@@ -562,8 +562,7 @@ public class FrmCliente extends JFrame {
 		
 		JButton BntNovo = new JButton("Novo");
 		BntNovo.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
+			public void actionPerformed(ActionEvent e) {				
 				new LimparCampos().Limpar(abaDadosPessoais);
 			}
 		});

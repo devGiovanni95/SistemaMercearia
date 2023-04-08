@@ -28,6 +28,7 @@ import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.FlowLayout;
 import java.awt.BorderLayout;
+import javax.swing.JTable;
 
 public class FrmProdutos extends JFrame {
 	private JTextField tfLote;
@@ -43,6 +44,8 @@ public class FrmProdutos extends JFrame {
 	private JTextField tfValidade;
 	private JTextField tfPrecoCusto;
 	private JTextField textField;
+	private JTextField tfNome;
+	private JTable tbProdutos;
 
 	/**
 	 * Launch the application.
@@ -65,37 +68,66 @@ public class FrmProdutos extends JFrame {
 	 */
 	public FrmProdutos() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1280, 720);
+		setBounds(100, 100, 1280, 749);
 		
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		
 		JPanel panel_1 = new JPanel();
+		
+		JPanel panel_3 = new JPanel();
+		panel_3.setBackground(new Color(18, 94, 137));
+		
+		JLabel lblProdutos = new JLabel("Produtos");
+		lblProdutos.setForeground(Color.WHITE);
+		lblProdutos.setFont(new Font("Arial Black", Font.BOLD, 30));
+		GroupLayout gl_panel_3 = new GroupLayout(panel_3);
+		gl_panel_3.setHorizontalGroup(
+			gl_panel_3.createParallelGroup(Alignment.LEADING)
+				.addGap(0, 1245, Short.MAX_VALUE)
+				.addGroup(gl_panel_3.createSequentialGroup()
+					.addComponent(lblProdutos)
+					.addContainerGap(1103, Short.MAX_VALUE))
+		);
+		gl_panel_3.setVerticalGroup(
+			gl_panel_3.createParallelGroup(Alignment.TRAILING)
+				.addGap(0, 79, Short.MAX_VALUE)
+				.addGroup(gl_panel_3.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(lblProdutos)
+					.addContainerGap(25, Short.MAX_VALUE))
+		);
+		panel_3.setLayout(gl_panel_3);
 		GroupLayout groupLayout = new GroupLayout(getContentPane());
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
-				.addComponent(tabbedPane, GroupLayout.DEFAULT_SIZE, 1272, Short.MAX_VALUE)
 				.addComponent(panel_1, GroupLayout.DEFAULT_SIZE, 1264, Short.MAX_VALUE)
+				.addComponent(tabbedPane)
+				.addComponent(panel_3, GroupLayout.DEFAULT_SIZE, 1264, Short.MAX_VALUE)
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(groupLayout.createSequentialGroup()
-					.addComponent(tabbedPane, GroupLayout.PREFERRED_SIZE, 567, GroupLayout.PREFERRED_SIZE)
+				.addGroup(Alignment.TRAILING, groupLayout.createSequentialGroup()
+					.addComponent(panel_3, GroupLayout.PREFERRED_SIZE, 79, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+					.addComponent(tabbedPane, GroupLayout.PREFERRED_SIZE, 542, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(panel_1, GroupLayout.DEFAULT_SIZE, 108, Short.MAX_VALUE))
+					.addComponent(panel_1, GroupLayout.PREFERRED_SIZE, 71, GroupLayout.PREFERRED_SIZE))
 		);
 		
 		JPanel panel_2 = new JPanel();
 		GroupLayout gl_panel_1 = new GroupLayout(panel_1);
 		gl_panel_1.setHorizontalGroup(
 			gl_panel_1.createParallelGroup(Alignment.LEADING)
-				.addComponent(panel_2, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 1264, Short.MAX_VALUE)
+				.addGroup(Alignment.TRAILING, gl_panel_1.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(panel_2, GroupLayout.DEFAULT_SIZE, 1264, Short.MAX_VALUE))
 		);
 		gl_panel_1.setVerticalGroup(
 			gl_panel_1.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panel_1.createSequentialGroup()
-					.addGap(19)
+				.addGroup(Alignment.TRAILING, gl_panel_1.createSequentialGroup()
+					.addContainerGap(48, Short.MAX_VALUE)
 					.addComponent(panel_2, GroupLayout.PREFERRED_SIZE, 49, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(40, Short.MAX_VALUE))
+					.addContainerGap())
 		);
 		panel_2.setLayout(new GridLayout(0, 6, 10, 0));
 		
@@ -130,6 +162,7 @@ public class FrmProdutos extends JFrame {
 		tabbedPane.addTab("Cadastro Produtos", null, layeredPane, null);
 		
 		JPanel panel = new JPanel();
+		//panel.setBackground(new Color(169, 214, 229));
 		
 		JLabel lblDescricao = new JLabel("Descrição:");
 		lblDescricao.setFont(new Font("Arial", Font.BOLD, 14));
@@ -254,91 +287,91 @@ public class FrmProdutos extends JFrame {
 									.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
 										.addGroup(gl_panel.createSequentialGroup()
 											.addGap(42)
-											.addComponent(lblCodigo, GroupLayout.DEFAULT_SIZE, 134, Short.MAX_VALUE)
+											.addComponent(lblCodigo, GroupLayout.DEFAULT_SIZE, 139, Short.MAX_VALUE)
 											.addGap(4))
 										.addGroup(gl_panel.createSequentialGroup()
 											.addGap(102)
-											.addComponent(lblDescricao, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+											.addComponent(lblDescricao, GroupLayout.DEFAULT_SIZE, 79, Short.MAX_VALUE)
 											.addGap(4))
 										.addGroup(gl_panel.createSequentialGroup()
-											.addComponent(lblQtdEstoque, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+											.addComponent(lblQtdEstoque, GroupLayout.DEFAULT_SIZE, 181, Short.MAX_VALUE)
 											.addGap(4))
 										.addGroup(gl_panel.createSequentialGroup()
 											.addGap(100)
-											.addComponent(lblCategoria, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+											.addComponent(lblCategoria, GroupLayout.DEFAULT_SIZE, 81, Short.MAX_VALUE)
 											.addGap(4))
 										.addGroup(gl_panel.createSequentialGroup()
 											.addGap(125)
-											.addComponent(lblMarca, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+											.addComponent(lblMarca, GroupLayout.DEFAULT_SIZE, 56, Short.MAX_VALUE)
 											.addGap(4))
 										.addGroup(gl_panel.createSequentialGroup()
 											.addGap(30)
-											.addComponent(lblNewLabel_2, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+											.addComponent(lblNewLabel_2, GroupLayout.DEFAULT_SIZE, 147, Short.MAX_VALUE)
 											.addGap(8)))
 									.addGap(4))
 								.addGroup(gl_panel.createSequentialGroup()
 									.addGap(135)
-									.addComponent(lblLote, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+									.addComponent(lblLote, GroupLayout.DEFAULT_SIZE, 44, Short.MAX_VALUE)
 									.addPreferredGap(ComponentPlacement.UNRELATED)))
 							.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-								.addComponent(tfCodigoDeBarras, GroupLayout.DEFAULT_SIZE, 505, Short.MAX_VALUE)
-								.addComponent(tfDescricao, GroupLayout.DEFAULT_SIZE, 505, Short.MAX_VALUE)
+								.addComponent(tfCodigoDeBarras, GroupLayout.DEFAULT_SIZE, 510, Short.MAX_VALUE)
+								.addComponent(tfDescricao, GroupLayout.DEFAULT_SIZE, 510, Short.MAX_VALUE)
 								.addGroup(gl_panel.createSequentialGroup()
-									.addComponent(tfQuantidade, GroupLayout.DEFAULT_SIZE, 153, Short.MAX_VALUE)
+									.addComponent(tfQuantidade, GroupLayout.DEFAULT_SIZE, 154, Short.MAX_VALUE)
 									.addGap(46)
-									.addComponent(lblMedida, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+									.addComponent(lblMedida, GroupLayout.DEFAULT_SIZE, 147, Short.MAX_VALUE)
 									.addGap(4)
-									.addComponent(cbUnidadeDeMedida, 0, 158, Short.MAX_VALUE))
-								.addComponent(cbCategoria, 0, 505, Short.MAX_VALUE)
-								.addComponent(tfMarca, GroupLayout.DEFAULT_SIZE, 505, Short.MAX_VALUE)
+									.addComponent(cbUnidadeDeMedida, 0, 159, Short.MAX_VALUE))
+								.addComponent(cbCategoria, 0, 510, Short.MAX_VALUE)
+								.addComponent(tfMarca, GroupLayout.DEFAULT_SIZE, 510, Short.MAX_VALUE)
 								.addGroup(gl_panel.createSequentialGroup()
-									.addComponent(tfFabricacao, GroupLayout.DEFAULT_SIZE, 194, Short.MAX_VALUE)
+									.addComponent(tfFabricacao, GroupLayout.DEFAULT_SIZE, 195, Short.MAX_VALUE)
 									.addGap(31)
-									.addComponent(lblValidade, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+									.addComponent(lblValidade, GroupLayout.DEFAULT_SIZE, 128, Short.MAX_VALUE)
 									.addGap(4)
-									.addComponent(tfValidade, GroupLayout.DEFAULT_SIZE, 151, Short.MAX_VALUE))
+									.addComponent(tfValidade, GroupLayout.DEFAULT_SIZE, 152, Short.MAX_VALUE))
 								.addGroup(gl_panel.createSequentialGroup()
-									.addComponent(tfLote, GroupLayout.DEFAULT_SIZE, 194, Short.MAX_VALUE)
+									.addComponent(tfLote, GroupLayout.DEFAULT_SIZE, 195, Short.MAX_VALUE)
 									.addGap(40)
-									.addComponent(lblPrecoCusto, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+									.addComponent(lblPrecoCusto, GroupLayout.DEFAULT_SIZE, 119, Short.MAX_VALUE)
 									.addGap(4)
-									.addComponent(tfPrecoCusto, GroupLayout.DEFAULT_SIZE, 151, Short.MAX_VALUE))))
+									.addComponent(tfPrecoCusto, GroupLayout.DEFAULT_SIZE, 152, Short.MAX_VALUE))))
 						.addGroup(gl_panel.createSequentialGroup()
 							.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
 								.addGroup(gl_panel.createSequentialGroup()
 									.addGap(130)
-									.addComponent(lblIcms, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+									.addComponent(lblIcms, GroupLayout.DEFAULT_SIZE, 49, Short.MAX_VALUE))
 								.addComponent(lblNewLabel, Alignment.TRAILING)
 								.addGroup(gl_panel.createSequentialGroup()
 									.addGap(149)
-									.addComponent(lblIpi, GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)))
+									.addComponent(lblIpi, GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)))
 							.addPreferredGap(ComponentPlacement.UNRELATED)
 							.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
 								.addGroup(gl_panel.createSequentialGroup()
-									.addComponent(tfIcms, GroupLayout.DEFAULT_SIZE, 196, Short.MAX_VALUE)
+									.addComponent(tfIcms, GroupLayout.DEFAULT_SIZE, 197, Short.MAX_VALUE)
 									.addGap(18)
-									.addComponent(lblMargemLucro, GroupLayout.DEFAULT_SIZE, 145, Short.MAX_VALUE)
+									.addComponent(lblMargemLucro, GroupLayout.DEFAULT_SIZE, 146, Short.MAX_VALUE)
 									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(tfMargem, GroupLayout.DEFAULT_SIZE, 142, Short.MAX_VALUE))
+									.addComponent(tfMargem, GroupLayout.DEFAULT_SIZE, 145, Short.MAX_VALUE))
 								.addGroup(gl_panel.createSequentialGroup()
 									.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
-										.addComponent(textField, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 195, Short.MAX_VALUE)
-										.addComponent(tfIpi, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 195, Short.MAX_VALUE))
+										.addComponent(textField, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 196, Short.MAX_VALUE)
+										.addComponent(tfIpi, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 196, Short.MAX_VALUE))
 									.addGap(18)
-									.addComponent(lblDesconto, GroupLayout.DEFAULT_SIZE, 141, Short.MAX_VALUE)
+									.addComponent(lblDesconto, GroupLayout.DEFAULT_SIZE, 144, Short.MAX_VALUE)
 									.addGap(8)
-									.addComponent(tfDesconto, GroupLayout.DEFAULT_SIZE, 143, Short.MAX_VALUE)))))
+									.addComponent(tfDesconto, GroupLayout.DEFAULT_SIZE, 144, Short.MAX_VALUE)))))
 					.addGap(143)
 					.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
-						.addComponent(btnRemover, GroupLayout.DEFAULT_SIZE, 254, Short.MAX_VALUE)
-						.addComponent(btnAdicionar, GroupLayout.DEFAULT_SIZE, 254, Short.MAX_VALUE)
-						.addComponent(painelPrincipal, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 254, Short.MAX_VALUE))
+						.addComponent(btnRemover, GroupLayout.DEFAULT_SIZE, 264, Short.MAX_VALUE)
+						.addComponent(btnAdicionar, GroupLayout.DEFAULT_SIZE, 264, Short.MAX_VALUE)
+						.addComponent(painelPrincipal, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 264, Short.MAX_VALUE))
 					.addGap(91))
 		);
 		gl_panel.setVerticalGroup(
 			gl_panel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel.createSequentialGroup()
-					.addGap(80)
+					.addGap(41)
 					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_panel.createSequentialGroup()
 							.addGap(10)
@@ -434,8 +467,7 @@ public class FrmProdutos extends JFrame {
 							.addGap(18)
 							.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
 								.addComponent(lblNewLabel)
-								.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-							.addGap(60))
+								.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
 						.addGroup(gl_panel.createSequentialGroup()
 							.addGroup(gl_panel.createParallelGroup(Alignment.LEADING, false)
 								.addGroup(gl_panel.createSequentialGroup()
@@ -444,7 +476,8 @@ public class FrmProdutos extends JFrame {
 								.addGroup(gl_panel.createSequentialGroup()
 									.addGap(2)
 									.addComponent(tfDesconto, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE)))
-							.addContainerGap())))
+							.addPreferredGap(ComponentPlacement.RELATED, 43, GroupLayout.PREFERRED_SIZE)))
+					.addGap(99))
 		);
 		panel.setLayout(gl_panel);
 		GroupLayout gl_layeredPane = new GroupLayout(layeredPane);
@@ -454,12 +487,37 @@ public class FrmProdutos extends JFrame {
 		);
 		gl_layeredPane.setVerticalGroup(
 			gl_layeredPane.createParallelGroup(Alignment.LEADING)
-				.addComponent(panel, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 550, Short.MAX_VALUE)
+				.addGroup(gl_layeredPane.createSequentialGroup()
+					.addComponent(panel, GroupLayout.PREFERRED_SIZE, 513, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(37, Short.MAX_VALUE))
 		);
 		layeredPane.setLayout(gl_layeredPane);
 		
 		JLayeredPane layeredPane_1 = new JLayeredPane();
 		tabbedPane.addTab("Consulta de Produtos", null, layeredPane_1, null);
+		
+		JLabel lblNomePesquisa = new JLabel("Nome: ");
+		lblNomePesquisa.setFont(new Font("Arial", Font.BOLD, 14));
+		lblNomePesquisa.setBounds(10, 35, 48, 17);
+		layeredPane_1.add(lblNomePesquisa);
+		
+		tfNome = new JTextField();
+		tfNome.setColumns(10);
+		tfNome.setBounds(63, 34, 380, 20);
+		layeredPane_1.add(tfNome);
+		
+		JButton btnPesquisar = new JButton("Pesquisar");
+		btnPesquisar.setFont(new Font("Tahoma", Font.BOLD, 14));
+		btnPesquisar.setBounds(460, 30, 137, 25);
+		layeredPane_1.add(btnPesquisar);
+		
+		tbProdutos = new JTable();
+		tbProdutos.setFont(new Font("Arial", Font.PLAIN, 14));
+		tbProdutos.setFillsViewportHeight(true);
+		tbProdutos.setColumnSelectionAllowed(true);
+		tbProdutos.setCellSelectionEnabled(true);
+		tbProdutos.setBounds(0, 63, 1259, 465);
+		layeredPane_1.add(tbProdutos);
 		getContentPane().setLayout(groupLayout);
 	}
 }
