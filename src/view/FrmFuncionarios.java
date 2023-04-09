@@ -27,6 +27,7 @@ import javax.swing.text.MaskFormatter;
 import controller.FuncionarioController;
 import model.Funcionario;
 import util.LimparCampos;
+import java.awt.GridLayout;
 
 public class FrmFuncionarios extends JFrame {
 
@@ -83,19 +84,23 @@ public class FrmFuncionarios extends JFrame {
 	 * @throws ParseException 
 	 */
 	public FrmFuncionarios() throws ParseException {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1265, 694);
+		setBackground(new Color(202, 240, 248));
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		setBounds(100, 100, 1265, 738);
 		contentPane = new JPanel();
+		contentPane.setBackground(new Color(202, 240, 248));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
 		setContentPane(contentPane);
 		
 		JPanel panel = new JPanel();
-		panel.setBackground(new Color(18, 94, 137));
+		panel.setBackground(new Color(22, 138, 173));
 		
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+		tabbedPane.setBackground(new Color(202, 240, 248));
 		
 		JPanel abaConsultaCliente = new JPanel();
+		abaConsultaCliente.setBackground(new Color(202, 240, 248));
 		tabbedPane.addTab("Consulta Funcionário", null, abaConsultaCliente, null);
 		
 		tfNomePesquisa = new JTextField();
@@ -134,8 +139,8 @@ public class FrmFuncionarios extends JFrame {
 							.addComponent(btnNewButton, GroupLayout.PREFERRED_SIZE, 119, GroupLayout.PREFERRED_SIZE))
 						.addGroup(gl_abaConsultaCliente.createSequentialGroup()
 							.addContainerGap()
-							.addComponent(table, GroupLayout.PREFERRED_SIZE, 1219, GroupLayout.PREFERRED_SIZE)))
-					.addContainerGap(13, Short.MAX_VALUE))
+							.addComponent(table, GroupLayout.DEFAULT_SIZE, 1219, Short.MAX_VALUE)))
+					.addContainerGap())
 		);
 		gl_abaConsultaCliente.setVerticalGroup(
 			gl_abaConsultaCliente.createParallelGroup(Alignment.LEADING)
@@ -145,12 +150,13 @@ public class FrmFuncionarios extends JFrame {
 						.addComponent(tfNomePesquisa, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(lbCodigo_1)
 						.addComponent(btnNewButton))
-					.addPreferredGap(ComponentPlacement.RELATED, 7, Short.MAX_VALUE)
+					.addPreferredGap(ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
 					.addComponent(table, GroupLayout.PREFERRED_SIZE, 399, GroupLayout.PREFERRED_SIZE))
 		);
 		abaConsultaCliente.setLayout(gl_abaConsultaCliente);
 		
 		JPanel abaDadosPessoais = new JPanel();
+		abaDadosPessoais.setBackground(new Color(202, 240, 248));
 		tabbedPane.addTab("Dados Pessoais", null, abaDadosPessoais, null);
 		
 		JLabel lbCodigo = new JLabel("Código: ");
@@ -636,9 +642,9 @@ public class FrmFuncionarios extends JFrame {
 		);
 		abaDadosPessoais.setLayout(gl_abaDadosPessoais);
 		
-		JLabel lblNewLabel = new JLabel("Cadastro de Funcionários");
+		JLabel lblNewLabel = new JLabel("Funcionários");
 		lblNewLabel.setForeground(Color.WHITE);
-		lblNewLabel.setFont(new Font("Arial Black", Font.BOLD, 30));
+		lblNewLabel.setFont(new Font("Arial Black", Font.BOLD, 40));
 		GroupLayout gl_panel = new GroupLayout(panel);
 		gl_panel.setHorizontalGroup(
 			gl_panel.createParallelGroup(Alignment.LEADING)
@@ -654,19 +660,26 @@ public class FrmFuncionarios extends JFrame {
 		);
 		panel.setLayout(gl_panel);
 		
-		JPanel panel_1 = new JPanel();
+		JPanel panelBotoes = new JPanel();
+		panelBotoes.setBackground(new Color(202, 240, 248));
 		
 		JButton btnNovo = new JButton("Novo");
-		btnNovo.setFont(new Font("Arial", Font.BOLD, 18));
+		btnNovo.setBackground(new Color(106, 76, 147));
+		btnNovo.setForeground(new Color(255, 255, 255));
+		btnNovo.setFont(new Font("Arial", Font.BOLD, 24));
 		btnNovo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
 		
 		JButton btnEditar = new JButton("Editar");
-		btnEditar.setFont(new Font("Arial", Font.BOLD, 18));
+		btnEditar.setBackground(new Color(255, 202, 58));
+		btnEditar.setForeground(new Color(255, 255, 255));
+		btnEditar.setFont(new Font("Arial", Font.BOLD, 24));
 		
 		JButton btnSalvar = new JButton("Salvar");
+		btnSalvar.setBackground(new Color(138, 201, 38));
+		btnSalvar.setForeground(new Color(255, 255, 255));
 		btnSalvar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Funcionario funcionario = new Funcionario();
@@ -709,54 +722,44 @@ public class FrmFuncionarios extends JFrame {
 				new LimparCampos().Limpar(abaDadosPessoais);
 			}
 		});
-		btnSalvar.setFont(new Font("Arial", Font.BOLD, 18));
+		btnSalvar.setFont(new Font("Arial", Font.BOLD, 24));
 		
 		JButton btnExcluir = new JButton("Excluir");
-		btnExcluir.setFont(new Font("Arial", Font.BOLD, 18));
-		GroupLayout gl_panel_1 = new GroupLayout(panel_1);
-		gl_panel_1.setHorizontalGroup(
-			gl_panel_1.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panel_1.createSequentialGroup()
-					.addGap(154)
-					.addComponent(btnNovo, GroupLayout.PREFERRED_SIZE, 214, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(btnEditar, GroupLayout.PREFERRED_SIZE, 214, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(btnSalvar, GroupLayout.PREFERRED_SIZE, 214, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(btnExcluir, GroupLayout.PREFERRED_SIZE, 214, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(216, Short.MAX_VALUE))
-		);
-		gl_panel_1.setVerticalGroup(
-			gl_panel_1.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panel_1.createSequentialGroup()
-					.addContainerGap()
-					.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
-						.addComponent(btnExcluir, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
-						.addComponent(btnSalvar, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
-						.addComponent(btnEditar, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
-						.addComponent(btnNovo, GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE))
-					.addContainerGap())
-		);
-		panel_1.setLayout(gl_panel_1);
+		btnExcluir.setBackground(new Color(255, 89, 94));
+		btnExcluir.setForeground(new Color(255, 255, 255));
+		btnExcluir.setFont(new Font("Arial", Font.BOLD, 24));
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_contentPane.createSequentialGroup()
-					.addComponent(panel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-					.addGap(6))
 				.addComponent(tabbedPane)
-				.addComponent(panel_1, GroupLayout.DEFAULT_SIZE, 1245, Short.MAX_VALUE)
+				.addComponent(panel, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 1244, Short.MAX_VALUE)
+				.addGroup(gl_contentPane.createSequentialGroup()
+					.addComponent(panelBotoes, GroupLayout.DEFAULT_SIZE, 1234, Short.MAX_VALUE)
+					.addContainerGap())
 		);
 		gl_contentPane.setVerticalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPane.createSequentialGroup()
-					.addComponent(panel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addGap(6)
+					.addComponent(panel, GroupLayout.PREFERRED_SIZE, 70, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(tabbedPane, GroupLayout.PREFERRED_SIZE, 517, GroupLayout.PREFERRED_SIZE)
-					.addGap(6)
-					.addComponent(panel_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addGap(23)
+					.addComponent(panelBotoes, GroupLayout.DEFAULT_SIZE, 62, Short.MAX_VALUE)
+					.addContainerGap())
 		);
+		panelBotoes.setLayout(new GridLayout(0, 6, 20, 0));
+		
+		JPanel panel_2 = new JPanel();
+		panel_2.setBackground(new Color(202, 240, 248));
+		panelBotoes.add(panel_2);
+		panelBotoes.add(btnNovo);
+		panelBotoes.add(btnEditar);
+		panelBotoes.add(btnSalvar);
+		panelBotoes.add(btnExcluir);
+		
+		JPanel panel_1 = new JPanel();
+		panel_1.setBackground(new Color(202, 240, 248));
+		panelBotoes.add(panel_1);
 		contentPane.setLayout(gl_contentPane);
 	}
 }

@@ -10,22 +10,25 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.GroupLayout;
-import javax.swing.ImageIcon;
 import javax.swing.GroupLayout.Alignment;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JDesktopPane;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.EmptyBorder;
-import javax.swing.JDesktopPane;
+import controller.FuncionarioController;
+import util.LimparCampos;
 
 public class FrmLogin extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField textField;
-	private JTextField textField_1;
+	private JTextField tfEmail;
+	private JTextField tfSenha;
 
 	/**
 	 * Launch the application.
@@ -49,7 +52,7 @@ public class FrmLogin extends JFrame {
 	public FrmLogin() {
 		setResizable(false);
 		setAutoRequestFocus(false);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 914, 611);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(0, 0, 0, 0));
@@ -84,7 +87,7 @@ public class FrmLogin extends JFrame {
 		panel_1.setBackground(new Color(1.0f,1.0f,1.0f,0f));
 		panel_1.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		
-		JLabel lblMercadoSilva = new JLabel("Mercado Silva");
+		JLabel lblMercadoSilva = new JLabel("Mercado do Mineiro");
 		lblMercadoSilva.setForeground(new Color(3, 71, 72));
 		lblMercadoSilva.setFont(new Font("Arial", Font.BOLD, 44));
 		panel_1.add(lblMercadoSilva);
@@ -102,16 +105,16 @@ public class FrmLogin extends JFrame {
 		lblNewLabel.setForeground(new Color(3, 71, 72));
 		lblNewLabel.setFont(new Font("Arial", Font.BOLD, 26));
 		
-		textField = new JTextField();
-		textField.setFont(new Font("Arial", Font.BOLD, 20));
-		textField.setColumns(25);
+		tfEmail = new JTextField();
+		tfEmail.setFont(new Font("Arial", Font.BOLD, 20));
+		tfEmail.setColumns(25);
 		GroupLayout gl_panel_8 = new GroupLayout(panel_8);
 		gl_panel_8.setHorizontalGroup(
 			gl_panel_8.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel_8.createSequentialGroup()
-					.addComponent(lblNewLabel, GroupLayout.DEFAULT_SIZE, 113, Short.MAX_VALUE)
+					.addComponent(lblNewLabel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 					.addGap(363))
-				.addComponent(textField, GroupLayout.DEFAULT_SIZE, 460, Short.MAX_VALUE)
+				.addComponent(tfEmail, GroupLayout.DEFAULT_SIZE, 348, Short.MAX_VALUE)
 		);
 		gl_panel_8.setVerticalGroup(
 			gl_panel_8.createParallelGroup(Alignment.LEADING)
@@ -119,16 +122,16 @@ public class FrmLogin extends JFrame {
 					.addGap(0, 0, Short.MAX_VALUE)
 					.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 28, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(textField, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE))
+					.addComponent(tfEmail, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE))
 		);
 		panel_8.setLayout(gl_panel_8);
 		GroupLayout gl_panel_3 = new GroupLayout(panel_3);
 		gl_panel_3.setHorizontalGroup(
 			gl_panel_3.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel_3.createSequentialGroup()
-					.addGap(273)
-					.addComponent(panel_8, GroupLayout.PREFERRED_SIZE, 318, Short.MAX_VALUE)
-					.addGap(297))
+					.addGap(261)
+					.addComponent(panel_8, GroupLayout.PREFERRED_SIZE, 348, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(289, Short.MAX_VALUE))
 		);
 		gl_panel_3.setVerticalGroup(
 			gl_panel_3.createParallelGroup(Alignment.LEADING)
@@ -144,28 +147,28 @@ public class FrmLogin extends JFrame {
 		JPanel panel_8_1 = new JPanel();
 		panel_8_1.setBackground(new Color(1.0f,1.0f,1.0f,0f));
 		
-		JLabel lblNewLabel_1 = new JLabel("Senha");
-		lblNewLabel_1.setForeground(new Color(3, 71, 72));
-		lblNewLabel_1.setFont(new Font("Arial", Font.BOLD, 26));
+		JLabel lblSenha = new JLabel("Senha");
+		lblSenha.setForeground(new Color(3, 71, 72));
+		lblSenha.setFont(new Font("Arial", Font.BOLD, 26));
 		
-		textField_1 = new JTextField();
-		textField_1.setFont(new Font("Arial", Font.BOLD, 20));
+		tfSenha = new JTextField();
+		tfSenha.setFont(new Font("Arial", Font.BOLD, 20));
 		//textField_1.setDropMode(DropMode.ON);
-		textField_1.setColumns(25);
+		tfSenha.setColumns(25);
 		GroupLayout gl_panel_8_1 = new GroupLayout(panel_8_1);
 		gl_panel_8_1.setHorizontalGroup(
 			gl_panel_8_1.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel_8_1.createSequentialGroup()
-					.addComponent(lblNewLabel_1, GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
+					.addComponent(lblSenha, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 					.addGap(368))
-				.addComponent(textField_1, GroupLayout.DEFAULT_SIZE, 460, Short.MAX_VALUE)
+				.addComponent(tfSenha, GroupLayout.DEFAULT_SIZE, 348, Short.MAX_VALUE)
 		);
 		gl_panel_8_1.setVerticalGroup(
 			gl_panel_8_1.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel_8_1.createSequentialGroup()
-					.addComponent(lblNewLabel_1)
+					.addComponent(lblSenha)
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(textField_1, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
+					.addComponent(tfSenha, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
 					.addContainerGap())
 		);
 		panel_8_1.setLayout(gl_panel_8_1);
@@ -186,10 +189,27 @@ public class FrmLogin extends JFrame {
 		panel_4.setLayout(gl_panel_4);
 		
 		JButton btnEntrar = new JButton("Entrar");
+		btnEntrar.setFont(new Font("Arial", Font.BOLD, 24));
 		btnEntrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				FrmMenuPrincipal telaMenuPrincipal = new FrmMenuPrincipal();
-				telaMenuPrincipal.setVisible(true);
+			
+				try {
+					String email;
+					String senha;
+					
+					email = tfEmail.getText();
+					senha = tfSenha.getText();
+					
+					FuncionarioController funcionarioController = new FuncionarioController();
+					
+					funcionarioController.efetuarLogin(email, senha);
+							
+							
+				} catch (Exception e2) {
+					JOptionPane.showMessageDialog(null,"Erro: "+e2);
+					new LimparCampos().Limpar(desktopPane);
+				}
+				
 			}
 		});
 		GroupLayout gl_desktopPane = new GroupLayout(desktopPane);
@@ -200,13 +220,10 @@ public class FrmLogin extends JFrame {
 				.addComponent(panel_2, GroupLayout.PREFERRED_SIZE, 888, GroupLayout.PREFERRED_SIZE)
 				.addComponent(panel_3, GroupLayout.DEFAULT_SIZE, 898, Short.MAX_VALUE)
 				.addGroup(gl_desktopPane.createSequentialGroup()
-					.addGap(10)
-					.addComponent(panel_4, GroupLayout.DEFAULT_SIZE, 878, Short.MAX_VALUE)
-					.addGap(10))
-				.addGroup(gl_desktopPane.createSequentialGroup()
 					.addGap(339)
 					.addComponent(btnEntrar, GroupLayout.PREFERRED_SIZE, 198, GroupLayout.PREFERRED_SIZE)
 					.addContainerGap(361, Short.MAX_VALUE))
+				.addComponent(panel_4, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 898, Short.MAX_VALUE)
 		);
 		gl_desktopPane.setVerticalGroup(
 			gl_desktopPane.createParallelGroup(Alignment.LEADING)

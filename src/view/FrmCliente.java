@@ -65,7 +65,9 @@ public class FrmCliente extends JFrame {
 	private JComboBox<String> cbUf;
 	
 	
-	//Metodo para listar na tabela
+	/**
+	 * Metodo utilizado para listar todos os clientes e adiciona-los numa tabela
+	 */
 	public void listar() {
 		try {
 		ClienteController clienteController = new ClienteController();
@@ -122,6 +124,7 @@ public class FrmCliente extends JFrame {
 	 * @throws ParseException 
 	 */
 	public FrmCliente() throws ParseException {
+		setBackground(new Color(202, 240, 248));
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowActivated(WindowEvent e) {
@@ -132,18 +135,22 @@ public class FrmCliente extends JFrame {
 		setForeground(new Color(24, 52, 70));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setAutoRequestFocus(false);
-		setBounds(100, 100, 1265, 694);
+		setBounds(100, 100, 1265, 728);
 		contentPane = new JPanel();
+		contentPane.setBackground(new Color(202, 240, 248));
+		contentPane.setForeground(new Color(202, 240, 248));
 		contentPane.setBorder(new EmptyBorder(2, 2, 2, 2));
 		this.setLocationRelativeTo(null);
 		setContentPane(contentPane);
 		
 		JPanel panel = new JPanel();
-		panel.setBackground(new Color(18, 94, 137));
+		panel.setBackground(new Color(22, 138, 173));
 		
 		JTabbedPane abaPrincipal = new JTabbedPane(JTabbedPane.TOP);
+		abaPrincipal.setBackground(new Color(202, 240, 248));
 		
 		JPanel abaDadosPessoais = new JPanel();
+		abaDadosPessoais.setBackground(new Color(202, 240, 248));
 		abaDadosPessoais.setMaximumSize(new Dimension(1920, 1080));
 		abaPrincipal.addTab("Dados Pessoais", null, abaDadosPessoais, null);
 		
@@ -151,6 +158,7 @@ public class FrmCliente extends JFrame {
 		lbCodigo.setFont(new Font("Arial", Font.BOLD, 14));
 		
 		tfCodigo = new JTextField();
+		tfCodigo.setFont(new Font("Arial", Font.BOLD, 14));
 		tfCodigo.setEditable(false);
 		tfCodigo.setColumns(10);
 		
@@ -158,24 +166,28 @@ public class FrmCliente extends JFrame {
 		lblNome.setFont(new Font("Arial", Font.BOLD, 14));
 		
 		tfNome = new JTextField();
+		tfNome.setFont(new Font("Arial", Font.BOLD, 14));
 		tfNome.setColumns(10);
 		
 		JLabel lblEmail = new JLabel("E-mail:");
 		lblEmail.setFont(new Font("Arial", Font.BOLD, 14));
 		
 		tfEmail = new JTextField();
+		tfEmail.setFont(new Font("Arial", Font.BOLD, 14));
 		tfEmail.setColumns(10);
 		
 		JLabel lblEndereco = new JLabel("Endereço:");
 		lblEndereco.setFont(new Font("Arial", Font.BOLD, 14));
 		
 		tfEndereco = new JTextField();
+		tfEndereco.setFont(new Font("Arial", Font.BOLD, 14));
 		tfEndereco.setColumns(10);
 		
 		JLabel lblNumero = new JLabel("Numero: ");
 		lblNumero.setFont(new Font("Arial", Font.BOLD, 14));
 		
 		tfNumero = new JTextField();
+		tfNumero.setFont(new Font("Arial", Font.BOLD, 14));
 		tfNumero.setColumns(10);
 		
 		JLabel lblCpf = new JLabel("CPF:");
@@ -185,12 +197,14 @@ public class FrmCliente extends JFrame {
 		lblBairro.setFont(new Font("Arial", Font.BOLD, 14));
 		
 		tfBairro = new JTextField();
+		tfBairro.setFont(new Font("Arial", Font.BOLD, 14));
 		tfBairro.setColumns(10);
 		
 		JLabel lblCidade = new JLabel("Cidade:");
 		lblCidade.setFont(new Font("Arial", Font.BOLD, 14));
 		
 		tfCidade = new JTextField();
+		tfCidade.setFont(new Font("Arial", Font.BOLD, 14));
 		tfCidade.setColumns(10);
 		
 		JLabel lblComplemento = new JLabel("Complemento:");
@@ -200,6 +214,7 @@ public class FrmCliente extends JFrame {
 		lblCelular.setFont(new Font("Arial", Font.BOLD, 14));
 		
 		tfCelular = new JFormattedTextField(new MaskFormatter("(##) # ####-####"));
+		tfCelular.setFont(new Font("Arial", Font.BOLD, 14));
 		tfCelular.setColumns(10);
 		
 			
@@ -207,6 +222,7 @@ public class FrmCliente extends JFrame {
 			lblTelefone.setFont(new Font("Arial", Font.BOLD, 14));
 			
 			tfTelefone = new JFormattedTextField(new MaskFormatter("(##) ####-####"));
+			tfTelefone.setFont(new Font("Arial", Font.BOLD, 14));
 			tfTelefone.setColumns(10);
 			
 					
@@ -214,6 +230,7 @@ public class FrmCliente extends JFrame {
 					lblCep.setFont(new Font("Arial", Font.BOLD, 14));
 					
 					tfCep = new JFormattedTextField(new MaskFormatter("##.###-###"));
+					tfCep.setFont(new Font("Arial", Font.BOLD, 14));
 					tfCep.setColumns(10);
 					
 						
@@ -229,98 +246,106 @@ public class FrmCliente extends JFrame {
 						lblLimite.setFont(new Font("Arial", Font.BOLD, 14));
 						
 						tfLimite = new JTextField();
+						tfLimite.setFont(new Font("Arial", Font.BOLD, 14));
 						tfLimite.setColumns(10);
 						
 						tfComplemento = new JTextField();
+						tfComplemento.setFont(new Font("Arial", Font.BOLD, 14));
 						tfComplemento.setColumns(10);
 						
 						tfCpf = new JFormattedTextField(new MaskFormatter("###.###.###-##"));
+						tfCpf.setFont(new Font("Arial", Font.BOLD, 14));
 						tfCpf.setColumns(10);
 						
 						JLabel lblRg = new JLabel("RG:");
 						lblRg.setFont(new Font("Arial", Font.BOLD, 14));
 						
 						tfRg = new JFormattedTextField(new MaskFormatter("##.###.###-#"));
+						tfRg.setFont(new Font("Arial", Font.BOLD, 14));
 						tfRg.setColumns(10);
 						
 						JLabel lblNascimento = new JLabel("Data Nascimento:");
 						lblNascimento.setFont(new Font("Arial", Font.BOLD, 14));
 						
 						tfDataNascimento = new JFormattedTextField(new MaskFormatter("##/##/####"));
+						tfDataNascimento.setFont(new Font("Arial", Font.BOLD, 14));
 						tfDataNascimento.setColumns(10);
 						GroupLayout gl_abaDadosPessoais = new GroupLayout(abaDadosPessoais);
 						gl_abaDadosPessoais.setHorizontalGroup(
 							gl_abaDadosPessoais.createParallelGroup(Alignment.LEADING)
 								.addGroup(gl_abaDadosPessoais.createSequentialGroup()
-									.addGap(91)
-									.addComponent(lbCodigo)
-									.addGap(14)
-									.addComponent(tfCodigo, GroupLayout.PREFERRED_SIZE, 190, GroupLayout.PREFERRED_SIZE))
-								.addGroup(gl_abaDadosPessoais.createSequentialGroup()
-									.addGap(115)
-									.addComponent(lblNome)
-									.addGap(4)
-									.addComponent(tfNome, GroupLayout.PREFERRED_SIZE, 509, GroupLayout.PREFERRED_SIZE)
-									.addGap(38)
-									.addComponent(lblCpf)
-									.addGap(4)
-									.addComponent(tfCpf, GroupLayout.PREFERRED_SIZE, 213, GroupLayout.PREFERRED_SIZE)
-									.addGap(25)
-									.addComponent(lblRg)
-									.addGap(4)
-									.addComponent(tfRg, GroupLayout.PREFERRED_SIZE, 174, GroupLayout.PREFERRED_SIZE))
-								.addGroup(gl_abaDadosPessoais.createSequentialGroup()
-									.addGap(113)
-									.addComponent(lblEmail)
-									.addGap(4)
-									.addComponent(tfEmail, GroupLayout.PREFERRED_SIZE, 509, GroupLayout.PREFERRED_SIZE)
-									.addGap(4)
-									.addComponent(lblTelefone)
-									.addGap(7)
-									.addComponent(tfTelefone, GroupLayout.PREFERRED_SIZE, 198, GroupLayout.PREFERRED_SIZE)
-									.addGap(10)
-									.addComponent(lblCelular)
-									.addGap(4)
-									.addComponent(tfCelular, GroupLayout.PREFERRED_SIZE, 174, GroupLayout.PREFERRED_SIZE))
-								.addGroup(gl_abaDadosPessoais.createSequentialGroup()
-									.addGap(87)
-									.addComponent(lblEndereco)
-									.addGap(4)
-									.addComponent(tfEndereco, GroupLayout.PREFERRED_SIZE, 509, GroupLayout.PREFERRED_SIZE)
-									.addGap(10)
-									.addComponent(lblNumero)
-									.addGap(4)
-									.addComponent(tfNumero, GroupLayout.PREFERRED_SIZE, 53, GroupLayout.PREFERRED_SIZE)
-									.addGap(25)
-									.addComponent(lblCep)
-									.addGap(4)
-									.addComponent(tfCep, GroupLayout.PREFERRED_SIZE, 93, GroupLayout.PREFERRED_SIZE)
-									.addGap(4)
-									.addComponent(lblNascimento, GroupLayout.PREFERRED_SIZE, 135, GroupLayout.PREFERRED_SIZE)
-									.addGap(4)
-									.addComponent(tfDataNascimento, GroupLayout.PREFERRED_SIZE, 90, GroupLayout.PREFERRED_SIZE))
-								.addGroup(gl_abaDadosPessoais.createSequentialGroup()
-									.addGap(112)
-									.addComponent(lblBairro)
-									.addGap(6)
-									.addComponent(tfBairro, GroupLayout.PREFERRED_SIZE, 509, GroupLayout.PREFERRED_SIZE)
-									.addGap(10)
-									.addComponent(lblCidade, GroupLayout.PREFERRED_SIZE, 64, GroupLayout.PREFERRED_SIZE)
-									.addGap(1)
-									.addComponent(tfCidade, GroupLayout.PREFERRED_SIZE, 198, GroupLayout.PREFERRED_SIZE)
-									.addGap(41)
-									.addComponent(lbUf)
-									.addGap(4)
-									.addComponent(cbUf, GroupLayout.PREFERRED_SIZE, 174, GroupLayout.PREFERRED_SIZE))
-								.addGroup(gl_abaDadosPessoais.createSequentialGroup()
-									.addGap(58)
-									.addComponent(lblComplemento)
-									.addGap(6)
-									.addComponent(tfComplemento, GroupLayout.PREFERRED_SIZE, 782, GroupLayout.PREFERRED_SIZE)
-									.addGap(18)
-									.addComponent(lblLimite)
-									.addGap(4)
-									.addComponent(tfLimite, GroupLayout.PREFERRED_SIZE, 174, GroupLayout.PREFERRED_SIZE))
+									.addGroup(gl_abaDadosPessoais.createParallelGroup(Alignment.LEADING)
+										.addGroup(gl_abaDadosPessoais.createSequentialGroup()
+											.addGap(91)
+											.addComponent(lbCodigo)
+											.addGap(14)
+											.addComponent(tfCodigo, GroupLayout.PREFERRED_SIZE, 190, GroupLayout.PREFERRED_SIZE))
+										.addGroup(gl_abaDadosPessoais.createSequentialGroup()
+											.addGap(115)
+											.addComponent(lblNome)
+											.addGap(4)
+											.addComponent(tfNome, GroupLayout.PREFERRED_SIZE, 509, GroupLayout.PREFERRED_SIZE)
+											.addGap(38)
+											.addComponent(lblCpf)
+											.addGap(4)
+											.addComponent(tfCpf, GroupLayout.PREFERRED_SIZE, 213, GroupLayout.PREFERRED_SIZE)
+											.addGap(25)
+											.addComponent(lblRg)
+											.addGap(4)
+											.addComponent(tfRg, GroupLayout.PREFERRED_SIZE, 174, GroupLayout.PREFERRED_SIZE))
+										.addGroup(gl_abaDadosPessoais.createSequentialGroup()
+											.addGap(113)
+											.addComponent(lblEmail)
+											.addGap(4)
+											.addComponent(tfEmail, GroupLayout.PREFERRED_SIZE, 509, GroupLayout.PREFERRED_SIZE)
+											.addGap(4)
+											.addComponent(lblTelefone)
+											.addGap(7)
+											.addComponent(tfTelefone, GroupLayout.PREFERRED_SIZE, 198, GroupLayout.PREFERRED_SIZE)
+											.addGap(10)
+											.addComponent(lblCelular)
+											.addGap(4)
+											.addComponent(tfCelular, GroupLayout.PREFERRED_SIZE, 174, GroupLayout.PREFERRED_SIZE))
+										.addGroup(gl_abaDadosPessoais.createSequentialGroup()
+											.addGap(87)
+											.addComponent(lblEndereco)
+											.addGap(4)
+											.addComponent(tfEndereco, GroupLayout.PREFERRED_SIZE, 509, GroupLayout.PREFERRED_SIZE)
+											.addGap(10)
+											.addComponent(lblNumero)
+											.addGap(4)
+											.addComponent(tfNumero, GroupLayout.PREFERRED_SIZE, 53, GroupLayout.PREFERRED_SIZE)
+											.addGap(25)
+											.addComponent(lblCep)
+											.addGap(4)
+											.addComponent(tfCep, GroupLayout.PREFERRED_SIZE, 93, GroupLayout.PREFERRED_SIZE)
+											.addGap(4)
+											.addComponent(lblNascimento, GroupLayout.PREFERRED_SIZE, 135, GroupLayout.PREFERRED_SIZE)
+											.addGap(4)
+											.addComponent(tfDataNascimento, GroupLayout.PREFERRED_SIZE, 90, GroupLayout.PREFERRED_SIZE))
+										.addGroup(gl_abaDadosPessoais.createSequentialGroup()
+											.addGap(112)
+											.addComponent(lblBairro)
+											.addGap(6)
+											.addComponent(tfBairro, GroupLayout.PREFERRED_SIZE, 509, GroupLayout.PREFERRED_SIZE)
+											.addGap(10)
+											.addComponent(lblCidade, GroupLayout.PREFERRED_SIZE, 64, GroupLayout.PREFERRED_SIZE)
+											.addGap(1)
+											.addComponent(tfCidade, GroupLayout.PREFERRED_SIZE, 198, GroupLayout.PREFERRED_SIZE)
+											.addGap(41)
+											.addComponent(lbUf)
+											.addGap(4)
+											.addComponent(cbUf, GroupLayout.PREFERRED_SIZE, 174, GroupLayout.PREFERRED_SIZE))
+										.addGroup(gl_abaDadosPessoais.createSequentialGroup()
+											.addGap(58)
+											.addComponent(lblComplemento)
+											.addGap(6)
+											.addComponent(tfComplemento, GroupLayout.PREFERRED_SIZE, 782, GroupLayout.PREFERRED_SIZE)
+											.addGap(18)
+											.addComponent(lblLimite)
+											.addGap(4)
+											.addComponent(tfLimite, GroupLayout.PREFERRED_SIZE, 174, GroupLayout.PREFERRED_SIZE)))
+									.addContainerGap(51, Short.MAX_VALUE))
 						);
 						gl_abaDadosPessoais.setVerticalGroup(
 							gl_abaDadosPessoais.createParallelGroup(Alignment.LEADING)
@@ -418,11 +443,14 @@ public class FrmCliente extends JFrame {
 										.addGroup(gl_abaDadosPessoais.createSequentialGroup()
 											.addGap(1)
 											.addComponent(lblLimite))
-										.addComponent(tfLimite, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+										.addComponent(tfLimite, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+									.addContainerGap(167, Short.MAX_VALUE))
 						);
 						abaDadosPessoais.setLayout(gl_abaDadosPessoais);
 		
 		JPanel abaConsultaCliente = new JPanel();
+		abaConsultaCliente.setBackground(new Color(202, 240, 248));
+		abaConsultaCliente.setForeground(new Color(202, 240, 248));
 		abaPrincipal.addTab("Consulta Clientes", null, abaConsultaCliente, null);
 		
 		tfPesquisar = new JTextField();
@@ -540,36 +568,45 @@ public class FrmCliente extends JFrame {
 		
 		JLabel lblNewLabel = new JLabel("Clientes");
 		lblNewLabel.setForeground(Color.WHITE);
-		lblNewLabel.setFont(new Font("Arial Black", Font.BOLD, 30));
+		lblNewLabel.setFont(new Font("Arial Black", Font.BOLD, 40));
 		GroupLayout gl_panel = new GroupLayout(panel);
 		gl_panel.setHorizontalGroup(
 			gl_panel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel.createSequentialGroup()
 					.addComponent(lblNewLabel)
-					.addContainerGap(881, Short.MAX_VALUE))
+					.addContainerGap(1055, Short.MAX_VALUE))
 		);
 		gl_panel.setVerticalGroup(
-			gl_panel.createParallelGroup(Alignment.TRAILING)
-				.addGroup(gl_panel.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(lblNewLabel)
-					.addContainerGap(25, Short.MAX_VALUE))
+			gl_panel.createParallelGroup(Alignment.LEADING)
+				.addGroup(Alignment.TRAILING, gl_panel.createSequentialGroup()
+					.addContainerGap(22, Short.MAX_VALUE)
+					.addComponent(lblNewLabel))
 		);
 		panel.setLayout(gl_panel);
 		
 		JPanel panel_1 = new JPanel();
-		panel_1.setLayout(new GridLayout(0, 4, 20, 0));
+		panel_1.setBackground(new Color(202, 240, 248));
+		panel_1.setForeground(new Color(202, 240, 248));
 		
 		JButton BntNovo = new JButton("Novo");
+		BntNovo.setForeground(Color.WHITE);
+		BntNovo.setBackground(new Color(106, 76, 147));
 		BntNovo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {				
 				new LimparCampos().Limpar(abaDadosPessoais);
 			}
 		});
-		BntNovo.setFont(new Font("Arial", Font.BOLD, 18));
+		panel_1.setLayout(new GridLayout(0, 6, 20, 0));
+		
+		JPanel panel_3 = new JPanel();
+		panel_3.setBackground(new Color(202, 240, 248));
+		panel_1.add(panel_3);
+		BntNovo.setFont(new Font("Arial", Font.BOLD, 24));
 		panel_1.add(BntNovo);
 		
 		JButton btnAlterar = new JButton("Editar");
+		btnAlterar.setForeground(Color.WHITE);
+		btnAlterar.setBackground(new Color(255, 202, 58));
 		btnAlterar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				//editar
@@ -599,10 +636,12 @@ public class FrmCliente extends JFrame {
 				new LimparCampos().Limpar(abaDadosPessoais);
 			}
 		});
-		btnAlterar.setFont(new Font("Arial", Font.BOLD, 18));
+		btnAlterar.setFont(new Font("Arial", Font.BOLD, 24));
 		panel_1.add(btnAlterar);
 		
 		JButton btnSalvar = new JButton("Salvar");
+		btnSalvar.setForeground(Color.WHITE);
+		btnSalvar.setBackground(new Color(138, 201, 38));
 		btnSalvar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Cliente cliente = new Cliente();
@@ -631,10 +670,12 @@ public class FrmCliente extends JFrame {
 				new LimparCampos().Limpar(abaDadosPessoais);
 			}
 		});
-		btnSalvar.setFont(new Font("Arial", Font.BOLD, 18));
+		btnSalvar.setFont(new Font("Arial", Font.BOLD, 24));
 		panel_1.add(btnSalvar);
 		
 		JButton btnExcluir = new JButton("Excluir");
+		btnExcluir.setForeground(Color.WHITE);
+		btnExcluir.setBackground(new Color(255, 89, 94));
 		btnExcluir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				//excluir
@@ -649,17 +690,16 @@ public class FrmCliente extends JFrame {
 				new LimparCampos().Limpar(abaDadosPessoais);
 			}
 		});
-		btnExcluir.setFont(new Font("Arial", Font.BOLD, 18));
+		btnExcluir.setFont(new Font("Arial", Font.BOLD, 24));
 		panel_1.add(btnExcluir);
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
-			gl_contentPane.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_contentPane.createSequentialGroup()
-					.addGap(269)
-					.addComponent(panel_1, GroupLayout.PREFERRED_SIZE, 741, GroupLayout.PREFERRED_SIZE))
-				.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
-					.addComponent(panel, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-					.addComponent(abaPrincipal, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 1247, Short.MAX_VALUE))
+			gl_contentPane.createParallelGroup(Alignment.TRAILING)
+				.addComponent(panel, GroupLayout.DEFAULT_SIZE, 1245, Short.MAX_VALUE)
+				.addComponent(abaPrincipal, GroupLayout.DEFAULT_SIZE, 1245, Short.MAX_VALUE)
+				.addGroup(Alignment.LEADING, gl_contentPane.createSequentialGroup()
+					.addComponent(panel_1, GroupLayout.DEFAULT_SIZE, 1245, Short.MAX_VALUE)
+					.addContainerGap())
 		);
 		gl_contentPane.setVerticalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
@@ -667,9 +707,14 @@ public class FrmCliente extends JFrame {
 					.addComponent(panel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(abaPrincipal, GroupLayout.PREFERRED_SIZE, 504, GroupLayout.PREFERRED_SIZE)
-					.addGap(6)
-					.addComponent(panel_1, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE))
+					.addGap(18)
+					.addComponent(panel_1, GroupLayout.PREFERRED_SIZE, 55, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(23, Short.MAX_VALUE))
 		);
+		
+		JPanel panel_2 = new JPanel();
+		panel_2.setBackground(new Color(202, 240, 248));
+		panel_1.add(panel_2);
 		contentPane.setLayout(gl_contentPane);
 	}
 }

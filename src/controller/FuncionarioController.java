@@ -13,29 +13,31 @@ import jdbc.ConnectionFactory;
 import model.Cliente;
 import model.Funcionario;
 import view.FrmFuncionarios;
+import view.FrmMenuPrincipal;
 
 public class FuncionarioController {
 
 	private Connection connection;
 	
+	/**
+	 * Método que cria uma conexão com banco de dados
+	 */
 	public FuncionarioController() {
 		this.connection =  new ConnectionFactory().getConnection();
 	}
 
-	//metodo cadastrar funcionario
+
 	/**
 	 * Método efetua um comando SQL para efetuar a inserção no banco de dados de um novo funcionario.
-	 * @param cliente - um objeto do tipo cliente com os atributos correspondentes
+	 * @param cliente - um objeto do tipo funcionario com os atributos correspondentes
 	 */
 	public void cadastrarFuncionario(Funcionario funcionario) {
 		try {
-			
-			//1 - parte criar o comando sql
+				
 			String sql = "insert into tb_funcionarios(nome,email,cpf,rg,endereco,telefone,celular,numero,cep,dataNascimento,bairro,cidade,uf,"
 					+ "complemento,limite,senha,cargo,nivelAcesso,pisPasep,salario,carteiraTrabalho,estadoCivil,jornadaTrabalho,admissao,demissao,ativo) "
 					+ " values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 			
-			//2 passo - conectar o banco de dados e organizar o comando do mesmo
 			PreparedStatement preparedStatement = connection.prepareStatement(sql);
 			preparedStatement.setString(1, funcionario.getNome());
 			preparedStatement.setString(2, funcionario.getEmail());
@@ -64,13 +66,11 @@ public class FuncionarioController {
 			preparedStatement.setString(25, funcionario.getDemissao());
 			preparedStatement.setString(26, funcionario.getAtivo());
 			
-			//3 passo - executar o comando sql
 			preparedStatement.execute();
 			preparedStatement.close();
 			
 			JOptionPane.showMessageDialog(null, "Cadastrado com sucesso");
-			
-			
+					
 		} catch (SQLException erro) {
 			JOptionPane.showMessageDialog(null, "Erro: " + erro);
 		} catch(NumberFormatException erro) {
@@ -78,18 +78,19 @@ public class FuncionarioController {
 		}
 	}
 	
-	//metodo excluir cliente cliente
+	
+	/**
+	 * Método que a partir do código passado, executa o comando SQL para a exclusão do funcionario no banco de dados.
+	 * @param funcionario - objeto do tipo funcionario que identifica o funcionario a ser excluido no banco de dados.
+	 */
 	public void excluirCliente(Funcionario funcionario) {
 		try {
 					
-					//1 - parte criar o comando sql
 					String sql = "delete from tb_funcionarios where cpf=?";
 					
-					//2 passo - conectar o banco de dados e organizar o comando do mesmo
 					PreparedStatement preparedStatement = connection.prepareStatement(sql);
 					preparedStatement.setString(1, funcionario.getCpf());
 					
-					//3 passo - executar o comando sql
 					preparedStatement.execute();
 					preparedStatement.close();
 					
@@ -102,16 +103,18 @@ public class FuncionarioController {
 	}
 
 	
-	//metodo alterar funcionario
+	/**
+	 * Método que efetua a alteração de um funcionário já cadastrado no banco de dados.A partir do id do funcionário, 
+	 * por meio de um comando SQL.
+	 * @param funcionario - objeto do tipo funcionário que identifica o funcionario a ser alterado no banco de dados.
+	 */
 	public void alterarCliente(Funcionario funcionario) {
 		try {
 				
-				//1 - parte criar o comando sql
 				String sql = "update tb_funcionarios set nome=?,email=?,cpf=?,rg=?,endereco=?,telefone=?,celular=?,numero=?,cep=?,dataNascimento=?,bairro=?,cidade=?,uf=?,complemento=?,limite=?,"
 						+ "senha=?,cargo=?,nivelAcesso=?,pisPasep=?,salario=?,carteiraTrabalho=?,estadoCivil=?,jornadaTrabalho=?,admissao=?,demissao=?,ativo=? "
 						+ " where cpf=?";
-				
-				//2 passo - conectar o banco de dados e organizar o comando do mesmo
+
 				PreparedStatement preparedStatement = connection.prepareStatement(sql);
 				preparedStatement.setString(1, funcionario.getNome());
 				preparedStatement.setString(2, funcionario.getEmail());
@@ -141,26 +144,27 @@ public class FuncionarioController {
 				preparedStatement.setString(26, funcionario.getAtivo());
 				preparedStatement.setString(27, funcionario.getCpf());
 				
-				//3 passo - executar o comando sql
 				preparedStatement.execute();
 				preparedStatement.close();
 				
 				JOptionPane.showMessageDialog(null, "Alterado com sucesso");
-				
-				
+								
 			} catch (SQLException erro) {
 				JOptionPane.showMessageDialog(null, "Erro: " + erro);
 			}
 	}
 	
-	//metodo listar funcionarios
-	public List<Funcionario> listarCliente() {
+	
+	/**
+	 * Método que cria um ArrayList do tipo funcionário para listar todos os funcionários do banco de dados.
+	 * A partir de um comando SQL.
+	 * @return - retona uma lista com todos de funcionários 
+	 */
+	public List<Funcionario> listarFuncionario() {
 		try {
-			
-			//Criando a lista
+
 			List<Funcionario> lista = new ArrayList<>();
-			
-			//criar sql, organizar e executar
+
 			String sql = "select * from tb_funcionarios";
 			PreparedStatement preparedStatement = connection.prepareStatement(sql);
 			ResultSet resultSet = preparedStatement.executeQuery();
@@ -194,14 +198,12 @@ public class FuncionarioController {
 				funcionario.setAdmissao(resultSet.getString("admissao"));
 				funcionario.setDemissao(resultSet.getString("demissao"));
 				funcionario.setDemissao(resultSet.getString("ativo"));
-								
-				
+										
 				lista.add(funcionario);
 			}
 			
 			return lista;
-			
-			
+						
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, "Erro: " + e );
 			return null;
@@ -209,13 +211,17 @@ public class FuncionarioController {
 	}
 	
 	
+	/**
+	 * Método que cria um ArrayList do tipo funcionário para listar os funcionários do banco de dados que
+	 *  corresponde ao nome digitado. A partir de um comando SQL.
+	 * @param nome - parametro utilizado como base de pesquisa. 
+	 * @return
+	 */
 	public List<Funcionario> buscarFuncionarioPeloNome(String nome) {
 		try {
 			
-			//Criando a lista
 			List<Funcionario> lista = new ArrayList<>();
 			
-			//criar sql, organizar e executar
 			String sql = "select * from tb_funcionarios where nome like ?";
 			PreparedStatement preparedStatement = connection.prepareStatement(sql);
 			preparedStatement.setString(1,nome);			
@@ -263,19 +269,34 @@ public class FuncionarioController {
 		}
 	}
 	
-	public void EfetuarLogin(String email, String senha) {
+	
+	/**
+	 * Método que a partir de um comando de pesquisa do SQL, efetua uma verificação para
+	 *  conferir se há um funcionário cadastrado com permissão de uso no sistema.
+	 * @param email - parametro a ser conferido como nome de usuário.
+	 * @param senha - parametro a ser conferido como nome de senha.
+	 */
+	public void efetuarLogin(String email, String senha) {
+		
 		try {
 			String sql = "select * from tb_funcionarios where email=? and senha=?";
 			PreparedStatement preparedStatement = connection.prepareStatement(sql);
 			preparedStatement.setString(1,email);	
-			preparedStatement.setString(1,senha);	
+			preparedStatement.setString(2,senha);	
 			
 			ResultSet resultSet = preparedStatement.executeQuery();
 			
-			
-			
+			if(resultSet.next()) {
+				JOptionPane.showMessageDialog(null, "Seja bem vindo ao Sistema ");	
+				FrmMenuPrincipal frmMenuPrincipal = new FrmMenuPrincipal();
+				frmMenuPrincipal.setVisible(true);
+			}else {
+				JOptionPane.showMessageDialog(null, "Dados incorretos");
+			}
+						
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, "Erro: " + e );
 		}
 	}
+	
 }

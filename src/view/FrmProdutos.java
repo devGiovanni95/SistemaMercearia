@@ -67,54 +67,65 @@ public class FrmProdutos extends JFrame {
 	 * Create the frame.
 	 */
 	public FrmProdutos() {
+		setBackground(new Color(202, 240, 248));
+		getContentPane().setBackground(new Color(202, 240, 248));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1280, 749);
+		setBounds(100, 100, 1280, 769);
 		
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+		tabbedPane.setBorder(null);
+		tabbedPane.setBackground(new Color(202, 240, 248));
+		
 		
 		JPanel panel_1 = new JPanel();
+		panel_1.setBorder(null);
+		panel_1.setBackground(new Color(202, 240, 248));
 		
 		JPanel panel_3 = new JPanel();
-		panel_3.setBackground(new Color(18, 94, 137));
+		panel_3.setBorder(null);
+		panel_3.setBackground(new Color(22, 138, 173));
 		
 		JLabel lblProdutos = new JLabel("Produtos");
 		lblProdutos.setForeground(Color.WHITE);
-		lblProdutos.setFont(new Font("Arial Black", Font.BOLD, 30));
+		lblProdutos.setFont(new Font("Arial Black", Font.BOLD, 40));
 		GroupLayout gl_panel_3 = new GroupLayout(panel_3);
 		gl_panel_3.setHorizontalGroup(
 			gl_panel_3.createParallelGroup(Alignment.LEADING)
-				.addGap(0, 1245, Short.MAX_VALUE)
 				.addGroup(gl_panel_3.createSequentialGroup()
 					.addComponent(lblProdutos)
-					.addContainerGap(1103, Short.MAX_VALUE))
+					.addContainerGap(1120, Short.MAX_VALUE))
 		);
 		gl_panel_3.setVerticalGroup(
 			gl_panel_3.createParallelGroup(Alignment.TRAILING)
-				.addGap(0, 79, Short.MAX_VALUE)
 				.addGroup(gl_panel_3.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(lblProdutos)
-					.addContainerGap(25, Short.MAX_VALUE))
+					.addContainerGap(36, Short.MAX_VALUE)
+					.addComponent(lblProdutos))
 		);
 		panel_3.setLayout(gl_panel_3);
 		GroupLayout groupLayout = new GroupLayout(getContentPane());
 		groupLayout.setHorizontalGroup(
-			groupLayout.createParallelGroup(Alignment.LEADING)
-				.addComponent(panel_1, GroupLayout.DEFAULT_SIZE, 1264, Short.MAX_VALUE)
-				.addComponent(tabbedPane)
-				.addComponent(panel_3, GroupLayout.DEFAULT_SIZE, 1264, Short.MAX_VALUE)
+			groupLayout.createParallelGroup(Alignment.TRAILING)
+				.addComponent(panel_3, GroupLayout.DEFAULT_SIZE, 1284, Short.MAX_VALUE)
+				.addGroup(Alignment.LEADING, groupLayout.createSequentialGroup()
+					.addComponent(tabbedPane, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap())
+				.addGroup(Alignment.LEADING, groupLayout.createSequentialGroup()
+					.addComponent(panel_1, GroupLayout.DEFAULT_SIZE, 1284, Short.MAX_VALUE)
+					.addContainerGap())
 		);
 		groupLayout.setVerticalGroup(
-			groupLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(Alignment.TRAILING, groupLayout.createSequentialGroup()
+			groupLayout.createParallelGroup(Alignment.TRAILING)
+				.addGroup(Alignment.LEADING, groupLayout.createSequentialGroup()
 					.addComponent(panel_3, GroupLayout.PREFERRED_SIZE, 79, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addComponent(tabbedPane, GroupLayout.PREFERRED_SIZE, 542, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(panel_1, GroupLayout.PREFERRED_SIZE, 71, GroupLayout.PREFERRED_SIZE))
+					.addPreferredGap(ComponentPlacement.RELATED, 16, Short.MAX_VALUE)
+					.addComponent(panel_1, GroupLayout.PREFERRED_SIZE, 71, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap())
 		);
 		
 		JPanel panel_2 = new JPanel();
+		panel_2.setBackground(new Color(202, 240, 248));
 		GroupLayout gl_panel_1 = new GroupLayout(panel_1);
 		gl_panel_1.setHorizontalGroup(
 			gl_panel_1.createParallelGroup(Alignment.LEADING)
@@ -132,10 +143,13 @@ public class FrmProdutos extends JFrame {
 		panel_2.setLayout(new GridLayout(0, 6, 10, 0));
 		
 		JPanel espacoEsquerdo = new JPanel();
+		espacoEsquerdo.setBackground(new Color(202, 240, 248));
 		panel_2.add(espacoEsquerdo);
 		
 		JButton btnNovo = new JButton("Novo");
-		btnNovo.setFont(new Font("Arial", Font.BOLD, 18));
+		btnNovo.setBackground(new Color(106, 76, 147));
+		btnNovo.setForeground(new Color(255, 255, 255));
+		btnNovo.setFont(new Font("Arial", Font.BOLD, 24));
 		btnNovo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
@@ -143,26 +157,37 @@ public class FrmProdutos extends JFrame {
 		panel_2.add(btnNovo);
 		
 		JButton btnEditar = new JButton("Editar");
-		btnEditar.setFont(new Font("Arial", Font.BOLD, 18));
+		btnEditar.setBackground(new Color(255, 202, 58));
+		btnEditar.setForeground(new Color(255, 255, 255));
+		btnEditar.setFont(new Font("Arial", Font.BOLD, 24));
 		panel_2.add(btnEditar);
 		
 		JButton btnSalvar = new JButton("Salvar");
-		btnSalvar.setFont(new Font("Arial", Font.BOLD, 18));
+		btnSalvar.setBackground(new Color(138, 201, 38));
+		btnSalvar.setForeground(new Color(255, 255, 255));
+		btnSalvar.setFont(new Font("Arial", Font.BOLD, 24));
 		panel_2.add(btnSalvar);
 		
 		JButton btnExcluir = new JButton("Excluir");
-		btnExcluir.setFont(new Font("Arial", Font.BOLD, 18));
+		btnExcluir.setBackground(new Color(255, 89, 94));
+		btnExcluir.setForeground(new Color(255, 255, 255));
+		btnExcluir.setFont(new Font("Arial", Font.BOLD, 24));
 		panel_2.add(btnExcluir);
 		
 		JPanel espacoDireito = new JPanel();
+		espacoDireito.setBackground(new Color(202, 240, 248));
 		panel_2.add(espacoDireito);
 		panel_1.setLayout(gl_panel_1);
 		
 		JLayeredPane layeredPane = new JLayeredPane();
+		layeredPane.setBackground(new Color(202, 240, 248));
+		layeredPane.setBorder(null);
 		tabbedPane.addTab("Cadastro Produtos", null, layeredPane, null);
 		
 		JPanel panel = new JPanel();
-		//panel.setBackground(new Color(169, 214, 229));
+		panel.setForeground(new Color(0, 0, 0));
+		panel.setBorder(null);
+		panel.setBackground(new Color(202, 240, 248));
 		
 		JLabel lblDescricao = new JLabel("Descrição:");
 		lblDescricao.setFont(new Font("Arial", Font.BOLD, 14));
@@ -192,18 +217,22 @@ public class FrmProdutos extends JFrame {
 		lblIpi.setFont(new Font("Arial", Font.BOLD, 14));
 		
 		tfLote = new JTextField();
+		tfLote.setBackground(Color.WHITE);
 		tfLote.setFont(new Font("Arial", Font.BOLD, 14));
 		tfLote.setColumns(10);
 		
 		tfCodigoDeBarras = new JTextField();
+		tfCodigoDeBarras.setBackground(Color.WHITE);
 		tfCodigoDeBarras.setFont(new Font("Arial", Font.BOLD, 14));
 		tfCodigoDeBarras.setColumns(10);
 		
 		tfDescricao = new JTextField();
+		tfDescricao.setBackground(Color.WHITE);
 		tfDescricao.setFont(new Font("Arial", Font.BOLD, 14));
 		tfDescricao.setColumns(10);
 		
 		tfQuantidade = new JTextField();
+		tfQuantidade.setBackground(Color.WHITE);
 		tfQuantidade.setFont(new Font("Arial", Font.BOLD, 14));
 		tfQuantidade.setColumns(10);
 		
@@ -211,16 +240,20 @@ public class FrmProdutos extends JFrame {
 		lblMedida.setFont(new Font("Arial", Font.BOLD, 14));
 		
 		JComboBox cbUnidadeDeMedida = new JComboBox();
+		cbUnidadeDeMedida.setBackground(Color.WHITE);
 		cbUnidadeDeMedida.setFont(new Font("Arial", Font.BOLD, 14));
 		
 		JComboBox cbCategoria = new JComboBox();
+		cbCategoria.setBackground(Color.WHITE);
 		cbCategoria.setFont(new Font("Arial", Font.BOLD, 14));
 		
 		tfIpi = new JTextField();
+		tfIpi.setBackground(Color.WHITE);
 		tfIpi.setFont(new Font("Arial", Font.BOLD, 14));
 		tfIpi.setColumns(10);
 		
 		tfIcms = new JTextField();
+		tfIcms.setBackground(Color.WHITE);
 		tfIcms.setFont(new Font("Arial", Font.BOLD, 14));
 		tfIcms.setColumns(10);
 		
@@ -231,18 +264,22 @@ public class FrmProdutos extends JFrame {
 		lblDesconto.setFont(new Font("Arial", Font.BOLD, 14));
 		
 		tfDesconto = new JTextField();
+		tfDesconto.setBackground(Color.WHITE);
 		tfDesconto.setFont(new Font("Arial", Font.BOLD, 14));
 		tfDesconto.setColumns(10);
 		
 		tfMargem = new JTextField();
+		tfMargem.setBackground(Color.WHITE);
 		tfMargem.setFont(new Font("Arial", Font.BOLD, 14));
 		tfMargem.setColumns(10);
 		
 		tfMarca = new JTextField();
+		tfMarca.setBackground(Color.WHITE);
 		tfMarca.setFont(new Font("Arial", Font.BOLD, 14));
 		tfMarca.setColumns(10);
 		
 		tfFabricacao = new JTextField();
+		tfFabricacao.setBackground(Color.WHITE);
 		tfFabricacao.setFont(new Font("Arial", Font.BOLD, 14));
 		tfFabricacao.setColumns(10);
 		
@@ -253,10 +290,12 @@ public class FrmProdutos extends JFrame {
 		lblValidade.setFont(new Font("Arial", Font.BOLD, 14));
 		
 		tfValidade = new JTextField();
+		tfValidade.setBackground(Color.WHITE);
 		tfValidade.setFont(new Font("Arial", Font.BOLD, 14));
 		tfValidade.setColumns(10);
 		
 		tfPrecoCusto = new JTextField();
+		tfPrecoCusto.setBackground(Color.WHITE);
 		tfPrecoCusto.setFont(new Font("Arial", Font.BOLD, 14));
 		tfPrecoCusto.setColumns(10);
 		
@@ -273,6 +312,7 @@ public class FrmProdutos extends JFrame {
 		lblNewLabel.setFont(new Font("Arial", Font.BOLD, 14));
 		
 		textField = new JTextField();
+		textField.setBackground(Color.WHITE);
 		textField.setFont(new Font("Arial", Font.BOLD, 14));
 		textField.setColumns(10);
 		GroupLayout gl_panel = new GroupLayout(panel);
@@ -349,18 +389,19 @@ public class FrmProdutos extends JFrame {
 							.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
 								.addGroup(gl_panel.createSequentialGroup()
 									.addComponent(tfIcms, GroupLayout.DEFAULT_SIZE, 197, Short.MAX_VALUE)
-									.addGap(18)
-									.addComponent(lblMargemLucro, GroupLayout.DEFAULT_SIZE, 146, Short.MAX_VALUE)
 									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(tfMargem, GroupLayout.DEFAULT_SIZE, 145, Short.MAX_VALUE))
+									.addComponent(lblMargemLucro, GroupLayout.DEFAULT_SIZE, 146, Short.MAX_VALUE)
+									.addGap(11))
 								.addGroup(gl_panel.createSequentialGroup()
 									.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
 										.addComponent(textField, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 196, Short.MAX_VALUE)
 										.addComponent(tfIpi, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 196, Short.MAX_VALUE))
 									.addGap(18)
 									.addComponent(lblDesconto, GroupLayout.DEFAULT_SIZE, 144, Short.MAX_VALUE)
-									.addGap(8)
-									.addComponent(tfDesconto, GroupLayout.DEFAULT_SIZE, 144, Short.MAX_VALUE)))))
+									.addPreferredGap(ComponentPlacement.RELATED)))
+							.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+								.addComponent(tfDesconto, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 152, Short.MAX_VALUE)
+								.addComponent(tfMargem, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 152, Short.MAX_VALUE))))
 					.addGap(143)
 					.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
 						.addComponent(btnRemover, GroupLayout.DEFAULT_SIZE, 264, Short.MAX_VALUE)
@@ -429,18 +470,12 @@ public class FrmProdutos extends JFrame {
 							.addGap(4)))
 					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_panel.createSequentialGroup()
-							.addGap(14)
-							.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+							.addGap(20)
+							.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
+								.addComponent(tfIcms, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 								.addGroup(gl_panel.createSequentialGroup()
 									.addGap(6)
-									.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
-										.addComponent(tfIcms, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-										.addGroup(gl_panel.createSequentialGroup()
-											.addGap(6)
-											.addComponent(lblIcms, GroupLayout.DEFAULT_SIZE, 17, Short.MAX_VALUE))))
-								.addGroup(gl_panel.createSequentialGroup()
-									.addGap(7)
-									.addComponent(lblMargemLucro, GroupLayout.PREFERRED_SIZE, 17, GroupLayout.PREFERRED_SIZE)))
+									.addComponent(lblIcms, GroupLayout.DEFAULT_SIZE, 17, Short.MAX_VALUE)))
 							.addGap(16))
 						.addGroup(gl_panel.createSequentialGroup()
 							.addGroup(gl_panel.createParallelGroup(Alignment.LEADING, false)
@@ -449,7 +484,9 @@ public class FrmProdutos extends JFrame {
 									.addComponent(btnAdicionar, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 								.addGroup(gl_panel.createSequentialGroup()
 									.addGap(18)
-									.addComponent(tfMargem, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE)))
+									.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
+										.addComponent(tfMargem, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE)
+										.addComponent(lblMargemLucro, GroupLayout.PREFERRED_SIZE, 17, GroupLayout.PREFERRED_SIZE))))
 							.addPreferredGap(ComponentPlacement.RELATED)))
 					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_panel.createSequentialGroup()
@@ -469,14 +506,14 @@ public class FrmProdutos extends JFrame {
 								.addComponent(lblNewLabel)
 								.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
 						.addGroup(gl_panel.createSequentialGroup()
-							.addGroup(gl_panel.createParallelGroup(Alignment.LEADING, false)
-								.addGroup(gl_panel.createSequentialGroup()
-									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(btnRemover, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
 								.addGroup(gl_panel.createSequentialGroup()
 									.addGap(2)
-									.addComponent(tfDesconto, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE)))
-							.addPreferredGap(ComponentPlacement.RELATED, 43, GroupLayout.PREFERRED_SIZE)))
+									.addComponent(tfDesconto, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE))
+								.addGroup(gl_panel.createSequentialGroup()
+									.addComponent(btnRemover, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+									.addPreferredGap(ComponentPlacement.RELATED, 43, GroupLayout.PREFERRED_SIZE)))))
 					.addGap(99))
 		);
 		panel.setLayout(gl_panel);
@@ -494,6 +531,7 @@ public class FrmProdutos extends JFrame {
 		layeredPane.setLayout(gl_layeredPane);
 		
 		JLayeredPane layeredPane_1 = new JLayeredPane();
+		layeredPane_1.setBackground(new Color(202, 240, 248));
 		tabbedPane.addTab("Consulta de Produtos", null, layeredPane_1, null);
 		
 		JLabel lblNomePesquisa = new JLabel("Nome: ");

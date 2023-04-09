@@ -13,6 +13,8 @@ import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JLabel;
 import javax.swing.JDesktopPane;
+import java.awt.Color;
+import java.awt.Font;
 
 public class FrmMenuPrincipal extends JFrame {
 
@@ -36,99 +38,127 @@ public class FrmMenuPrincipal extends JFrame {
 	 * Create the frame.
 	 */
 	public FrmMenuPrincipal() {
+		setBackground(new Color(202, 240, 248));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1270, 663);
 		
 		JMenuBar menuBar = new JMenuBar();
+		menuBar.setBackground(new Color(202, 240, 248));
 		setJMenuBar(menuBar);
 		
 		JMenu mnVendas = new JMenu("Ponto de Vendas");
+		mnVendas.setFont(new Font("Arial", Font.BOLD, 15));
+		mnVendas.setBackground(new Color(202, 240, 248));
 		mnVendas.setIcon(new ImageIcon(FrmMenuPrincipal.class.getResource("/assets/ponto-de-venda (1).png")));
 		menuBar.add(mnVendas);
 		
 		JMenuItem mntmNewMenuItem = new JMenuItem("Ir Para PDV");
+		mntmNewMenuItem.setFont(new Font("Arial", Font.BOLD, 15));
 		mntmNewMenuItem.setIcon(new ImageIcon(getClass().getResource("/assets/venda.png")));
 		mntmNewMenuItem.setSize(35,35);
 		mnVendas.add(mntmNewMenuItem);
 		
 		JMenu mnNewMenu_1 = new JMenu("Estoque");
+		mnNewMenu_1.setFont(new Font("Arial", Font.BOLD, 15));
+		mnNewMenu_1.setBackground(new Color(202, 240, 248));
 		mnNewMenu_1.setIcon(new ImageIcon(FrmMenuPrincipal.class.getResource("/assets/lista-de-controle.png")));
 		menuBar.add(mnNewMenu_1);
 		
 		JMenuItem mntmNewMenuItem_2 = new JMenuItem("Cadastrar Produto");
+		mntmNewMenuItem_2.setFont(new Font("Arial", Font.BOLD, 15));
 		mntmNewMenuItem_2.setIcon(new ImageIcon(getClass().getResource("/assets/produto.png")));
 		mnNewMenu_1.add(mntmNewMenuItem_2);
 		
 		JMenuItem mntmNewMenuItem_1 = new JMenuItem("Devolução");
+		mntmNewMenuItem_1.setFont(new Font("Arial", Font.BOLD, 15));
 		mntmNewMenuItem_1.setIcon(new ImageIcon(getClass().getResource("/assets/fornecedor.png")));
 		mnNewMenu_1.add(mntmNewMenuItem_1);
 		
 		JMenu mnNewMenu_3 = new JMenu("Fornecedores");
+		mnNewMenu_3.setFont(new Font("Arial", Font.BOLD, 15));
+		mnNewMenu_3.setBackground(new Color(202, 240, 248));
 		mnNewMenu_3.setIcon(new ImageIcon(FrmMenuPrincipal.class.getResource("/assets/fornecedor (3).png")));
 		menuBar.add(mnNewMenu_3);
 		
 		JMenuItem mntmNewMenuItem_3 = new JMenuItem("Cadastrar Fornecedor");
+		mntmNewMenuItem_3.setFont(new Font("Arial", Font.BOLD, 15));
 		mntmNewMenuItem_3.setIcon(new ImageIcon(getClass().getResource("/assets/entregador.png")));
 		mnNewMenu_3.add(mntmNewMenuItem_3);
 		
 		JMenuItem mntmNewMenuItem_4 = new JMenuItem("Consultar Fornecedor");
+		mntmNewMenuItem_4.setFont(new Font("Arial", Font.BOLD, 15));
 		mntmNewMenuItem_4.setIcon(new ImageIcon(getClass().getResource("/assets/lista-de-controle.png")));
 		mnNewMenu_3.add(mntmNewMenuItem_4);
 		
 		JMenu mnNewMenu_2 = new JMenu("Clientes");
+		mnNewMenu_2.setFont(new Font("Arial", Font.BOLD, 15));
+		mnNewMenu_2.setBackground(new Color(202, 240, 248));
 		mnNewMenu_2.setIcon(new ImageIcon(FrmMenuPrincipal.class.getResource("/assets/cliente.png")));
 		menuBar.add(mnNewMenu_2);
 		
 		JMenuItem mntmNewMenuItem_5 = new JMenuItem("Cadastrar Cliente");
+		mntmNewMenuItem_5.setFont(new Font("Arial", Font.BOLD, 15));
 		mntmNewMenuItem_5.setIcon(new ImageIcon(getClass().getResource("/assets/cliente.png")));
 		mnNewMenu_2.add(mntmNewMenuItem_5);
 		
 		JMenuItem mntmNewMenuItem_5_1 = new JMenuItem("Consultar Cliente");
+		mntmNewMenuItem_5_1.setFont(new Font("Arial", Font.BOLD, 15));
 		mntmNewMenuItem_5_1.setIcon(new ImageIcon(getClass().getResource("/assets/pesquisa.png")));
 		mnNewMenu_2.add(mntmNewMenuItem_5_1);
 		
 		JMenu mnNewMenu_4 = new JMenu("Funcionários");
+		mnNewMenu_4.setFont(new Font("Arial", Font.BOLD, 15));
+		mnNewMenu_4.setBackground(new Color(202, 240, 248));
 		mnNewMenu_4.setIcon(new ImageIcon(FrmMenuPrincipal.class.getResource("/assets/funcionarios.png")));
 		menuBar.add(mnNewMenu_4);
 		
 		JMenuItem mntmNewMenuItem_5_3 = new JMenuItem("Cadastrar Funcionário");
+		mntmNewMenuItem_5_3.setFont(new Font("Arial", Font.BOLD, 15));
 		mntmNewMenuItem_5_3.setIcon(new ImageIcon(getClass().getResource("/assets/funcionarios.png")));
 		mnNewMenu_4.add(mntmNewMenuItem_5_3);
 		
 		JMenuItem mntmNewMenuItem_5_2 = new JMenuItem("Consultar Funcionário");
+		mntmNewMenuItem_5_2.setFont(new Font("Arial", Font.BOLD, 15));
 		mntmNewMenuItem_5_2.setIcon(new ImageIcon(getClass().getResource("/assets/consulta.png")));
 		mnNewMenu_4.add(mntmNewMenuItem_5_2);
 		
 		JMenu mnNewMenu_5 = new JMenu("Acessos");
+		mnNewMenu_5.setFont(new Font("Arial", Font.BOLD, 15));
+		mnNewMenu_5.setBackground(new Color(202, 240, 248));
 		mnNewMenu_5.setIcon(new ImageIcon(FrmMenuPrincipal.class.getResource("/assets/acesso.png")));
 		menuBar.add(mnNewMenu_5);
 		
 		JMenuItem mntmNewMenuItem_5_4 = new JMenuItem("Alterar Acessos");
+		mntmNewMenuItem_5_4.setFont(new Font("Arial", Font.BOLD, 15));
 		mntmNewMenuItem_5_4.setIcon(new ImageIcon(getClass().getResource("/assets/acesso.png")));
 		mnNewMenu_5.add(mntmNewMenuItem_5_4);
 		
 		JMenu mnNewMenu_6 = new JMenu("Configuração");
+		mnNewMenu_6.setFont(new Font("Arial", Font.BOLD, 15));
+		mnNewMenu_6.setBackground(new Color(202, 240, 248));
 		mnNewMenu_6.setIcon(new ImageIcon(FrmMenuPrincipal.class.getResource("/assets/configuracao2.png")));
 		menuBar.add(mnNewMenu_6);
 		
 		JMenuItem mntmNewMenuItem_5_5 = new JMenuItem("Configurar");
+		mntmNewMenuItem_5_5.setFont(new Font("Arial", Font.BOLD, 15));
 		mntmNewMenuItem_5_5.setIcon(new ImageIcon(getClass().getResource("/assets/configuracao.png")));
 		mnNewMenu_6.add(mntmNewMenuItem_5_5);
 		
 		JMenu mnNewMenu = new JMenu("Sair");
+		mnNewMenu.setFont(new Font("Arial", Font.BOLD, 15));
+		mnNewMenu.setBackground(new Color(202, 240, 248));
 		mnNewMenu.setIcon(new ImageIcon(FrmMenuPrincipal.class.getResource("/assets/sair1.png")));
 		menuBar.add(mnNewMenu);
 		
 		JMenuItem mntmNewMenuItem_6 = new JMenuItem("Trocar Usuário");
+		mntmNewMenuItem_6.setFont(new Font("Arial", Font.BOLD, 15));
 		mntmNewMenuItem_6.setIcon(new ImageIcon(getClass().getResource("/assets/sair.png")));
 		mnNewMenu.add(mntmNewMenuItem_6);
 		
 		JMenuItem mntmNewMenuItem_7 = new JMenuItem("Sair do Sistema");
+		mntmNewMenuItem_7.setFont(new Font("Arial", Font.BOLD, 15));
 		mntmNewMenuItem_7.setIcon(new ImageIcon(getClass().getResource("/assets/do-utilizador.png")));
 		mnNewMenu.add(mntmNewMenuItem_7);
-		
-		JMenuItem menuItem = new JMenuItem("");
-		menuBar.add(menuItem);
 		
 		//Creindo plano de fundo
 		ImageIcon icon = new ImageIcon(getClass().getResource("/assets/fundo.png"));

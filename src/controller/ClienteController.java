@@ -17,11 +17,13 @@ public class ClienteController {
 	
 	private Connection connection;
 	
+	/**
+	 * Método que cria uma conexão com banco de dados
+	 */
 	public ClienteController() {
 		this.connection =  new ConnectionFactory().getConnection();
 	}
 
-	//metodo cadastrar cliente
 	/**
 	 * Método efetua um comando SQL para efetuar a inserção no banco de dados de um novo cliente.
 	 * @param cliente - um objeto do tipo cliente com os atributos correspondentes
@@ -29,11 +31,9 @@ public class ClienteController {
 	public void cadastrarCliente(Cliente cliente) {
 		try {
 			
-			//1 - parte criar o comando sql
 			String sql = "insert into tb_clientes(nome,email,cpf,rg,endereco,telefone,celular,numero,cep,dataNascimento,bairro,cidade,uf,complemento,limite) "
 					+ " values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 			
-			//2 passo - conectar o banco de dados e organizar o comando do mesmo
 			PreparedStatement preparedStatement = connection.prepareStatement(sql);
 			preparedStatement.setString(1, cliente.getNome());
 			preparedStatement.setString(2, cliente.getEmail());
@@ -51,13 +51,11 @@ public class ClienteController {
 			preparedStatement.setString(14, cliente.getComplemento());
 			preparedStatement.setDouble(15, cliente.getLimite());
 			
-			//3 passo - executar o comando sql
 			preparedStatement.execute();
 			preparedStatement.close();
 			
 			JOptionPane.showMessageDialog(null, "Cadastrado com sucesso");
-			
-			
+						
 		} catch (SQLException erro) {
 			JOptionPane.showMessageDialog(null, "Erro: " + erro);
 		} catch(NumberFormatException erro) {
@@ -65,39 +63,40 @@ public class ClienteController {
 		}
 	}
 	
-	//metodo excluir cliente cliente
+	/**
+	 * Método que a partir do código passado, executa o comando SQL para a exclusão do cliente no banco de dados.
+	 * @param cliente - objeto do tipo cliente que identifica o cliente a ser excluido no banco de dados.
+	 */
 	public void excluirCliente(Cliente cliente) {
 		try {
 					
-					//1 - parte criar o comando sql
 					String sql = "delete from tb_clientes where cpf=?";
 					
-					//2 passo - conectar o banco de dados e organizar o comando do mesmo
 					PreparedStatement preparedStatement = connection.prepareStatement(sql);
 					preparedStatement.setString(1, cliente.getCpf());
 					
-					//3 passo - executar o comando sql
 					preparedStatement.execute();
 					preparedStatement.close();
 					
 					JOptionPane.showMessageDialog(null, "Excluido com sucesso");
-
 					
 				} catch (SQLException erro) {
 					JOptionPane.showMessageDialog(null, "Erro: " + erro);
 				}
 	}
 
-	
-	//metodo alterar cliente
+		
+	/**
+	 * Método que efetua a alteração de um cliente já cadastrado no banco de dados.A partir do id do cliente, 
+	 * por meio de um comando SQL.
+	 * @param cliente - objeto do tipo cliente que identifica o cliente a ser alterado no banco de dados.
+	 */
 	public void alterarCliente(Cliente cliente) {
 		try {
 				
-				//1 - parte criar o comando sql
 				String sql = "update tb_clientes set nome=?,email=?,cpf=?,rg=?,endereco=?,telefone=?,celular=?,numero=?,cep=?,dataNascimento=?,bairro=?,cidade=?,uf=?,complemento=?,limite=? "
 						+ " where cpf=?";
 				
-				//2 passo - conectar o banco de dados e organizar o comando do mesmo
 				PreparedStatement preparedStatement = connection.prepareStatement(sql);
 				preparedStatement.setString(1, cliente.getNome());
 				preparedStatement.setString(2, cliente.getEmail());
@@ -116,26 +115,27 @@ public class ClienteController {
 				preparedStatement.setDouble(15, cliente.getLimite());
 				preparedStatement.setString(16, cliente.getCpf());
 				
-				//3 passo - executar o comando sql
 				preparedStatement.execute();
 				preparedStatement.close();
 				
 				JOptionPane.showMessageDialog(null, "Alterado com sucesso");
-				
-				
+								
 			} catch (SQLException erro) {
 				JOptionPane.showMessageDialog(null, "Erro: " + erro);
 			}
 	}
 	
-	//metodo listar cliente
+	
+	/**
+	 * Método que cria um ArrayList do tipo cliente para listar todos os cliente do banco de dados.
+	 * A partir de um comando SQL.
+	 * @return - retona uma lista com todos de cliente. 
+	 */
 	public List<Cliente> listarCliente() {
 		try {
 			
-			//Criando a lista
 			List<Cliente> lista = new ArrayList<>();
 			
-			//criar sql, organizar e executar
 			String sql = "select * from tb_clientes";
 			PreparedStatement preparedStatement = connection.prepareStatement(sql);
 			ResultSet resultSet = preparedStatement.executeQuery();
@@ -163,22 +163,24 @@ public class ClienteController {
 			}
 			
 			return lista;
-			
-			
+						
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, "Erro: " + e );
 			return null;
 		}
 	}
 	
-	
+	/**
+	 * Método que cria um ArrayList do tipo cliente para listar os cliente do banco de dados que
+	 *  corresponde ao nome digitado. A partir de um comando SQL.
+	 * @param nome - parametro utilizado como base de pesquisa. 
+	 * @return
+	 */
 	public List<Cliente> buscarClientePeloNome(String nome) {
 		try {
-			
-			//Criando a lista
+
 			List<Cliente> lista = new ArrayList<>();
-			
-			//criar sql, organizar e executar
+
 			String sql = "select * from tb_clientes where nome like ?";
 			PreparedStatement preparedStatement = connection.prepareStatement(sql);
 			preparedStatement.setString(1,nome);			
@@ -207,8 +209,7 @@ public class ClienteController {
 			}
 			
 			return lista;
-			
-			
+						
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, "Erro: " + e );
 			return null;
