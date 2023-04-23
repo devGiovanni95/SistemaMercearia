@@ -18,12 +18,14 @@ import javax.swing.border.LineBorder;
 import javax.swing.JTextField;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.JTable;
 
 public class FrmFrenteCaixa extends JFrame {
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
-	private JTextField textField_3;
+	private JTextField tfCpf;
+	private JTextField tfPrecoUnitario;
+	private JTextField tfCodigoDeBarras;
+	private JTextField tfQuantidadeDeItens;
+	private JTable listaProdutos;
 
 	/**
 	 * Launch the application.
@@ -50,30 +52,30 @@ public class FrmFrenteCaixa extends JFrame {
 		setBounds(100, 100, 1360, 768);
 		this.setLocationRelativeTo(null);
 		
-		JPanel panel = new JPanel();
-		panel.setBorder(new LineBorder(new Color(0, 0, 0), 2, true));
-		panel.setBackground(Color.WHITE);
+		JPanel painelCabecalho = new JPanel();
+		painelCabecalho.setBorder(new LineBorder(new Color(0, 0, 0), 2, true));
+		painelCabecalho.setBackground(Color.WHITE);
 		
-		JPanel panel_1_1_1 = new JPanel();
-		panel_1_1_1.setBorder(new LineBorder(new Color(0, 0, 0)));
+		JPanel painelQuantidadeDeItens = new JPanel();
+		painelQuantidadeDeItens.setBorder(new LineBorder(new Color(0, 0, 0)));
 		
-		JPanel panel_1_1_1_1 = new JPanel();
-		panel_1_1_1_1.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
+		JPanel painelCodigoDeBarras = new JPanel();
+		painelCodigoDeBarras.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
 		
-		JPanel panel_1_1_1_2 = new JPanel();
-		panel_1_1_1_2.setBorder(new LineBorder(new Color(0, 0, 0)));
+		JPanel painelPrecoUnitario = new JPanel();
+		painelPrecoUnitario.setBorder(new LineBorder(new Color(0, 0, 0)));
 		
-		JPanel panel_1_1_1_3 = new JPanel();
-		panel_1_1_1_3.setBorder(new LineBorder(new Color(0, 0, 0)));
+		JPanel painelCpf = new JPanel();
+		painelCpf.setBorder(new LineBorder(new Color(0, 0, 0)));
 		
-		JPanel panelComandos = new JPanel();
-		panelComandos.setBorder(new LineBorder(new Color(0, 0, 0), 2, true));
-		panelComandos.setBackground(new Color(10, 87, 194));
+		JPanel painelComandos = new JPanel();
+		painelComandos.setBorder(new LineBorder(new Color(0, 0, 0), 2, true));
+		painelComandos.setBackground(new Color(10, 87, 194));
 		
 		JLabel lblNewLabel_1 = new JLabel("Comandos");
 		lblNewLabel_1.setForeground(new Color(255, 255, 255));
 		lblNewLabel_1.setFont(new Font("Arial", Font.BOLD, 30));
-		panelComandos.add(lblNewLabel_1);
+		painelComandos.add(lblNewLabel_1);
 		
 		JPanel panel_5 = new JPanel();
 		panel_5.setBounds(1, 1, 309, 31);
@@ -83,94 +85,97 @@ public class FrmFrenteCaixa extends JFrame {
 		lblNewLabel.setForeground(Color.RED);
 		lblNewLabel.setFont(new Font("Arial", Font.BOLD, 48));
 		
-		JPanel panel_2 = new JPanel();
-		panel_2.setBackground(new Color(255, 255, 255));
-		panel_2.setBorder(new LineBorder(new Color(0, 0, 0), 2));
+		JPanel painelListaProdutos = new JPanel();
+		painelListaProdutos.setBackground(new Color(255, 255, 255));
+		painelListaProdutos.setBorder(new LineBorder(new Color(0, 0, 0), 2));
 		
-		JPanel panelComandos_1 = new JPanel();
-		panelComandos_1.setBorder(new LineBorder(new Color(0, 0, 0), 2, true));
-		panelComandos_1.setBackground(Color.WHITE);
+		JPanel painelSubTotal = new JPanel();
+		painelSubTotal.setBorder(new LineBorder(new Color(0, 0, 0), 2, true));
+		painelSubTotal.setBackground(Color.WHITE);
 		
-		JPanel painelComandos = new JPanel();
-		painelComandos.setBackground(new Color(1.0f,1.0f,1.0f,0f));
+		JPanel painelBotoesComandos = new JPanel();
+		painelBotoesComandos.setBackground(new Color(1.0f,1.0f,1.0f,0f));
 		
-		JPanel panel_1 = new JPanel();
-		panel_1.setBorder(new LineBorder(new Color(0, 0, 0), 2));
+		JPanel painelImagemProduto = new JPanel();
+		painelImagemProduto.setBorder(new LineBorder(new Color(0, 0, 0), 2));
 		GroupLayout groupLayout = new GroupLayout(getContentPane());
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
 					.addGap(39)
 					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addComponent(panel, GroupLayout.DEFAULT_SIZE, 1255, Short.MAX_VALUE)
+						.addComponent(painelCabecalho, GroupLayout.DEFAULT_SIZE, 1255, Short.MAX_VALUE)
 						.addGroup(groupLayout.createSequentialGroup()
 							.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
 								.addGroup(groupLayout.createSequentialGroup()
 									.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 										.addGroup(groupLayout.createSequentialGroup()
 											.addGap(2)
-											.addComponent(panel_1, GroupLayout.PREFERRED_SIZE, 304, GroupLayout.PREFERRED_SIZE)
+											.addComponent(painelImagemProduto, GroupLayout.PREFERRED_SIZE, 304, GroupLayout.PREFERRED_SIZE)
 											.addPreferredGap(ComponentPlacement.RELATED)
 											.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-												.addComponent(panel_1_1_1_3, GroupLayout.DEFAULT_SIZE, 311, Short.MAX_VALUE)
-												.addComponent(panel_1_1_1_2, GroupLayout.DEFAULT_SIZE, 311, Short.MAX_VALUE)
-												.addComponent(panel_1_1_1_1, GroupLayout.DEFAULT_SIZE, 311, Short.MAX_VALUE)
-												.addComponent(panel_1_1_1, GroupLayout.DEFAULT_SIZE, 311, Short.MAX_VALUE)))
-										.addComponent(panelComandos, GroupLayout.DEFAULT_SIZE, 623, Short.MAX_VALUE))
+												.addComponent(painelCpf, GroupLayout.DEFAULT_SIZE, 311, Short.MAX_VALUE)
+												.addComponent(painelPrecoUnitario, GroupLayout.DEFAULT_SIZE, 311, Short.MAX_VALUE)
+												.addComponent(painelCodigoDeBarras, GroupLayout.DEFAULT_SIZE, 311, Short.MAX_VALUE)
+												.addComponent(painelQuantidadeDeItens, GroupLayout.DEFAULT_SIZE, 311, Short.MAX_VALUE)))
+										.addComponent(painelComandos, GroupLayout.DEFAULT_SIZE, 623, Short.MAX_VALUE))
 									.addGap(19))
 								.addGroup(groupLayout.createSequentialGroup()
-									.addComponent(painelComandos, GroupLayout.DEFAULT_SIZE, 624, Short.MAX_VALUE)
+									.addComponent(painelBotoesComandos, GroupLayout.DEFAULT_SIZE, 624, Short.MAX_VALUE)
 									.addGap(18)))
 							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-								.addComponent(panel_2, GroupLayout.DEFAULT_SIZE, 613, Short.MAX_VALUE)
-								.addComponent(panelComandos_1, GroupLayout.DEFAULT_SIZE, 613, Short.MAX_VALUE))))
+								.addComponent(painelListaProdutos, GroupLayout.DEFAULT_SIZE, 613, Short.MAX_VALUE)
+								.addComponent(painelSubTotal, GroupLayout.DEFAULT_SIZE, 613, Short.MAX_VALUE))))
 					.addGap(50))
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
 					.addGap(26)
-					.addComponent(panel, GroupLayout.PREFERRED_SIZE, 70, GroupLayout.PREFERRED_SIZE)
+					.addComponent(painelCabecalho, GroupLayout.PREFERRED_SIZE, 70, GroupLayout.PREFERRED_SIZE)
 					.addGap(18)
 					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 						.addGroup(groupLayout.createSequentialGroup()
-							.addComponent(panel_2, GroupLayout.DEFAULT_SIZE, 422, Short.MAX_VALUE)
+							.addComponent(painelListaProdutos, GroupLayout.DEFAULT_SIZE, 422, Short.MAX_VALUE)
 							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(panelComandos_1, GroupLayout.DEFAULT_SIZE, 147, Short.MAX_VALUE))
+							.addComponent(painelSubTotal, GroupLayout.DEFAULT_SIZE, 147, Short.MAX_VALUE))
 						.addGroup(groupLayout.createSequentialGroup()
 							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 								.addGroup(groupLayout.createSequentialGroup()
-									.addComponent(panel_1_1_1, GroupLayout.DEFAULT_SIZE, 69, Short.MAX_VALUE)
+									.addComponent(painelQuantidadeDeItens, GroupLayout.DEFAULT_SIZE, 69, Short.MAX_VALUE)
 									.addPreferredGap(ComponentPlacement.UNRELATED)
-									.addComponent(panel_1_1_1_1, GroupLayout.DEFAULT_SIZE, 69, Short.MAX_VALUE)
+									.addComponent(painelCodigoDeBarras, GroupLayout.DEFAULT_SIZE, 69, Short.MAX_VALUE)
 									.addPreferredGap(ComponentPlacement.UNRELATED)
-									.addComponent(panel_1_1_1_2, GroupLayout.DEFAULT_SIZE, 69, Short.MAX_VALUE)
+									.addComponent(painelPrecoUnitario, GroupLayout.DEFAULT_SIZE, 69, Short.MAX_VALUE)
 									.addGap(15)
-									.addComponent(panel_1_1_1_3, GroupLayout.DEFAULT_SIZE, 70, Short.MAX_VALUE)
+									.addComponent(painelCpf, GroupLayout.DEFAULT_SIZE, 70, Short.MAX_VALUE)
 									.addGap(6))
 								.addGroup(groupLayout.createSequentialGroup()
-									.addComponent(panel_1, GroupLayout.DEFAULT_SIZE, 314, Short.MAX_VALUE)
+									.addComponent(painelImagemProduto, GroupLayout.DEFAULT_SIZE, 314, Short.MAX_VALUE)
 									.addPreferredGap(ComponentPlacement.RELATED)))
-							.addComponent(panelComandos, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+							.addComponent(painelComandos, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(painelComandos, GroupLayout.PREFERRED_SIZE, 199, GroupLayout.PREFERRED_SIZE)))
+							.addComponent(painelBotoesComandos, GroupLayout.PREFERRED_SIZE, 199, GroupLayout.PREFERRED_SIZE)))
 					.addGap(40))
 		);
-		GroupLayout gl_panel = new GroupLayout(panel);
-		gl_panel.setHorizontalGroup(
-			gl_panel.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panel.createSequentialGroup()
+		
+		listaProdutos = new JTable();
+		painelListaProdutos.add(listaProdutos);
+		GroupLayout gl_painelCabecalho = new GroupLayout(painelCabecalho);
+		gl_painelCabecalho.setHorizontalGroup(
+			gl_painelCabecalho.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_painelCabecalho.createSequentialGroup()
 					.addGap(416)
 					.addComponent(lblNewLabel)
 					.addContainerGap(496, Short.MAX_VALUE))
 		);
-		gl_panel.setVerticalGroup(
-			gl_panel.createParallelGroup(Alignment.TRAILING)
-				.addGroup(gl_panel.createSequentialGroup()
+		gl_painelCabecalho.setVerticalGroup(
+			gl_painelCabecalho.createParallelGroup(Alignment.TRAILING)
+				.addGroup(gl_painelCabecalho.createSequentialGroup()
 					.addContainerGap(11, Short.MAX_VALUE)
 					.addComponent(lblNewLabel))
 		);
-		panel.setLayout(gl_panel);
+		painelCabecalho.setLayout(gl_painelCabecalho);
 		
 		JButton btnNewButton_1_1 = new JButton("F1 - Modo Consulta");
 		btnNewButton_1_1.setFont(new Font("Arial", Font.BOLD, 22));
@@ -205,55 +210,55 @@ public class FrmFrenteCaixa extends JFrame {
 		
 		JButton btnNewButton_1_1_9 = new JButton("F7 - Sair");
 		btnNewButton_1_1_9.setFont(new Font("Arial", Font.BOLD, 22));
-		GroupLayout gl_painelComandos = new GroupLayout(painelComandos);
-		gl_painelComandos.setHorizontalGroup(
-			gl_painelComandos.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_painelComandos.createSequentialGroup()
+		GroupLayout gl_painelBotoesComandos = new GroupLayout(painelBotoesComandos);
+		gl_painelBotoesComandos.setHorizontalGroup(
+			gl_painelBotoesComandos.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_painelBotoesComandos.createSequentialGroup()
 					.addComponent(btnNewButton_1_1, GroupLayout.DEFAULT_SIZE, 277, Short.MAX_VALUE)
 					.addGap(26)
 					.addComponent(btnNewButton_1_1_4, GroupLayout.DEFAULT_SIZE, 277, Short.MAX_VALUE))
-				.addGroup(gl_painelComandos.createSequentialGroup()
+				.addGroup(gl_painelBotoesComandos.createSequentialGroup()
 					.addComponent(btnNewButton_1_1_1, GroupLayout.DEFAULT_SIZE, 277, Short.MAX_VALUE)
 					.addGap(26)
 					.addComponent(btnNewButton_1_1_5, GroupLayout.DEFAULT_SIZE, 277, Short.MAX_VALUE))
-				.addGroup(gl_painelComandos.createSequentialGroup()
+				.addGroup(gl_painelBotoesComandos.createSequentialGroup()
 					.addComponent(btnNewButton_1_1_2, GroupLayout.DEFAULT_SIZE, 277, Short.MAX_VALUE)
 					.addGap(26)
 					.addComponent(btnNewButton_1_1_6, GroupLayout.DEFAULT_SIZE, 277, Short.MAX_VALUE))
-				.addGroup(gl_painelComandos.createSequentialGroup()
+				.addGroup(gl_painelBotoesComandos.createSequentialGroup()
 					.addComponent(btnNewButton_1_1_3, GroupLayout.DEFAULT_SIZE, 277, Short.MAX_VALUE)
 					.addGap(26)
 					.addComponent(btnNewButton_1_1_7, GroupLayout.DEFAULT_SIZE, 277, Short.MAX_VALUE))
-				.addGroup(gl_painelComandos.createSequentialGroup()
+				.addGroup(gl_painelBotoesComandos.createSequentialGroup()
 					.addComponent(btnNewButton_1_1_8, GroupLayout.DEFAULT_SIZE, 277, Short.MAX_VALUE)
 					.addGap(26)
 					.addComponent(btnNewButton_1_1_9, GroupLayout.DEFAULT_SIZE, 277, Short.MAX_VALUE))
 		);
-		gl_painelComandos.setVerticalGroup(
-			gl_painelComandos.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_painelComandos.createSequentialGroup()
-					.addGroup(gl_painelComandos.createParallelGroup(Alignment.LEADING)
+		gl_painelBotoesComandos.setVerticalGroup(
+			gl_painelBotoesComandos.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_painelBotoesComandos.createSequentialGroup()
+					.addGroup(gl_painelBotoesComandos.createParallelGroup(Alignment.LEADING)
 						.addComponent(btnNewButton_1_1)
 						.addComponent(btnNewButton_1_1_4, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE))
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(gl_painelComandos.createParallelGroup(Alignment.LEADING)
+					.addGroup(gl_painelBotoesComandos.createParallelGroup(Alignment.LEADING)
 						.addComponent(btnNewButton_1_1_1, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE)
 						.addComponent(btnNewButton_1_1_5, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE))
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(gl_painelComandos.createParallelGroup(Alignment.LEADING)
+					.addGroup(gl_painelBotoesComandos.createParallelGroup(Alignment.LEADING)
 						.addComponent(btnNewButton_1_1_2, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE)
 						.addComponent(btnNewButton_1_1_6, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE))
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(gl_painelComandos.createParallelGroup(Alignment.LEADING)
+					.addGroup(gl_painelBotoesComandos.createParallelGroup(Alignment.LEADING)
 						.addComponent(btnNewButton_1_1_7, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE)
 						.addComponent(btnNewButton_1_1_3, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE))
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(gl_painelComandos.createParallelGroup(Alignment.TRAILING, false)
+					.addGroup(gl_painelBotoesComandos.createParallelGroup(Alignment.TRAILING, false)
 						.addComponent(btnNewButton_1_1_8, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE)
 						.addComponent(btnNewButton_1_1_9, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE)))
 		);
-		painelComandos.setLayout(gl_painelComandos);
-		panel_1_1_1_1.setLayout(null);
+		painelBotoesComandos.setLayout(gl_painelBotoesComandos);
+		painelCodigoDeBarras.setLayout(null);
 		
 		JPanel panel_6 = new JPanel();
 		panel_6.setBounds(1, 1, 309, 31);
@@ -263,13 +268,13 @@ public class FrmFrenteCaixa extends JFrame {
 		lblNewLabel_2_1.setForeground(Color.WHITE);
 		lblNewLabel_2_1.setFont(new Font("Arial", Font.BOLD, 14));
 		panel_6.add(lblNewLabel_2_1);
-		panel_1_1_1_1.add(panel_6);
+		painelCodigoDeBarras.add(panel_6);
 		
-		textField_2 = new JTextField();
-		textField_2.setBounds(1, 31, 310, 38);
-		panel_1_1_1_1.add(textField_2);
-		textField_2.setColumns(10);
-		panel_1_1_1_3.setLayout(null);
+		tfCodigoDeBarras = new JTextField();
+		tfCodigoDeBarras.setBounds(1, 31, 310, 38);
+		painelCodigoDeBarras.add(tfCodigoDeBarras);
+		tfCodigoDeBarras.setColumns(10);
+		painelCpf.setLayout(null);
 		
 		JPanel panel_8 = new JPanel();
 		panel_8.setBounds(1, 1, 309, 31);
@@ -279,13 +284,13 @@ public class FrmFrenteCaixa extends JFrame {
 		lblNewLabel_2_3.setForeground(Color.WHITE);
 		lblNewLabel_2_3.setFont(new Font("Arial", Font.BOLD, 14));
 		panel_8.add(lblNewLabel_2_3);
-		panel_1_1_1_3.add(panel_8);
+		painelCpf.add(panel_8);
 		
-		textField = new JTextField();
-		textField.setBounds(0, 31, 310, 39);
-		panel_1_1_1_3.add(textField);
-		textField.setColumns(10);
-		panel_1_1_1_2.setLayout(null);
+		tfCpf = new JTextField();
+		tfCpf.setBounds(0, 31, 310, 39);
+		painelCpf.add(tfCpf);
+		tfCpf.setColumns(10);
+		painelPrecoUnitario.setLayout(null);
 		
 		JPanel panel_7 = new JPanel();
 		panel_7.setBounds(1, 1, 309, 31);
@@ -295,44 +300,48 @@ public class FrmFrenteCaixa extends JFrame {
 		lblNewLabel_2_2.setForeground(Color.WHITE);
 		lblNewLabel_2_2.setFont(new Font("Arial", Font.BOLD, 14));
 		panel_7.add(lblNewLabel_2_2);
-		panel_1_1_1_2.add(panel_7);
+		painelPrecoUnitario.add(panel_7);
 		
-		textField_1 = new JTextField();
-		textField_1.setBounds(0, 30, 310, 39);
-		panel_1_1_1_2.add(textField_1);
-		textField_1.setColumns(10);
-		panel_1_1_1.setLayout(null);
+		tfPrecoUnitario = new JTextField();
+		tfPrecoUnitario.setBounds(0, 30, 310, 39);
+		painelPrecoUnitario.add(tfPrecoUnitario);
+		tfPrecoUnitario.setColumns(10);
+		painelQuantidadeDeItens.setLayout(null);
 		
 		JLabel lblNewLabel_2 = new JLabel("Quantidade De Itens");
 		lblNewLabel_2.setFont(new Font("Arial", Font.BOLD, 14));
 		lblNewLabel_2.setForeground(new Color(255, 255, 255));
 		panel_5.add(lblNewLabel_2);
-		panel_1_1_1.add(panel_5);
+		painelQuantidadeDeItens.add(panel_5);
 		
-		textField_3 = new JTextField();
-		textField_3.setBounds(1, 29, 310, 40);
-		panel_1_1_1.add(textField_3);
-		textField_3.setColumns(10);
+		tfQuantidadeDeItens = new JTextField();
+		tfQuantidadeDeItens.setBounds(1, 29, 310, 40);
+		painelQuantidadeDeItens.add(tfQuantidadeDeItens);
+		tfQuantidadeDeItens.setColumns(10);
 		
-		JPanel panel_4 = new JPanel();
-		panel_4.setBackground(new Color(10, 87, 194));
-		GroupLayout gl_panelComandos_1 = new GroupLayout(panelComandos_1);
-		gl_panelComandos_1.setHorizontalGroup(
-			gl_panelComandos_1.createParallelGroup(Alignment.LEADING)
-				.addComponent(panel_4, GroupLayout.DEFAULT_SIZE, 574, Short.MAX_VALUE)
+		JPanel tituloSubtotal = new JPanel();
+		tituloSubtotal.setBackground(new Color(10, 87, 194));
+		
+		JLabel lblSubTotal = new JLabel("");
+		GroupLayout gl_painelSubTotal = new GroupLayout(painelSubTotal);
+		gl_painelSubTotal.setHorizontalGroup(
+			gl_painelSubTotal.createParallelGroup(Alignment.LEADING)
+				.addComponent(tituloSubtotal, GroupLayout.DEFAULT_SIZE, 609, Short.MAX_VALUE)
+				.addComponent(lblSubTotal, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 609, Short.MAX_VALUE)
 		);
-		gl_panelComandos_1.setVerticalGroup(
-			gl_panelComandos_1.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panelComandos_1.createSequentialGroup()
-					.addComponent(panel_4, GroupLayout.PREFERRED_SIZE, 39, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(81, Short.MAX_VALUE))
+		gl_painelSubTotal.setVerticalGroup(
+			gl_painelSubTotal.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_painelSubTotal.createSequentialGroup()
+					.addComponent(tituloSubtotal, GroupLayout.PREFERRED_SIZE, 39, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+					.addComponent(lblSubTotal, GroupLayout.PREFERRED_SIZE, 113, GroupLayout.PREFERRED_SIZE))
 		);
 		
 		JLabel lblNewLabel_1_1 = new JLabel("SubTotal");
-		panel_4.add(lblNewLabel_1_1);
+		tituloSubtotal.add(lblNewLabel_1_1);
 		lblNewLabel_1_1.setForeground(new Color(255, 255, 255));
 		lblNewLabel_1_1.setFont(new Font("Arial", Font.BOLD, 24));
-		panelComandos_1.setLayout(gl_panelComandos_1);
+		painelSubTotal.setLayout(gl_painelSubTotal);
 		getContentPane().setLayout(groupLayout);
 	}
 }
