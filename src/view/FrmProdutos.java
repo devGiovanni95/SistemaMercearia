@@ -37,16 +37,16 @@ public class FrmProdutos extends JFrame {
 	private JTextField tfLote;
 	private JTextField tfCodigoDeBarras;
 	private JTextField tfDescricao;
-	private JTextField tfQuantidade;
+	private JTextField tfQtdEstoque;
 	private JTextField tfIpi;
 	private JTextField tfIcms;
 	private JTextField tfDesconto;
 	private JTextField tfMargem;
 	private JTextField tfMarca;
-	private JTextField tfFabricacao;
+	private JTextField tfDataFabricacao;
 	private JTextField tfValidade;
 	private JTextField tfPrecoCusto;
-	private JTextField textField;
+	private JTextField tfPrecoFinal;
 	private JTextField tfNome;
 	private JTable tbProdutos;
 	
@@ -96,24 +96,24 @@ public class FrmProdutos extends JFrame {
 		lblProdutos.setForeground(Color.WHITE);
 		lblProdutos.setFont(new Font("Arial Black", Font.BOLD, 40));
 		
-		JLabel lblNewLabel_1 = new JLabel("Voltar");
-		lblNewLabel_1.addMouseListener(new MouseAdapter() {
+		JLabel lblVoltar = new JLabel("Voltar");
+		lblVoltar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				FrmMenuPrincipal menu = new FrmMenuPrincipal();
 				menu.setVisible(true);
 			}
 		});
-		lblNewLabel_1.setIcon(new ImageIcon(FrmProdutos.class.getResource("/assets/sair.png")));
-		lblNewLabel_1.setForeground(Color.WHITE);
-		lblNewLabel_1.setFont(new Font("Arial", Font.BOLD, 18));
+		lblVoltar.setIcon(new ImageIcon(FrmProdutos.class.getResource("/assets/sair.png")));
+		lblVoltar.setForeground(Color.WHITE);
+		lblVoltar.setFont(new Font("Arial", Font.BOLD, 18));
 		GroupLayout gl_panel_3 = new GroupLayout(panel_3);
 		gl_panel_3.setHorizontalGroup(
 			gl_panel_3.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel_3.createSequentialGroup()
 					.addComponent(lblProdutos)
 					.addPreferredGap(ComponentPlacement.RELATED, 957, Short.MAX_VALUE)
-					.addComponent(lblNewLabel_1, GroupLayout.PREFERRED_SIZE, 88, GroupLayout.PREFERRED_SIZE)
+					.addComponent(lblVoltar, GroupLayout.PREFERRED_SIZE, 88, GroupLayout.PREFERRED_SIZE)
 					.addGap(46))
 		);
 		gl_panel_3.setVerticalGroup(
@@ -121,7 +121,7 @@ public class FrmProdutos extends JFrame {
 				.addGroup(gl_panel_3.createSequentialGroup()
 					.addContainerGap(22, Short.MAX_VALUE)
 					.addGroup(gl_panel_3.createParallelGroup(Alignment.LEADING)
-						.addComponent(lblNewLabel_1, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblVoltar, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE)
 						.addComponent(lblProdutos)))
 		);
 		panel_3.setLayout(gl_panel_3);
@@ -218,11 +218,11 @@ public class FrmProdutos extends JFrame {
 		JLabel lblQtdEstoque = new JLabel("Quantidade em Estoque: ");
 		lblQtdEstoque.setFont(new Font("Arial", Font.BOLD, 14));
 		
-		JLabel lblCodigo = new JLabel("Código de Barras:");
-		lblCodigo.setFont(new Font("Arial", Font.BOLD, 14));
+		JLabel lblCodigoDeBarras = new JLabel("Código de Barras:");
+		lblCodigoDeBarras.setFont(new Font("Arial", Font.BOLD, 14));
 		
-		JLabel lblNewLabel_2 = new JLabel("Data de Fabricação: ");
-		lblNewLabel_2.setFont(new Font("Arial", Font.BOLD, 14));
+		JLabel lblDataFabricacao = new JLabel("Data de Fabricação: ");
+		lblDataFabricacao.setFont(new Font("Arial", Font.BOLD, 14));
 		
 		JLabel lblLote = new JLabel("Lote: ");
 		lblLote.setFont(new Font("Arial", Font.BOLD, 14));
@@ -248,13 +248,13 @@ public class FrmProdutos extends JFrame {
 		tfDescricao.setFont(new Font("Arial", Font.BOLD, 14));
 		tfDescricao.setColumns(10);
 		
-		tfQuantidade = new JTextField();
-		tfQuantidade.setBackground(Color.WHITE);
-		tfQuantidade.setFont(new Font("Arial", Font.BOLD, 14));
-		tfQuantidade.setColumns(10);
+		tfQtdEstoque = new JTextField();
+		tfQtdEstoque.setBackground(Color.WHITE);
+		tfQtdEstoque.setFont(new Font("Arial", Font.BOLD, 14));
+		tfQtdEstoque.setColumns(10);
 		
-		JLabel lblMedida = new JLabel("Unidade de Medida: ");
-		lblMedida.setFont(new Font("Arial", Font.BOLD, 14));
+		JLabel lblUnidadeDeMedida = new JLabel("Unidade de Medida: ");
+		lblUnidadeDeMedida.setFont(new Font("Arial", Font.BOLD, 14));
 		
 		JComboBox cbUnidadeDeMedida = new JComboBox();
 		cbUnidadeDeMedida.setBackground(Color.WHITE);
@@ -295,10 +295,10 @@ public class FrmProdutos extends JFrame {
 		tfMarca.setFont(new Font("Arial", Font.BOLD, 14));
 		tfMarca.setColumns(10);
 		
-		tfFabricacao = new JTextField();
-		tfFabricacao.setBackground(Color.WHITE);
-		tfFabricacao.setFont(new Font("Arial", Font.BOLD, 14));
-		tfFabricacao.setColumns(10);
+		tfDataFabricacao = new JTextField();
+		tfDataFabricacao.setBackground(Color.WHITE);
+		tfDataFabricacao.setFont(new Font("Arial", Font.BOLD, 14));
+		tfDataFabricacao.setColumns(10);
 		
 		JLabel lblPrecoCusto = new JLabel("Preço de Custo: ");
 		lblPrecoCusto.setFont(new Font("Arial", Font.BOLD, 14));
@@ -322,16 +322,16 @@ public class FrmProdutos extends JFrame {
 		JButton btnAdicionar = new JButton("Adicionar");
 		btnAdicionar.setFont(new Font("Arial", Font.BOLD, 14));
 		
-		JPanel painelPrincipal = new JPanel();
-		painelPrincipal.setBorder(new LineBorder(new Color(0, 0, 0), 2));
+		JPanel painelFotoProduto = new JPanel();
+		painelFotoProduto.setBorder(new LineBorder(new Color(0, 0, 0), 2));
 		
-		JLabel lblNewLabel = new JLabel("Preço Final: ");
-		lblNewLabel.setFont(new Font("Arial", Font.BOLD, 14));
+		JLabel lblPrecoFinal = new JLabel("Preço Final: ");
+		lblPrecoFinal.setFont(new Font("Arial", Font.BOLD, 14));
 		
-		textField = new JTextField();
-		textField.setBackground(Color.WHITE);
-		textField.setFont(new Font("Arial", Font.BOLD, 14));
-		textField.setColumns(10);
+		tfPrecoFinal = new JTextField();
+		tfPrecoFinal.setBackground(Color.WHITE);
+		tfPrecoFinal.setFont(new Font("Arial", Font.BOLD, 14));
+		tfPrecoFinal.setColumns(10);
 		GroupLayout gl_panel = new GroupLayout(panel);
 		gl_panel.setHorizontalGroup(
 			gl_panel.createParallelGroup(Alignment.LEADING)
@@ -344,7 +344,7 @@ public class FrmProdutos extends JFrame {
 									.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
 										.addGroup(gl_panel.createSequentialGroup()
 											.addGap(42)
-											.addComponent(lblCodigo, GroupLayout.DEFAULT_SIZE, 139, Short.MAX_VALUE)
+											.addComponent(lblCodigoDeBarras, GroupLayout.DEFAULT_SIZE, 139, Short.MAX_VALUE)
 											.addGap(4))
 										.addGroup(gl_panel.createSequentialGroup()
 											.addGap(102)
@@ -363,7 +363,7 @@ public class FrmProdutos extends JFrame {
 											.addGap(4))
 										.addGroup(gl_panel.createSequentialGroup()
 											.addGap(30)
-											.addComponent(lblNewLabel_2, GroupLayout.DEFAULT_SIZE, 147, Short.MAX_VALUE)
+											.addComponent(lblDataFabricacao, GroupLayout.DEFAULT_SIZE, 147, Short.MAX_VALUE)
 											.addGap(8)))
 									.addGap(4))
 								.addGroup(gl_panel.createSequentialGroup()
@@ -374,15 +374,15 @@ public class FrmProdutos extends JFrame {
 								.addComponent(tfCodigoDeBarras, GroupLayout.DEFAULT_SIZE, 510, Short.MAX_VALUE)
 								.addComponent(tfDescricao, GroupLayout.DEFAULT_SIZE, 510, Short.MAX_VALUE)
 								.addGroup(gl_panel.createSequentialGroup()
-									.addComponent(tfQuantidade, GroupLayout.DEFAULT_SIZE, 154, Short.MAX_VALUE)
+									.addComponent(tfQtdEstoque, GroupLayout.DEFAULT_SIZE, 154, Short.MAX_VALUE)
 									.addGap(46)
-									.addComponent(lblMedida, GroupLayout.DEFAULT_SIZE, 147, Short.MAX_VALUE)
+									.addComponent(lblUnidadeDeMedida, GroupLayout.DEFAULT_SIZE, 147, Short.MAX_VALUE)
 									.addGap(4)
 									.addComponent(cbUnidadeDeMedida, 0, 159, Short.MAX_VALUE))
 								.addComponent(cbCategoria, 0, 510, Short.MAX_VALUE)
 								.addComponent(tfMarca, GroupLayout.DEFAULT_SIZE, 510, Short.MAX_VALUE)
 								.addGroup(gl_panel.createSequentialGroup()
-									.addComponent(tfFabricacao, GroupLayout.DEFAULT_SIZE, 195, Short.MAX_VALUE)
+									.addComponent(tfDataFabricacao, GroupLayout.DEFAULT_SIZE, 195, Short.MAX_VALUE)
 									.addGap(31)
 									.addComponent(lblValidade, GroupLayout.DEFAULT_SIZE, 128, Short.MAX_VALUE)
 									.addGap(4)
@@ -398,7 +398,7 @@ public class FrmProdutos extends JFrame {
 								.addGroup(gl_panel.createSequentialGroup()
 									.addGap(130)
 									.addComponent(lblIcms, GroupLayout.DEFAULT_SIZE, 49, Short.MAX_VALUE))
-								.addComponent(lblNewLabel, Alignment.TRAILING)
+								.addComponent(lblPrecoFinal, Alignment.TRAILING)
 								.addGroup(gl_panel.createSequentialGroup()
 									.addGap(149)
 									.addComponent(lblIpi, GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)))
@@ -411,7 +411,7 @@ public class FrmProdutos extends JFrame {
 									.addGap(11))
 								.addGroup(gl_panel.createSequentialGroup()
 									.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
-										.addComponent(textField, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 196, Short.MAX_VALUE)
+										.addComponent(tfPrecoFinal, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 196, Short.MAX_VALUE)
 										.addComponent(tfIpi, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 196, Short.MAX_VALUE))
 									.addGap(18)
 									.addComponent(lblDesconto, GroupLayout.DEFAULT_SIZE, 144, Short.MAX_VALUE)
@@ -423,7 +423,7 @@ public class FrmProdutos extends JFrame {
 					.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
 						.addComponent(btnRemover, GroupLayout.DEFAULT_SIZE, 264, Short.MAX_VALUE)
 						.addComponent(btnAdicionar, GroupLayout.DEFAULT_SIZE, 264, Short.MAX_VALUE)
-						.addComponent(painelPrincipal, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 264, Short.MAX_VALUE))
+						.addComponent(painelFotoProduto, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 264, Short.MAX_VALUE))
 					.addGap(91))
 		);
 		gl_panel.setVerticalGroup(
@@ -433,7 +433,7 @@ public class FrmProdutos extends JFrame {
 					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_panel.createSequentialGroup()
 							.addGap(10)
-							.addComponent(lblCodigo, GroupLayout.DEFAULT_SIZE, 23, Short.MAX_VALUE)
+							.addComponent(lblCodigoDeBarras, GroupLayout.DEFAULT_SIZE, 23, Short.MAX_VALUE)
 							.addGap(21)
 							.addComponent(lblDescricao, GroupLayout.PREFERRED_SIZE, 17, GroupLayout.PREFERRED_SIZE)
 							.addGap(22)
@@ -443,7 +443,7 @@ public class FrmProdutos extends JFrame {
 							.addGap(24)
 							.addComponent(lblMarca, GroupLayout.DEFAULT_SIZE, 17, Short.MAX_VALUE)
 							.addGap(24)
-							.addComponent(lblNewLabel_2, GroupLayout.PREFERRED_SIZE, 17, GroupLayout.PREFERRED_SIZE)
+							.addComponent(lblDataFabricacao, GroupLayout.PREFERRED_SIZE, 17, GroupLayout.PREFERRED_SIZE)
 							.addGap(44))
 						.addGroup(gl_panel.createSequentialGroup()
 							.addGap(10)
@@ -454,10 +454,10 @@ public class FrmProdutos extends JFrame {
 							.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
 								.addGroup(gl_panel.createSequentialGroup()
 									.addGap(1)
-									.addComponent(tfQuantidade, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE))
+									.addComponent(tfQtdEstoque, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE))
 								.addGroup(gl_panel.createSequentialGroup()
 									.addGap(4)
-									.addComponent(lblMedida, GroupLayout.DEFAULT_SIZE, 17, Short.MAX_VALUE)
+									.addComponent(lblUnidadeDeMedida, GroupLayout.DEFAULT_SIZE, 17, Short.MAX_VALUE)
 									.addGap(4))
 								.addComponent(cbUnidadeDeMedida, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE))
 							.addGap(18)
@@ -466,7 +466,7 @@ public class FrmProdutos extends JFrame {
 							.addComponent(tfMarca, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE)
 							.addGap(18)
 							.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-								.addComponent(tfFabricacao, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE)
+								.addComponent(tfDataFabricacao, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE)
 								.addGroup(gl_panel.createSequentialGroup()
 									.addGap(3)
 									.addComponent(lblValidade, GroupLayout.PREFERRED_SIZE, 17, GroupLayout.PREFERRED_SIZE))
@@ -483,7 +483,7 @@ public class FrmProdutos extends JFrame {
 									.addComponent(lblPrecoCusto, GroupLayout.PREFERRED_SIZE, 17, GroupLayout.PREFERRED_SIZE))
 								.addComponent(tfPrecoCusto, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE)))
 						.addGroup(gl_panel.createSequentialGroup()
-							.addComponent(painelPrincipal, GroupLayout.DEFAULT_SIZE, 279, Short.MAX_VALUE)
+							.addComponent(painelFotoProduto, GroupLayout.DEFAULT_SIZE, 279, Short.MAX_VALUE)
 							.addGap(4)))
 					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_panel.createSequentialGroup()
@@ -520,8 +520,8 @@ public class FrmProdutos extends JFrame {
 									.addComponent(lblDesconto, GroupLayout.PREFERRED_SIZE, 17, GroupLayout.PREFERRED_SIZE)))
 							.addGap(18)
 							.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
-								.addComponent(lblNewLabel)
-								.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+								.addComponent(lblPrecoFinal)
+								.addComponent(tfPrecoFinal, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
 						.addGroup(gl_panel.createSequentialGroup()
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
