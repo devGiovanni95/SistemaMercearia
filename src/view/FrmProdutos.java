@@ -29,6 +29,9 @@ import java.awt.GridBagConstraints;
 import java.awt.FlowLayout;
 import java.awt.BorderLayout;
 import javax.swing.JTable;
+import javax.swing.ImageIcon;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class FrmProdutos extends JFrame {
 	private JTextField tfLote;
@@ -46,6 +49,7 @@ public class FrmProdutos extends JFrame {
 	private JTextField textField;
 	private JTextField tfNome;
 	private JTable tbProdutos;
+	
 
 	/**
 	 * Launch the application.
@@ -63,18 +67,21 @@ public class FrmProdutos extends JFrame {
 		});
 	}
 
+	public JTabbedPane abaPrincipal ;
 	/**
 	 * Create the frame.
 	 */
 	public FrmProdutos() {
 		setBackground(new Color(202, 240, 248));
 		getContentPane().setBackground(new Color(202, 240, 248));
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1280, 769);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		setBounds(100, 100, 1360, 768);
+		this.setLocationRelativeTo(null);
 		
-		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
-		tabbedPane.setBorder(null);
-		tabbedPane.setBackground(new Color(202, 240, 248));
+		
+		abaPrincipal = new JTabbedPane(JTabbedPane.TOP);
+		abaPrincipal.setBorder(null);
+		abaPrincipal.setBackground(new Color(202, 240, 248));
 		
 		
 		JPanel panel_1 = new JPanel();
@@ -88,38 +95,50 @@ public class FrmProdutos extends JFrame {
 		JLabel lblProdutos = new JLabel("Produtos");
 		lblProdutos.setForeground(Color.WHITE);
 		lblProdutos.setFont(new Font("Arial Black", Font.BOLD, 40));
+		
+		JLabel lblNewLabel_1 = new JLabel("Voltar");
+		lblNewLabel_1.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				FrmMenuPrincipal menu = new FrmMenuPrincipal();
+				menu.setVisible(true);
+			}
+		});
+		lblNewLabel_1.setIcon(new ImageIcon(FrmProdutos.class.getResource("/assets/sair.png")));
+		lblNewLabel_1.setForeground(Color.WHITE);
+		lblNewLabel_1.setFont(new Font("Arial", Font.BOLD, 18));
 		GroupLayout gl_panel_3 = new GroupLayout(panel_3);
 		gl_panel_3.setHorizontalGroup(
 			gl_panel_3.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel_3.createSequentialGroup()
 					.addComponent(lblProdutos)
-					.addContainerGap(1120, Short.MAX_VALUE))
+					.addPreferredGap(ComponentPlacement.RELATED, 957, Short.MAX_VALUE)
+					.addComponent(lblNewLabel_1, GroupLayout.PREFERRED_SIZE, 88, GroupLayout.PREFERRED_SIZE)
+					.addGap(46))
 		);
 		gl_panel_3.setVerticalGroup(
 			gl_panel_3.createParallelGroup(Alignment.TRAILING)
 				.addGroup(gl_panel_3.createSequentialGroup()
-					.addContainerGap(36, Short.MAX_VALUE)
-					.addComponent(lblProdutos))
+					.addContainerGap(22, Short.MAX_VALUE)
+					.addGroup(gl_panel_3.createParallelGroup(Alignment.LEADING)
+						.addComponent(lblNewLabel_1, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblProdutos)))
 		);
 		panel_3.setLayout(gl_panel_3);
 		GroupLayout groupLayout = new GroupLayout(getContentPane());
 		groupLayout.setHorizontalGroup(
-			groupLayout.createParallelGroup(Alignment.TRAILING)
-				.addComponent(panel_3, GroupLayout.DEFAULT_SIZE, 1284, Short.MAX_VALUE)
-				.addGroup(Alignment.LEADING, groupLayout.createSequentialGroup()
-					.addComponent(tabbedPane, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap())
-				.addGroup(Alignment.LEADING, groupLayout.createSequentialGroup()
-					.addComponent(panel_1, GroupLayout.DEFAULT_SIZE, 1284, Short.MAX_VALUE)
-					.addContainerGap())
+			groupLayout.createParallelGroup(Alignment.LEADING)
+				.addComponent(panel_3, GroupLayout.DEFAULT_SIZE, 1285, Short.MAX_VALUE)
+				.addComponent(abaPrincipal, GroupLayout.PREFERRED_SIZE, 1344, Short.MAX_VALUE)
+				.addComponent(panel_1, GroupLayout.DEFAULT_SIZE, 1344, Short.MAX_VALUE)
 		);
 		groupLayout.setVerticalGroup(
-			groupLayout.createParallelGroup(Alignment.TRAILING)
-				.addGroup(Alignment.LEADING, groupLayout.createSequentialGroup()
+			groupLayout.createParallelGroup(Alignment.LEADING)
+				.addGroup(groupLayout.createSequentialGroup()
 					.addComponent(panel_3, GroupLayout.PREFERRED_SIZE, 79, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addComponent(tabbedPane, GroupLayout.PREFERRED_SIZE, 542, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED, 16, Short.MAX_VALUE)
+					.addComponent(abaPrincipal, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED, 57, Short.MAX_VALUE)
 					.addComponent(panel_1, GroupLayout.PREFERRED_SIZE, 71, GroupLayout.PREFERRED_SIZE)
 					.addContainerGap())
 		);
@@ -128,17 +147,15 @@ public class FrmProdutos extends JFrame {
 		panel_2.setBackground(new Color(202, 240, 248));
 		GroupLayout gl_panel_1 = new GroupLayout(panel_1);
 		gl_panel_1.setHorizontalGroup(
-			gl_panel_1.createParallelGroup(Alignment.LEADING)
-				.addGroup(Alignment.TRAILING, gl_panel_1.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(panel_2, GroupLayout.DEFAULT_SIZE, 1264, Short.MAX_VALUE))
+			gl_panel_1.createParallelGroup(Alignment.TRAILING)
+				.addComponent(panel_2, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 1275, Short.MAX_VALUE)
 		);
 		gl_panel_1.setVerticalGroup(
 			gl_panel_1.createParallelGroup(Alignment.LEADING)
-				.addGroup(Alignment.TRAILING, gl_panel_1.createSequentialGroup()
-					.addContainerGap(48, Short.MAX_VALUE)
+				.addGroup(gl_panel_1.createSequentialGroup()
+					.addContainerGap()
 					.addComponent(panel_2, GroupLayout.PREFERRED_SIZE, 49, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap())
+					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 		);
 		panel_2.setLayout(new GridLayout(0, 6, 10, 0));
 		
@@ -182,7 +199,7 @@ public class FrmProdutos extends JFrame {
 		JLayeredPane layeredPane = new JLayeredPane();
 		layeredPane.setBackground(new Color(202, 240, 248));
 		layeredPane.setBorder(null);
-		tabbedPane.addTab("Cadastro Produtos", null, layeredPane, null);
+		abaPrincipal.addTab("Cadastro Produtos", null, layeredPane, null);
 		
 		JPanel panel = new JPanel();
 		panel.setForeground(new Color(0, 0, 0));
@@ -520,19 +537,17 @@ public class FrmProdutos extends JFrame {
 		GroupLayout gl_layeredPane = new GroupLayout(layeredPane);
 		gl_layeredPane.setHorizontalGroup(
 			gl_layeredPane.createParallelGroup(Alignment.LEADING)
-				.addComponent(panel, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 1259, Short.MAX_VALUE)
+				.addComponent(panel, GroupLayout.DEFAULT_SIZE, 1340, Short.MAX_VALUE)
 		);
 		gl_layeredPane.setVerticalGroup(
 			gl_layeredPane.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_layeredPane.createSequentialGroup()
-					.addComponent(panel, GroupLayout.PREFERRED_SIZE, 513, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(37, Short.MAX_VALUE))
+				.addComponent(panel, GroupLayout.PREFERRED_SIZE, 472, Short.MAX_VALUE)
 		);
 		layeredPane.setLayout(gl_layeredPane);
 		
 		JLayeredPane layeredPane_1 = new JLayeredPane();
 		layeredPane_1.setBackground(new Color(202, 240, 248));
-		tabbedPane.addTab("Consulta de Produtos", null, layeredPane_1, null);
+		abaPrincipal.addTab("Consulta de Produtos", null, layeredPane_1, null);
 		
 		JLabel lblNomePesquisa = new JLabel("Nome: ");
 		lblNomePesquisa.setFont(new Font("Arial", Font.BOLD, 14));
@@ -554,7 +569,7 @@ public class FrmProdutos extends JFrame {
 		tbProdutos.setFillsViewportHeight(true);
 		tbProdutos.setColumnSelectionAllowed(true);
 		tbProdutos.setCellSelectionEnabled(true);
-		tbProdutos.setBounds(0, 63, 1259, 465);
+		tbProdutos.setBounds(0, 57, 1339, 469);
 		layeredPane_1.add(tbProdutos);
 		getContentPane().setLayout(groupLayout);
 	}

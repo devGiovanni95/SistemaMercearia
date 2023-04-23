@@ -41,6 +41,8 @@ import util.LimparCampos;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import javax.swing.ImageIcon;
+import java.awt.Frame;
 
 public class FrmCliente extends JFrame {
 
@@ -66,7 +68,7 @@ public class FrmCliente extends JFrame {
 	
 	
 	/**
-	 * Metodo utilizado para listar todos os clientes e adiciona-los numa tabela
+	 * Metodo utilizado para listar todos os clientes e adiciona-los na tabela
 	 */
 	public void listar() {
 		try {
@@ -118,6 +120,7 @@ public class FrmCliente extends JFrame {
 			}
 		});
 	}
+	public JTabbedPane abaPrincipal;
 
 	/**
 	 * Create the frame.
@@ -128,30 +131,31 @@ public class FrmCliente extends JFrame {
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowActivated(WindowEvent e) {
-				//carregando a lista de clientes
 				listar();
 			}
 		});
 		setForeground(new Color(24, 52, 70));
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setAutoRequestFocus(false);
-		setBounds(100, 100, 1265, 728);
+		setBounds(100, 100, 1364, 768);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(202, 240, 248));
 		contentPane.setForeground(new Color(202, 240, 248));
 		contentPane.setBorder(new EmptyBorder(2, 2, 2, 2));
 		this.setLocationRelativeTo(null);
 		setContentPane(contentPane);
-		
+		 
+		 
 		JPanel panel = new JPanel();
+		panel.setBorder(null);
 		panel.setBackground(new Color(22, 138, 173));
 		
-		JTabbedPane abaPrincipal = new JTabbedPane(JTabbedPane.TOP);
+		abaPrincipal = new JTabbedPane(JTabbedPane.TOP);
 		abaPrincipal.setBackground(new Color(202, 240, 248));
 		
 		JPanel abaDadosPessoais = new JPanel();
 		abaDadosPessoais.setBackground(new Color(202, 240, 248));
-		abaDadosPessoais.setMaximumSize(new Dimension(1920, 1080));
+		abaDadosPessoais.setMaximumSize(new Dimension(1360, 768));
 		abaPrincipal.addTab("Dados Pessoais", null, abaDadosPessoais, null);
 		
 		JLabel lbCodigo = new JLabel("Código: ");
@@ -453,6 +457,7 @@ public class FrmCliente extends JFrame {
 		abaConsultaCliente.setForeground(new Color(202, 240, 248));
 		abaPrincipal.addTab("Consulta Clientes", null, abaConsultaCliente, null);
 		
+		
 		tfPesquisar = new JTextField();
 		tfPesquisar.setColumns(10);
 		
@@ -539,15 +544,13 @@ public class FrmCliente extends JFrame {
 			gl_abaConsultaCliente.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_abaConsultaCliente.createSequentialGroup()
 					.addGap(31)
-					.addComponent(lblNomePesquisa, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+					.addComponent(lblNomePesquisa, GroupLayout.DEFAULT_SIZE, 83, Short.MAX_VALUE)
 					.addGap(8)
-					.addComponent(tfPesquisar, GroupLayout.DEFAULT_SIZE, 476, Short.MAX_VALUE)
+					.addComponent(tfPesquisar, GroupLayout.DEFAULT_SIZE, 511, Short.MAX_VALUE)
 					.addGap(20)
-					.addComponent(btnPesquisar, GroupLayout.DEFAULT_SIZE, 99, Short.MAX_VALUE)
+					.addComponent(btnPesquisar, GroupLayout.DEFAULT_SIZE, 134, Short.MAX_VALUE)
 					.addGap(548))
-				.addGroup(gl_abaConsultaCliente.createSequentialGroup()
-					.addGap(7)
-					.addComponent(tabelaClientes, GroupLayout.PREFERRED_SIZE, 1228, GroupLayout.PREFERRED_SIZE))
+				.addComponent(tabelaClientes, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 1339, Short.MAX_VALUE)
 		);
 		gl_abaConsultaCliente.setVerticalGroup(
 			gl_abaConsultaCliente.createParallelGroup(Alignment.LEADING)
@@ -562,25 +565,43 @@ public class FrmCliente extends JFrame {
 							.addComponent(tfPesquisar, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 						.addComponent(btnPesquisar))
 					.addGap(4)
-					.addComponent(tabelaClientes, GroupLayout.PREFERRED_SIZE, 399, GroupLayout.PREFERRED_SIZE))
+					.addComponent(tabelaClientes, GroupLayout.DEFAULT_SIZE, 440, Short.MAX_VALUE))
 		);
 		abaConsultaCliente.setLayout(gl_abaConsultaCliente);
 		
 		JLabel lblNewLabel = new JLabel("Clientes");
 		lblNewLabel.setForeground(Color.WHITE);
 		lblNewLabel.setFont(new Font("Arial Black", Font.BOLD, 40));
+		
+		JLabel lblNewLabel_1 = new JLabel("Voltar");
+		lblNewLabel_1.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				FrmMenuPrincipal menu = new FrmMenuPrincipal();
+				menu.setVisible(true);				
+			}
+		});
+		lblNewLabel_1.setForeground(Color.WHITE);
+		lblNewLabel_1.setFont(new Font("Arial", Font.BOLD, 18));
+		lblNewLabel_1.setIcon(new ImageIcon(FrmCliente.class.getResource("/assets/sair.png")));
 		GroupLayout gl_panel = new GroupLayout(panel);
 		gl_panel.setHorizontalGroup(
 			gl_panel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel.createSequentialGroup()
 					.addComponent(lblNewLabel)
-					.addContainerGap(1055, Short.MAX_VALUE))
+					.addPreferredGap(ComponentPlacement.RELATED, 991, Short.MAX_VALUE)
+					.addComponent(lblNewLabel_1)
+					.addGap(32))
 		);
 		gl_panel.setVerticalGroup(
 			gl_panel.createParallelGroup(Alignment.LEADING)
 				.addGroup(Alignment.TRAILING, gl_panel.createSequentialGroup()
-					.addContainerGap(22, Short.MAX_VALUE)
+					.addContainerGap(49, Short.MAX_VALUE)
 					.addComponent(lblNewLabel))
+				.addGroup(Alignment.TRAILING, gl_panel.createSequentialGroup()
+					.addContainerGap(38, Short.MAX_VALUE)
+					.addComponent(lblNewLabel_1)
+					.addGap(36))
 		);
 		panel.setLayout(gl_panel);
 		
@@ -678,7 +699,7 @@ public class FrmCliente extends JFrame {
 		btnExcluir.setBackground(new Color(255, 89, 94));
 		btnExcluir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//excluir
+				
 				Cliente cliente = new Cliente();
 
 				cliente.setCpf(tfCpf.getText());
@@ -694,12 +715,10 @@ public class FrmCliente extends JFrame {
 		panel_1.add(btnExcluir);
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
-			gl_contentPane.createParallelGroup(Alignment.TRAILING)
-				.addComponent(panel, GroupLayout.DEFAULT_SIZE, 1245, Short.MAX_VALUE)
-				.addComponent(abaPrincipal, GroupLayout.DEFAULT_SIZE, 1245, Short.MAX_VALUE)
-				.addGroup(Alignment.LEADING, gl_contentPane.createSequentialGroup()
-					.addComponent(panel_1, GroupLayout.DEFAULT_SIZE, 1245, Short.MAX_VALUE)
-					.addContainerGap())
+			gl_contentPane.createParallelGroup(Alignment.LEADING)
+				.addComponent(panel, GroupLayout.DEFAULT_SIZE, 1340, Short.MAX_VALUE)
+				.addComponent(abaPrincipal, GroupLayout.DEFAULT_SIZE, 1340, Short.MAX_VALUE)
+				.addComponent(panel_1, GroupLayout.DEFAULT_SIZE, 1340, Short.MAX_VALUE)
 		);
 		gl_contentPane.setVerticalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
@@ -709,7 +728,7 @@ public class FrmCliente extends JFrame {
 					.addComponent(abaPrincipal, GroupLayout.PREFERRED_SIZE, 504, GroupLayout.PREFERRED_SIZE)
 					.addGap(18)
 					.addComponent(panel_1, GroupLayout.PREFERRED_SIZE, 55, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(23, Short.MAX_VALUE))
+					.addContainerGap(36, Short.MAX_VALUE))
 		);
 		
 		JPanel panel_2 = new JPanel();

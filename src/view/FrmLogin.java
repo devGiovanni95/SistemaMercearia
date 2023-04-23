@@ -23,12 +23,16 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.EmptyBorder;
 import controller.FuncionarioController;
 import util.LimparCampos;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import javax.swing.JFormattedTextField;
+import javax.swing.JPasswordField;
 
 public class FrmLogin extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField tfEmail;
-	private JTextField tfSenha;
+	private JPasswordField tfSenha;
 
 	/**
 	 * Launch the application.
@@ -58,10 +62,9 @@ public class FrmLogin extends JFrame {
 		contentPane.setBorder(new EmptyBorder(0, 0, 0, 0));
 		this.setLocationRelativeTo(null);//tela centralizada
 		setContentPane(contentPane);
+
 		
-		//JDesktopPane desktopPane = new JDesktopPane();
-		
-		//Creindo plano de fundo
+		//Criando plano de fundo
 		ImageIcon icon = new ImageIcon(getClass().getResource("/assets/fundo.png"));
 		Image image = icon.getImage();
 		JDesktopPane desktopPane = new JDesktopPane(){
@@ -151,7 +154,7 @@ public class FrmLogin extends JFrame {
 		lblSenha.setForeground(new Color(3, 71, 72));
 		lblSenha.setFont(new Font("Arial", Font.BOLD, 26));
 		
-		tfSenha = new JTextField();
+		tfSenha = new JPasswordField();
 		tfSenha.setFont(new Font("Arial", Font.BOLD, 20));
 		//textField_1.setDropMode(DropMode.ON);
 		tfSenha.setColumns(25);
@@ -203,11 +206,11 @@ public class FrmLogin extends JFrame {
 					FuncionarioController funcionarioController = new FuncionarioController();
 					
 					funcionarioController.efetuarLogin(email, senha);
-							
-							
+					tfEmail.setText("");
+					tfSenha.setText("");
+					
 				} catch (Exception e2) {
 					JOptionPane.showMessageDialog(null,"Erro: "+e2);
-					new LimparCampos().Limpar(desktopPane);
 				}
 				
 			}
@@ -242,6 +245,34 @@ public class FrmLogin extends JFrame {
 					.addComponent(btnEntrar, GroupLayout.PREFERRED_SIZE, 47, GroupLayout.PREFERRED_SIZE)
 					.addGap(80))
 		);
+		
+		JLabel lblNewLabel_1 = new JLabel("Voltar");
+		lblNewLabel_1.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				FrmMenuPrincipal menu = new FrmMenuPrincipal();
+				menu.setVisible(true);
+			}
+		});
+		lblNewLabel_1.setIcon(new ImageIcon(FrmLogin.class.getResource("/assets/sair.png")));
+		lblNewLabel_1.setForeground(Color.WHITE);
+		lblNewLabel_1.setFont(new Font("Arial", Font.BOLD, 18));
+		GroupLayout gl_panel = new GroupLayout(panel);
+		gl_panel.setHorizontalGroup(
+			gl_panel.createParallelGroup(Alignment.LEADING)
+				.addGroup(Alignment.TRAILING, gl_panel.createSequentialGroup()
+					.addContainerGap(782, Short.MAX_VALUE)
+					.addComponent(lblNewLabel_1, GroupLayout.PREFERRED_SIZE, 88, GroupLayout.PREFERRED_SIZE)
+					.addGap(18))
+		);
+		gl_panel.setVerticalGroup(
+			gl_panel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel.createSequentialGroup()
+					.addGap(19)
+					.addComponent(lblNewLabel_1, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(19, Short.MAX_VALUE))
+		);
+		panel.setLayout(gl_panel);
 		desktopPane.setLayout(gl_desktopPane);
 		contentPane.setLayout(gl_contentPane);
 	}

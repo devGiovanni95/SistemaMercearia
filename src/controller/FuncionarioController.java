@@ -6,13 +6,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.swing.JOptionPane;
-
 import jdbc.ConnectionFactory;
-import model.Cliente;
 import model.Funcionario;
-import view.FrmFuncionarios;
 import view.FrmMenuPrincipal;
 
 public class FuncionarioController {
@@ -84,19 +80,16 @@ public class FuncionarioController {
 	 * @param funcionario - objeto do tipo funcionario que identifica o funcionario a ser excluido no banco de dados.
 	 */
 	public void excluirCliente(Funcionario funcionario) {
-		try {
-					
+		try {					
 					String sql = "delete from tb_funcionarios where cpf=?";
 					
 					PreparedStatement preparedStatement = connection.prepareStatement(sql);
-					preparedStatement.setString(1, funcionario.getCpf());
-					
+					preparedStatement.setString(1, funcionario.getCpf());					
 					preparedStatement.execute();
 					preparedStatement.close();
 					
 					JOptionPane.showMessageDialog(null, "Excluido com sucesso");
-
-					
+			
 				} catch (SQLException erro) {
 					JOptionPane.showMessageDialog(null, "Erro: " + erro);
 				}
