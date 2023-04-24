@@ -41,7 +41,9 @@ public class ProdutosController {
 	 */
 
 	public void cadastrarProduto(Produtos produto) {
+
 		try (PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO tb_produtos (descricao, codigo_de_barras, marca, sub_categoria_id, unidade_de_medida, quantidade, data_fabricacao, data_validade, lote, ipi, icms, desconto, margem_lucro, preco_custo, preco_final) "
+
 				+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)")) {
 
 			preparedStatement.setString(1, produto.getDescricao());
@@ -55,10 +57,9 @@ public class ProdutosController {
 			preparedStatement.setString(9, produto.getLote());
 			preparedStatement.setDouble(10, produto.getIpi());
 			preparedStatement.setDouble(11, produto.getIcms());
-			preparedStatement.setDouble(12, produto.getDesconto());
-			preparedStatement.setDouble(13, produto.getMargemLucro());
-			preparedStatement.setDouble(14, produto.getPrecoCusto());
-			preparedStatement.setDouble(15, produto.getPrecoFinal());
+			preparedStatement.setDouble(12, produto.getMargemLucro());
+			preparedStatement.setDouble(13, produto.getPrecoCusto());
+			preparedStatement.setDouble(14, produto.getPrecoFinal());
 
 			preparedStatement.execute();
 
@@ -96,7 +97,7 @@ public class ProdutosController {
 	 * @param produto - objeto do tipo Produtos que identifica o produto a ser alterado no banco de dados.
 	 */
 	public void alterarProduto(Produtos produto) {
-		try (PreparedStatement preparedStatement = connection.prepareStatement("UPDATE produtos SET descricao = ?, codigo_de_barras = ?, marca = ?, sub_categoria_id = ?, unidade_de_medida = ?, quantidade = ?, data_fabricacao = ?, data_validade = ?, lote = ?, ipi = ?, icms = ?, desconto = ?, margem_lucro = ?, preco_custo = ?, preco_final = ? WHERE id = ?")) {
+		try (PreparedStatement preparedStatement = connection.prepareStatement("UPDATE produtos SET descricao = ?, codigo_de_barras = ?, marca = ?, sub_categoria_id = ?, unidade_de_medida = ?, quantidade = ?, data_fabricacao = ?, data_validade = ?, lote = ?, ipi = ?, icms = ?, margem_lucro = ?, preco_custo = ?, preco_final = ? WHERE id = ?")) {
 
 			preparedStatement.setString(1, produto.getDescricao());
 			preparedStatement.setString(2, produto.getCodigoDeBarras());
@@ -109,11 +110,10 @@ public class ProdutosController {
 			preparedStatement.setString(9, produto.getLote());
 			preparedStatement.setDouble(10, produto.getIpi());
 			preparedStatement.setDouble(11, produto.getIcms());
-			preparedStatement.setDouble(12, produto.getDesconto());
-			preparedStatement.setDouble(13, produto.getMargemLucro());
-			preparedStatement.setDouble(14, produto.getPrecoCusto());
-			preparedStatement.setDouble(15, produto.getPrecoFinal());
-			preparedStatement.setInt(16, produto.getId());
+			preparedStatement.setDouble(12, produto.getMargemLucro());
+			preparedStatement.setDouble(13, produto.getPrecoCusto());
+			preparedStatement.setDouble(14, produto.getPrecoFinal());
+			preparedStatement.setInt(15, produto.getId());
 
 			preparedStatement.executeUpdate();
 
@@ -153,7 +153,6 @@ public class ProdutosController {
 				produto.setLote(resultSet.getString("lote"));
 				produto.setIpi(resultSet.getDouble("ipi"));
 				produto.setIcms(resultSet.getDouble("icms"));
-				produto.setDesconto(resultSet.getDouble("desconto"));
 				produto.setMargemLucro(resultSet.getDouble("margem_lucro"));
 				produto.setPrecoCusto(resultSet.getDouble("preco_custo"));
 				produto.setPrecoFinal(resultSet.getDouble("preco_final"));
@@ -197,7 +196,6 @@ public class ProdutosController {
 				produto.setLote(resultSet.getString("lote"));
 				produto.setIpi(resultSet.getDouble("ipi"));
 				produto.setIcms(resultSet.getDouble("icms"));
-				produto.setDesconto(resultSet.getDouble("desconto"));
 				produto.setMargemLucro(resultSet.getDouble("margem_lucro"));
 				produto.setPrecoCusto(resultSet.getDouble("preco_custo"));
 				produto.setPrecoFinal(resultSet.getDouble("preco_final"));
