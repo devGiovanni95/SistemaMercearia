@@ -31,10 +31,9 @@ public class ProdutosController {
 		this.subCategoriaController = new SubCategoriaController();
 	}
 	
-	public SubCategoria buscarSubCategoriaPorId(int id) {
+	/*public SubCategoria buscarSubCategoriaPorId(int id) {
 	    return this.subCategoriaController.buscarSubCategoriaPorId(id);
-	}
-
+	}*/
 
 	/**
 	 * Método efetua um comando SQL para efetuar a inserção no banco de dados de um novo produto.
@@ -42,7 +41,9 @@ public class ProdutosController {
 	 */
 
 	public void cadastrarProduto(Produtos produto) {
-		try (PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO produtos (descricao, codigo_de_barras, marca, sub_categoria_id, unidade_de_medida, quantidade, data_fabricacao, data_validade, lote, ipi, icms, margem_lucro, preco_custo, preco_final) "
+
+		try (PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO tb_produtos (descricao, codigo_de_barras, marca, sub_categoria_id, unidade_de_medida, quantidade, data_fabricacao, data_validade, lote, ipi, icms, desconto, margem_lucro, preco_custo, preco_final) "
+
 				+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)")) {
 
 			preparedStatement.setString(1, produto.getDescricao());
@@ -144,7 +145,7 @@ public class ProdutosController {
 				produto.setDescricao(resultSet.getString("descricao"));
 				produto.setCodigoDeBarras(resultSet.getString("codigo_de_barras"));
 				produto.setMarca(resultSet.getString("marca"));
-				produto.setSubcategoria(buscarSubCategoriaPorId(resultSet.getInt("sub_categoria_id")));
+				//produto.setSubcategoria(buscarSubCategoriaPorId(resultSet.getInt("sub_categoria_id")));
 				produto.setUnidadeDeMedida(resultSet.getString("unidade_de_medida"));
 				produto.setQuantidade(resultSet.getInt("quantidade"));
 				produto.setDataFabricacao(resultSet.getDate("data_fabricacao"));
@@ -187,7 +188,7 @@ public class ProdutosController {
 				produto.setDescricao(resultSet.getString("descricao"));
 				produto.setCodigoDeBarras(resultSet.getString("codigo_de_barras"));
 				produto.setMarca(resultSet.getString("marca"));
-				produto.setSubcategoria(buscarSubCategoriaPorId(resultSet.getInt("sub_categoria_id")));
+				//produto.setSubcategoria(buscarSubCategoriaPorId(resultSet.getInt("sub_categoria_id")));
 				produto.setUnidadeDeMedida(resultSet.getString("unidade_de_medida"));
 				produto.setQuantidade(resultSet.getInt("quantidade"));
 				produto.setDataFabricacao(resultSet.getDate("data_fabricacao"));

@@ -13,7 +13,6 @@ public class SubCategoria {
 	public void setCodigo(int codigo) {
 		this.codigo = codigo;
 	}
-
 	public Categoria getCategoria() {
 		return categoria;
 	}
