@@ -16,10 +16,18 @@ public class Produtos {
 	private String lote;
 	private double ipi;
 	private double icms;
-	private double desconto;
 	private double margemLucro;
 	private double precoCusto;
 	private double precoFinal;
+	
+	    public void calcularPrecoFinal() {
+	        double valorLucro = this.precoCusto * (this.margemLucro / 100);
+	        double valorIpi = this.precoCusto * (this.ipi / 100);
+	        double valorIcms = this.precoCusto * (this.icms / 100);
+
+	        this.precoFinal = this.precoCusto + valorLucro + valorIpi + valorIcms;
+	    }
+
 	
 	
 	public int getId() {
@@ -93,12 +101,6 @@ public class Produtos {
 	}
 	public void setIcms(double icms) {
 		this.icms = icms;
-	}
-	public double getDesconto() {
-		return desconto;
-	}
-	public void setDesconto(double desconto) {
-		this.desconto = desconto;
 	}
 	public double getMargemLucro() {
 		return margemLucro;

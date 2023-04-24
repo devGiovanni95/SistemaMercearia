@@ -188,4 +188,32 @@ private Connection connection;
 		}
 	}*/
 	
-}
+	  public SubCategoria buscarSubCategoriaPorId(int id) {
+	        SubCategoria subCategoria = null;
+	        String sql = "SELECT * FROM tb_subcategorias WHERE id = ?";
+
+	        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+	            preparedStatement.setInt(1, id);
+	            ResultSet resultSet = preparedStatement.executeQuery();
+
+	            if (resultSet.next()) {
+	                subCategoria = new SubCategoria();
+	                Categoria categoria = new Categoria();
+	                
+	                categoria.setCodigo(resultSet.getInt("categoria_id"));
+	                categoria.setNomeCategoria(resultSet.getString("nome_categoria"));
+	                categoria.setDescricao(resultSet.getString("descricao_categoria"));
+	                
+	                subCategoria.setCodigo(resultSet.getInt("id"));
+	                subCategoria.setCategoria(categoria);
+	                subCategoria.setSubCategoria(resultSet.getString("nome_subcategoria"));
+	                subCategoria.setDescricao(resultSet.getString("descricao_subcategoria"));
+	            }
+
+	        } catch (SQLException e) {
+	            System.out.println("Erro ao buscar subcategoria por ID: " + e.getMessage());
+	        }
+
+	        return subCategoria;
+	    }
+	}

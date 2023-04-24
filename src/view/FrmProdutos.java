@@ -1,37 +1,44 @@
 package view;
 
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
-import javax.swing.JTabbedPane;
-import javax.swing.JLayeredPane;
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JTextField;
-import javax.swing.LayoutStyle.ComponentPlacement;
-import javax.swing.JComboBox;
-import javax.swing.border.LineBorder;
 import java.awt.Color;
+import java.awt.EventQueue;
 import java.awt.Font;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 import java.awt.GridLayout;
-import net.miginfocom.swing.MigLayout;
-import com.jgoodies.forms.layout.FormLayout;
-import com.jgoodies.forms.layout.ColumnSpec;
-import com.jgoodies.forms.layout.RowSpec;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import java.awt.FlowLayout;
-import java.awt.BorderLayout;
-import javax.swing.JTable;
-import javax.swing.ImageIcon;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Arrays;
+import java.util.List;
+
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JLayeredPane;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.border.LineBorder;
+import javax.swing.event.AncestorEvent;
+import javax.swing.event.AncestorListener;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+
+import controller.ProdutosController;
+import controller.SubCategoriaController;
+import model.Produtos;
+import model.SubCategoria;
+
+
 
 public class FrmProdutos extends JFrame {
 	private JTextField tfLote;
@@ -40,7 +47,6 @@ public class FrmProdutos extends JFrame {
 	private JTextField tfQtdEstoque;
 	private JTextField tfIpi;
 	private JTextField tfIcms;
-	private JTextField tfDesconto;
 	private JTextField tfMargem;
 	private JTextField tfMarca;
 	private JTextField tfDataFabricacao;
@@ -49,7 +55,9 @@ public class FrmProdutos extends JFrame {
 	private JTextField tfPrecoFinal;
 	private JTextField tfNome;
 	private JTable tbProdutos;
-	
+	// Declaração do JComboBox cbSubcategoria e cbUnidadeDeMedida como variáveis de instância.
+	private JComboBox cbSubcategoria;
+    private JComboBox<String> cbUnidadeDeMedida;
 
 	/**
 	 * Launch the application.
@@ -66,12 +74,66 @@ public class FrmProdutos extends JFrame {
 			}
 		});
 	}
+	
+	/**
+	 * Atualiza o campo Preço Final com base nos campos de Margem de Lucro, IPI e ICMS.
+	 * Caso algum campo não possua um valor numérico válido, não atualiza o Preço Final.
+	 */
+	private void atualizarPrecoFinal() {
+	    try {
+	        double margem = Double.parseDouble(tfMargem.getText());
+	        double ipi = Double.parseDouble(tfIpi.getText());
+	        double icms = Double.parseDouble(tfIcms.getText());
+	        double precoCusto = Double.parseDouble(tfPrecoCusto.getText());
+
+	        double precoFinal = precoCusto * (1 + (margem + ipi + icms) / 100);
+	        tfPrecoFinal.setText(String.format("%.2f", precoFinal));
+	    } catch (NumberFormatException e) {
+	        // Um dos campos não possui um número válido
+	    }
+	}
+
+	   // Método privado popularSubcategorias() responsável por preencher o JComboBox cbSubcategoria com as subcategorias disponíveis.
+	private void popularSubcategorias() {
+        SubCategoriaController subCategoriaController = new SubCategoriaController();    // Criação de uma instância do SubCategoriaController para obter a lista de subcategorias.
+        List<SubCategoria> listaSubcategoria = subCategoriaController.listarSubCategorias();     // Chamada ao método listarSubCategorias() do SubCategoriaController para obter a lista de subcategorias.
+
+        // Remoção de todos os itens do JComboBox cbSubcategoria para garantir que ele esteja limpo.
+        cbSubcategoria.removeAllItems();
+
+        // Loop for-each para iterar sobre cada subcategoria na lista de subcategorias.
+        for (SubCategoria subcategoria : listaSubcategoria) {
+            cbSubcategoria.addItem(subcategoria);      // Adição de cada subcategoria ao JComboBox cbSubcategoria.
+        }
+    }
+	
+	  // Método privado popularUnidadesDeMedida() responsável por preencher o JComboBox cbUnidadeDeMedida.
+    private void popularUnidadesDeMedida() {
+        // Lista das unidades de medida disponíveis.
+        List<String> unidadesDeMedida = Arrays.asList("kg", "g", "mg", "L", "ml", "unidades");
+
+        // Loop for-each para iterar sobre cada unidade de medida na lista de unidades de medida.
+        for (String unidadeDeMedida : unidadesDeMedida) {
+            // Adição de cada unidade de medida ao JComboBox cbUnidadeDeMedida.
+            cbUnidadeDeMedida.addItem(unidadeDeMedida);
+        }
+    }
 
 	public JTabbedPane abaPrincipal ;
 	/**
 	 * Create the frame.
 	 */
+	
+	// Construtor da classe frmProdutos.
 	public FrmProdutos() {
+		
+		cbSubcategoria = new JComboBox();  // Criação do JComboBox cbSubcategoria.
+        popularSubcategorias();  // Chamada ao método popularSubcategorias() para preencher o JComboBox cbSubcategoria com as subcategorias disponíveis.
+
+     // Criação do JComboBox cbUnidadeDeMedida e popular com as unidades de medida disponíveis.
+        cbUnidadeDeMedida = new JComboBox<>();
+        popularUnidadesDeMedida();
+		
 		setBackground(new Color(202, 240, 248));
 		getContentPane().setBackground(new Color(202, 240, 248));
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -179,11 +241,50 @@ public class FrmProdutos extends JFrame {
 		btnEditar.setFont(new Font("Arial", Font.BOLD, 24));
 		panel_2.add(btnEditar);
 		
-		JButton btnSalvar = new JButton("Salvar");
-		btnSalvar.setBackground(new Color(138, 201, 38));
-		btnSalvar.setForeground(new Color(255, 255, 255));
-		btnSalvar.setFont(new Font("Arial", Font.BOLD, 24));
-		panel_2.add(btnSalvar);
+		
+		JButton btnSalvarProduto = new JButton("Salvar");
+		btnSalvarProduto.setForeground(Color.WHITE);
+		btnSalvarProduto.setBackground(new Color(138, 201, 38));
+		btnSalvarProduto.addActionListener(new ActionListener() {
+		    public void actionPerformed(ActionEvent e) {
+		        Produtos produto = new Produtos();
+		        
+		        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+
+		        produto.setDescricao(tfDescricao.getText());
+		        produto.setCodigoDeBarras(tfCodigoDeBarras.getText());
+		        produto.setMarca(tfMarca.getText());
+		        produto.setSubcategoria((SubCategoria) cbSubcategoria.getSelectedItem());
+		        produto.setUnidadeDeMedida(cbUnidadeDeMedida.getSelectedItem().toString());
+		        produto.setQuantidade(Integer.parseInt(tfQtdEstoque.getText()));
+		        
+		        try {
+		            produto.setDataFabricacao(dateFormat.parse(tfDataFabricacao.getText()));
+		            produto.setDataValidade(dateFormat.parse(tfValidade.getText()));
+		        } catch (ParseException ex) {
+		            JOptionPane.showMessageDialog(null, "Erro ao converter a data. Por favor, insira a data no formato dd/MM/yyyy.", "Erro", JOptionPane.ERROR_MESSAGE);
+		            return;
+		        }
+
+		        produto.setLote(tfLote.getText());
+		        produto.setIpi(Double.parseDouble(tfIpi.getText()));
+		        produto.setIcms(Double.parseDouble(tfIcms.getText()));
+		        produto.setMargemLucro(Double.parseDouble(tfMargem.getText()));
+		        produto.setPrecoCusto(Double.parseDouble(tfPrecoCusto.getText()));
+		     
+		        // Calcular o preço final com base na margem de lucro, IPI e ICMS
+		        atualizarPrecoFinal();
+
+		        ProdutosController produtosController = new ProdutosController(); 
+		        
+		        produtosController.cadastrarProduto(produto);
+		        
+		    }
+		});
+		btnSalvarProduto.setFont(new Font("Arial", Font.BOLD, 24));
+		panel_2.add(btnSalvarProduto);
+
+		
 		
 		JButton btnExcluir = new JButton("Excluir");
 		btnExcluir.setBackground(new Color(255, 89, 94));
@@ -209,8 +310,8 @@ public class FrmProdutos extends JFrame {
 		JLabel lblDescricao = new JLabel("Descrição:");
 		lblDescricao.setFont(new Font("Arial", Font.BOLD, 14));
 		
-		JLabel lblCategoria = new JLabel("Categoria: ");
-		lblCategoria.setFont(new Font("Arial", Font.BOLD, 14));
+		JLabel lblSubcategoria = new JLabel("Subcategoria: ");
+		lblSubcategoria.setFont(new Font("Arial", Font.BOLD, 14));
 		
 		JLabel lblMarca = new JLabel("Marca: ");
 		lblMarca.setFont(new Font("Arial", Font.BOLD, 14));
@@ -260,36 +361,78 @@ public class FrmProdutos extends JFrame {
 		cbUnidadeDeMedida.setBackground(Color.WHITE);
 		cbUnidadeDeMedida.setFont(new Font("Arial", Font.BOLD, 14));
 		
-		JComboBox cbCategoria = new JComboBox();
-		cbCategoria.setBackground(Color.WHITE);
-		cbCategoria.setFont(new Font("Arial", Font.BOLD, 14));
+		JComboBox cbSubcategoria = new JComboBox();
+		cbSubcategoria.setBackground(Color.WHITE);
+		cbSubcategoria.setFont(new Font("Arial", Font.BOLD, 14));
+		
+		
+		
+		
+		/*
+		cbSubcategoria = new JComboBox();
+		cbSubcategoria.addAncestorListener(new AncestorListener() {
+		    public void ancestorAdded(AncestorEvent event) {
+		        // Listando categorias dentro do combobox
+		        SubCategoriaController subCategoriaController = new SubCategoriaController();
+		        List<SubCategoria> listaSubcategoria = subCategoriaController.listarSubCategorias();
+
+		        // Removendo para limpar todos os campos
+		        cbSubcategoria.removeAllItems();
+
+		        // Colocando dentro do combobox todos os dados
+		        for (SubCategoria subcategoria : listaSubcategoria) {
+		            cbSubcategoria.addItem(subcategoria);
+		        }
+		    }
+
+		    @Override
+		    public void ancestorMoved(AncestorEvent event) {
+		    }
+
+		    @Override
+		    public void ancestorRemoved(AncestorEvent event) {
+		    }
+		}); */
+		
+		
+		DocumentListener documentListener = new DocumentListener() {
+		    @Override
+		    public void insertUpdate(DocumentEvent e) {
+		        atualizarPrecoFinal();
+		    }
+
+		    @Override
+		    public void removeUpdate(DocumentEvent e) {
+		        atualizarPrecoFinal();
+		    }
+
+		    @Override
+		    public void changedUpdate(DocumentEvent e) {
+		        atualizarPrecoFinal();
+		    }
+		};
 		
 		tfIpi = new JTextField();
 		tfIpi.setBackground(Color.WHITE);
 		tfIpi.setFont(new Font("Arial", Font.BOLD, 14));
 		tfIpi.setColumns(10);
+		tfIpi.getDocument().addDocumentListener(documentListener);
 		
 		tfIcms = new JTextField();
 		tfIcms.setBackground(Color.WHITE);
 		tfIcms.setFont(new Font("Arial", Font.BOLD, 14));
 		tfIcms.setColumns(10);
+		tfIcms.getDocument().addDocumentListener(documentListener);
 		
 		JLabel lblMargemLucro = new JLabel("Margem de Lucro %: ");
 		lblMargemLucro.setFont(new Font("Arial", Font.BOLD, 14));
-		
-		JLabel lblDesconto = new JLabel("Aplicar Desconto %: ");
-		lblDesconto.setFont(new Font("Arial", Font.BOLD, 14));
-		
-		tfDesconto = new JTextField();
-		tfDesconto.setBackground(Color.WHITE);
-		tfDesconto.setFont(new Font("Arial", Font.BOLD, 14));
-		tfDesconto.setColumns(10);
 		
 		tfMargem = new JTextField();
 		tfMargem.setBackground(Color.WHITE);
 		tfMargem.setFont(new Font("Arial", Font.BOLD, 14));
 		tfMargem.setColumns(10);
-		
+		tfMargem.getDocument().addDocumentListener(documentListener);
+
 		tfMarca = new JTextField();
 		tfMarca.setBackground(Color.WHITE);
 		tfMarca.setFont(new Font("Arial", Font.BOLD, 14));
@@ -315,6 +458,7 @@ public class FrmProdutos extends JFrame {
 		tfPrecoCusto.setBackground(Color.WHITE);
 		tfPrecoCusto.setFont(new Font("Arial", Font.BOLD, 14));
 		tfPrecoCusto.setColumns(10);
+		tfPrecoCusto.getDocument().addDocumentListener(documentListener);
 		
 		JButton btnRemover = new JButton("Remover");
 		btnRemover.setFont(new Font("Arial", Font.BOLD, 14));
@@ -332,6 +476,8 @@ public class FrmProdutos extends JFrame {
 		tfPrecoFinal.setBackground(Color.WHITE);
 		tfPrecoFinal.setFont(new Font("Arial", Font.BOLD, 14));
 		tfPrecoFinal.setColumns(10);
+		tfPrecoFinal.setEditable(false);
+		
 		GroupLayout gl_panel = new GroupLayout(panel);
 		gl_panel.setHorizontalGroup(
 			gl_panel.createParallelGroup(Alignment.LEADING)
@@ -344,86 +490,82 @@ public class FrmProdutos extends JFrame {
 									.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
 										.addGroup(gl_panel.createSequentialGroup()
 											.addGap(42)
-											.addComponent(lblCodigoDeBarras, GroupLayout.DEFAULT_SIZE, 139, Short.MAX_VALUE)
+											.addComponent(lblCodigoDeBarras, GroupLayout.DEFAULT_SIZE, 159, Short.MAX_VALUE)
 											.addGap(4))
 										.addGroup(gl_panel.createSequentialGroup()
 											.addGap(102)
-											.addComponent(lblDescricao, GroupLayout.DEFAULT_SIZE, 79, Short.MAX_VALUE)
+											.addComponent(lblDescricao, GroupLayout.DEFAULT_SIZE, 99, Short.MAX_VALUE)
 											.addGap(4))
 										.addGroup(gl_panel.createSequentialGroup()
-											.addComponent(lblQtdEstoque, GroupLayout.DEFAULT_SIZE, 181, Short.MAX_VALUE)
+											.addComponent(lblQtdEstoque, GroupLayout.DEFAULT_SIZE, 201, Short.MAX_VALUE)
 											.addGap(4))
 										.addGroup(gl_panel.createSequentialGroup()
 											.addGap(100)
-											.addComponent(lblCategoria, GroupLayout.DEFAULT_SIZE, 81, Short.MAX_VALUE)
+											.addComponent(lblSubcategoria, GroupLayout.DEFAULT_SIZE, 101, Short.MAX_VALUE)
 											.addGap(4))
 										.addGroup(gl_panel.createSequentialGroup()
 											.addGap(125)
-											.addComponent(lblMarca, GroupLayout.DEFAULT_SIZE, 56, Short.MAX_VALUE)
+											.addComponent(lblMarca, GroupLayout.DEFAULT_SIZE, 76, Short.MAX_VALUE)
 											.addGap(4))
 										.addGroup(gl_panel.createSequentialGroup()
 											.addGap(30)
-											.addComponent(lblDataFabricacao, GroupLayout.DEFAULT_SIZE, 147, Short.MAX_VALUE)
+											.addComponent(lblDataFabricacao, GroupLayout.DEFAULT_SIZE, 167, Short.MAX_VALUE)
 											.addGap(8)))
 									.addGap(4))
 								.addGroup(gl_panel.createSequentialGroup()
 									.addGap(135)
-									.addComponent(lblLote, GroupLayout.DEFAULT_SIZE, 44, Short.MAX_VALUE)
+									.addComponent(lblLote, GroupLayout.DEFAULT_SIZE, 67, Short.MAX_VALUE)
 									.addPreferredGap(ComponentPlacement.UNRELATED)))
 							.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-								.addComponent(tfCodigoDeBarras, GroupLayout.DEFAULT_SIZE, 510, Short.MAX_VALUE)
-								.addComponent(tfDescricao, GroupLayout.DEFAULT_SIZE, 510, Short.MAX_VALUE)
+								.addComponent(tfCodigoDeBarras, GroupLayout.DEFAULT_SIZE, 530, Short.MAX_VALUE)
+								.addComponent(tfDescricao, GroupLayout.DEFAULT_SIZE, 530, Short.MAX_VALUE)
 								.addGroup(gl_panel.createSequentialGroup()
-									.addComponent(tfQtdEstoque, GroupLayout.DEFAULT_SIZE, 154, Short.MAX_VALUE)
+									.addComponent(tfQtdEstoque, GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE)
 									.addGap(46)
-									.addComponent(lblUnidadeDeMedida, GroupLayout.DEFAULT_SIZE, 147, Short.MAX_VALUE)
+									.addComponent(lblUnidadeDeMedida, GroupLayout.DEFAULT_SIZE, 155, Short.MAX_VALUE)
 									.addGap(4)
-									.addComponent(cbUnidadeDeMedida, 0, 159, Short.MAX_VALUE))
-								.addComponent(cbCategoria, 0, 510, Short.MAX_VALUE)
-								.addComponent(tfMarca, GroupLayout.DEFAULT_SIZE, 510, Short.MAX_VALUE)
+									.addComponent(cbUnidadeDeMedida, 0, 165, Short.MAX_VALUE))
+								.addComponent(cbSubcategoria, 0, 530, Short.MAX_VALUE)
+								.addComponent(tfMarca, GroupLayout.DEFAULT_SIZE, 530, Short.MAX_VALUE)
 								.addGroup(gl_panel.createSequentialGroup()
-									.addComponent(tfDataFabricacao, GroupLayout.DEFAULT_SIZE, 195, Short.MAX_VALUE)
+									.addComponent(tfDataFabricacao, GroupLayout.DEFAULT_SIZE, 201, Short.MAX_VALUE)
 									.addGap(31)
-									.addComponent(lblValidade, GroupLayout.DEFAULT_SIZE, 128, Short.MAX_VALUE)
+									.addComponent(lblValidade, GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE)
 									.addGap(4)
-									.addComponent(tfValidade, GroupLayout.DEFAULT_SIZE, 152, Short.MAX_VALUE))
+									.addComponent(tfValidade, GroupLayout.DEFAULT_SIZE, 158, Short.MAX_VALUE))
 								.addGroup(gl_panel.createSequentialGroup()
-									.addComponent(tfLote, GroupLayout.DEFAULT_SIZE, 195, Short.MAX_VALUE)
+									.addComponent(tfLote, GroupLayout.DEFAULT_SIZE, 201, Short.MAX_VALUE)
 									.addGap(40)
-									.addComponent(lblPrecoCusto, GroupLayout.DEFAULT_SIZE, 119, Short.MAX_VALUE)
+									.addComponent(lblPrecoCusto, GroupLayout.DEFAULT_SIZE, 127, Short.MAX_VALUE)
 									.addGap(4)
-									.addComponent(tfPrecoCusto, GroupLayout.DEFAULT_SIZE, 152, Short.MAX_VALUE))))
+									.addComponent(tfPrecoCusto, GroupLayout.DEFAULT_SIZE, 158, Short.MAX_VALUE))))
 						.addGroup(gl_panel.createSequentialGroup()
 							.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
 								.addGroup(gl_panel.createSequentialGroup()
 									.addGap(130)
-									.addComponent(lblIcms, GroupLayout.DEFAULT_SIZE, 49, Short.MAX_VALUE))
+									.addComponent(lblIcms, GroupLayout.DEFAULT_SIZE, 62, Short.MAX_VALUE))
 								.addComponent(lblPrecoFinal, Alignment.TRAILING)
 								.addGroup(gl_panel.createSequentialGroup()
 									.addGap(149)
-									.addComponent(lblIpi, GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)))
+									.addComponent(lblIpi, GroupLayout.DEFAULT_SIZE, 43, Short.MAX_VALUE)))
 							.addPreferredGap(ComponentPlacement.UNRELATED)
 							.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
 								.addGroup(gl_panel.createSequentialGroup()
-									.addComponent(tfIcms, GroupLayout.DEFAULT_SIZE, 197, Short.MAX_VALUE)
+									.addComponent(tfIcms, GroupLayout.DEFAULT_SIZE, 206, Short.MAX_VALUE)
 									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(lblMargemLucro, GroupLayout.DEFAULT_SIZE, 146, Short.MAX_VALUE)
+									.addComponent(lblMargemLucro, GroupLayout.DEFAULT_SIZE, 155, Short.MAX_VALUE)
 									.addGap(11))
 								.addGroup(gl_panel.createSequentialGroup()
 									.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
-										.addComponent(tfPrecoFinal, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 196, Short.MAX_VALUE)
-										.addComponent(tfIpi, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 196, Short.MAX_VALUE))
-									.addGap(18)
-									.addComponent(lblDesconto, GroupLayout.DEFAULT_SIZE, 144, Short.MAX_VALUE)
-									.addPreferredGap(ComponentPlacement.RELATED)))
-							.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-								.addComponent(tfDesconto, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 152, Short.MAX_VALUE)
-								.addComponent(tfMargem, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 152, Short.MAX_VALUE))))
+										.addComponent(tfPrecoFinal, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 203, Short.MAX_VALUE)
+										.addComponent(tfIpi, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 203, Short.MAX_VALUE))
+									.addGap(174)))
+							.addComponent(tfMargem, GroupLayout.DEFAULT_SIZE, 165, Short.MAX_VALUE)))
 					.addGap(143)
 					.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
-						.addComponent(btnRemover, GroupLayout.DEFAULT_SIZE, 264, Short.MAX_VALUE)
-						.addComponent(btnAdicionar, GroupLayout.DEFAULT_SIZE, 264, Short.MAX_VALUE)
-						.addComponent(painelFotoProduto, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 264, Short.MAX_VALUE))
+						.addComponent(btnRemover, GroupLayout.DEFAULT_SIZE, 304, Short.MAX_VALUE)
+						.addComponent(btnAdicionar, GroupLayout.DEFAULT_SIZE, 304, Short.MAX_VALUE)
+						.addComponent(painelFotoProduto, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 304, Short.MAX_VALUE))
 					.addGap(91))
 		);
 		gl_panel.setVerticalGroup(
@@ -439,7 +581,7 @@ public class FrmProdutos extends JFrame {
 							.addGap(22)
 							.addComponent(lblQtdEstoque, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE)
 							.addGap(22)
-							.addComponent(lblCategoria, GroupLayout.PREFERRED_SIZE, 19, GroupLayout.PREFERRED_SIZE)
+							.addComponent(lblSubcategoria, GroupLayout.PREFERRED_SIZE, 19, GroupLayout.PREFERRED_SIZE)
 							.addGap(24)
 							.addComponent(lblMarca, GroupLayout.DEFAULT_SIZE, 17, Short.MAX_VALUE)
 							.addGap(24)
@@ -461,7 +603,7 @@ public class FrmProdutos extends JFrame {
 									.addGap(4))
 								.addComponent(cbUnidadeDeMedida, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE))
 							.addGap(18)
-							.addComponent(cbCategoria, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
+							.addComponent(cbSubcategoria, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
 							.addGap(18)
 							.addComponent(tfMarca, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE)
 							.addGap(18)
@@ -507,30 +649,20 @@ public class FrmProdutos extends JFrame {
 							.addPreferredGap(ComponentPlacement.RELATED)))
 					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_panel.createSequentialGroup()
-							.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+							.addGap(4)
+							.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
+								.addComponent(tfIpi, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 								.addGroup(gl_panel.createSequentialGroup()
-									.addGap(4)
-									.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
-										.addComponent(tfIpi, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-										.addGroup(gl_panel.createSequentialGroup()
-											.addGap(6)
-											.addComponent(lblIpi, GroupLayout.DEFAULT_SIZE, 17, Short.MAX_VALUE))))
-								.addGroup(gl_panel.createSequentialGroup()
-									.addGap(5)
-									.addComponent(lblDesconto, GroupLayout.PREFERRED_SIZE, 17, GroupLayout.PREFERRED_SIZE)))
+									.addGap(6)
+									.addComponent(lblIpi, GroupLayout.DEFAULT_SIZE, 17, Short.MAX_VALUE)))
 							.addGap(18)
 							.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
 								.addComponent(lblPrecoFinal)
 								.addComponent(tfPrecoFinal, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
 						.addGroup(gl_panel.createSequentialGroup()
 							.addPreferredGap(ComponentPlacement.RELATED)
-							.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-								.addGroup(gl_panel.createSequentialGroup()
-									.addGap(2)
-									.addComponent(tfDesconto, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE))
-								.addGroup(gl_panel.createSequentialGroup()
-									.addComponent(btnRemover, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-									.addPreferredGap(ComponentPlacement.RELATED, 43, GroupLayout.PREFERRED_SIZE)))))
+							.addComponent(btnRemover, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+							.addPreferredGap(ComponentPlacement.RELATED, 43, GroupLayout.PREFERRED_SIZE)))
 					.addGap(99))
 		);
 		panel.setLayout(gl_panel);
