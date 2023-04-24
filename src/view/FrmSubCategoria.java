@@ -11,7 +11,6 @@ import java.util.List;
 import javax.swing.GroupLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -19,37 +18,26 @@ import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
-import javax.swing.ListSelectionModel;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.text.MaskFormatter;
-
 import controller.CategoriaController;
 import controller.ClienteController;
 import controller.SubCategoriaController;
 import model.Categoria;
 import model.Cliente;
-import model.Fornecedor;
 import model.SubCategoria;
 
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.sql.ResultSet;
-import java.awt.Panel;
-import java.awt.FlowLayout;
 import java.awt.GridLayout;
-import java.awt.Component;
-import javax.swing.Box;
 import java.awt.Dimension;
-import net.miginfocom.swing.MigLayout;
 import util.LimparCampos;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.ImageIcon;
-import java.awt.Frame;
 import javax.swing.event.AncestorListener;
 import javax.swing.event.AncestorEvent;
 

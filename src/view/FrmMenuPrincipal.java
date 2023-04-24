@@ -17,8 +17,15 @@ import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class FrmMenuPrincipal extends JFrame {
+	
+	public String usuarioLogado;
+	private JLabel lblNomeFuncionarioLogado;
 
 	/**
 	 * Launch the application.
@@ -40,6 +47,12 @@ public class FrmMenuPrincipal extends JFrame {
 	 * Create the frame.
 	 */
 	public FrmMenuPrincipal() {
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowActivated(WindowEvent e) {
+				lblNomeFuncionarioLogado.setText(usuarioLogado);
+			}
+		});
 		setBackground(new Color(202, 240, 248));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1360, 768);
@@ -105,6 +118,38 @@ public class FrmMenuPrincipal extends JFrame {
 		mntmNewMenuItem_1.setFont(new Font("Arial", Font.BOLD, 15));
 		mntmNewMenuItem_1.setIcon(new ImageIcon(getClass().getResource("/assets/fornecedor.png")));
 		mnNewMenu_1.add(mntmNewMenuItem_1);
+		
+		JMenu mnCategoria = new JMenu("Categorias");
+		mnCategoria.setIcon(new ImageIcon(FrmMenuPrincipal.class.getResource("/assets/categorias.png")));
+		mnCategoria.setFont(new Font("Arial", Font.BOLD, 15));
+		menuBar.add(mnCategoria);
+		
+		JMenuItem mnCadastrarCategoria = new JMenuItem("Cadastrar Categoria");
+		mnCadastrarCategoria.setIcon(new ImageIcon(FrmMenuPrincipal.class.getResource("/assets/classificacao.png")));
+		mnCadastrarCategoria.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					FrmCategoria frmCategoria = new FrmCategoria();
+					frmCategoria.setVisible(true);
+				} catch (ParseException e1) {
+					e1.printStackTrace();
+				}
+				
+				}
+		});
+		mnCategoria.add(mnCadastrarCategoria);
+		
+		JMenuItem mntmNewMenuItem_9 = new JMenuItem("Cadastrar SubCategoria");
+		mntmNewMenuItem_9.setIcon(new ImageIcon(FrmMenuPrincipal.class.getResource("/assets/categoria.png")));
+		mnCategoria.add(mntmNewMenuItem_9);
+		
+		JMenuItem mntmNewMenuItem_10 = new JMenuItem("Consultar Categoria");
+		mntmNewMenuItem_10.setIcon(new ImageIcon(FrmMenuPrincipal.class.getResource("/assets/pesquisaCategoria.png")));
+		mnCategoria.add(mntmNewMenuItem_10);
+		
+		JMenuItem mntmNewMenuItem_11 = new JMenuItem("Consultar SubCategorias");
+		mntmNewMenuItem_11.setIcon(new ImageIcon(FrmMenuPrincipal.class.getResource("/assets/pesquisa-de-produto.png")));
+		mnCategoria.add(mntmNewMenuItem_11);
 		
 		JMenu mnNewMenu_3 = new JMenu("Fornecedores");
 		mnNewMenu_3.setFont(new Font("Arial", Font.BOLD, 15));
@@ -234,17 +279,6 @@ public class FrmMenuPrincipal extends JFrame {
 		mntmNewMenuItem_5_2.setIcon(new ImageIcon(getClass().getResource("/assets/consulta.png")));
 		mnNewMenu_4.add(mntmNewMenuItem_5_2);
 		
-		JMenu mnNewMenu_5 = new JMenu("Acessos");
-		mnNewMenu_5.setFont(new Font("Arial", Font.BOLD, 15));
-		mnNewMenu_5.setBackground(new Color(202, 240, 248));
-		mnNewMenu_5.setIcon(new ImageIcon(FrmMenuPrincipal.class.getResource("/assets/acesso.png")));
-		menuBar.add(mnNewMenu_5);
-		
-		JMenuItem mntmNewMenuItem_5_4 = new JMenuItem("Alterar Acessos");
-		mntmNewMenuItem_5_4.setFont(new Font("Arial", Font.BOLD, 15));
-		mntmNewMenuItem_5_4.setIcon(new ImageIcon(getClass().getResource("/assets/acesso.png")));
-		mnNewMenu_5.add(mntmNewMenuItem_5_4);
-		
 		JMenu mnNewMenu_6 = new JMenu("Configuração");
 		mnNewMenu_6.setFont(new Font("Arial", Font.BOLD, 15));
 		mnNewMenu_6.setBackground(new Color(202, 240, 248));
@@ -284,6 +318,20 @@ public class FrmMenuPrincipal extends JFrame {
 		mntmNewMenuItem_7.setFont(new Font("Arial", Font.BOLD, 15));
 		mntmNewMenuItem_7.setIcon(new ImageIcon(getClass().getResource("/assets/do-utilizador.png")));
 		mnNewMenu.add(mntmNewMenuItem_7);
+		
+		JPanel panel = new JPanel();
+		menuBar.add(panel);
+		panel.setLayout(null);
+		
+		JLabel lblUsuarioLogado = new JLabel("Usuário Logado:");
+		lblUsuarioLogado.setFont(new Font("Arial", Font.BOLD, 16));
+		lblUsuarioLogado.setBounds(10, 11, 137, 25);
+		panel.add(lblUsuarioLogado);
+		
+		lblNomeFuncionarioLogado = new JLabel("");
+		lblNomeFuncionarioLogado.setFont(new Font("Arial", Font.BOLD, 14));
+		lblNomeFuncionarioLogado.setBounds(143, 18, 173, 14);
+		panel.add(lblNomeFuncionarioLogado);
 		
 		//Criando plano de fundo
 		ImageIcon icon = new ImageIcon(getClass().getResource("/assets/fundo.png"));

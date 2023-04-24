@@ -21,6 +21,9 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.EmptyBorder;
+
+import com.ibm.icu.text.CaseMap.Title;
+
 import controller.FuncionarioController;
 import util.LimparCampos;
 import java.awt.event.MouseAdapter;
@@ -62,6 +65,7 @@ public class FrmLogin extends JFrame {
 		contentPane.setBorder(new EmptyBorder(0, 0, 0, 0));
 		this.setLocationRelativeTo(null);//tela centralizada
 		setContentPane(contentPane);
+		setTitle("TEla de Login");
 
 		
 		//Criando plano de fundo

@@ -282,6 +282,7 @@ public class FuncionarioController {
 			if(resultSet.next()) {
 				JOptionPane.showMessageDialog(null, "Seja bem vindo ao Sistema ");	
 				FrmMenuPrincipal frmMenuPrincipal = new FrmMenuPrincipal();
+				frmMenuPrincipal.usuarioLogado = resultSet.getString("nome");
 				frmMenuPrincipal.setVisible(true);
 			}else {
 				JOptionPane.showMessageDialog(null, "Dados incorretos");
