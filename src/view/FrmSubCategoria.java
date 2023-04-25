@@ -165,13 +165,13 @@ public class FrmSubCategoria extends JFrame {
 			public void ancestorAdded(AncestorEvent event) {
 				//listando  categorias dentro do combobox
 				CategoriaController categoriaController = new CategoriaController();
-				List<Categoria> listaDeFornecedores = categoriaController.listarCategorias();
+				List<Categoria> listaDeCategoria = categoriaController.listarCategorias();
 				
 				//removendo para limpar todos os campos 
 				cbCategoria.removeAll();
 				
 				//colocando dentro do combobox todos os dados
-				for(Categoria categoria : listaDeFornecedores) {
+				for(Categoria categoria : listaDeCategoria) {
 					cbCategoria.addItem(categoria);
 				}
 				
@@ -432,6 +432,7 @@ public class FrmSubCategoria extends JFrame {
 				subCategoria.setCodigo(Integer.parseInt(tfCodigo.getText()));
 				subCategoria.setSubCategoria(tfNomeSubCategoria.getText());
 				subCategoria.setDescricao(tfDescricao.getText());
+				
 				
 				//transformando o item do combo box em  objeto de categoria
 				categoria = (Categoria)cbCategoria.getSelectedItem();

@@ -31,6 +31,11 @@ public class SubCategoria {
 	public void setDescricao(String descricao) {
 		Descricao = descricao;
 	}
+	@Override
+	public String toString() {
+		return subCategoria ;
+	}
+	
 	
 	
 }

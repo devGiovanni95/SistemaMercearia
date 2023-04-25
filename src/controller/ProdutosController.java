@@ -42,14 +42,14 @@ public class ProdutosController {
 
 	public void cadastrarProduto(Produtos produto) {
 
-		try (PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO tb_produtos (descricao, codigo_de_barras, marca, sub_categoria_id, unidade_de_medida, quantidade, data_fabricacao, data_validade, lote, ipi, icms, desconto, margem_lucro, preco_custo, preco_final) "
+		try (PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO tb_produtos (descricao, codigo_de_barras, marca, sub_categoria_id, unidade_de_medida, quantidade, data_fabricacao, data_validade, lote, ipi, icms, margem_lucro, preco_custo, preco_final) "
 
-				+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)")) {
+				+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)")) {
 
 			preparedStatement.setString(1, produto.getDescricao());
 			preparedStatement.setString(2, produto.getCodigoDeBarras());
 			preparedStatement.setString(3, produto.getMarca());
-			preparedStatement.setInt(4, produto.getSubcategoria().getCodigo());
+			preparedStatement.setInt(4, produto.getSubCategoria().getCodigo());
 			preparedStatement.setString(5, produto.getUnidadeDeMedida());
 			preparedStatement.setInt(6, produto.getQuantidade());
 			preparedStatement.setDate(7, new java.sql.Date(produto.getDataFabricacao().getTime()));
@@ -79,7 +79,7 @@ public class ProdutosController {
 
 	public void excluirProduto(Produtos produto) {
 		try (PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM produtos WHERE id = ?")) {
-			preparedStatement.setInt(1, produto.getId());
+			preparedStatement.setInt(1, produto.getCodigo());
 			preparedStatement.execute();
 
 			JOptionPane.showMessageDialog(null, "Produto excluído com sucesso");
@@ -102,7 +102,7 @@ public class ProdutosController {
 			preparedStatement.setString(1, produto.getDescricao());
 			preparedStatement.setString(2, produto.getCodigoDeBarras());
 			preparedStatement.setString(3, produto.getMarca());
-			preparedStatement.setInt(4, produto.getSubcategoria().getCodigo());
+			preparedStatement.setInt(4, produto.getSubCategoria().getCodigo());
 			preparedStatement.setString(5, produto.getUnidadeDeMedida());
 			preparedStatement.setInt(6, produto.getQuantidade());
 			preparedStatement.setDate(7, new java.sql.Date(produto.getDataFabricacao().getTime()));
@@ -113,7 +113,7 @@ public class ProdutosController {
 			preparedStatement.setDouble(12, produto.getMargemLucro());
 			preparedStatement.setDouble(13, produto.getPrecoCusto());
 			preparedStatement.setDouble(14, produto.getPrecoFinal());
-			preparedStatement.setInt(15, produto.getId());
+			preparedStatement.setInt(15, produto.getCodigo());
 
 			preparedStatement.executeUpdate();
 
@@ -133,37 +133,53 @@ public class ProdutosController {
 	 * @return - retorna uma lista com todos os produtos. 
 	 */
 	public List<Produtos> listarProdutos() {
-		List<Produtos> lista = new ArrayList<>();
-		String sql = "SELECT * FROM produtos";
+		
 
-		try (PreparedStatement preparedStatement = connection.prepareStatement(sql);
-				ResultSet resultSet = preparedStatement.executeQuery()) {
+		try {
+				
+				List<Produtos> lista = new ArrayList<>();
+				
+				String sql = "select p.id, p.descricao, p.codigo_de_barras, p.marca, sc.nome, p.unidade_de_medida, p.quantidade, p.data_fabricacao, p.data_validade,"
+						+ " p.lote, p.ipi, p.icms, p.margem_lucro, p.preco_custo, p.preco_final "
+						+ "from tb_produtos as p join tb_subCategorias as sc "
+						+ "on (p.sub_categoria_id = sc.codigo) ";
+				
+				PreparedStatement preparedStatement = connection.prepareStatement(sql);
+				ResultSet resultSet = preparedStatement.executeQuery();
 
 			while (resultSet.next()) {
+				
 				Produtos produto = new Produtos();
-				produto.setId(resultSet.getInt("id"));
-				produto.setDescricao(resultSet.getString("descricao"));
-				produto.setCodigoDeBarras(resultSet.getString("codigo_de_barras"));
-				produto.setMarca(resultSet.getString("marca"));
-				//produto.setSubcategoria(buscarSubCategoriaPorId(resultSet.getInt("sub_categoria_id")));
-				produto.setUnidadeDeMedida(resultSet.getString("unidade_de_medida"));
-				produto.setQuantidade(resultSet.getInt("quantidade"));
-				produto.setDataFabricacao(resultSet.getDate("data_fabricacao"));
-				produto.setDataValidade(resultSet.getDate("data_validade"));
-				produto.setLote(resultSet.getString("lote"));
-				produto.setIpi(resultSet.getDouble("ipi"));
-				produto.setIcms(resultSet.getDouble("icms"));
-				produto.setMargemLucro(resultSet.getDouble("margem_lucro"));
-				produto.setPrecoCusto(resultSet.getDouble("preco_custo"));
-				produto.setPrecoFinal(resultSet.getDouble("preco_final"));
+				SubCategoria subCategoria = new SubCategoria();
+				
+				produto.setCodigo(resultSet.getInt("p.id"));
+				produto.setDescricao(resultSet.getString("p.descricao"));
+				produto.setCodigoDeBarras(resultSet.getString("p.codigo_de_barras"));
+				produto.setMarca(resultSet.getString("p.marca"));
+				
+				subCategoria.setSubCategoria(resultSet.getString("sc.nome"));
+				produto.setSubCategoria(subCategoria);			
+				
+				produto.setUnidadeDeMedida(resultSet.getString("p.unidade_de_medida"));
+				produto.setQuantidade(resultSet.getInt("p.quantidade"));
+				produto.setDataFabricacao(resultSet.getDate("p.data_fabricacao"));
+				produto.setDataValidade(resultSet.getDate("p.data_validade"));
+				produto.setLote(resultSet.getString("p.lote"));
+				produto.setIpi(resultSet.getDouble("p.ipi"));
+				produto.setIcms(resultSet.getDouble("p.icms"));
+				produto.setMargemLucro(resultSet.getDouble("p.margem_lucro"));
+				produto.setPrecoCusto(resultSet.getDouble("p.preco_custo"));
+				produto.setPrecoFinal(resultSet.getDouble("p.preco_final"));
 
 				lista.add(produto);
 			}
+			
+			return lista;
 
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, "Erro ao listar produtos: " + e);
+			return null;
 		}
-		return lista;
 	}
 
 
@@ -184,7 +200,7 @@ public class ProdutosController {
 
 			while (resultSet.next()) {
 				Produtos produto = new Produtos();
-				produto.setId(resultSet.getInt("id"));
+				produto.setCodigo(resultSet.getInt("id"));
 				produto.setDescricao(resultSet.getString("descricao"));
 				produto.setCodigoDeBarras(resultSet.getString("codigo_de_barras"));
 				produto.setMarca(resultSet.getString("marca"));

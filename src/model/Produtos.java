@@ -4,11 +4,11 @@ import java.util.Date;
 
 //Atributos
 public class Produtos {
-	private int id;
+	private int codigo;
 	private String descricao;
 	private String codigoDeBarras;
 	private String marca;
-	private SubCategoria subcategoria;
+	private SubCategoria subCategoria;
 	private String unidadeDeMedida;
 	private int quantidade;
 	private Date dataFabricacao;
@@ -28,14 +28,14 @@ public class Produtos {
 	        this.precoFinal = this.precoCusto + valorLucro + valorIpi + valorIcms;
 	    }
 
-	
-	
-	public int getId() {
-		return id;
-	}
-	public void setId(int id) {
-		this.id = id;
-	}
+	public int getCodigo() {
+			return codigo;
+		}
+
+		public void setCodigo(int codigo) {
+			this.codigo = codigo;
+		}
+
 	public String getDescricao() {
 		return descricao;
 	}
@@ -54,11 +54,11 @@ public class Produtos {
 	public void setMarca(String marca) {
 		this.marca = marca;
 	}
-	public SubCategoria getSubcategoria() {
-		return subcategoria;
+	public SubCategoria getSubCategoria() {
+		return subCategoria;
 	}
-	public void setSubcategoria(SubCategoria subcategoria) {
-		this.subcategoria = subcategoria;
+	public void setSubCategoria(SubCategoria subCategoria) {
+		this.subCategoria = subCategoria;
 	}
 	public String getUnidadeDeMedida() {
 		return unidadeDeMedida;
