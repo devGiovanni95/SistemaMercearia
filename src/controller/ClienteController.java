@@ -13,12 +13,17 @@ import javax.swing.JOptionPane;
 import jdbc.ConnectionFactory;
 import model.Cliente;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class ClienteController.
+ */
 public class ClienteController {
 	
+	/** The connection. */
 	private Connection connection;
 	
 	/**
-	 * Método que cria uma conexão com banco de dados
+	 * Método que cria uma conexão com banco de dados.
 	 */
 	public ClienteController() {
 		this.connection =  new ConnectionFactory().getConnection();
@@ -131,7 +136,7 @@ public class ClienteController {
 	 * A partir de um comando SQL.
 	 * @return - retona uma lista com todos de cliente. 
 	 */
-	public List<Cliente> listarCliente() {
+	public List<Cliente> consultarCliente() {
 		try {
 			
 			List<Cliente> lista = new ArrayList<>();
@@ -173,10 +178,11 @@ public class ClienteController {
 	/**
 	 * Método que cria um ArrayList do tipo cliente para listar os cliente do banco de dados que
 	 *  corresponde ao nome digitado. A partir de um comando SQL.
-	 * @param nome - parametro utilizado como base de pesquisa. 
-	 * @return
+	 *
+	 * @param nome - parametro utilizado como base de pesquisa.
+	 * @return the list
 	 */
-	public List<Cliente> buscarClientePeloNome(String nome) {
+	public List<Cliente> consultarClientesPorNome(String nome) {
 		try {
 
 			List<Cliente> lista = new ArrayList<>();

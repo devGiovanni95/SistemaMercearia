@@ -10,12 +10,17 @@ import javax.swing.JOptionPane;
 import jdbc.ConnectionFactory;
 import model.Categoria;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class CategoriaController.
+ */
 public class CategoriaController {
 	
+/** The connection. */
 private Connection connection;
 	
 	/**
-	 * Método que cria uma conexão com banco de dados
+	 * Método que cria uma conexão com banco de dados.
 	 */
 	public CategoriaController() {
 		this.connection =  new ConnectionFactory().getConnection();

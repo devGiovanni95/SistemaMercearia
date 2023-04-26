@@ -34,28 +34,65 @@ import controller.FornecedorController;
 import model.Fornecedor;
 import util.LimparCampos;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class FrmFornecedor.
+ */
 public class FrmFornecedor extends JFrame {
 
+	/** The content pane. */
 	private JPanel contentPane;
+	
+	/** The tf codigo. */
 	private JTextField tfCodigo;
+	
+	/** The tf nome fantasia. */
 	private JTextField tfNomeFantasia;
+	
+	/** The tf email. */
 	private JTextField tfEmail;
+	
+	/** The tf endereco. */
 	private JTextField tfEndereco;
+	
+	/** The tf numero. */
 	private JTextField tfNumero;
+	
+	/** The tf bairro. */
 	private JTextField tfBairro;
+	
+	/** The tf cidade. */
 	private JTextField tfCidade;
+	
+	/** The tf celular. */
 	private JTextField tfCelular;
+	
+	/** The tf celular 1. */
 	private JTextField tfCelular_1;
+	
+	/** The tf telefone. */
 	private JFormattedTextField tfTelefone;
+	
+	/** The tf cep. */
 	private JFormattedTextField tfCep;
+	
+	/** The tf complemento. */
 	private JTextField tfComplemento;
+	
+	/** The text field. */
 	private JTextField textField;
+	
+	/** The tabela fornecedores. */
 	private JTable tabelaFornecedores;
+	
+	/** The tf inscricao estadual. */
 	private JTextField tfInscricaoEstadual;
+	
+	/** The tf razao social. */
 	private JTextField tfRazaoSocial;
 	
 	/**
-	 * Metodo utilizado para listar todos os fornecedores e adiciona-los numa tabela
+	 * Metodo utilizado para listar todos os fornecedores e adiciona-los numa tabela.
 	 */
 	public void listarFornecedores() {
 		try {
@@ -92,6 +129,8 @@ public class FrmFornecedor extends JFrame {
 
 	/**
 	 * Launch the application.
+	 *
+	 * @param args the arguments
 	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -106,12 +145,16 @@ public class FrmFornecedor extends JFrame {
 		});
 	}
 	
+	/** The aba principal. */
 	public JTabbedPane abaPrincipal;
+	
+	/** The tf cnpj. */
 	private JTextField tfCnpj;
 
 	/**
 	 * Create the frame.
-	 * @throws ParseException 
+	 *
+	 * @throws ParseException the parse exception
 	 */
 	public FrmFornecedor() throws ParseException {
 		setBackground(new Color(202, 240, 248));

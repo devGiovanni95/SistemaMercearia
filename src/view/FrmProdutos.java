@@ -48,28 +48,66 @@ import util.LimparCampos;
 
 
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class FrmProdutos.
+ */
 public class FrmProdutos extends JFrame {
+	
+	/** The tf lote. */
 	private JTextField tfLote;
+	
+	/** The tf codigo de barras. */
 	private JTextField tfCodigoDeBarras;
+	
+	/** The tf descricao. */
 	private JTextField tfDescricao;
+	
+	/** The tf qtd estoque. */
 	private JTextField tfQtdEstoque;
+	
+	/** The tf ipi. */
 	private JTextField tfIpi;
+	
+	/** The tf icms. */
 	private JTextField tfIcms;
+	
+	/** The tf margem. */
 	private JTextField tfMargem;
+	
+	/** The tf marca. */
 	private JTextField tfMarca;
+	
+	/** The tf data fabricacao. */
 	private JTextField tfDataFabricacao;
+	
+	/** The tf validade. */
 	private JTextField tfValidade;
+	
+	/** The tf preco custo. */
 	private JTextField tfPrecoCusto;
+	
+	/** The tf preco final. */
 	private JTextField tfPrecoFinal;
+	
+	/** The tf nome. */
 	private JTextField tfNome;
+	
+	/** The tb produtos. */
 	private JTable tbProdutos;
+	
+	/** The cb sub categoria. */
 	private JComboBox<String> cbSubCategoria;
+	
+	/** The cb unidade de medida. */
 	private JComboBox<String> cbUnidadeDeMedida;
+	
+	/** The aba dados produtos. */
 	private JPanel abaDadosProdutos;
 	
 	
 	/**
-	 * Metodo utilizado para listar todos os produtos e adiciona-los na tabela
+	 * Metodo utilizado para listar todos os produtos e adiciona-los na tabela.
 	 */
 	private void listar() {
 		try {
@@ -150,6 +188,9 @@ public class FrmProdutos extends JFrame {
 	}
 	
 	
+	/**
+	 * Alterar.
+	 */
 	private void alterar() {
 	 	Produtos produto = new Produtos();
         SubCategoria subCategoria = new SubCategoria();
@@ -192,7 +233,7 @@ public class FrmProdutos extends JFrame {
 
 	
 	/**
-	 * Método utilizado para efetuar a remoção 
+	 * Método utilizado para efetuar a remoção.
 	 */
 	private void excluir() {
 		
@@ -210,6 +251,8 @@ public class FrmProdutos extends JFrame {
 	
 	/**
 	 * Launch the application.
+	 *
+	 * @param args the arguments
 	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -244,7 +287,10 @@ public class FrmProdutos extends JFrame {
 	    }
 	}	
 	
+	/** The aba principal. */
 	public JTabbedPane abaPrincipal ;
+	
+	/** The tf codigo. */
 	private JTextField tfCodigo;
 	/**
 	 * Create the frame.
@@ -431,7 +477,7 @@ public class FrmProdutos extends JFrame {
 				
 				//listando  subcategorias dentro do combobox
 				SubCategoriaController subCategoriaController = new SubCategoriaController();
-				List<SubCategoria> listaDeSubCategoria = subCategoriaController.listarSubCategorias();
+				List<SubCategoria> listaDeSubCategoria = subCategoriaController.consultarSubCategorias();
 				
 				//removendo para limpar todos os campos 
 				cbSubCategoria.removeAll();

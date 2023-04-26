@@ -7,7 +7,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.ParseException;
 import java.util.List;
-
 import javax.swing.GroupLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -19,61 +18,110 @@ import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
-import javax.swing.ListSelectionModel;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.MaskFormatter;
-
 import controller.ClienteController;
 import model.Cliente;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.awt.Panel;
-import java.awt.FlowLayout;
 import java.awt.GridLayout;
-import java.awt.Component;
-import javax.swing.Box;
 import java.awt.Dimension;
-import net.miginfocom.swing.MigLayout;
 import util.LimparCampos;
-
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.ImageIcon;
-import java.awt.Frame;
 
+
+// TODO: Auto-generated Javadoc
+/**
+ * The Class FrmCliente.
+ */
 public class FrmCliente extends JFrame {
 
+	/** The content pane. */
 	private JPanel contentPane;
+	
+	/** The tf codigo. */
 	private JTextField tfCodigo;
+	
+	/** The tf nome. */
 	private JTextField tfNome;
+	
+	/** The tf email. */
 	private JTextField tfEmail;
+	
+	/** The tf endereco. */
 	private JTextField tfEndereco;
+	
+	/** The tf numero. */
 	private JTextField tfNumero;
+	
+	/** The tf cpf. */
 	private JTextField tfCpf;
+	
+	/** The tf bairro. */
 	private JTextField tfBairro;
+	
+	/** The tf cidade. */
 	private JTextField tfCidade;
+	
+	/** The tf celular. */
 	private JTextField tfCelular;
+	
+	/** The tf telefone. */
 	private JFormattedTextField tfTelefone;
+	
+	/** The tf cep. */
 	private JFormattedTextField tfCep;
+	
+	/** The tf limite. */
 	private JTextField tfLimite;
+	
+	/** The tf complemento. */
 	private JTextField tfComplemento;
+	
+	/** The tf pesquisar. */
 	private JTextField tfPesquisar;
+	
+	/** The tabela clientes. */
 	private JTable tabelaClientes;
+	
+	/** The tf rg. */
 	private JTextField tfRg;
+	
+	/** The tf data nascimento. */
 	private JTextField tfDataNascimento;
+	
+	/** The cb uf. */
 	private JComboBox<String> cbUf;
+	
+	/** The aba dados pessoais. */
+	private JPanel abaDadosPessoais;
 	
 	
 	/**
-	 * Metodo utilizado para listar todos os clientes e adiciona-los na tabela
+	 * Método responsavel por limpar a tela referenciada.
+	 *
+	 * @param tela the tela
 	 */
-	public void listar() {
+	private void limparTela(JPanel tela) {
+		LimparCampos limpar = new LimparCampos();
+		limpar.Limpar(tela);
+	}
+	
+	
+	/**
+	 * Este método recupera uma lista de clientes do banco de dados e os adiciona a uma tabela.
+	 * Ele também define os cabeçalhos das colunas da tabela.
+	 * Se ocorrer uma exceção, ele exibirá uma mensagem de erro.
+	 */
+	public void consultarClientes() {
 		try {
 		ClienteController clienteController = new ClienteController();
-		List<Cliente> lista = clienteController.listarCliente();
+		List<Cliente> lista = clienteController.consultarCliente();
 		DefaultTableModel dadosTabela = (DefaultTableModel) tabelaClientes.getModel();
 		dadosTabela.setNumRows(0);
 		dadosTabela.setColumnCount(15);
@@ -106,7 +154,153 @@ public class FrmCliente extends JFrame {
 	}
 	
 	/**
+	* Método utilizado para consultar clientes pelo nome ou parte do nome para exibir na tabela.
+	* O texto pesquisado é obtido a partir do texto digitado pelo usuario.
+	*/
+	private void consultarClientesPorNome() {
+		
+		String nomePesquisado = "%" + tfPesquisar.getText() + "%";
+		
+		ClienteController clienteController = new ClienteController();
+		List<Cliente> lista = clienteController.consultarClientesPorNome(nomePesquisado);
+		DefaultTableModel dadosTabela = (DefaultTableModel) tabelaClientes.getModel();
+		dadosTabela.setNumRows(0);
+		dadosTabela.setColumnCount(15);
+		dadosTabela.addRow(new Object[]{"Nome","E-mail","CPF","RG","Endereço","Telefone","Celular","Numero","CEP","Data Nascimento", "Bairro","Cidade","UF","Complemento","Limite"});		
+
+		for(Cliente cliente : lista) {
+			dadosTabela.addRow(new Object[]{
+					cliente.getNome(),
+					cliente.getEmail(),
+					cliente.getCpf(),
+					cliente.getRg(),
+					cliente.getEndereco(),
+					cliente.getTelefone(),
+					cliente.getCelular(),
+					cliente.getNumero(),
+					cliente.getCep(),
+					cliente.getDataNascimento(),
+					cliente.getBairro(),
+					cliente.getCidade(),
+					cliente.getUf(),
+					cliente.getComplemento(),
+					cliente.getLimite()		
+				});
+			}
+	}
+	
+
+	/**
+	 * Método utilizado para cadastrar um novo cliente com as informações preenchidas nos campos do formulário.
+	 */
+	private void cadastrarCliente() {
+		Cliente cliente = new Cliente();
+		
+		cliente.setNome(tfNome.getText());
+		cliente.setEmail(tfEmail.getText());
+		cliente.setCpf(tfCpf.getText());
+		cliente.setRg(tfRg.getText());
+		cliente.setEndereco(tfEndereco.getText());
+		cliente.setTelefone(tfTelefone.getText());
+		cliente.setCelular(tfCelular.getText());
+		cliente.setNumero(Integer.parseInt(tfNumero.getText()));
+		cliente.setCep(tfCep.getText());
+		cliente.setDataNascimento(tfDataNascimento.getText());
+		cliente.setBairro(tfBairro.getText());
+		cliente.setCidade(tfCidade.getText());
+		cliente.setUf(cbUf.getSelectedItem().toString());
+		cliente.setComplemento(tfComplemento.getText());
+		cliente.setLimite(Double.parseDouble(tfLimite.getText()));
+		cliente.setCodigo(tfCodigo.getText());
+		
+		ClienteController clienteController = new ClienteController();	
+		
+		clienteController.cadastrarCliente(cliente);
+		
+		limparTela(abaDadosPessoais);
+	}
+	
+	/**
+	 * Método responsável por preencher os campos da tela principal com os dados do cliente selecionado na tabela para que possam ser alterados.
+	 * A partir da linha selecionada na tabela
+	 */
+	private void preencherDadosCliente() {
+		abaPrincipal.setSelectedIndex(0);
+		
+		tfNome.setText(tabelaClientes.getValueAt(tabelaClientes.getSelectedRow(),0).toString());
+		tfEmail.setText(tabelaClientes.getValueAt(tabelaClientes.getSelectedRow(),1).toString());
+		tfCpf.setText(tabelaClientes.getValueAt(tabelaClientes.getSelectedRow(),2).toString());
+		tfRg.setText(tabelaClientes.getValueAt(tabelaClientes.getSelectedRow(),3).toString());
+		tfEndereco.setText(tabelaClientes.getValueAt(tabelaClientes.getSelectedRow(),4).toString());
+		tfTelefone.setText(tabelaClientes.getValueAt(tabelaClientes.getSelectedRow(),5).toString());
+		tfCelular.setText(tabelaClientes.getValueAt(tabelaClientes.getSelectedRow(),6).toString());
+		tfNumero.setText(tabelaClientes.getValueAt(tabelaClientes.getSelectedRow(),7).toString());
+		tfCep.setText(tabelaClientes.getValueAt(tabelaClientes.getSelectedRow(),8).toString());
+		tfDataNascimento.setText(tabelaClientes.getValueAt(tabelaClientes.getSelectedRow(),9).toString());
+		tfBairro.setText(tabelaClientes.getValueAt(tabelaClientes.getSelectedRow(),10).toString());
+		tfCidade.setText(tabelaClientes.getValueAt(tabelaClientes.getSelectedRow(),11).toString());
+		cbUf.setSelectedItem(tabelaClientes.getValueAt(tabelaClientes.getSelectedRow(),12).toString());
+		tfComplemento.setText(tabelaClientes.getValueAt(tabelaClientes.getSelectedRow(),13).toString());
+		tfLimite.setText(tabelaClientes.getValueAt(tabelaClientes.getSelectedRow(),14).toString());
+		tfCodigo.setText(tabelaClientes.getValueAt(tabelaClientes.getSelectedRow(),2).toString());				
+	}
+	
+	
+	/**
+	Método responsável por alterar os dados de um cliente cadastrado.
+	Os dados são obtidos dos campos de texto na interface gráfica e armazenados em um objeto do tipo Cliente,
+	Em seguida, os campos de texto na interface gráfica são limpos através do método Limpar() da classe LimparCampos.
+	*/
+	private void alterarCliente() {
+		Cliente cliente = new Cliente();
+		
+		cliente.setNome(tfNome.getText());
+		cliente.setEmail(tfEmail.getText());
+		cliente.setCpf(tfCpf.getText());
+		cliente.setRg(tfRg.getText());
+		cliente.setEndereco(tfEndereco.getText());
+		cliente.setTelefone(tfTelefone.getText());
+		cliente.setCelular(tfCelular.getText());
+		cliente.setNumero(Integer.parseInt(tfNumero.getText()));
+		cliente.setCep(tfCep.getText());
+		cliente.setDataNascimento(tfDataNascimento.getText());
+		cliente.setBairro(tfBairro.getText());
+		cliente.setCidade(tfCidade.getText());
+		cliente.setUf(cbUf.getSelectedItem().toString());
+		cliente.setComplemento(tfComplemento.getText());
+		cliente.setLimite(Double.parseDouble(tfLimite.getText()));				
+		cliente.setCpf(tfCpf.getText());
+		
+		ClienteController clienteController = new ClienteController();	
+		
+		clienteController.alterarCliente(cliente);
+		
+		limparTela(abaDadosPessoais);
+		
+	}
+	
+	
+	/**
+	*Exclui o cliente selecionado na tabela de clientes.
+	*Obtém o CPF do cliente a partir do campo de texto correspondente na tela.
+	*Em seguida, os campos de texto na interface gráfica são limpos após a exclusão.
+	*/
+	private void excluirCliente() {
+		Cliente cliente = new Cliente();
+		ClienteController clienteController = new ClienteController();	
+
+		cliente.setCpf(tfCpf.getText());
+		clienteController.excluirCliente(cliente);
+		
+		limparTela(abaDadosPessoais);
+	}
+	
+
+	
+	/**
 	 * Launch the application.
+	 *
+	 * @param args the arguments
 	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -120,18 +314,21 @@ public class FrmCliente extends JFrame {
 			}
 		});
 	}
+	
+	/** The aba principal. */
 	public JTabbedPane abaPrincipal;
 
 	/**
 	 * Create the frame.
-	 * @throws ParseException 
+	 *
+	 * @throws ParseException the parse exception
 	 */
 	public FrmCliente() throws ParseException {
 		setBackground(new Color(202, 240, 248));
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowActivated(WindowEvent e) {
-				listar();
+				consultarClientes();
 			}
 		});
 		setForeground(new Color(24, 52, 70));
@@ -153,7 +350,7 @@ public class FrmCliente extends JFrame {
 		abaPrincipal = new JTabbedPane(JTabbedPane.TOP);
 		abaPrincipal.setBackground(new Color(202, 240, 248));
 		
-		JPanel abaDadosPessoais = new JPanel();
+		abaDadosPessoais = new JPanel();
 		abaDadosPessoais.setBackground(new Color(202, 240, 248));
 		abaDadosPessoais.setMaximumSize(new Dimension(1360, 768));
 		abaPrincipal.addTab("Dados Pessoais", null, abaDadosPessoais, null);
@@ -239,7 +436,8 @@ public class FrmCliente extends JFrame {
 					
 						
 						cbUf = new JComboBox<String>();
-						cbUf.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] {"", "AC", "AL", "AP", "AM", "BA", "CE", "DF", "ES", "GO", "MA", "MT", "MS", "MG", "PA", "PB", "PR", "PE", "PI", "RJ", "RN", "RS", "RO", "RR", "SC", "SP", "SE", "TO" }));
+						cbUf.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] {"", "AC", "AL", "AP", "AM", "BA", "CE", "DF", "ES", "GO",
+								"MA", "MT", "MS", "MG", "PA", "PB", "PR", "PE", "PI", "RJ", "RN", "RS", "RO", "RR", "SC", "SP", "SE", "TO" }));
 						cbUf.setBackground(Color.WHITE);
 						cbUf.setForeground(Color.BLACK);
 						cbUf.setFont(new Font("Arial", Font.BOLD, 14));
@@ -466,38 +664,11 @@ public class FrmCliente extends JFrame {
 		
 		JButton btnPesquisar = new JButton("Pesquisar");
 		btnPesquisar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-				String nomePesquisado = "%" + tfPesquisar.getText() + "%";
-				
-					ClienteController clienteController = new ClienteController();
-					List<Cliente> lista = clienteController.buscarClientePeloNome(nomePesquisado);
-					DefaultTableModel dadosTabela = (DefaultTableModel) tabelaClientes.getModel();
-					dadosTabela.setNumRows(0);
-					dadosTabela.setColumnCount(15);
-					dadosTabela.addRow(new Object[]{"Nome","E-mail","CPF","RG","Endereço","Telefone","Celular","Numero","CEP","Data Nascimento", "Bairro","Cidade","UF","Complemento","Limite"});
-					
-
-					for(Cliente cliente : lista) {
-						dadosTabela.addRow(new Object[]{
-								cliente.getNome(),
-								cliente.getEmail(),
-								cliente.getCpf(),
-								cliente.getRg(),
-								cliente.getEndereco(),
-								cliente.getTelefone(),
-								cliente.getCelular(),
-								cliente.getNumero(),
-								cliente.getCep(),
-								cliente.getDataNascimento(),
-								cliente.getBairro(),
-								cliente.getCidade(),
-								cliente.getUf(),
-								cliente.getComplemento(),
-								cliente.getLimite()		
-							});
-						}
+			public void actionPerformed(ActionEvent e) {				
+				consultarClientesPorNome();
 			}
+
+		
 		});
 		btnPesquisar.setFont(new Font("Tahoma", Font.BOLD, 14));
 		
@@ -505,26 +676,9 @@ public class FrmCliente extends JFrame {
 		tabelaClientes.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				//pega os dados
-				abaPrincipal.setSelectedIndex(0);
-				
-				tfNome.setText(tabelaClientes.getValueAt(tabelaClientes.getSelectedRow(),0).toString());
-				tfEmail.setText(tabelaClientes.getValueAt(tabelaClientes.getSelectedRow(),1).toString());
-				tfCpf.setText(tabelaClientes.getValueAt(tabelaClientes.getSelectedRow(),2).toString());
-				tfRg.setText(tabelaClientes.getValueAt(tabelaClientes.getSelectedRow(),3).toString());
-				tfEndereco.setText(tabelaClientes.getValueAt(tabelaClientes.getSelectedRow(),4).toString());
-				tfTelefone.setText(tabelaClientes.getValueAt(tabelaClientes.getSelectedRow(),5).toString());
-				tfCelular.setText(tabelaClientes.getValueAt(tabelaClientes.getSelectedRow(),6).toString());
-				tfNumero.setText(tabelaClientes.getValueAt(tabelaClientes.getSelectedRow(),7).toString());
-				tfCep.setText(tabelaClientes.getValueAt(tabelaClientes.getSelectedRow(),8).toString());
-				tfDataNascimento.setText(tabelaClientes.getValueAt(tabelaClientes.getSelectedRow(),9).toString());
-				tfBairro.setText(tabelaClientes.getValueAt(tabelaClientes.getSelectedRow(),10).toString());
-				tfCidade.setText(tabelaClientes.getValueAt(tabelaClientes.getSelectedRow(),11).toString());
-				cbUf.setSelectedItem(tabelaClientes.getValueAt(tabelaClientes.getSelectedRow(),12).toString());
-				tfComplemento.setText(tabelaClientes.getValueAt(tabelaClientes.getSelectedRow(),13).toString());
-				tfLimite.setText(tabelaClientes.getValueAt(tabelaClientes.getSelectedRow(),14).toString());
-				tfCodigo.setText(tabelaClientes.getValueAt(tabelaClientes.getSelectedRow(),2).toString());
+				preencherDadosCliente();
 			}
+
 		});
 		
         tabelaClientes.setFont(new java.awt.Font("Arial", 0, 14)); 
@@ -614,7 +768,7 @@ public class FrmCliente extends JFrame {
 		BntNovo.setBackground(new Color(106, 76, 147));
 		BntNovo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {				
-				new LimparCampos().Limpar(abaDadosPessoais);
+				limparTela(abaDadosPessoais);
 			}
 		});
 		panel_1.setLayout(new GridLayout(0, 6, 20, 0));
@@ -630,33 +784,10 @@ public class FrmCliente extends JFrame {
 		btnAlterar.setBackground(new Color(255, 202, 58));
 		btnAlterar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//editar
-				Cliente cliente = new Cliente();
-				
-				cliente.setNome(tfNome.getText());
-				cliente.setEmail(tfEmail.getText());
-				cliente.setCpf(tfCpf.getText());
-				cliente.setRg(tfRg.getText());
-				cliente.setEndereco(tfEndereco.getText());
-				cliente.setTelefone(tfTelefone.getText());
-				cliente.setCelular(tfCelular.getText());
-				cliente.setNumero(Integer.parseInt(tfNumero.getText()));
-				cliente.setCep(tfCep.getText());
-				cliente.setDataNascimento(tfDataNascimento.getText());
-				cliente.setBairro(tfBairro.getText());
-				cliente.setCidade(tfCidade.getText());
-				cliente.setUf(cbUf.getSelectedItem().toString());
-				cliente.setComplemento(tfComplemento.getText());
-				cliente.setLimite(Double.parseDouble(tfLimite.getText()));				
-				cliente.setCpf(tfCpf.getText());
-				
-				ClienteController clienteController = new ClienteController();	
-				
-				clienteController.alterarCliente(cliente);
-				
-				new LimparCampos().Limpar(abaDadosPessoais);
+				alterarCliente();
 			}
 		});
+		
 		btnAlterar.setFont(new Font("Arial", Font.BOLD, 24));
 		panel_1.add(btnAlterar);
 		
@@ -665,32 +796,10 @@ public class FrmCliente extends JFrame {
 		btnSalvar.setBackground(new Color(138, 201, 38));
 		btnSalvar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Cliente cliente = new Cliente();
-				
-				cliente.setNome(tfNome.getText());
-				cliente.setEmail(tfEmail.getText());
-				cliente.setCpf(tfCpf.getText());
-				cliente.setRg(tfRg.getText());
-				cliente.setEndereco(tfEndereco.getText());
-				cliente.setTelefone(tfTelefone.getText());
-				cliente.setCelular(tfCelular.getText());
-				cliente.setNumero(Integer.parseInt(tfNumero.getText()));
-				cliente.setCep(tfCep.getText());
-				cliente.setDataNascimento(tfDataNascimento.getText());
-				cliente.setBairro(tfBairro.getText());
-				cliente.setCidade(tfCidade.getText());
-				cliente.setUf(cbUf.getSelectedItem().toString());
-				cliente.setComplemento(tfComplemento.getText());
-				cliente.setLimite(Double.parseDouble(tfLimite.getText()));
-				cliente.setCodigo(tfCodigo.getText());
-				
-				ClienteController clienteController = new ClienteController();	
-				
-				clienteController.cadastrarCliente(cliente);
-				
-				new LimparCampos().Limpar(abaDadosPessoais);
+				cadastrarCliente();
 			}
 		});
+		
 		btnSalvar.setFont(new Font("Arial", Font.BOLD, 24));
 		panel_1.add(btnSalvar);
 		
@@ -699,18 +808,10 @@ public class FrmCliente extends JFrame {
 		btnExcluir.setBackground(new Color(255, 89, 94));
 		btnExcluir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
-				Cliente cliente = new Cliente();
-
-				cliente.setCpf(tfCpf.getText());
-
-				ClienteController clienteController = new ClienteController();	
-				
-				clienteController.excluirCliente(cliente);
-				
-				new LimparCampos().Limpar(abaDadosPessoais);
+				excluirCliente();				
 			}
 		});
+		
 		btnExcluir.setFont(new Font("Arial", Font.BOLD, 24));
 		panel_1.add(btnExcluir);
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);

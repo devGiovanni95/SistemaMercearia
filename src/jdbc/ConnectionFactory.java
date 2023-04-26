@@ -6,9 +6,18 @@ import java.sql.SQLException;
 
 import javax.swing.JOptionPane;
 
+// TODO: Auto-generated Javadoc
+/**
+ * A factory for creating Connection objects.
+ */
 public class ConnectionFactory {
 
 	
+	/**
+	 * Gets the connection.
+	 *
+	 * @return the connection
+	 */
 	public Connection getConnection() {
 		//Class.forName("com.mygetConnectionsql.cj.jdbc.Driver");
 		Connection connection = null;

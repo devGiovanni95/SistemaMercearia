@@ -11,12 +11,17 @@ import jdbc.ConnectionFactory;
 import model.Funcionario;
 import view.FrmMenuPrincipal;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class FuncionarioController.
+ */
 public class FuncionarioController {
 
+	/** The connection. */
 	private Connection connection;
 	
 	/**
-	 * Método que cria uma conexão com banco de dados
+	 * Método que cria uma conexão com banco de dados.
 	 */
 	public FuncionarioController() {
 		this.connection =  new ConnectionFactory().getConnection();
@@ -25,7 +30,8 @@ public class FuncionarioController {
 
 	/**
 	 * Método efetua um comando SQL para efetuar a inserção no banco de dados de um novo funcionario.
-	 * @param cliente - um objeto do tipo funcionario com os atributos correspondentes
+	 *
+	 * @param funcionario the funcionario
 	 */
 	public void cadastrarFuncionario(Funcionario funcionario) {
 		try {
@@ -207,8 +213,9 @@ public class FuncionarioController {
 	/**
 	 * Método que cria um ArrayList do tipo funcionário para listar os funcionários do banco de dados que
 	 *  corresponde ao nome digitado. A partir de um comando SQL.
-	 * @param nome - parametro utilizado como base de pesquisa. 
-	 * @return
+	 *
+	 * @param nome - parametro utilizado como base de pesquisa.
+	 * @return the list
 	 */
 	public List<Funcionario> buscarFuncionarioPeloNome(String nome) {
 		try {

@@ -21,9 +21,6 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.EmptyBorder;
-
-import com.ibm.icu.text.CaseMap.Title;
-
 import controller.FuncionarioController;
 import util.LimparCampos;
 import java.awt.event.MouseAdapter;
@@ -31,14 +28,25 @@ import java.awt.event.MouseEvent;
 import javax.swing.JFormattedTextField;
 import javax.swing.JPasswordField;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class FrmLogin.
+ */
 public class FrmLogin extends JFrame {
 
+	/** The content pane. */
 	private JPanel contentPane;
+	
+	/** The tf email. */
 	private JTextField tfEmail;
+	
+	/** The tf senha. */
 	private JPasswordField tfSenha;
 
 	/**
 	 * Launch the application.
+	 *
+	 * @param args the arguments
 	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {

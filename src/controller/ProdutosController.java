@@ -16,15 +16,21 @@ import javax.swing.JOptionPane;
 
 import jdbc.ConnectionFactory;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class ProdutosController.
+ */
 public class ProdutosController {
 
 	
+	/** The sub categoria controller. */
 	private SubCategoriaController subCategoriaController;
 
+	/** The connection. */
 	private Connection connection;
 
 	/**
-	 * Método que cria uma conexão com banco de dados
+	 * Método que cria uma conexão com banco de dados.
 	 */
 	public ProdutosController() {
 		this.connection =  new ConnectionFactory().getConnection();

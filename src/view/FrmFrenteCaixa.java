@@ -19,14 +19,28 @@ import javax.swing.JTextField;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class FrmFrenteCaixa.
+ */
 public class FrmFrenteCaixa extends JFrame {
+	
+	/** The text field. */
 	private JTextField textField;
+	
+	/** The text field 1. */
 	private JTextField textField_1;
+	
+	/** The text field 2. */
 	private JTextField textField_2;
+	
+	/** The text field 3. */
 	private JTextField textField_3;
 
 	/**
 	 * Launch the application.
+	 *
+	 * @param args the arguments
 	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {

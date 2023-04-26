@@ -41,23 +41,38 @@ import javax.swing.ImageIcon;
 import javax.swing.event.AncestorListener;
 import javax.swing.event.AncestorEvent;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class FrmSubCategoria.
+ */
 public class FrmSubCategoria extends JFrame {
 
+	/** The content pane. */
 	private JPanel contentPane;
+	
+	/** The tf codigo. */
 	private JTextField tfCodigo;
+	
+	/** The tf nome sub categoria. */
 	private JTextField tfNomeSubCategoria;
+	
+	/** The tf descricao. */
 	private JTextField tfDescricao;
+	
+	/** The tf pesquisar. */
 	private JTextField tfPesquisar;
+	
+	/** The tabela sub categorias. */
 	private JTable tabelaSubCategorias;
 	
 	
 	/**
-	 * Metodo utilizado para listar todos os clientes e adiciona-los na tabela
+	 * Metodo utilizado para listar todos os clientes e adiciona-los na tabela.
 	 */
 	public void listar() {
 		try {
 		SubCategoriaController subCategoriaController = new SubCategoriaController();
-		List<SubCategoria> lista = subCategoriaController.listarSubCategorias();
+		List<SubCategoria> lista = subCategoriaController.consultarSubCategorias();
 		DefaultTableModel dadosTabela = (DefaultTableModel) tabelaSubCategorias.getModel();
 		dadosTabela.setNumRows(0);
 		dadosTabela.setColumnCount(4);
@@ -82,6 +97,8 @@ public class FrmSubCategoria extends JFrame {
 	
 	/**
 	 * Launch the application.
+	 *
+	 * @param args the arguments
 	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -95,12 +112,17 @@ public class FrmSubCategoria extends JFrame {
 			}
 		});
 	}
+	
+	/** The aba principal. */
 	public JTabbedPane abaPrincipal;
+	
+	/** The cb categoria. */
 	private JComboBox<Categoria> cbCategoria;
 
 	/**
 	 * Create the frame.
-	 * @throws ParseException 
+	 *
+	 * @throws ParseException the parse exception
 	 */
 	public FrmSubCategoria() throws ParseException {
 		setBackground(new Color(202, 240, 248));
@@ -250,31 +272,20 @@ public class FrmSubCategoria extends JFrame {
 				
 				String nomePesquisado = "%" + tfPesquisar.getText() + "%";
 				
-					ClienteController clienteController = new ClienteController();
-					List<Cliente> lista = clienteController.buscarClientePeloNome(nomePesquisado);
+					SubCategoriaController subCategoriaController = new SubCategoriaController();
+					List<SubCategoria> lista = (List<SubCategoria>) subCategoriaController.consultarSubCategoriaPorNome(nomePesquisado);
 					DefaultTableModel dadosTabela = (DefaultTableModel) tabelaSubCategorias.getModel();
 					dadosTabela.setNumRows(0);
-					dadosTabela.setColumnCount(15);
-					dadosTabela.addRow(new Object[]{"Nome","E-mail","CPF","RG","Endereço","Telefone","Celular","Numero","CEP","Data Nascimento", "Bairro","Cidade","UF","Complemento","Limite"});
-					
+					dadosTabela.setColumnCount(4);
+					dadosTabela.addRow(new Object[]{"Código","Categoria","SubCategoria","Descrição"});
 
-					for(Cliente cliente : lista) {
+					for(SubCategoria  subCategoria: lista) {
 						dadosTabela.addRow(new Object[]{
-								cliente.getNome(),
-								cliente.getEmail(),
-								cliente.getCpf(),
-								cliente.getRg(),
-								cliente.getEndereco(),
-								cliente.getTelefone(),
-								cliente.getCelular(),
-								cliente.getNumero(),
-								cliente.getCep(),
-								cliente.getDataNascimento(),
-								cliente.getBairro(),
-								cliente.getCidade(),
-								cliente.getUf(),
-								cliente.getComplemento(),
-								cliente.getLimite()		
+								subCategoria.getCodigo(),
+								subCategoria.getCategoria().getNomeCategoria(),
+								subCategoria.getSubCategoria(),
+								subCategoria.getDescricao()		
+					
 							});
 						}
 			}

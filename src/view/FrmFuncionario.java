@@ -39,43 +39,103 @@ import javax.swing.ImageIcon;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class FrmFuncionario.
+ */
 public class FrmFuncionario extends JFrame {
 
 
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 	
+	/** The content pane. */
 	private JPanel contentPane;
+	
+	/** The tf codigo. */
 	private JTextField tfCodigo;
+	
+	/** The tf nome. */
 	private JTextField tfNome;
+	
+	/** The tf email. */
 	private JTextField tfEmail;
+	
+	/** The tf numero. */
 	private JTextField tfNumero;
+	
+	/** The tf cpf. */
 	private JFormattedTextField tfCpf;
+	
+	/** The tf bairro. */
 	private JTextField tfBairro;
+	
+	/** The tf cidade. */
 	private JTextField tfCidade;
+	
+	/** The tf celular. */
 	private JFormattedTextField tfCelular;
+	
+	/** The tf telefone. */
 	private JFormattedTextField tfTelefone;
+	
+	/** The tf cep. */
 	private JFormattedTextField tfCep;
+	
+	/** The tf limite. */
 	private JTextField tfLimite;
+	
+	/** The tf complemento. */
 	private JTextField tfComplemento;
+	
+	/** The tf nome pesquisa. */
 	private JTextField tfNomePesquisa;
+	
+	/** The tabela funcionarios. */
 	private JTable tabelaFuncionarios;
+	
+	/** The tf rg. */
 	private JFormattedTextField tfRg;
+	
+	/** The tf senha. */
 	private JTextField tfSenha;
+	
+	/** The tf cargo. */
 	private JTextField tfCargo;
+	
+	/** The tf pis pasep. */
 	private JTextField tfPisPasep;
+	
+	/** The tf salario. */
 	private JTextField tfSalario;
+	
+	/** The tf carteira trabalho. */
 	private JTextField tfCarteiraTrabalho;
+	
+	/** The cb estado civil. */
 	private JComboBox cbEstadoCivil;
+	
+	/** The tf jornada trabalho. */
 	private JTextField tfJornadaTrabalho;
+	
+	/** The tf admissao. */
 	private JTextField tfAdmissao;
+	
+	/** The tf endereco. */
 	private JTextField tfEndereco;
+	
+	/** The tf demissao. */
 	private JTextField tfDemissao;
+	
+	/** The cb nivel acesso 1. */
 	private JComboBox<String> cbNivelAcesso_1;
+	
+	/** The cb ativo 1. */
 	private JComboBox<String> cbAtivo_1;
 
 	
 	/**
-	 * Metodo utilizado para listar todos os funcionários e adiciona-los na tabela
+	 * Metodo utilizado para listar todos os funcionários e adiciona-los na tabela.
 	 */
 	public void listar() {
 		try {
@@ -125,6 +185,8 @@ public class FrmFuncionario extends JFrame {
 	
 	/**
 	 * Launch the application.
+	 *
+	 * @param args the arguments
 	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -139,11 +201,13 @@ public class FrmFuncionario extends JFrame {
 		});
 	}
 	
+	/** The aba principal. */
 	public JTabbedPane abaPrincipal;
 
 	/**
 	 * Create the frame.
-	 * @throws ParseException 
+	 *
+	 * @throws ParseException the parse exception
 	 */
 	public FrmFuncionario() throws ParseException {
 		addWindowListener(new WindowAdapter() {

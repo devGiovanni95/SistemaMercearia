@@ -11,14 +11,20 @@ import javax.swing.JOptionPane;
 
 import jdbc.ConnectionFactory;
 import model.Categoria;
+import model.Cliente;
 import model.SubCategoria;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class SubCategoriaController.
+ */
 public class SubCategoriaController {
 	
+/** The connection. */
 private Connection connection;
 	
 	/**
-	 * Método que cria uma conexão com banco de dados
+	 * Método que cria uma conexão com banco de dados.
 	 */
 	public SubCategoriaController() {
 		this.connection =  new ConnectionFactory().getConnection();
@@ -110,7 +116,7 @@ private Connection connection;
 	 * A partir de um comando SQL.
 	 * @return - retona uma lista com todas as subCategorias. 
 	 */
-	public List<SubCategoria> listarSubCategorias() {
+	public List<SubCategoria> consultarSubCategorias() {
 		try {
 			
 			List<SubCategoria> lista = new ArrayList<>();
@@ -187,33 +193,35 @@ private Connection connection;
 			return null;
 		}
 	}*/
-	
-	  public SubCategoria buscarSubCategoriaPorId(int id) {
-	        SubCategoria subCategoria = null;
-	        String sql = "SELECT * FROM tb_subcategorias WHERE id = ?";
+	//*
 
-	        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-	            preparedStatement.setInt(1, id);
+	  public List<SubCategoria> consultarSubCategoriaPorNome(String nome) {
+	        try {
+	        	List<SubCategoria> lista = new ArrayList<>();
+	        	
+	        	String sql = "select * from tb_clientes where nome_subcategoria like ?";
+	        	PreparedStatement preparedStatement = connection.prepareStatement(sql);	        	
+	            preparedStatement.setString(1, nome);
 	            ResultSet resultSet = preparedStatement.executeQuery();
 
-	            if (resultSet.next()) {
-	                subCategoria = new SubCategoria();
+	            while (resultSet.next()) {
+	               SubCategoria subCategoria = new SubCategoria();
 	                Categoria categoria = new Categoria();
 	                
-	                categoria.setCodigo(resultSet.getInt("categoria_id"));
-	                categoria.setNomeCategoria(resultSet.getString("nome_categoria"));
-	                categoria.setDescricao(resultSet.getString("descricao_categoria"));
-	                
 	                subCategoria.setCodigo(resultSet.getInt("id"));
+	                categoria.setCodigo(resultSet.getInt("categoria_id"));          
 	                subCategoria.setCategoria(categoria);
 	                subCategoria.setSubCategoria(resultSet.getString("nome_subcategoria"));
 	                subCategoria.setDescricao(resultSet.getString("descricao_subcategoria"));
+	                
+	                lista.add(subCategoria);
 	            }
+	            return  lista;
 
 	        } catch (SQLException e) {
 	            System.out.println("Erro ao buscar subcategoria por ID: " + e.getMessage());
+	            return null;
 	        }
 
-	        return subCategoria;
 	    }
 	}

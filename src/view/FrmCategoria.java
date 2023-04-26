@@ -34,18 +34,33 @@ import java.awt.event.MouseEvent;
 import javax.swing.ImageIcon;
 
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class FrmCategoria.
+ */
 public class FrmCategoria extends JFrame {
 
+	/** The content pane. */
 	private JPanel contentPane;
+	
+	/** The tf codigo. */
 	private JTextField tfCodigo;
+	
+	/** The tf categoria. */
 	private JTextField tfCategoria;
+	
+	/** The tf descricao. */
 	private JTextField tfDescricao;
+	
+	/** The tf pesquisar. */
 	private JTextField tfPesquisar;
+	
+	/** The tabela clientes. */
 	private JTable tabelaClientes;
 	
 	
 	/**
-	 * Metodo utilizado para listar todos os clientes e adiciona-los na tabela
+	 * Metodo utilizado para listar todos os clientes e adiciona-los na tabela.
 	 */
 	public void listar() {
 		try {
@@ -73,6 +88,8 @@ public class FrmCategoria extends JFrame {
 	
 	/**
 	 * Launch the application.
+	 *
+	 * @param args the arguments
 	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -86,11 +103,14 @@ public class FrmCategoria extends JFrame {
 			}
 		});
 	}
+	
+	/** The aba principal. */
 	public JTabbedPane abaPrincipal;
 
 	/**
 	 * Create the frame.
-	 * @throws ParseException 
+	 *
+	 * @throws ParseException the parse exception
 	 */
 	public FrmCategoria() throws ParseException {
 		setBackground(new Color(202, 240, 248));
@@ -203,7 +223,7 @@ public class FrmCategoria extends JFrame {
 				String nomePesquisado = "%" + tfPesquisar.getText() + "%";
 				
 					ClienteController clienteController = new ClienteController();
-					List<Cliente> lista = clienteController.buscarClientePeloNome(nomePesquisado);
+					List<Cliente> lista = clienteController.consultarClientesPorNome(nomePesquisado);
 					DefaultTableModel dadosTabela = (DefaultTableModel) tabelaClientes.getModel();
 					dadosTabela.setNumRows(0);
 					dadosTabela.setColumnCount(15);

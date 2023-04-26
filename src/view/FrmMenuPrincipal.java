@@ -22,13 +22,22 @@ import javax.swing.JPanel;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class FrmMenuPrincipal.
+ */
 public class FrmMenuPrincipal extends JFrame {
 	
+	/** The usuario logado. */
 	public String usuarioLogado;
+	
+	/** The lbl nome funcionario logado. */
 	private JLabel lblNomeFuncionarioLogado;
 
 	/**
 	 * Launch the application.
+	 *
+	 * @param args the arguments
 	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
