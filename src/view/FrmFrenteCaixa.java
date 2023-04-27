@@ -20,15 +20,23 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JTable;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class FrmFrenteCaixa.
+ */
 public class FrmFrenteCaixa extends JFrame {
+
 	private JTextField tfCpf;
 	private JTextField tfPrecoUnitario;
 	private JTextField tfCodigoDeBarras;
 	private JTextField tfQuantidadeDeItens;
 	private JTable listaProdutos;
 
+
 	/**
 	 * Launch the application.
+	 *
+	 * @param args the arguments
 	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {

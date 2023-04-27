@@ -11,7 +11,6 @@ import java.util.List;
 import javax.swing.GroupLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -19,68 +18,85 @@ import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
-import javax.swing.ListSelectionModel;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.text.MaskFormatter;
-
 import controller.CategoriaController;
 import controller.ClienteController;
 import controller.SubCategoriaController;
 import model.Categoria;
 import model.Cliente;
-import model.Fornecedor;
 import model.SubCategoria;
 
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.sql.ResultSet;
-import java.awt.Panel;
-import java.awt.FlowLayout;
 import java.awt.GridLayout;
-import java.awt.Component;
-import javax.swing.Box;
 import java.awt.Dimension;
-import net.miginfocom.swing.MigLayout;
 import util.LimparCampos;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.ImageIcon;
-import java.awt.Frame;
 import javax.swing.event.AncestorListener;
 import javax.swing.event.AncestorEvent;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class FrmSubCategoria.
+ */
 public class FrmSubCategoria extends JFrame {
 
+	/** The content pane. */
 	private JPanel contentPane;
+	
+	/** The tf codigo. */
 	private JTextField tfCodigo;
+	
+	/** The tf nome sub categoria. */
 	private JTextField tfNomeSubCategoria;
+	
+	/** The tf descricao. */
 	private JTextField tfDescricao;
+	
+	/** The tf pesquisar. */
 	private JTextField tfPesquisar;
+	
+	/** The tabela sub categorias. */
 	private JTable tabelaSubCategorias;
+	
+	private JPanel abaDadosSubCategorias;
 	
 	
 	/**
-	 * Metodo utilizado para listar todos os clientes e adiciona-los na tabela
+	 * Método responsavel por limpar a tela referenciada.
+	 *
+	 * @param tela the tela
 	 */
-	public void listar() {
+	private void limparTela(JPanel tela) {
+		LimparCampos limpar = new LimparCampos();
+		limpar.Limpar(tela);
+	}
+	
+	
+	/**
+	 * Metodo utilizado para listar todos os clientes e adiciona-los na tabela.
+	 */
+	public void consultarSubCategorias() {
 		try {
 		SubCategoriaController subCategoriaController = new SubCategoriaController();
-		List<SubCategoria> lista = subCategoriaController.listarSubCategorias();
+		List<SubCategoria> lista = subCategoriaController.consultarSubCategorias();
 		DefaultTableModel dadosTabela = (DefaultTableModel) tabelaSubCategorias.getModel();
 		dadosTabela.setNumRows(0);
 		dadosTabela.setColumnCount(4);
-		dadosTabela.addRow(new Object[]{"Código","Categoria","SubCategoria","Descrição"});
+		dadosTabela.addRow(new Object[]{"Código","SubCategoria","Categoria","Descrição"});
 		
 
 		for(SubCategoria subCategoria: lista) {
 			dadosTabela.addRow(new Object[]{
 					subCategoria.getCodigo(),
-					subCategoria.getCategoria().getNomeCategoria(),
 					subCategoria.getSubCategoria(),
+					subCategoria.getCategoria().getNomeCategoria(),
 					subCategoria.getDescricao()		
 				});
 			}
@@ -91,9 +107,92 @@ public class FrmSubCategoria extends JFrame {
 	}
 	
 	
+	/**
+	* Método utilizado para consultar subCategoria pelo nome ou parte do nome para exibir na tabela.
+	* O texto pesquisado é obtido a partir do texto digitado pelo usuario.
+	*/
+	private void consultarSubCategoriaPorNome() {
+		String nomePesquisado = "%" + tfPesquisar.getText() + "%";
+		
+		SubCategoriaController subCategoriaController = new SubCategoriaController();
+		List<SubCategoria> lista = (List<SubCategoria>) subCategoriaController.consultarSubCategoriaPorNome(nomePesquisado);
+		DefaultTableModel dadosTabela = (DefaultTableModel) tabelaSubCategorias.getModel();
+		dadosTabela.setNumRows(0);
+		dadosTabela.setColumnCount(4);
+		dadosTabela.addRow(new Object[]{"Código","SubCategoria","Categoria","Descrição"});
+
+		for(SubCategoria  subCategoria: lista) {
+			dadosTabela.addRow(new Object[]{
+					subCategoria.getCodigo(),
+					subCategoria.getSubCategoria(),
+					subCategoria.getCategoria().getNomeCategoria(),
+					subCategoria.getDescricao()		
+		
+				});
+			}
+	}
+	
+
+	/**
+	 * Método responsável por preencher os campos da tela principal com os dados da subCategoria selecionado na tabela para que possam ser alterados.
+	 * A partir da linha selecionada na tabela.
+	 */
+	private void preencherDadosSubCategoria() {
+		abaPrincipal.setSelectedIndex(0);
+		
+		tfNomeSubCategoria.setText(tabelaSubCategorias.getValueAt(tabelaSubCategorias.getSelectedRow(),0).toString());
+		tfDescricao.setText(tabelaSubCategorias.getValueAt(tabelaSubCategorias.getSelectedRow(),1).toString());
+		cbCategoria.setSelectedItem(tabelaSubCategorias.getValueAt(tabelaSubCategorias.getSelectedRow(),2).toString());				
+		tfCodigo.setText(tabelaSubCategorias.getValueAt(tabelaSubCategorias.getSelectedRow(),3).toString());
+	}
+	
+	
+	/**
+	Método responsável por alterar os dados de uma subCategoria cadastrada.
+	Os dados são obtidos dos campos de texto na interface gráfica e armazenados em um objeto do tipo SubCategoria,
+	Em seguida, os campos de texto na interface gráfica são limpos através do método limparTela da classe LimparCampos.
+	*/
+	private void alterarSubCategoria() {
+		SubCategoria subCategoria = new SubCategoria();
+		SubCategoriaController subCategoriaController = new SubCategoriaController();	
+		Categoria categoria = new Categoria();
+		
+		subCategoria.setCodigo(Integer.parseInt(tfCodigo.getText()));
+		subCategoria.setSubCategoria(tfNomeSubCategoria.getText());
+		subCategoria.setDescricao(tfDescricao.getText());
+		
+		//transformando o item do combo box em  objeto de categoria
+		categoria = (Categoria)cbCategoria.getSelectedItem();
+		//salvando o objeto fornecedor
+		subCategoria.setCategoria(categoria);
+		
+		subCategoriaController.alterarSubCategoria(subCategoria); 
+		
+		limparTela(abaDadosSubCategorias);
+	}
+	
+	
+	/**
+	*Exclui a subCategoria selecionado na tabela de subCategorias.
+	*Obtém o código da subCategoria a partir do campo de texto correspondente na tela.
+	*Em seguida, os campos de texto na interface gráfica são limpos após a exclusão.
+	*/
+	private void excluirSubCategoria() {
+		
+		SubCategoria subCategoria = new SubCategoria();
+		SubCategoriaController subCategoriaController = new SubCategoriaController();
+
+		subCategoria.setCodigo(Integer.parseInt(tfCodigo.getText()));				
+		subCategoriaController.excluirSubCategoria(subCategoria);				
+		limparTela(abaDadosSubCategorias);
+	}
+	
+	
 	
 	/**
 	 * Launch the application.
+	 *
+	 * @param args the arguments
 	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -107,19 +206,24 @@ public class FrmSubCategoria extends JFrame {
 			}
 		});
 	}
+	
+	/** The aba principal. */
 	public JTabbedPane abaPrincipal;
+	
+	/** The cb categoria. */
 	private JComboBox<Categoria> cbCategoria;
 
 	/**
 	 * Create the frame.
-	 * @throws ParseException 
+	 *
+	 * @throws ParseException the parse exception
 	 */
 	public FrmSubCategoria() throws ParseException {
 		setBackground(new Color(202, 240, 248));
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowActivated(WindowEvent e) {
-				listar();
+				consultarSubCategorias();
 			}
 		});
 		setForeground(new Color(24, 52, 70));
@@ -141,7 +245,7 @@ public class FrmSubCategoria extends JFrame {
 		abaPrincipal = new JTabbedPane(JTabbedPane.TOP);
 		abaPrincipal.setBackground(new Color(202, 240, 248));
 		
-		JPanel abaDadosSubCategorias = new JPanel();
+		abaDadosSubCategorias = new JPanel();
 		abaDadosSubCategorias.setBackground(new Color(202, 240, 248));
 		abaDadosSubCategorias.setMaximumSize(new Dimension(1360, 768));
 		abaPrincipal.addTab("Dados de SubCategoria", null, abaDadosSubCategorias, null);
@@ -172,23 +276,20 @@ public class FrmSubCategoria extends JFrame {
 		lblCategoria.setFont(new Font("Arial", Font.BOLD, 14));
 		
 		//categoria
-		cbCategoria = new JComboBox();
+		cbCategoria = new JComboBox<Categoria>();
 		cbCategoria.addAncestorListener(new AncestorListener() {
 			public void ancestorAdded(AncestorEvent event) {
 				//listando  categorias dentro do combobox
 				CategoriaController categoriaController = new CategoriaController();
-				List<Categoria> listaDeFornecedores = categoriaController.listarCategorias();
+				List<Categoria> listaDeCategoria = categoriaController.consultarCategorias();
 				
 				//removendo para limpar todos os campos 
 				cbCategoria.removeAll();
 				
 				//colocando dentro do combobox todos os dados
-				for(Categoria categoria : listaDeFornecedores) {
+				for(Categoria categoria : listaDeCategoria) {
 					cbCategoria.addItem(categoria);
-				}
-				
-				
-				
+				}	
 			}
 			public void ancestorMoved(AncestorEvent event) {
 			}
@@ -259,37 +360,8 @@ public class FrmSubCategoria extends JFrame {
 		JButton btnPesquisar = new JButton("Pesquisar");
 		btnPesquisar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
-				String nomePesquisado = "%" + tfPesquisar.getText() + "%";
-				
-					ClienteController clienteController = new ClienteController();
-					List<Cliente> lista = clienteController.buscarClientePeloNome(nomePesquisado);
-					DefaultTableModel dadosTabela = (DefaultTableModel) tabelaSubCategorias.getModel();
-					dadosTabela.setNumRows(0);
-					dadosTabela.setColumnCount(15);
-					dadosTabela.addRow(new Object[]{"Nome","E-mail","CPF","RG","Endereço","Telefone","Celular","Numero","CEP","Data Nascimento", "Bairro","Cidade","UF","Complemento","Limite"});
-					
-
-					for(Cliente cliente : lista) {
-						dadosTabela.addRow(new Object[]{
-								cliente.getNome(),
-								cliente.getEmail(),
-								cliente.getCpf(),
-								cliente.getRg(),
-								cliente.getEndereco(),
-								cliente.getTelefone(),
-								cliente.getCelular(),
-								cliente.getNumero(),
-								cliente.getCep(),
-								cliente.getDataNascimento(),
-								cliente.getBairro(),
-								cliente.getCidade(),
-								cliente.getUf(),
-								cliente.getComplemento(),
-								cliente.getLimite()		
-							});
-						}
-			}
+					consultarSubCategoriaPorNome();				
+				}
 		});
 		btnPesquisar.setFont(new Font("Tahoma", Font.BOLD, 14));
 		
@@ -297,14 +369,9 @@ public class FrmSubCategoria extends JFrame {
 		tabelaSubCategorias.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				
-				abaPrincipal.setSelectedIndex(0);
-				
-				tfNomeSubCategoria.setText(tabelaSubCategorias.getValueAt(tabelaSubCategorias.getSelectedRow(),0).toString());
-				tfDescricao.setText(tabelaSubCategorias.getValueAt(tabelaSubCategorias.getSelectedRow(),1).toString());
-				cbCategoria.setSelectedItem(tabelaSubCategorias.getValueAt(tabelaSubCategorias.getSelectedRow(),2).toString());				
-				tfCodigo.setText(tabelaSubCategorias.getValueAt(tabelaSubCategorias.getSelectedRow(),3).toString());
+				preencherDadosSubCategoria();
 			}
+
 		});
 		
         tabelaSubCategorias.setFont(new java.awt.Font("Arial", 0, 14)); 
@@ -410,23 +477,7 @@ public class FrmSubCategoria extends JFrame {
 		btnAlterar.setBackground(new Color(255, 202, 58));
 		btnAlterar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				SubCategoria subCategoria = new SubCategoria();
-				Categoria categoria = new Categoria();
-				
-				subCategoria.setCodigo(Integer.parseInt(tfCodigo.getText()));
-				subCategoria.setSubCategoria(tfNomeSubCategoria.getText());
-				subCategoria.setDescricao(tfDescricao.getText());
-				
-				//transformando o item do combo box em  objeto de categoria
-				categoria = (Categoria)cbCategoria.getSelectedItem();
-				//salvando o objeto fornecedor
-				subCategoria.setCategoria(categoria);
-
-				SubCategoriaController subCategoriaController = new SubCategoriaController();	
-				
-				subCategoriaController.alterarSubCategoria(subCategoria);
-				
-				new LimparCampos().Limpar(abaDadosSubCategorias);
+				alterarSubCategoria();
 			}
 		});
 		btnAlterar.setFont(new Font("Arial", Font.BOLD, 24));
@@ -444,6 +495,7 @@ public class FrmSubCategoria extends JFrame {
 				subCategoria.setCodigo(Integer.parseInt(tfCodigo.getText()));
 				subCategoria.setSubCategoria(tfNomeSubCategoria.getText());
 				subCategoria.setDescricao(tfDescricao.getText());
+				
 				
 				//transformando o item do combo box em  objeto de categoria
 				categoria = (Categoria)cbCategoria.getSelectedItem();
@@ -466,16 +518,7 @@ public class FrmSubCategoria extends JFrame {
 		btnExcluir.setBackground(new Color(255, 89, 94));
 		btnExcluir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
-				SubCategoria subCategoria = new SubCategoria();
-
-				subCategoria.setCodigo(Integer.parseInt(tfCodigo.getText()));
-
-				SubCategoriaController subCategoriaController = new SubCategoriaController();
-				
-				subCategoriaController.excluirSubCategoria(subCategoria);
-				
-				new LimparCampos().Limpar(abaDadosSubCategorias);
+				excluirSubCategoria();
 			}
 		});
 		btnExcluir.setFont(new Font("Arial", Font.BOLD, 24));

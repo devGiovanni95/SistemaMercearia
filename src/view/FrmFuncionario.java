@@ -7,7 +7,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.ParseException;
 import java.util.List;
-
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
@@ -25,10 +24,7 @@ import javax.swing.ListSelectionModel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.MaskFormatter;
-
-import controller.ClienteController;
 import controller.FuncionarioController;
-import model.Cliente;
 import model.Funcionario;
 import util.LimparCampos;
 import java.awt.GridLayout;
@@ -39,52 +35,130 @@ import javax.swing.ImageIcon;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class FrmFuncionario.
+ */
 public class FrmFuncionario extends JFrame {
 
 
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 	
+	/** The content pane. */
 	private JPanel contentPane;
+	
+	/** The tf codigo. */
 	private JTextField tfCodigo;
+	
+	/** The tf nome. */
 	private JTextField tfNome;
+	
+	/** The tf email. */
 	private JTextField tfEmail;
+	
+	/** The tf numero. */
 	private JTextField tfNumero;
+	
+	/** The tf cpf. */
 	private JFormattedTextField tfCpf;
+	
+	/** The tf bairro. */
 	private JTextField tfBairro;
+	
+	/** The tf cidade. */
 	private JTextField tfCidade;
+	
+	/** The tf celular. */
 	private JFormattedTextField tfCelular;
+	
+	/** The tf telefone. */
 	private JFormattedTextField tfTelefone;
+	
+	/** The tf cep. */
 	private JFormattedTextField tfCep;
+	
+	/** The tf limite. */
 	private JTextField tfLimite;
+	
+	/** The tf complemento. */
 	private JTextField tfComplemento;
+	
+	/** The tf nome pesquisa. */
 	private JTextField tfNomePesquisa;
+	
+	/** The tabela funcionarios. */
 	private JTable tabelaFuncionarios;
+	
+	/** The tf rg. */
 	private JFormattedTextField tfRg;
+	
+	/** The tf senha. */
 	private JTextField tfSenha;
+	
+	/** The tf cargo. */
 	private JTextField tfCargo;
+	
+	/** The tf pis pasep. */
 	private JTextField tfPisPasep;
+	
+	/** The tf salario. */
 	private JTextField tfSalario;
+	
+	/** The tf carteira trabalho. */
 	private JTextField tfCarteiraTrabalho;
-	private JComboBox cbEstadoCivil;
+	
+	/** The cb estado civil. */
+	private JComboBox<String> cbEstadoCivil;
+	
+	/** The tf jornada trabalho. */
 	private JTextField tfJornadaTrabalho;
+	
+	/** The tf admissao. */
 	private JTextField tfAdmissao;
+	
+	/** The tf endereco. */
 	private JTextField tfEndereco;
+	
+	/** The tf demissao. */
 	private JTextField tfDemissao;
-	private JComboBox<String> cbNivelAcesso_1;
-	private JComboBox<String> cbAtivo_1;
+	
+	/** The cb nivel acesso 1. */
+	private JComboBox<String> cbNivelAcesso;
+	
+	/** The cb ativo 1. */
+	private JComboBox<String> cbAtivo;
+
+	private JComboBox <String>cbUf;
+	
+	private JPanel abaDadosPessoais ;
+	
+	private JFormattedTextField tfDataNascimento;
+	
+	
+	/**
+	 * Método responsavel por limpar a tela referenciada.
+	 *
+	 * @param tela the tela
+	 */
+	private void limparTela(JPanel tela) {
+		LimparCampos limpar = new LimparCampos();
+		limpar.Limpar(tela);
+	}
 
 	
 	/**
-	 * Metodo utilizado para listar todos os funcionários e adiciona-los na tabela
+	 * Metodo utilizado para listar todos os funcionários e adiciona-los na tabela.
 	 */
-	public void listar() {
+	public void consultarFuncionarios() {
 		try {
 		FuncionarioController funcionarioController = new FuncionarioController();
-		List<Funcionario> lista = funcionarioController.listarFuncionario();
+		List<Funcionario> lista = funcionarioController.ConsultarFuncionarios();
 		DefaultTableModel dadosTabela = (DefaultTableModel) tabelaFuncionarios.getModel();
 		dadosTabela.setNumRows(0);
 		dadosTabela.setColumnCount(26);
-		dadosTabela.addRow(new Object[]{"Nome","E-mail","CPF","RG","Endereço","Telefone","Celular","Numero","CEP","Data Nascimento", "Bairro","Cidade","UF","Complemento","Limite","Senha","Cargo","Nivel Acesso","Pis Pasep","Salário","Carteira de Trabalho","Estado Civil","Jornada Trabalho","Admissão","Demissão","Ativo"});
+		dadosTabela.addRow(new Object[]{"Nome","E-mail","CPF","RG","Endereço","Telefone","Celular","Numero","CEP","Data Nascimento", "Bairro",
+				"Cidade","UF","Complemento","Limite","Senha","Cargo","Nivel Acesso","Pis Pasep","Salário","Carteira de Trabalho","Estado Civil","Jornada Trabalho","Admissão","Demissão","Ativo"});
 		
 
 		for(Funcionario funcionario: lista) {
@@ -122,9 +196,202 @@ public class FrmFuncionario extends JFrame {
 			JOptionPane.showMessageDialog(null,"Ops aconteceu o erro: " + erro);
 		}	
 	}
+		
+	
+	/**
+	* Método utilizado para consultar funcionários pelo nome ou parte do nome para exibir na tabela.
+	* O texto pesquisado é obtido a partir do texto digitado pelo usuário.
+	*/
+	private void consultarFuncionariosPorNome() {
+		
+		String nomePesquisado = "%" + tfNomePesquisa.getText() + "%";
+		
+		FuncionarioController funcionarioController = new FuncionarioController();
+		List<Funcionario> lista = funcionarioController.consultarFuncionariosPorNome(nomePesquisado);
+		DefaultTableModel dadosTabela = (DefaultTableModel) tabelaFuncionarios.getModel();
+		dadosTabela.setNumRows(0);
+		dadosTabela.setColumnCount(15);
+		dadosTabela.addRow(new Object[]{"Nome","E-mail","CPF","RG","Endereço","Telefone","Celular","Numero","CEP","Data Nascimento", "Bairro",
+				"Cidade","UF","Complemento","Limite","Senha","Cargo","Nivel Acesso","Pis Pasep","Salário","Carteira de Trabalho","Estado Civil","Jornada Trabalho","Admissão","Demissão","Ativo"});
+		
+		for(Funcionario funcionario : lista) {
+			dadosTabela.addRow(new Object[]{
+					funcionario.getNome(),
+					funcionario.getEmail(),
+					funcionario.getCpf(),
+					funcionario.getRg(),
+					funcionario.getEndereco(),
+					funcionario.getTelefone(),
+					funcionario.getCelular(),
+					funcionario.getNumero(),
+					funcionario.getCep(),
+					funcionario.getDataNascimento(),
+					funcionario.getBairro(),
+					funcionario.getCidade(),
+					funcionario.getUf(),
+					funcionario.getComplemento(),
+					funcionario.getLimite(),
+					funcionario.getSenha(),
+					funcionario.getCargo(),
+					funcionario.getNivelAcesso(),
+					funcionario.getPisPasep(),
+					funcionario.getSalario(),
+					funcionario.getCarteiraTrabalho(),
+					funcionario.getEstadoCivil(),
+					funcionario.getJornadaTrabalho(),
+					funcionario.getAdmissao(),
+					funcionario.getDemissao(),
+					funcionario.getAtivo()
+				});
+			}
+	}
+	
+	
+
+	/**
+	 * Método utilizado para cadastrar um novo funcionario com as informações preenchidas nos campos do formulário.
+	 */
+	private void cadastrarFuncionario() {
+		Funcionario funcionario = new Funcionario();
+		FuncionarioController funcionarioController = new FuncionarioController();	
+		
+		funcionario.setNome(tfNome.getText());
+		funcionario.setEmail(tfEmail.getText());
+		funcionario.setCpf(tfCpf.getText());
+		funcionario.setRg(tfRg.getText());
+		funcionario.setEndereco(tfEndereco.getText());
+		funcionario.setTelefone(tfTelefone.getText());
+		funcionario.setCelular(tfCelular.getText());
+		funcionario.setNumero(Integer.parseInt(tfNumero.getText()));
+		funcionario.setCep(tfCep.getText());
+		funcionario.setDataNascimento(tfDataNascimento.getText());
+		funcionario.setBairro(tfBairro.getText());
+		funcionario.setCidade(tfCidade.getText());
+		funcionario.setUf(cbUf.getSelectedItem().toString());
+		funcionario.setComplemento(tfComplemento.getText());
+		funcionario.setLimite(Double.parseDouble(tfLimite.getText()));		
+		funcionario.setCodigo(tfCpf.getText());				
+		funcionario.setSenha(tfSenha.getText());
+		funcionario.setCargo(tfCargo.getText());
+		funcionario.setNivelAcesso(cbNivelAcesso.getSelectedItem().toString());
+		funcionario.setPisPasep(tfPisPasep.getText());
+		funcionario.setSalario(Double.parseDouble(tfSalario.getText()));
+		funcionario.setCarteiraTrabalho(tfCarteiraTrabalho.getText());
+		funcionario.setEstadoCivil(cbEstadoCivil.getSelectedItem().toString());
+		funcionario.setJornadaTrabalho(tfJornadaTrabalho.getText());
+		funcionario.setAdmissao(tfAdmissao.getText());
+		funcionario.setDemissao(tfDemissao.getText());
+		funcionario.setAtivo(cbAtivo.getSelectedItem().toString());		
+											
+		funcionarioController.cadastrarFuncionario(funcionario);
+		
+		limparTela(abaDadosPessoais);
+	}
+	
+	
+	/**
+	*Exclui o funcionário selecionado na tabela de funcionários.
+	*Obtém o CPF do funcionário a partir do campo de texto correspondente na tela.
+	*Em seguida, os campos de texto na interface gráfica são limpos após a exclusão.
+	*/
+	private void excluirFuncionario() {
+		Funcionario funcionario = new Funcionario();
+		FuncionarioController funcionarioController = new FuncionarioController();	
+
+		funcionario.setCpf(tfCpf.getText());
+		funcionarioController.excluirFuncionario(funcionario);
+		
+		limparTela(abaDadosPessoais);
+	}
+	
+	/**
+	 * Método responsável por preencher os campos da tela principal com os dados do funcionários selecionado na tabela para que possam ser alterados.
+	 * A partir da linha selecionada na tabela
+	 */
+	private void preencherDadosFuncionario() {
+		abaPrincipal.setSelectedIndex(0);
+		
+		tfNome.setText(tabelaFuncionarios.getValueAt(tabelaFuncionarios.getSelectedRow(),0).toString());
+		tfEmail.setText(tabelaFuncionarios.getValueAt(tabelaFuncionarios.getSelectedRow(),1).toString());
+		tfCpf.setText(tabelaFuncionarios.getValueAt(tabelaFuncionarios.getSelectedRow(),2).toString());
+		tfRg.setText(tabelaFuncionarios.getValueAt(tabelaFuncionarios.getSelectedRow(),3).toString());
+		tfEndereco.setText(tabelaFuncionarios.getValueAt(tabelaFuncionarios.getSelectedRow(),4).toString());
+		tfTelefone.setText(tabelaFuncionarios.getValueAt(tabelaFuncionarios.getSelectedRow(),5).toString());
+		tfCelular.setText(tabelaFuncionarios.getValueAt(tabelaFuncionarios.getSelectedRow(),6).toString());
+		tfNumero.setText(tabelaFuncionarios.getValueAt(tabelaFuncionarios.getSelectedRow(),7).toString());
+		tfCep.setText(tabelaFuncionarios.getValueAt(tabelaFuncionarios.getSelectedRow(),8).toString());
+		tfDataNascimento.setText(tabelaFuncionarios.getValueAt(tabelaFuncionarios.getSelectedRow(),9).toString());
+		tfBairro.setText(tabelaFuncionarios.getValueAt(tabelaFuncionarios.getSelectedRow(),10).toString());
+		tfCidade.setText(tabelaFuncionarios.getValueAt(tabelaFuncionarios.getSelectedRow(),11).toString());
+		cbUf.setSelectedItem(tabelaFuncionarios.getValueAt(tabelaFuncionarios.getSelectedRow(),12).toString());
+		tfComplemento.setText(tabelaFuncionarios.getValueAt(tabelaFuncionarios.getSelectedRow(),13).toString());
+		tfLimite.setText(tabelaFuncionarios.getValueAt(tabelaFuncionarios.getSelectedRow(),14).toString());
+		tfCodigo.setText(tabelaFuncionarios.getValueAt(tabelaFuncionarios.getSelectedRow(),2).toString());
+		tfSenha.setText(tabelaFuncionarios.getValueAt(tabelaFuncionarios.getSelectedRow(),15).toString());
+		tfCargo.setText(tabelaFuncionarios.getValueAt(tabelaFuncionarios.getSelectedRow(),16).toString());
+		cbNivelAcesso.setSelectedItem(tabelaFuncionarios.getValueAt(tabelaFuncionarios.getSelectedRow(),17).toString());
+		tfPisPasep.setText(tabelaFuncionarios.getValueAt(tabelaFuncionarios.getSelectedRow(),18).toString());
+		tfSalario.setText(tabelaFuncionarios.getValueAt(tabelaFuncionarios.getSelectedRow(),19).toString());
+		tfCarteiraTrabalho.setText(tabelaFuncionarios.getValueAt(tabelaFuncionarios.getSelectedRow(),20).toString());
+		cbEstadoCivil.setSelectedItem(tabelaFuncionarios.getValueAt(tabelaFuncionarios.getSelectedRow(),21).toString());
+		tfJornadaTrabalho.setText(tabelaFuncionarios.getValueAt(tabelaFuncionarios.getSelectedRow(),22).toString());
+		tfAdmissao.setText(tabelaFuncionarios.getValueAt(tabelaFuncionarios.getSelectedRow(),23).toString());
+		tfDemissao.setText(tabelaFuncionarios.getValueAt(tabelaFuncionarios.getSelectedRow(),24).toString());
+		cbAtivo.setSelectedItem(tabelaFuncionarios.getValueAt(tabelaFuncionarios.getSelectedRow(),25).toString());
+	
+	}
+	
+	
+	
+	/**
+	Método responsável por alterar os dados de um funcionário cadastrado.
+	Os dados são obtidos dos campos de texto na interface gráfica e armazenados em um objeto do tipo Funcionario,
+	Em seguida, os campos de texto na interface gráfica são limpos através do método Limpar() da classe LimparCampos.
+	*/
+	private void alterarFuncionario() {
+		Funcionario funcionario = new Funcionario();
+		FuncionarioController funcionarioController = new FuncionarioController();
+		
+		funcionario.setNome(tfNome.getText());
+		funcionario.setEmail(tfEmail.getText());
+		funcionario.setCpf(tfCpf.getText());
+		funcionario.setRg(tfRg.getText());
+		funcionario.setEndereco(tfEndereco.getText());
+		funcionario.setTelefone(tfTelefone.getText());
+		funcionario.setCelular(tfCelular.getText());
+		funcionario.setNumero(Integer.parseInt(tfNumero.getText()));
+		funcionario.setCep(tfCep.getText());
+		funcionario.setDataNascimento(tfDataNascimento.getText());
+		funcionario.setBairro(tfBairro.getText());
+		funcionario.setCidade(tfCidade.getText());
+		funcionario.setUf(cbUf.getSelectedItem().toString());
+		funcionario.setComplemento(tfComplemento.getText());
+		funcionario.setLimite(Double.parseDouble(tfLimite.getText()));	
+		funcionario.setSenha(tfSenha.getText());
+		funcionario.setCargo(tfCargo.getText());
+		funcionario.setNivelAcesso(cbNivelAcesso.getSelectedItem().toString());
+		funcionario.setPisPasep(tfPisPasep.getText());
+		funcionario.setSalario(Double.parseDouble(tfSalario.getText()));
+		funcionario.setCarteiraTrabalho(tfCarteiraTrabalho.getText());
+		funcionario.setEstadoCivil(cbEstadoCivil.getSelectedItem().toString());
+		funcionario.setJornadaTrabalho(tfJornadaTrabalho.getText());
+		funcionario.setAdmissao(tfAdmissao.getText());
+		funcionario.setDemissao(tfDemissao.getText());
+		funcionario.setAtivo(cbAtivo.getSelectedItem().toString());		
+		
+		funcionario.setCpf(tfCpf.getText());
+		
+		
+		funcionarioController.alterarFuncionario(funcionario);
+		
+		limparTela(abaDadosPessoais);
+		
+	}
 	
 	/**
 	 * Launch the application.
+	 *
+	 * @param args the arguments
 	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -139,18 +406,19 @@ public class FrmFuncionario extends JFrame {
 		});
 	}
 	
+	/** The aba principal. */
 	public JTabbedPane abaPrincipal;
 
 	/**
 	 * Create the frame.
-	 * @throws ParseException 
+	 *
+	 * @throws ParseException the parse exception
 	 */
 	public FrmFuncionario() throws ParseException {
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowActivated(WindowEvent e) {
-				listar();
-				
+				consultarFuncionarios();				
 			}
 		});
 		setBackground(new Color(202, 240, 248));
@@ -169,7 +437,7 @@ public class FrmFuncionario extends JFrame {
 		abaPrincipal = new JTabbedPane(JTabbedPane.TOP);
 		abaPrincipal.setBackground(new Color(202, 240, 248));
 		
-		JPanel abaDadosPessoais = new JPanel();
+		abaDadosPessoais = new JPanel();
 		abaDadosPessoais.setBackground(new Color(202, 240, 248));
 		abaPrincipal.addTab("Dados Pessoais", null, abaDadosPessoais, null);
 	
@@ -178,6 +446,7 @@ public class FrmFuncionario extends JFrame {
 		lbCodigo.setFont(new Font("Arial", Font.BOLD, 14));
 		
 		tfCodigo = new JTextField();
+		tfCodigo.setEditable(false);
 		tfCodigo.setFont(new Font("Arial", Font.BOLD, 14));
 		tfCodigo.setColumns(10);
 		
@@ -249,8 +518,9 @@ public class FrmFuncionario extends JFrame {
 		tfCep.setFont(new Font("Arial", Font.BOLD, 14));
 		tfCep.setColumns(10);
 		
-		JComboBox<String> cbUf = new JComboBox<String>();
-		cbUf.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] {"", "AC", "AL", "AP", "AM", "BA", "CE", "DF", "ES", "GO", "MA", "MT", "MS", "MG", "PA", "PB", "PR", "PE", "PI", "RJ", "RN", "RS", "RO", "RR", "SC", "SP", "SE", "TO" }));
+		cbUf = new JComboBox<String>();
+		cbUf.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] {"", "AC", "AL", "AP", "AM", "BA", "CE", "DF", "ES", "GO", "MA", "MT", "MS", "MG", "PA",
+				"PB", "PR", "PE", "PI", "RJ", "RN", "RS", "RO", "RR", "SC", "SP", "SE", "TO" }));
 		cbUf.setFont(new Font("Arial", Font.BOLD, 14));
 		
 		JLabel lblUf = new JLabel("UF:");
@@ -287,9 +557,9 @@ public class FrmFuncionario extends JFrame {
 		
 		JLabel lblNivelDeAcesso = new JLabel("Nível de Acesso:");
 		lblNivelDeAcesso.setFont(new Font("Arial", Font.BOLD, 14));
-		cbNivelAcesso_1 = new JComboBox<String>();
-		cbNivelAcesso_1.setFont(new Font("Arial", Font.PLAIN, 14));
-		cbNivelAcesso_1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] {"","Gerente","Estoquista","Caixa"}));
+		cbNivelAcesso = new JComboBox<String>();
+		cbNivelAcesso.setFont(new Font("Arial", Font.PLAIN, 14));
+		cbNivelAcesso.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] {"","Gerente","Estoquista","Caixa"}));
 		
 				
 				JLabel lblCargo = new JLabel("Cargo:");
@@ -343,9 +613,9 @@ public class FrmFuncionario extends JFrame {
 				
 				JLabel lblAtivo = new JLabel("Ativo:");
 				lblAtivo.setFont(new Font("Arial", Font.BOLD, 14));
-				cbAtivo_1 = new JComboBox<String>();
-				cbAtivo_1.setFont(new Font("Arial", Font.PLAIN, 14));
-				cbAtivo_1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] {"","Ativo","Inativo"}));
+				cbAtivo = new JComboBox<String>();
+				cbAtivo.setFont(new Font("Arial", Font.PLAIN, 14));
+				cbAtivo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] {"","Ativo","Inativo"}));
 				
 				
 				tfEndereco = new JTextField();
@@ -362,7 +632,7 @@ public class FrmFuncionario extends JFrame {
 				JLabel lblDataNascimento = new JLabel("Data Nascimento: ");
 				lblDataNascimento.setFont(new Font("Arial", Font.BOLD, 14));
 				
-				JFormattedTextField tfDataNascimento = new JFormattedTextField(new MaskFormatter("##/##/####"));
+				tfDataNascimento = new JFormattedTextField(new MaskFormatter("##/##/####"));
 				GroupLayout gl_abaDadosPessoais = new GroupLayout(abaDadosPessoais);
 				gl_abaDadosPessoais.setHorizontalGroup(
 					gl_abaDadosPessoais.createParallelGroup(Alignment.LEADING)
@@ -416,7 +686,7 @@ public class FrmFuncionario extends JFrame {
 									.addGap(31)
 									.addComponent(lblNivelDeAcesso)
 									.addGap(4)
-									.addComponent(cbNivelAcesso_1, GroupLayout.PREFERRED_SIZE, 174, GroupLayout.PREFERRED_SIZE)
+									.addComponent(cbNivelAcesso, GroupLayout.PREFERRED_SIZE, 174, GroupLayout.PREFERRED_SIZE)
 									.addGap(33)
 									.addComponent(lblCargo)
 									.addGap(4)
@@ -450,7 +720,7 @@ public class FrmFuncionario extends JFrame {
 									.addGap(31)
 									.addComponent(lblAtivo)
 									.addGap(4)
-									.addComponent(cbAtivo_1, GroupLayout.PREFERRED_SIZE, 88, GroupLayout.PREFERRED_SIZE)
+									.addComponent(cbAtivo, GroupLayout.PREFERRED_SIZE, 88, GroupLayout.PREFERRED_SIZE)
 									.addGap(27)
 									.addComponent(lblDemisso)
 									.addGap(4)
@@ -597,7 +867,7 @@ public class FrmFuncionario extends JFrame {
 								.addGroup(gl_abaDadosPessoais.createSequentialGroup()
 									.addGap(2)
 									.addComponent(lblNivelDeAcesso))
-								.addComponent(cbNivelAcesso_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addComponent(cbNivelAcesso, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 								.addGroup(gl_abaDadosPessoais.createSequentialGroup()
 									.addGap(2)
 									.addComponent(lblCargo))
@@ -639,7 +909,7 @@ public class FrmFuncionario extends JFrame {
 								.addGroup(gl_abaDadosPessoais.createSequentialGroup()
 									.addGap(2)
 									.addComponent(lblAtivo))
-								.addComponent(cbAtivo_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addComponent(cbAtivo, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 								.addGroup(gl_abaDadosPessoais.createSequentialGroup()
 									.addGap(2)
 									.addComponent(lblDemisso))
@@ -662,6 +932,11 @@ public class FrmFuncionario extends JFrame {
 		lbCodigo_1.setFont(new Font("Arial", Font.BOLD, 14));
 		
 		JButton btnNewButton = new JButton("Pesquisar");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				consultarFuncionariosPorNome();
+			}
+		});
 		btnNewButton.setFont(new Font("Arial", Font.BOLD, 14));
 		
 		tabelaFuncionarios = new JTable();
@@ -676,6 +951,13 @@ public class FrmFuncionario extends JFrame {
 		tabelaFuncionarios.setFillsViewportHeight(true);
 		tabelaFuncionarios.setCellSelectionEnabled(true);
 		tabelaFuncionarios.setColumnSelectionAllowed(true);
+		tabelaFuncionarios.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				preencherDadosFuncionario();
+			}
+
+		});
 		GroupLayout gl_abaConsultaCliente = new GroupLayout(abaConsultaCliente);
 		gl_abaConsultaCliente.setHorizontalGroup(
 			gl_abaConsultaCliente.createParallelGroup(Alignment.LEADING)
@@ -751,6 +1033,7 @@ public class FrmFuncionario extends JFrame {
 		btnNovo.setFont(new Font("Arial", Font.BOLD, 24));
 		btnNovo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				limparTela(abaDadosPessoais);
 			}
 		});
 		
@@ -758,50 +1041,18 @@ public class FrmFuncionario extends JFrame {
 		btnEditar.setBackground(new Color(255, 202, 58));
 		btnEditar.setForeground(new Color(255, 255, 255));
 		btnEditar.setFont(new Font("Arial", Font.BOLD, 24));
+		btnEditar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			alterarFuncionario();
+			}
+		});
 		
 		JButton btnSalvar = new JButton("Salvar");
 		btnSalvar.setBackground(new Color(138, 201, 38));
 		btnSalvar.setForeground(new Color(255, 255, 255));
 		btnSalvar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Funcionario funcionario = new Funcionario();
-				
-				funcionario.setNome(tfNome.getText());
-				funcionario.setEmail(tfEmail.getText());
-				funcionario.setCpf(tfCpf.getText());
-				funcionario.setRg(tfRg.getText());
-				funcionario.setEndereco(tfEndereco.getText());
-				funcionario.setTelefone(tfTelefone.getText());
-				funcionario.setCelular(tfCelular.getText());
-				funcionario.setNumero(Integer.parseInt(tfNumero.getText()));
-				funcionario.setCep(tfCep.getText());
-				funcionario.setDataNascimento(tfDataNascimento.getText());
-				funcionario.setBairro(tfBairro.getText());
-				funcionario.setCidade(tfCidade.getText());
-				funcionario.setUf(cbUf.getSelectedItem().toString());
-				funcionario.setComplemento(tfComplemento.getText());
-				funcionario.setLimite(Double.parseDouble(tfLimite.getText()));
-				funcionario.setCodigo(tfCodigo.getText());				
-				funcionario.setSenha(tfSenha.getText());
-				funcionario.setCargo(tfCargo.getText());
-				funcionario.setNivelAcesso(cbNivelAcesso_1.getSelectedItem().toString());
-				funcionario.setPisPasep(tfPisPasep.getText());
-				funcionario.setSalario(Double.parseDouble(tfSalario.getText()));
-				funcionario.setCarteiraTrabalho(tfCarteiraTrabalho.getText());
-				funcionario.setEstadoCivil(cbEstadoCivil_1.getSelectedItem().toString());
-				funcionario.setJornadaTrabalho(tfJornadaTrabalho.getText());
-				funcionario.setAdmissao(tfAdmissao.getText());
-				funcionario.setDemissao(tfDemissao.getText());
-				funcionario.setAtivo(cbAtivo_1.getSelectedItem().toString());
-				
-				
-				
-				
-			FuncionarioController funcionarioController = new FuncionarioController();	
-				
-			funcionarioController.cadastrarFuncionario(funcionario);
-				
-				new LimparCampos().Limpar(abaDadosPessoais);
+				cadastrarFuncionario();				
 			}
 		});
 		btnSalvar.setFont(new Font("Arial", Font.BOLD, 24));
@@ -810,6 +1061,13 @@ public class FrmFuncionario extends JFrame {
 		btnExcluir.setBackground(new Color(255, 89, 94));
 		btnExcluir.setForeground(new Color(255, 255, 255));
 		btnExcluir.setFont(new Font("Arial", Font.BOLD, 24));
+		btnExcluir.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				excluirFuncionario();			
+			}
+		});
+		
+		
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)

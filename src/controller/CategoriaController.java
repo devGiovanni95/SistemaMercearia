@@ -1,4 +1,4 @@
-package controller;
+ package controller;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -10,12 +10,17 @@ import javax.swing.JOptionPane;
 import jdbc.ConnectionFactory;
 import model.Categoria;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class CategoriaController.
+ */
 public class CategoriaController {
 	
+/** The connection. */
 private Connection connection;
 	
 	/**
-	 * Método que cria uma conexão com banco de dados
+	 * Método que cria uma conexão com banco de dados.
 	 */
 	public CategoriaController() {
 		this.connection =  new ConnectionFactory().getConnection();
@@ -59,8 +64,7 @@ private Connection connection;
 					String sql = "delete from tb_categorias where cpf=?";
 					
 					PreparedStatement preparedStatement = connection.prepareStatement(sql);
-					preparedStatement.setInt(1, categoria.getCodigo());
-					
+					preparedStatement.setInt(1, categoria.getCodigo());					
 					preparedStatement.execute();
 					preparedStatement.close();
 					
@@ -73,7 +77,7 @@ private Connection connection;
 
 		
 	/**
-	 * Método que efetua a alteração de uma categoria já cadastrada no banco de dados. A partir do id da categoria, 
+	 * Método que efetua a alteração de uma categoria já cadastrada no banco de dados. A partir do codigo da categoria, 
 	 * por meio de um comando SQL.
 	 * @param categoria - objeto do tipo categoria que identifica a categoria a ser alterada no banco de dados.
 	 */
@@ -87,8 +91,7 @@ private Connection connection;
 			
 				preparedStatement.setString(1, categoria.getNomeCategoria());
 				preparedStatement.setString(2, categoria.getDescricao());
-				preparedStatement.setInt(3, categoria.getCodigo());
-				
+				preparedStatement.setInt(3, categoria.getCodigo());				
 				preparedStatement.execute();
 				preparedStatement.close();
 				
@@ -105,7 +108,7 @@ private Connection connection;
 	 * A partir de um comando SQL.
 	 * @return - retona uma lista com todas as categorias. 
 	 */
-	public List<Categoria> listarCategorias() {
+	public List<Categoria> consultarCategorias() {
 		try {
 			
 			List<Categoria> lista = new ArrayList<>();
@@ -119,8 +122,7 @@ private Connection connection;
 				
 				categoria.setCodigo (resultSet.getInt("codigo"));
 				categoria.setNomeCategoria(resultSet.getString("nome"));
-				categoria.setDescricao(resultSet.getString("descricao"));
-				
+				categoria.setDescricao(resultSet.getString("descricao"));				
 				
 				lista.add(categoria);
 			}
@@ -139,7 +141,7 @@ private Connection connection;
 	 * @param nome - parametro utilizado como base de pesquisa. 
 	 * @return - retorna uma lista com os resultados encontrados.
 	 */
-	public List<Categoria> buscarCategoriaPeloNome(String nome) {
+	public List<Categoria> consultarCategoriaPeloNome(String nome) {
 		try {
 
 			List<Categoria> lista = new ArrayList<>();

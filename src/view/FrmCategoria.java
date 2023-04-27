@@ -21,9 +21,7 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 import controller.CategoriaController;
-import controller.ClienteController;
 import model.Categoria;
-import model.Cliente;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.GridLayout;
@@ -34,23 +32,68 @@ import java.awt.event.MouseEvent;
 import javax.swing.ImageIcon;
 
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class FrmCategoria.
+ */
 public class FrmCategoria extends JFrame {
 
+	/** The content pane. */
 	private JPanel contentPane;
+	
+	/** The tf codigo. */
 	private JTextField tfCodigo;
+	
+	/** The tf categoria. */
 	private JTextField tfCategoria;
+	
+	/** The tf descricao. */
 	private JTextField tfDescricao;
+	
+	/** The tf pesquisar. */
 	private JTextField tfPesquisar;
+	
+	/** The tabela clientes. */
 	private JTable tabelaClientes;
+	
+	private JPanel abaDadosCategoria;
 	
 	
 	/**
-	 * Metodo utilizado para listar todos os clientes e adiciona-los na tabela
+	 * Método responsavel por limpar a tela referenciada.
+	 *
+	 * @param tela the tela
 	 */
-	public void listar() {
+	private void limparTela(JPanel tela) {
+		LimparCampos limpar = new LimparCampos();
+		limpar.Limpar(tela);
+	}
+	
+
+	/**
+	 * Método utilizado para cadastrar uma nova categoria com as informações preenchidas nos campos do formulário.
+	 */
+	private void cadastrarCategoria() {
+		Categoria categoria = new Categoria();
+		CategoriaController categoriaController = new CategoriaController();	
+		
+		categoria.setCodigo(Integer.parseInt(tfCodigo.getText()));
+		categoria.setNomeCategoria(tfCategoria.getText());
+		categoria.setDescricao(tfDescricao.getText());				
+		
+		categoriaController.cadastrarCategoria(categoria);
+		
+		limparTela(abaDadosCategoria);
+	}
+	
+	
+	/**
+	 * Metodo utilizado para listar todos as categorias e adiciona-las na tabela.
+	 */
+	public void consultarCategorias() {
 		try {
 		CategoriaController categoriaController = new CategoriaController();
-		List<Categoria> lista = categoriaController.listarCategorias();
+		List<Categoria> lista = categoriaController.consultarCategorias();
 		DefaultTableModel dadosTabela = (DefaultTableModel) tabelaClientes.getModel();
 		dadosTabela.setNumRows(0);
 		dadosTabela.setColumnCount(3);
@@ -68,11 +111,88 @@ public class FrmCategoria extends JFrame {
 		}catch (Exception erro) {
 			JOptionPane.showMessageDialog(null,"Ops aconteceu o erro: " + erro);
 		}
+	}
+	
+	
+	/**
+	* Método utilizado para consultar categoria pelo nome ou parte do nome para exibir na tabela.
+	* O texto pesquisado é obtido a partir do texto digitado pelo usuário.
+	*/
+	private void consultarCategoriasPorNome() {
+		String nomePesquisado = "%" + tfPesquisar.getText() + "%";
 		
+		CategoriaController categoriaController = new CategoriaController();
+		List<Categoria> lista = categoriaController.consultarCategoriaPeloNome(nomePesquisado);
+		DefaultTableModel dadosTabela = (DefaultTableModel) tabelaClientes.getModel();
+		dadosTabela.setNumRows(0);
+		dadosTabela.setColumnCount(15);
+		dadosTabela.addRow(new Object[]{"Código","Nome Categoria","Descrição"});
+		
+
+		for(Categoria categoria: lista) {
+			dadosTabela.addRow(new Object[]{
+					categoria.getCodigo(),
+					categoria.getNomeCategoria(),
+					categoria.getDescricao()
+				});
+			}
 	}
 	
 	/**
+	 * Método responsável por preencher os campos da tela principal com os dados da categoria selecionado na tabela para que possam ser alterados.
+	 * A partir da linha selecionada na tabela.
+	 */
+	private void preencherDadosCategoria() {
+		
+		abaPrincipal.setSelectedIndex(0);
+		
+		tfCodigo.setText(tabelaClientes.getValueAt(tabelaClientes.getSelectedRow(),0).toString());
+		tfCategoria.setText(tabelaClientes.getValueAt(tabelaClientes.getSelectedRow(),1).toString());
+		tfDescricao.setText(tabelaClientes.getValueAt(tabelaClientes.getSelectedRow(),2).toString());
+	}
+	
+	
+	/**
+	Método responsável por alterar os dados de uma categoria cadastrada.
+	Os dados são obtidos dos campos de texto na interface gráfica e armazenados em um objeto do tipo Categoria,
+	Em seguida, os campos de texto na interface gráfica são limpos através do método Limpar() da classe LimparCampos.
+	*/
+	private void alterarCategoria() {
+		
+		Categoria categoria = new Categoria();
+		CategoriaController categoriaController = new CategoriaController();	
+		
+		categoria.setCodigo(Integer.parseInt(tfCodigo.getText()));
+		categoria.setNomeCategoria(tfCategoria.getText());
+		categoria.setDescricao(tfDescricao.getText());						
+		
+		categoriaController.alterarCategoria(categoria);
+		
+		limparTela(abaDadosCategoria);
+	}
+	
+	
+	/**
+	*Exclui a categoria selecionado na tabela de categoria.
+	*Obtém o codigo do cliente a partir do campo de texto correspondente na tela.
+	*Em seguida, os campos de texto na interface gráfica são limpos após a exclusão.
+	*/
+	private void excluirCategoria() {
+		
+		Categoria categoria = new Categoria();
+		CategoriaController categoriaController = new CategoriaController();	
+
+		categoria.setCodigo(Integer.parseInt(tfCodigo.getText()));
+		
+		categoriaController.cadastrarCategoria(categoria);
+		
+		limparTela(abaDadosCategoria);
+	}
+	
+	
+	/**
 	 * Launch the application.
+	 * @param args the arguments
 	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -86,18 +206,21 @@ public class FrmCategoria extends JFrame {
 			}
 		});
 	}
+	
+	/** The aba principal. */
 	public JTabbedPane abaPrincipal;
 
 	/**
 	 * Create the frame.
-	 * @throws ParseException 
+	 *
+	 * @throws ParseException the parse exception
 	 */
 	public FrmCategoria() throws ParseException {
 		setBackground(new Color(202, 240, 248));
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowActivated(WindowEvent e) {
-				listar();
+				consultarCategorias();
 			}
 		});
 		setForeground(new Color(24, 52, 70));
@@ -119,7 +242,7 @@ public class FrmCategoria extends JFrame {
 		abaPrincipal = new JTabbedPane(JTabbedPane.TOP);
 		abaPrincipal.setBackground(new Color(202, 240, 248));
 		
-		JPanel abaDadosCategoria = new JPanel();
+		abaDadosCategoria = new JPanel();
 		abaDadosCategoria.setBackground(new Color(202, 240, 248));
 		abaDadosCategoria.setMaximumSize(new Dimension(1360, 768));
 		abaPrincipal.addTab("Dados de Categoria", null, abaDadosCategoria, null);
@@ -198,37 +321,8 @@ public class FrmCategoria extends JFrame {
 		
 		JButton btnPesquisar = new JButton("Pesquisar");
 		btnPesquisar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-				String nomePesquisado = "%" + tfPesquisar.getText() + "%";
-				
-					ClienteController clienteController = new ClienteController();
-					List<Cliente> lista = clienteController.buscarClientePeloNome(nomePesquisado);
-					DefaultTableModel dadosTabela = (DefaultTableModel) tabelaClientes.getModel();
-					dadosTabela.setNumRows(0);
-					dadosTabela.setColumnCount(15);
-					dadosTabela.addRow(new Object[]{"Nome","E-mail","CPF","RG","Endereço","Telefone","Celular","Numero","CEP","Data Nascimento", "Bairro","Cidade","UF","Complemento","Limite"});
-					
-
-					for(Cliente cliente : lista) {
-						dadosTabela.addRow(new Object[]{
-								cliente.getNome(),
-								cliente.getEmail(),
-								cliente.getCpf(),
-								cliente.getRg(),
-								cliente.getEndereco(),
-								cliente.getTelefone(),
-								cliente.getCelular(),
-								cliente.getNumero(),
-								cliente.getCep(),
-								cliente.getDataNascimento(),
-								cliente.getBairro(),
-								cliente.getCidade(),
-								cliente.getUf(),
-								cliente.getComplemento(),
-								cliente.getLimite()		
-							});
-						}
+			public void actionPerformed(ActionEvent e) {				
+				consultarCategoriasPorNome();
 			}
 		});
 		btnPesquisar.setFont(new Font("Tahoma", Font.BOLD, 14));
@@ -237,12 +331,7 @@ public class FrmCategoria extends JFrame {
 		tabelaClientes.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				//pega os dados
-				abaPrincipal.setSelectedIndex(0);
-				
-				tfCodigo.setText(tabelaClientes.getValueAt(tabelaClientes.getSelectedRow(),0).toString());
-				tfCategoria.setText(tabelaClientes.getValueAt(tabelaClientes.getSelectedRow(),1).toString());
-				tfDescricao.setText(tabelaClientes.getValueAt(tabelaClientes.getSelectedRow(),2).toString());
+				preencherDadosCategoria();
 			}
 		});
 		
@@ -349,19 +438,7 @@ public class FrmCategoria extends JFrame {
 		btnAlterar.setBackground(new Color(255, 202, 58));
 		btnAlterar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
-				Categoria categoria = new Categoria();
-				
-				categoria.setCodigo(Integer.parseInt(tfCodigo.getText()));
-				categoria.setNomeCategoria(tfCategoria.getText());
-				categoria.setDescricao(tfDescricao.getText());
-						
-				
-				CategoriaController categoriaController = new CategoriaController();	
-				
-				categoriaController.alterarCategoria(categoria);
-				
-				new LimparCampos().Limpar(abaDadosCategoria);
+				alterarCategoria();
 			}
 		});
 		btnAlterar.setFont(new Font("Arial", Font.BOLD, 24));
@@ -372,17 +449,7 @@ public class FrmCategoria extends JFrame {
 		btnSalvar.setBackground(new Color(138, 201, 38));
 		btnSalvar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Categoria categoria = new Categoria();
-				
-				categoria.setCodigo(Integer.parseInt(tfCodigo.getText()));
-				categoria.setNomeCategoria(tfCategoria.getText());
-				categoria.setDescricao(tfDescricao.getText());
-				
-				CategoriaController categoriaController = new CategoriaController();	
-				
-				categoriaController.cadastrarCategoria(categoria);
-				
-				new LimparCampos().Limpar(abaDadosCategoria);
+				cadastrarCategoria();
 			}
 		});
 		btnSalvar.setFont(new Font("Arial", Font.BOLD, 24));
@@ -393,16 +460,7 @@ public class FrmCategoria extends JFrame {
 		btnExcluir.setBackground(new Color(255, 89, 94));
 		btnExcluir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
-				Categoria categoria = new Categoria();
-
-				categoria.setCodigo(Integer.parseInt(tfCodigo.getText()));
-
-				CategoriaController categoriaController = new CategoriaController();	
-				
-				categoriaController.cadastrarCategoria(categoria);
-				
-				new LimparCampos().Limpar(abaDadosCategoria);
+				excluirCategoria();
 			}
 		});
 		btnExcluir.setFont(new Font("Arial", Font.BOLD, 24));

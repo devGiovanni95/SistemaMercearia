@@ -7,6 +7,10 @@ import javax.swing.JDesktopPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class LimparCampos.
+ */
 public class LimparCampos {
 
 	/**

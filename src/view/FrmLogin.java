@@ -28,14 +28,25 @@ import java.awt.event.MouseEvent;
 import javax.swing.JFormattedTextField;
 import javax.swing.JPasswordField;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class FrmLogin.
+ */
 public class FrmLogin extends JFrame {
 
+	/** The content pane. */
 	private JPanel contentPane;
+	
+	/** The tf email. */
 	private JTextField tfEmail;
+	
+	/** The tf senha. */
 	private JPasswordField tfSenha;
 
 	/**
 	 * Launch the application.
+	 *
+	 * @param args the arguments
 	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -62,6 +73,7 @@ public class FrmLogin extends JFrame {
 		contentPane.setBorder(new EmptyBorder(0, 0, 0, 0));
 		this.setLocationRelativeTo(null);//tela centralizada
 		setContentPane(contentPane);
+		setTitle("TEla de Login");
 
 		
 		//Criando plano de fundo
@@ -205,12 +217,12 @@ public class FrmLogin extends JFrame {
 					
 					FuncionarioController funcionarioController = new FuncionarioController();
 					
-					funcionarioController.efetuarLogin(email, senha);
+					funcionarioController.autenticar(email, senha);
 					tfEmail.setText("");
 					tfSenha.setText("");
 					
 				} catch (Exception e2) {
-					JOptionPane.showMessageDialog(null,"Erro: "+e2);
+					JOptionPane.showMessageDialog(null,"Erro: "+ e2 );
 				}
 				
 			}

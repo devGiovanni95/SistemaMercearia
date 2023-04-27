@@ -11,12 +11,17 @@ import jdbc.ConnectionFactory;
 import model.Funcionario;
 import view.FrmMenuPrincipal;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class FuncionarioController.
+ */
 public class FuncionarioController {
 
+	/** The connection. */
 	private Connection connection;
 	
 	/**
-	 * Método que cria uma conexão com banco de dados
+	 * Método que cria uma conexão com banco de dados.
 	 */
 	public FuncionarioController() {
 		this.connection =  new ConnectionFactory().getConnection();
@@ -25,7 +30,7 @@ public class FuncionarioController {
 
 	/**
 	 * Método efetua um comando SQL para efetuar a inserção no banco de dados de um novo funcionario.
-	 * @param cliente - um objeto do tipo funcionario com os atributos correspondentes
+	 * @param funcionario - objeto do tipo funcionario
 	 */
 	public void cadastrarFuncionario(Funcionario funcionario) {
 		try {
@@ -76,10 +81,10 @@ public class FuncionarioController {
 	
 	
 	/**
-	 * Método que a partir do código passado, executa o comando SQL para a exclusão do funcionario no banco de dados.
-	 * @param funcionario - objeto do tipo funcionario que identifica o funcionario a ser excluido no banco de dados.
+	 * Método que a partir do código passado, executa o comando SQL para a exclusão do funcionário no banco de dados.
+	 * @param funcionario - objeto do tipo funcionário que identifica o funcionário a ser excluido no banco de dados.
 	 */
-	public void excluirCliente(Funcionario funcionario) {
+	public void excluirFuncionario(Funcionario funcionario) {
 		try {					
 					String sql = "delete from tb_funcionarios where cpf=?";
 					
@@ -101,7 +106,7 @@ public class FuncionarioController {
 	 * por meio de um comando SQL.
 	 * @param funcionario - objeto do tipo funcionário que identifica o funcionario a ser alterado no banco de dados.
 	 */
-	public void alterarCliente(Funcionario funcionario) {
+	public void alterarFuncionario(Funcionario funcionario) {
 		try {
 				
 				String sql = "update tb_funcionarios set nome=?,email=?,cpf=?,rg=?,endereco=?,telefone=?,celular=?,numero=?,cep=?,dataNascimento=?,bairro=?,cidade=?,uf=?,complemento=?,limite=?,"
@@ -153,7 +158,7 @@ public class FuncionarioController {
 	 * A partir de um comando SQL.
 	 * @return - retona uma lista com todos de funcionários 
 	 */
-	public List<Funcionario> listarFuncionario() {
+	public List<Funcionario> ConsultarFuncionarios() {
 		try {
 
 			List<Funcionario> lista = new ArrayList<>();
@@ -207,10 +212,11 @@ public class FuncionarioController {
 	/**
 	 * Método que cria um ArrayList do tipo funcionário para listar os funcionários do banco de dados que
 	 *  corresponde ao nome digitado. A partir de um comando SQL.
-	 * @param nome - parametro utilizado como base de pesquisa. 
-	 * @return
+	 *
+	 * @param nome - parametro utilizado como base de pesquisa.
+	 * @return lista - retorna uma lista de funcionários.
 	 */
-	public List<Funcionario> buscarFuncionarioPeloNome(String nome) {
+	public List<Funcionario> consultarFuncionariosPorNome(String nome) {
 		try {
 			
 			List<Funcionario> lista = new ArrayList<>();
@@ -269,7 +275,7 @@ public class FuncionarioController {
 	 * @param email - parametro a ser conferido como nome de usuário.
 	 * @param senha - parametro a ser conferido como nome de senha.
 	 */
-	public void efetuarLogin(String email, String senha) {
+	public void autenticar(String email, String senha) {
 		
 		try {
 			String sql = "select * from tb_funcionarios where email=? and senha=?";
@@ -282,6 +288,7 @@ public class FuncionarioController {
 			if(resultSet.next()) {
 				JOptionPane.showMessageDialog(null, "Seja bem vindo ao Sistema ");	
 				FrmMenuPrincipal frmMenuPrincipal = new FrmMenuPrincipal();
+				frmMenuPrincipal.usuarioLogado = resultSet.getString("nome");
 				frmMenuPrincipal.setVisible(true);
 			}else {
 				JOptionPane.showMessageDialog(null, "Dados incorretos");

@@ -13,12 +13,17 @@ import javax.swing.JOptionPane;
 import jdbc.ConnectionFactory;
 import model.Fornecedor;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class FornecedorController.
+ */
 public class FornecedorController {
 	
+	/** The connection. */
 	private Connection connection;
 	
 	/**
-	 * Método que cria uma conexão com banco de dados
+	 * Método que cria uma conexão com banco de dados.
 	 */
 	public FornecedorController() {
 		this.connection =  new ConnectionFactory().getConnection();
