@@ -138,7 +138,7 @@ public class ProdutosController {
 	 * A partir de um comando SQL.
 	 * @return - retorna uma lista com todos os produtos. 
 	 */
-	public List<Produtos> consultarProdutos() {
+	public List<Produtos> consultargitProdutos() {
 		
 
 		try {
