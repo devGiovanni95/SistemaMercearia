@@ -217,12 +217,12 @@ public class FrmLogin extends JFrame {
 					
 					FuncionarioController funcionarioController = new FuncionarioController();
 					
-					funcionarioController.efetuarLogin(email, senha);
+					funcionarioController.autenticar(email, senha);
 					tfEmail.setText("");
 					tfSenha.setText("");
 					
 				} catch (Exception e2) {
-					JOptionPane.showMessageDialog(null,"Erro: "+e2);
+					JOptionPane.showMessageDialog(null,"Erro: "+ e2 );
 				}
 				
 			}

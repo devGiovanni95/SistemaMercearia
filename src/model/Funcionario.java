@@ -1,9 +1,5 @@
 package model;
 
-import javax.swing.JFormattedTextField;
-import javax.swing.JTable;
-import javax.swing.JTextField;
-
 // TODO: Auto-generated Javadoc
 /**
  * The Class Funcionario.
