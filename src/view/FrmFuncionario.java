@@ -418,8 +418,7 @@ public class FrmFuncionario extends JFrame {
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowActivated(WindowEvent e) {
-				consultarFuncionarios();
-				
+				consultarFuncionarios();				
 			}
 		});
 		setBackground(new Color(202, 240, 248));

@@ -141,9 +141,7 @@ private Connection connection;
 				//buscando o nome via sql
 				categoria.setNomeCategoria(resultSet.getString("c.nome"));
 				//adiciona a categoria
-				subCategoria.setCategoria(categoria);
-				
-				
+				subCategoria.setCategoria(categoria);		
 				
 				lista.add(subCategoria);
 			}
@@ -156,50 +154,13 @@ private Connection connection;
 		}
 	}
 	
-	/**
-	 * Método que cria um ArrayList do tipo subCategoria para listar as subCategoria do banco de dados que
-	 *  corresponde ao nome digitado. A partir de um comando SQL.
-	 * @param nome - parametro utilizado como base de pesquisa. 
-	 * @return - retorna uma lista com os resultados encontrados.
-	 */
-	/*public List<SubCategoria> buscarsubCategoriaPeloNome(String nome) {
-		try {
-
-			List<SubCategoria> lista = new ArrayList<>();
-
-			String sql = "select sc.codigo, sc.nome, sc.descricao, c.nome "
-					+ "from tb_subCategorias as sc join tb_categorias as c"
-					+ " on ( sc.cod_categoria =  c.codigo)  where nome like ?";
-			//String sql = "select * from tb_subCategorias where nome like ?";
-			PreparedStatement preparedStatement = connection.prepareStatement(sql);
-			preparedStatement.setString(1,nome);			
-			ResultSet resultSet = preparedStatement.executeQuery();
-			
-			while(resultSet.next()) {
-				SubCategoria subCategoria = new SubCategoria();
-				
-				subCategoria.setCodigo (resultSet.getInt("codigo"));
-				subCategoria.setCategoria(resultSet.getInt("cod_categoria"));
-				subCategoria.setSubCategoria(resultSet.getString("nome"));
-				subCategoria.setDescricao(resultSet.getString("descricao"));
-			
-				lista.add(subCategoria);
-			}
-			
-			return lista;
-						
-		} catch (SQLException e) {
-			JOptionPane.showMessageDialog(null, "Erro: " + e );
-			return null;
-		}
-	}*/
-	//*
 
 	  public List<SubCategoria> consultarSubCategoriaPorNome(String nome) {
 	        try {
 	        	List<SubCategoria> lista = new ArrayList<>();
 	        	
-	        	String sql = "select * from tb_clientes where nome_subcategoria like ?";
+	        	String sql = "select * from tb_subCategorias where nome like ?";
+	        	
 	        	PreparedStatement preparedStatement = connection.prepareStatement(sql);	        	
 	            preparedStatement.setString(1, nome);
 	            ResultSet resultSet = preparedStatement.executeQuery();
@@ -208,11 +169,11 @@ private Connection connection;
 	               SubCategoria subCategoria = new SubCategoria();
 	                Categoria categoria = new Categoria();
 	                
-	                subCategoria.setCodigo(resultSet.getInt("id"));
-	                categoria.setCodigo(resultSet.getInt("categoria_id"));          
+	                subCategoria.setCodigo(resultSet.getInt("codigo"));
+	                categoria.setCodigo(resultSet.getInt("cod_categoria"));          
 	                subCategoria.setCategoria(categoria);
-	                subCategoria.setSubCategoria(resultSet.getString("nome_subcategoria"));
-	                subCategoria.setDescricao(resultSet.getString("descricao_subcategoria"));
+	                subCategoria.setSubCategoria(resultSet.getString("nome"));
+	                subCategoria.setDescricao(resultSet.getString("descricao"));
 	                
 	                lista.add(subCategoria);
 	            }
