@@ -138,7 +138,7 @@ public class ProdutosController {
 	 * A partir de um comando SQL.
 	 * @return - retorna uma lista com todos os produtos. 
 	 */
-	public List<Produtos> listarProdutos() {
+	public List<Produtos> consultargitProdutos() {
 		
 
 		try {
@@ -196,7 +196,7 @@ public class ProdutosController {
 	 * @param nome - parametro utilizado como base de pesquisa. 
 	 * @return - retorna uma lista com os resultados encontrados.
 	 */
-	public List<Produtos> buscarProdutoPorNome(String nome) {
+	public List<Produtos> consultarProdutoPorNome(String nome) {
 		List<Produtos> lista = new ArrayList<>();
 		String sql = "SELECT * FROM produtos WHERE descricao LIKE ?";
 

@@ -123,7 +123,7 @@ public class FornecedorController {
 	 * A partir de um comando SQL.
 	 * @return - retorna uma lista com todos os fornecedores. 
 	 */
-	public List<Fornecedor> listarFornecedores() {
+	public List<Fornecedor> consultarFornecedores() {
 	    List<Fornecedor> lista = new ArrayList<>();
 	    String sql = "SELECT * FROM tb_fornecedores";
 	    
@@ -164,7 +164,7 @@ public class FornecedorController {
 	 * @param nome - parametro utilizado como base de pesquisa. 
 	 * @return - retorna uma lista com os resultados encontrados.
 	 */
-	public List<Fornecedor> buscarFornecedorPorNome(String nome) {
+	public List<Fornecedor> consultarFornecedorPorNome(String nome) {
 	    List<Fornecedor> lista = new ArrayList<>();
 	    String sql = "SELECT * FROM tb_fornecedores WHERE nome LIKE ?";
 	    
