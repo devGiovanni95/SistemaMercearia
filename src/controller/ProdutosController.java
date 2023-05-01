@@ -57,7 +57,7 @@ public class ProdutosController {
 			preparedStatement.setString(3, produto.getMarca());
 			preparedStatement.setInt(4, produto.getSubCategoria().getCodigo());
 			preparedStatement.setString(5, produto.getUnidadeDeMedida());
-			preparedStatement.setInt(6, produto.getQuantidade());
+			preparedStatement.setDouble(6, produto.getQuantidade());
 			preparedStatement.setDate(7, new java.sql.Date(produto.getDataFabricacao().getTime()));
 			preparedStatement.setDate(8, new java.sql.Date(produto.getDataValidade().getTime()));
 			preparedStatement.setString(9, produto.getLote());
@@ -110,7 +110,7 @@ public class ProdutosController {
 			preparedStatement.setString(3, produto.getMarca());
 			preparedStatement.setInt(4, produto.getSubCategoria().getCodigo());
 			preparedStatement.setString(5, produto.getUnidadeDeMedida());
-			preparedStatement.setInt(6, produto.getQuantidade());
+			preparedStatement.setDouble(6, produto.getQuantidade());
 			preparedStatement.setDate(7, new java.sql.Date(produto.getDataFabricacao().getTime()));
 			preparedStatement.setDate(8, new java.sql.Date(produto.getDataValidade().getTime()));
 			preparedStatement.setString(9, produto.getLote());
@@ -138,7 +138,7 @@ public class ProdutosController {
 	 * A partir de um comando SQL.
 	 * @return - retorna uma lista com todos os produtos. 
 	 */
-	public List<Produtos> consultargitProdutos() {
+	public List<Produtos> consultarProdutos() {
 		
 
 		try {
@@ -167,7 +167,7 @@ public class ProdutosController {
 				produto.setSubCategoria(subCategoria);			
 				
 				produto.setUnidadeDeMedida(resultSet.getString("p.unidade_de_medida"));
-				produto.setQuantidade(resultSet.getInt("p.quantidade"));
+				produto.setQuantidade(resultSet.getDouble("p.quantidade"));
 				produto.setDataFabricacao(resultSet.getDate("p.data_fabricacao"));
 				produto.setDataValidade(resultSet.getDate("p.data_validade"));
 				produto.setLote(resultSet.getString("p.lote"));
@@ -212,7 +212,7 @@ public class ProdutosController {
 				produto.setMarca(resultSet.getString("marca"));
 				//produto.setSubcategoria(buscarSubCategoriaPorId(resultSet.getInt("sub_categoria_id")));
 				produto.setUnidadeDeMedida(resultSet.getString("unidade_de_medida"));
-				produto.setQuantidade(resultSet.getInt("quantidade"));
+				produto.setQuantidade(resultSet.getDouble("quantidade"));
 				produto.setDataFabricacao(resultSet.getDate("data_fabricacao"));
 				produto.setDataValidade(resultSet.getDate("data_validade"));
 				produto.setLote(resultSet.getString("lote"));
@@ -230,6 +230,43 @@ public class ProdutosController {
 
 		return lista;
 	}
+	
+	public Produtos consultarProdutosPorCodigoBarras(String codigoDeBarras) {
+		
+
+		try {
+				
+//				List<Produtos> lista = new ArrayList<>();
+				
+				String sql = "select descricao, codigo_de_barras,unidade_de_medida, quantidade, data_fabricacao,"
+						+ " preco_final "
+						+ "from tb_produtos where codigo_de_barras = ?";
+				
+				PreparedStatement preparedStatement = connection.prepareStatement(sql);
+				preparedStatement.setString(1, codigoDeBarras);
+				ResultSet resultSet = preparedStatement.executeQuery();
+				Produtos produto = new Produtos();
+				SubCategoria subCategoria = new SubCategoria();
+				
+			if (resultSet.next()) {				
+			
+				
+				produto.setDescricao(resultSet.getString("descricao"));
+				produto.setCodigoDeBarras(resultSet.getString("codigo_de_barras"));
+				produto.setUnidadeDeMedida(resultSet.getString("unidade_de_medida"));
+				produto.setQuantidade(resultSet.getDouble("quantidade"));
+				produto.setPrecoFinal(resultSet.getDouble("preco_final"));
+
+			}
+			
+			return produto;
+
+		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(null, "Erro ao listar produtos: " + e);
+			return null;
+		}
+	}
+
 
 }
 

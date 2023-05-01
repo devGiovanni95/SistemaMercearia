@@ -12,7 +12,6 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
 import java.util.List;
 
 import javax.swing.GroupLayout;
@@ -35,13 +34,8 @@ import javax.swing.event.AncestorListener;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
-
-import controller.CategoriaController;
-import controller.ClienteController;
 import controller.ProdutosController;
 import controller.SubCategoriaController;
-import model.Categoria;
-import model.Cliente;
 import model.Produtos;
 import model.SubCategoria;
 import util.LimparCampos;
@@ -97,7 +91,7 @@ public class FrmProdutos extends JFrame {
 	private JTable tbProdutos;
 	
 	/** The cb sub categoria. */
-	private JComboBox<String> cbSubCategoria;
+	private JComboBox<SubCategoria> cbSubCategoria;
 	
 	/** The cb unidade de medida. */
 	private JComboBox<String> cbUnidadeDeMedida;
@@ -112,7 +106,7 @@ public class FrmProdutos extends JFrame {
 	private void listar() {
 		try {
 		ProdutosController produtosController = new ProdutosController();
-		List<Produtos> lista = produtosController.listarProdutos();
+		List<Produtos> lista = produtosController.consultarProdutos();
 		DefaultTableModel dadosTabela = (DefaultTableModel) tbProdutos.getModel();
 		dadosTabela.setNumRows(0);
 		dadosTabela.setColumnCount(15);
@@ -151,6 +145,7 @@ public class FrmProdutos extends JFrame {
 	private void salvar() {
 		 	Produtos produto = new Produtos();
 	        SubCategoria subCategoria = new SubCategoria();
+	        ProdutosController produtosController = new ProdutosController();
 	        
 	        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
@@ -158,11 +153,11 @@ public class FrmProdutos extends JFrame {
 	        produto.setCodigoDeBarras(tfCodigoDeBarras.getText());
 	        produto.setMarca(tfMarca.getText());
 	        
-	        subCategoria = (SubCategoria)cbSubCategoria.getSelectedItem();
+	        subCategoria = (SubCategoria) cbSubCategoria.getSelectedItem();
 	        produto.setSubCategoria(subCategoria);
 	        
 	        produto.setUnidadeDeMedida(cbUnidadeDeMedida.getSelectedItem().toString());
-	        produto.setQuantidade(Integer.parseInt(tfQtdEstoque.getText()));
+	        produto.setQuantidade(Double.parseDouble(tfQtdEstoque.getText()));
 	        
 	        try {
 	            produto.setDataFabricacao(dateFormat.parse(tfDataFabricacao.getText()));
@@ -177,11 +172,12 @@ public class FrmProdutos extends JFrame {
 	        produto.setIcms(Double.parseDouble(tfIcms.getText()));
 	        produto.setMargemLucro(Double.parseDouble(tfMargem.getText()));
 	        produto.setPrecoCusto(Double.parseDouble(tfPrecoCusto.getText()));
-	     
+	        
+	        produto.setPrecoFinal(Double.parseDouble(tfPrecoFinal.getText().replaceAll(",",".")));
 	        // Calcular o preço final com base na margem de lucro, IPI e ICMS
-	        atualizarPrecoFinal();
+	        //atualizarPrecoFinal();
 
-	        ProdutosController produtosController = new ProdutosController(); 
+	      
 	        
 	        produtosController.cadastrarProduto(produto);
 	     
@@ -464,14 +460,14 @@ public class FrmProdutos extends JFrame {
 		JLabel lblUnidadeDeMedida = new JLabel("Unidade de Medida: ");
 		lblUnidadeDeMedida.setFont(new Font("Arial", Font.BOLD, 14));
 		
-		JComboBox<String> cbUnidadeDeMedida = new JComboBox<String>();
+		cbUnidadeDeMedida = new JComboBox<String>();
 		cbUnidadeDeMedida.setBackground(Color.WHITE);
 		cbUnidadeDeMedida.setFont(new Font("Arial", Font.BOLD, 14));
 		cbUnidadeDeMedida.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] {
 				"KG","UN", "CX"
 		}));
 		
-		JComboBox<SubCategoria> cbSubCategoria = new JComboBox<SubCategoria>();
+		cbSubCategoria = new JComboBox<SubCategoria>();
 		cbSubCategoria.addAncestorListener(new AncestorListener() {
 			public void ancestorAdded(AncestorEvent event) {
 				

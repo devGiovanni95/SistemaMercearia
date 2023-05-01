@@ -104,7 +104,6 @@ public class FrmCliente extends JFrame {
 	
 	/**
 	 * Método responsavel por limpar a tela referenciada.
-	 *
 	 * @param tela the tela
 	 */
 	private void limparTela(JPanel tela) {

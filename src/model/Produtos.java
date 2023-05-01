@@ -28,7 +28,7 @@ public class Produtos {
 	private String unidadeDeMedida;
 	
 	/** The quantidade. */
-	private int quantidade;
+	private double quantidade;
 	
 	/** The data fabricacao. */
 	private Date dataFabricacao;
@@ -178,7 +178,7 @@ public class Produtos {
 	 *
 	 * @return the quantidade
 	 */
-	public int getQuantidade() {
+	public double getQuantidade() {
 		return quantidade;
 	}
 	
@@ -187,7 +187,7 @@ public class Produtos {
 	 *
 	 * @param quantidade the new quantidade
 	 */
-	public void setQuantidade(int quantidade) {
+	public void setQuantidade(double quantidade) {
 		this.quantidade = quantidade;
 	}
 	

@@ -4,19 +4,19 @@ public class FrenteCaixa {
 
 	//Dados para tela de Frente de Caixa
 	
-	private int qtdItens;
+	private double qtdItens;
 	private String codBarras;
-	private float precoUnitario;
+	private double precoUnitario;
 	private String cpf;
-	private float subTotal;
-	private Produto produto;
+	private double subTotal;
+	private Produtos produto;
 	
 	//Métodos getter and setter para manipulação dos dados.
 	
-	public int getQtdItens() {
+	public double getQtdItens() {
 		return qtdItens;
 	}
-	public void setQtdItens(int qtdItens) {
+	public void setQtdItens(double qtdItens) {
 		this.qtdItens = qtdItens;
 	}
 	public String getCodBarras() {
@@ -25,10 +25,10 @@ public class FrenteCaixa {
 	public void setCodBarras(String codBarras) {
 		this.codBarras = codBarras;
 	}
-	public float getPrecoUnitario() {
+	public double getPrecoUnitario() {
 		return precoUnitario;
 	}
-	public void setPrecoUnitario(float precoUnitario) {
+	public void setPrecoUnitario(double precoUnitario) {
 		this.precoUnitario = precoUnitario;
 	}
 	public String getCpf() {
@@ -37,10 +37,10 @@ public class FrenteCaixa {
 	public void setCpf(String cpf) {
 		this.cpf = cpf;
 	}
-	public float getSubTotal() {
+	public double getSubTotal() {
 		return subTotal;
 	}
-	public void setSubTotal(float subTotal) {
+	public void setSubTotal(double subTotal) {
 		this.subTotal = subTotal;
 	}
 	

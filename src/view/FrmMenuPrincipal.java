@@ -29,10 +29,31 @@ import java.awt.event.WindowEvent;
 public class FrmMenuPrincipal extends JFrame {
 	
 	/** The usuario logado. */
-	public String usuarioLogado;
+	private String usuarioLogado;
+	
+	private boolean situacaoCaixa;
 	
 	/** The lbl nome funcionario logado. */
 	private JLabel lblNomeFuncionarioLogado;
+	
+	
+	
+
+	public String getUsuarioLogado() {
+		return usuarioLogado;
+	}
+
+	public void setUsuarioLogado(String usuarioLogado) {
+		this.usuarioLogado = usuarioLogado;
+	}
+
+	public boolean getSituacaoCaixa() {
+		return situacaoCaixa;
+	}
+
+	public void setSituacaoCaixa(boolean situacaoCaixa) {
+		this.situacaoCaixa = situacaoCaixa;
+	}
 
 	/**
 	 * Launch the application.

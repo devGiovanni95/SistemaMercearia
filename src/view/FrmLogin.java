@@ -73,7 +73,7 @@ public class FrmLogin extends JFrame {
 		contentPane.setBorder(new EmptyBorder(0, 0, 0, 0));
 		this.setLocationRelativeTo(null);//tela centralizada
 		setContentPane(contentPane);
-		setTitle("TEla de Login");
+		setTitle("Tela de Login");
 
 		
 		//Criando plano de fundo

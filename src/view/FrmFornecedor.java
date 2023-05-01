@@ -97,7 +97,7 @@ public class FrmFornecedor extends JFrame {
 	public void listarFornecedores() {
 		try {
 			FornecedorController fornecedorController = new FornecedorController();
-			List<Fornecedor> lista = fornecedorController.listarFornecedores();
+			List<Fornecedor> lista = fornecedorController.consultarFornecedores();
 			DefaultTableModel dadosTabela = (DefaultTableModel) tabelaFornecedores.getModel();
 			dadosTabela.setNumRows(0);
 			dadosTabela.setColumnCount(14);
@@ -172,121 +172,6 @@ public class FrmFornecedor extends JFrame {
 		
 		abaPrincipal = new JTabbedPane(JTabbedPane.TOP);
 		abaPrincipal.setBackground(new Color(202, 240, 248));
-		
-		JPanel abaConsultaCliente = new JPanel();
-		abaConsultaCliente.setBackground(new Color(202, 240, 248));
-		abaPrincipal.addTab("Consulta Fornecedores", null, abaConsultaCliente, null);
-
-		
-		textField = new JTextField();
-		textField.setColumns(10);
-		
-		JLabel lbCodigo_1 = new JLabel("Código: ");
-		lbCodigo_1.setFont(new Font("Arial", Font.BOLD, 14));
-		
-		JButton btnNewButton = new JButton("Pesquisar");
-		btnNewButton.setFont(new Font("Tahoma", Font.BOLD, 14));
-		
-		tabelaFornecedores = new JTable();
-		tabelaFornecedores.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-		tabelaFornecedores.setModel(new DefaultTableModel(
-			new Object[][] {
-				{null, null, null, null, null, null, null, null, null, null},
-			},
-			new String[] {
-				"New column", "New column", "New column", "New column", "New column", "New column", "New column", "New column", "New column", "New column"
-			}
-		));
-		tabelaFornecedores.setFillsViewportHeight(true);
-		tabelaFornecedores.setCellSelectionEnabled(true);
-		tabelaFornecedores.setColumnSelectionAllowed(true);
-		GroupLayout gl_abaConsultaCliente = new GroupLayout(abaConsultaCliente);
-		gl_abaConsultaCliente.setHorizontalGroup(
-			gl_abaConsultaCliente.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_abaConsultaCliente.createSequentialGroup()
-					.addGap(30)
-					.addComponent(lbCodigo_1)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(textField, GroupLayout.PREFERRED_SIZE, 483, GroupLayout.PREFERRED_SIZE)
-					.addGap(18)
-					.addComponent(btnNewButton, GroupLayout.PREFERRED_SIZE, 119, GroupLayout.PREFERRED_SIZE)
-					.addGap(13))
-				.addComponent(tabelaFornecedores, GroupLayout.DEFAULT_SIZE, 1329, Short.MAX_VALUE)
-		);
-		gl_abaConsultaCliente.setVerticalGroup(
-			gl_abaConsultaCliente.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_abaConsultaCliente.createSequentialGroup()
-					.addGap(22)
-					.addGroup(gl_abaConsultaCliente.createParallelGroup(Alignment.BASELINE)
-						.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lbCodigo_1)
-						.addComponent(btnNewButton))
-					.addPreferredGap(ComponentPlacement.RELATED, 92, Short.MAX_VALUE)
-					.addComponent(tabelaFornecedores, GroupLayout.PREFERRED_SIZE, 399, GroupLayout.PREFERRED_SIZE))
-		);
-		abaConsultaCliente.setLayout(gl_abaConsultaCliente);
-		
-		tfCelular = new JTextField();
-		tfCelular.setColumns(10);
-		
-		tfTelefone = new JFormattedTextField();
-		tfTelefone.setColumns(10);
-		
-		tfCep = new JFormattedTextField();
-		tfCep.setColumns(10);
-		
-		JLabel lblNewLabel = new JLabel("Fornecedores");
-		lblNewLabel.setForeground(Color.WHITE);
-		lblNewLabel.setFont(new Font("Arial Black", Font.BOLD, 40));
-		
-		JLabel lblNewLabel_1_3 = new JLabel("Voltar");
-		lblNewLabel_1_3.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				FrmMenuPrincipal menu = new FrmMenuPrincipal();
-				menu.setVisible(true);
-			}
-		});
-		lblNewLabel_1_3.setIcon(new ImageIcon(FrmFornecedor.class.getResource("/assets/sair.png")));
-		lblNewLabel_1_3.setForeground(Color.WHITE);
-		lblNewLabel_1_3.setFont(new Font("Arial", Font.BOLD, 18));
-		GroupLayout gl_panel = new GroupLayout(panel);
-		gl_panel.setHorizontalGroup(
-			gl_panel.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panel.createSequentialGroup()
-					.addComponent(lblNewLabel)
-					.addGap(888)
-					.addComponent(lblNewLabel_1_3, GroupLayout.PREFERRED_SIZE, 88, GroupLayout.PREFERRED_SIZE)
-					.addGap(40))
-		);
-		gl_panel.setVerticalGroup(
-			gl_panel.createParallelGroup(Alignment.LEADING)
-				.addGroup(Alignment.TRAILING, gl_panel.createSequentialGroup()
-					.addContainerGap(22, Short.MAX_VALUE)
-					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-						.addComponent(lblNewLabel_1_3, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblNewLabel)))
-		);
-		panel.setLayout(gl_panel);
-		
-		JPanel panel_1 = new JPanel();
-		panel_1.setBackground(new Color(202, 240, 248));
-		GroupLayout gl_contentPane = new GroupLayout(contentPane);
-		gl_contentPane.setHorizontalGroup(
-			gl_contentPane.createParallelGroup(Alignment.LEADING)
-				.addComponent(panel, GroupLayout.DEFAULT_SIZE, 1334, Short.MAX_VALUE)
-				.addComponent(abaPrincipal, GroupLayout.DEFAULT_SIZE, 1334, Short.MAX_VALUE)
-				.addComponent(panel_1, GroupLayout.DEFAULT_SIZE, 1334, Short.MAX_VALUE)
-		);
-		gl_contentPane.setVerticalGroup(
-			gl_contentPane.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_contentPane.createSequentialGroup()
-					.addComponent(panel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(abaPrincipal, GroupLayout.PREFERRED_SIZE, 518, Short.MAX_VALUE)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(panel_1, GroupLayout.PREFERRED_SIZE, 62, GroupLayout.PREFERRED_SIZE))
-		);
 		
 		JPanel abaDadosPessoais = new JPanel();
 		abaDadosPessoais.setBackground(new Color(202, 240, 248));
@@ -530,6 +415,121 @@ public class FrmFornecedor extends JFrame {
 					.addContainerGap(165, Short.MAX_VALUE))
 		);
 		abaDadosPessoais.setLayout(gl_abaDadosPessoais);
+		
+		JPanel abaConsultaCliente = new JPanel();
+		abaConsultaCliente.setBackground(new Color(202, 240, 248));
+		abaPrincipal.addTab("Consulta Fornecedores", null, abaConsultaCliente, null);
+
+		
+		textField = new JTextField();
+		textField.setColumns(10);
+		
+		JLabel lbCodigo_1 = new JLabel("Código: ");
+		lbCodigo_1.setFont(new Font("Arial", Font.BOLD, 14));
+		
+		JButton btnNewButton = new JButton("Pesquisar");
+		btnNewButton.setFont(new Font("Tahoma", Font.BOLD, 14));
+		
+		tabelaFornecedores = new JTable();
+		tabelaFornecedores.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+		tabelaFornecedores.setModel(new DefaultTableModel(
+			new Object[][] {
+				{null, null, null, null, null, null, null, null, null, null},
+			},
+			new String[] {
+				"New column", "New column", "New column", "New column", "New column", "New column", "New column", "New column", "New column", "New column"
+			}
+		));
+		tabelaFornecedores.setFillsViewportHeight(true);
+		tabelaFornecedores.setCellSelectionEnabled(true);
+		tabelaFornecedores.setColumnSelectionAllowed(true);
+		GroupLayout gl_abaConsultaCliente = new GroupLayout(abaConsultaCliente);
+		gl_abaConsultaCliente.setHorizontalGroup(
+			gl_abaConsultaCliente.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_abaConsultaCliente.createSequentialGroup()
+					.addGap(30)
+					.addComponent(lbCodigo_1)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(textField, GroupLayout.PREFERRED_SIZE, 483, GroupLayout.PREFERRED_SIZE)
+					.addGap(18)
+					.addComponent(btnNewButton, GroupLayout.PREFERRED_SIZE, 119, GroupLayout.PREFERRED_SIZE)
+					.addGap(13))
+				.addComponent(tabelaFornecedores, GroupLayout.DEFAULT_SIZE, 1329, Short.MAX_VALUE)
+		);
+		gl_abaConsultaCliente.setVerticalGroup(
+			gl_abaConsultaCliente.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_abaConsultaCliente.createSequentialGroup()
+					.addGap(22)
+					.addGroup(gl_abaConsultaCliente.createParallelGroup(Alignment.BASELINE)
+						.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lbCodigo_1)
+						.addComponent(btnNewButton))
+					.addPreferredGap(ComponentPlacement.RELATED, 92, Short.MAX_VALUE)
+					.addComponent(tabelaFornecedores, GroupLayout.PREFERRED_SIZE, 399, GroupLayout.PREFERRED_SIZE))
+		);
+		abaConsultaCliente.setLayout(gl_abaConsultaCliente);
+		
+		tfCelular = new JTextField();
+		tfCelular.setColumns(10);
+		
+		tfTelefone = new JFormattedTextField();
+		tfTelefone.setColumns(10);
+		
+		tfCep = new JFormattedTextField();
+		tfCep.setColumns(10);
+		
+		JLabel lblNewLabel = new JLabel("Fornecedores");
+		lblNewLabel.setForeground(Color.WHITE);
+		lblNewLabel.setFont(new Font("Arial Black", Font.BOLD, 40));
+		
+		JLabel lblNewLabel_1_3 = new JLabel("Voltar");
+		lblNewLabel_1_3.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				FrmMenuPrincipal menu = new FrmMenuPrincipal();
+				menu.setVisible(true);
+			}
+		});
+		lblNewLabel_1_3.setIcon(new ImageIcon(FrmFornecedor.class.getResource("/assets/sair.png")));
+		lblNewLabel_1_3.setForeground(Color.WHITE);
+		lblNewLabel_1_3.setFont(new Font("Arial", Font.BOLD, 18));
+		GroupLayout gl_panel = new GroupLayout(panel);
+		gl_panel.setHorizontalGroup(
+			gl_panel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel.createSequentialGroup()
+					.addComponent(lblNewLabel)
+					.addGap(888)
+					.addComponent(lblNewLabel_1_3, GroupLayout.PREFERRED_SIZE, 88, GroupLayout.PREFERRED_SIZE)
+					.addGap(40))
+		);
+		gl_panel.setVerticalGroup(
+			gl_panel.createParallelGroup(Alignment.LEADING)
+				.addGroup(Alignment.TRAILING, gl_panel.createSequentialGroup()
+					.addContainerGap(22, Short.MAX_VALUE)
+					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+						.addComponent(lblNewLabel_1_3, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblNewLabel)))
+		);
+		panel.setLayout(gl_panel);
+		
+		JPanel panel_1 = new JPanel();
+		panel_1.setBackground(new Color(202, 240, 248));
+		GroupLayout gl_contentPane = new GroupLayout(contentPane);
+		gl_contentPane.setHorizontalGroup(
+			gl_contentPane.createParallelGroup(Alignment.LEADING)
+				.addComponent(panel, GroupLayout.DEFAULT_SIZE, 1334, Short.MAX_VALUE)
+				.addComponent(abaPrincipal, GroupLayout.DEFAULT_SIZE, 1334, Short.MAX_VALUE)
+				.addComponent(panel_1, GroupLayout.DEFAULT_SIZE, 1334, Short.MAX_VALUE)
+		);
+		gl_contentPane.setVerticalGroup(
+			gl_contentPane.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_contentPane.createSequentialGroup()
+					.addComponent(panel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(abaPrincipal, GroupLayout.PREFERRED_SIZE, 518, Short.MAX_VALUE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(panel_1, GroupLayout.PREFERRED_SIZE, 62, GroupLayout.PREFERRED_SIZE))
+		);
 		
 		JButton btnNewButton_1 = new JButton("Novo");
 		btnNewButton_1.setBackground(new Color(106, 76, 147));
