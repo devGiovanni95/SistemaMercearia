@@ -9,7 +9,7 @@ public class FrenteCaixa {
 	private double precoUnitario;
 	private String cpf;
 	private double subTotal;
-	private Produtos produto;
+	private Produto produto;
 	
 	//Métodos getter and setter para manipulação dos dados.
 	

@@ -36,8 +36,18 @@ public class FrmMenuPrincipal extends JFrame {
 	/** The lbl nome funcionario logado. */
 	private JLabel lblNomeFuncionarioLogado;
 	
+	private int idAbertura;
 	
 	
+	
+
+	public int getIdAbertura() {
+		return idAbertura;
+	}
+
+	public void setIdAbertura(int idAbertura) {
+		this.idAbertura = idAbertura;
+	}
 
 	public String getUsuarioLogado() {
 		return usuarioLogado;

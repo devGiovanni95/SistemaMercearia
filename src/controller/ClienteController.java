@@ -1,8 +1,6 @@
 package controller;
 
 import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,7 +8,7 @@ import java.util.List;
 import javax.swing.JOptionPane;
 
 
-import jdbc.ConnectionFactory;
+import jdbc.ConnectionDataBase;
 import model.Cliente;
 
 // TODO: Auto-generated Javadoc
@@ -18,53 +16,54 @@ import model.Cliente;
  * The Class ClienteController.
  */
 public class ClienteController {
-	
-	/** The connection. */
-	private Connection connection;
+
 	
 	/**
 	 * Método que cria uma conexão com banco de dados.
 	 */
-	public ClienteController() {
-		this.connection =  new ConnectionFactory().getConnection();
-	}
+	ConnectionDataBase dataBase = new ConnectionDataBase();
 
 	/**
 	 * Método efetua um comando SQL para efetuar a inserção no banco de dados de um novo cliente.
 	 * @param cliente - um objeto do tipo cliente com os atributos correspondentes
 	 */
 	public void cadastrarCliente(Cliente cliente) {
-		try {
-			
-			String sql = "insert into tb_clientes(nome,email,cpf,rg,endereco,telefone,celular,numero,cep,dataNascimento,bairro,cidade,uf,complemento,limite) "
-					+ " values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-			
-			PreparedStatement preparedStatement = connection.prepareStatement(sql);
-			preparedStatement.setString(1, cliente.getNome());
-			preparedStatement.setString(2, cliente.getEmail());
-			preparedStatement.setString(3, cliente.getCpf());
-			preparedStatement.setString(4, cliente.getRg());
-			preparedStatement.setString(5, cliente.getEndereco());
-			preparedStatement.setString(6, cliente.getTelefone());
-			preparedStatement.setString(7, cliente.getCelular());
-			preparedStatement.setInt(8, cliente.getNumero());
-			preparedStatement.setString(9, cliente.getCep());
-			preparedStatement.setString(10, cliente.getDataNascimento());
-			preparedStatement.setString(11, cliente.getBairro());
-			preparedStatement.setString(12, cliente.getCidade());
-			preparedStatement.setString(13, cliente.getUf());
-			preparedStatement.setString(14, cliente.getComplemento());
-			preparedStatement.setDouble(15, cliente.getLimite());
-			
-			preparedStatement.execute();
-			preparedStatement.close();
-			
-			JOptionPane.showMessageDialog(null, "Cadastrado com sucesso");
-						
-		} catch (SQLException erro) {
-			JOptionPane.showMessageDialog(null, "Erro: " + erro);
-		} catch(NumberFormatException erro) {
-			JOptionPane.showMessageDialog(null, "Erro: " + erro);
+		if(dataBase.getConnection()) {
+			try {
+				
+				String sql = "insert into tb_cliente(nome,email,cpf,rg,endereco,telefone,celular,numero,cep,dataNascimento,bairro,cidade,uf,complemento,limite) "
+						+ " values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+				
+				dataBase.preparedStatement = dataBase.con.prepareStatement(sql);
+				dataBase.preparedStatement.setString(1, cliente.getNome());
+				dataBase.preparedStatement.setString(2, cliente.getEmail());
+				dataBase.preparedStatement.setString(3, cliente.getCpf());
+				dataBase.preparedStatement.setString(4, cliente.getRg());
+				dataBase.preparedStatement.setString(5, cliente.getEndereco());
+				dataBase.preparedStatement.setString(6, cliente.getTelefone());
+				dataBase.preparedStatement.setString(7, cliente.getCelular());
+				dataBase.preparedStatement.setInt(8, cliente.getNumero());
+				dataBase.preparedStatement.setString(9, cliente.getCep());
+				dataBase.preparedStatement.setString(10, cliente.getDataNascimento());
+				dataBase.preparedStatement.setString(11, cliente.getBairro());
+				dataBase.preparedStatement.setString(12, cliente.getCidade());
+				dataBase.preparedStatement.setString(13, cliente.getUf());
+				dataBase.preparedStatement.setString(14, cliente.getComplemento());
+				dataBase.preparedStatement.setDouble(15, cliente.getLimite());
+				
+				dataBase.preparedStatement.execute();
+				
+				JOptionPane.showMessageDialog(null, "Cadastrado com sucesso");
+							
+			} catch (SQLException erro) {
+				JOptionPane.showMessageDialog(null, "Erro: " + erro);
+			} catch(NumberFormatException erro) {
+				JOptionPane.showMessageDialog(null, "Erro: " + erro);
+			}finally {
+				dataBase.close();			
+			} 
+		}else {
+			JOptionPane.showMessageDialog(null, "Falha na conexão");
 		}
 	}
 	
@@ -73,21 +72,27 @@ public class ClienteController {
 	 * @param cliente - objeto do tipo cliente que identifica o cliente a ser excluido no banco de dados.
 	 */
 	public void excluirCliente(Cliente cliente) {
-		try {
-					
-					String sql = "delete from tb_clientes where cpf=?";
-					
-					PreparedStatement preparedStatement = connection.prepareStatement(sql);
-					preparedStatement.setString(1, cliente.getCpf());
-					
-					preparedStatement.execute();
-					preparedStatement.close();
-					
-					JOptionPane.showMessageDialog(null, "Excluido com sucesso");
-					
-				} catch (SQLException erro) {
-					JOptionPane.showMessageDialog(null, "Erro: " + erro);
-				}
+		
+		if(dataBase.getConnection()) {
+			try {
+						
+						String sql = "delete from tb_cliente where cpf=?";
+						
+						dataBase.preparedStatement = dataBase.con.prepareStatement(sql);
+						dataBase.preparedStatement.setString(1, cliente.getCpf());
+						
+						dataBase.preparedStatement.execute();
+						
+						JOptionPane.showMessageDialog(null, "Excluido com sucesso");
+						
+					} catch (SQLException erro) {
+						JOptionPane.showMessageDialog(null, "Erro: " + erro);
+					}finally {
+						dataBase.close();						
+					}
+		}else {
+						JOptionPane.showMessageDialog(null, "Falha na conexão");
+					}
 	}
 
 		
@@ -97,36 +102,41 @@ public class ClienteController {
 	 * @param cliente - objeto do tipo cliente que identifica o cliente a ser alterado no banco de dados.
 	 */
 	public void alterarCliente(Cliente cliente) {
+		if(dataBase.getConnection()) {
 		try {
 				
-				String sql = "update tb_clientes set nome=?,email=?,cpf=?,rg=?,endereco=?,telefone=?,celular=?,numero=?,cep=?,dataNascimento=?,bairro=?,cidade=?,uf=?,complemento=?,limite=? "
+				String sql = "update tb_cliente set nome=?,email=?,cpf=?,rg=?,endereco=?,telefone=?,celular=?,numero=?,cep=?,data_nascimento=?,bairro=?,cidade=?,uf=?,complemento=?,limite=? "
 						+ " where cpf=?";
 				
-				PreparedStatement preparedStatement = connection.prepareStatement(sql);
-				preparedStatement.setString(1, cliente.getNome());
-				preparedStatement.setString(2, cliente.getEmail());
-				preparedStatement.setString(3, cliente.getCpf());
-				preparedStatement.setString(4, cliente.getRg());
-				preparedStatement.setString(5, cliente.getEndereco());
-				preparedStatement.setString(6, cliente.getTelefone());
-				preparedStatement.setString(7, cliente.getCelular());
-				preparedStatement.setInt(8, cliente.getNumero());
-				preparedStatement.setString(9, cliente.getCep());
-				preparedStatement.setString(10, cliente.getDataNascimento());
-				preparedStatement.setString(11, cliente.getBairro());
-				preparedStatement.setString(12, cliente.getCidade());
-				preparedStatement.setString(13, cliente.getUf());
-				preparedStatement.setString(14, cliente.getComplemento());
-				preparedStatement.setDouble(15, cliente.getLimite());
-				preparedStatement.setString(16, cliente.getCpf());
+				dataBase.preparedStatement = dataBase.con.prepareStatement(sql);
+				dataBase.preparedStatement.setString(1, cliente.getNome());
+				dataBase.preparedStatement.setString(2, cliente.getEmail());
+				dataBase.preparedStatement.setString(3, cliente.getCpf());
+				dataBase.preparedStatement.setString(4, cliente.getRg());
+				dataBase.preparedStatement.setString(5, cliente.getEndereco());
+				dataBase.preparedStatement.setString(6, cliente.getTelefone());
+				dataBase.preparedStatement.setString(7, cliente.getCelular());
+				dataBase.preparedStatement.setInt(8, cliente.getNumero());
+				dataBase.preparedStatement.setString(9, cliente.getCep());
+				dataBase.preparedStatement.setString(10, cliente.getDataNascimento());
+				dataBase.preparedStatement.setString(11, cliente.getBairro());
+				dataBase.preparedStatement.setString(12, cliente.getCidade());
+				dataBase.preparedStatement.setString(13, cliente.getUf());
+				dataBase.preparedStatement.setString(14, cliente.getComplemento());
+				dataBase.preparedStatement.setDouble(15, cliente.getLimite());
+				dataBase.preparedStatement.setString(16, cliente.getCpf());
 				
-				preparedStatement.execute();
-				preparedStatement.close();
+				dataBase.preparedStatement.execute();
 				
 				JOptionPane.showMessageDialog(null, "Alterado com sucesso");
 								
 			} catch (SQLException erro) {
 				JOptionPane.showMessageDialog(null, "Erro: " + erro);
+			}finally {
+				dataBase.close();
+	}
+		}else {
+			JOptionPane.showMessageDialog(null, "Falha na conexão");	
 			}
 	}
 	
@@ -137,40 +147,48 @@ public class ClienteController {
 	 * @return - retona uma lista com todos de cliente. 
 	 */
 	public List<Cliente> consultarCliente() {
-		try {
-			
-			List<Cliente> lista = new ArrayList<>();
-			
-			String sql = "select * from tb_clientes";
-			PreparedStatement preparedStatement = connection.prepareStatement(sql);
-			ResultSet resultSet = preparedStatement.executeQuery();
-			
-			while(resultSet.next()) {
-				Cliente cliente = new Cliente();
+		if(dataBase.getConnection()) {
+			try {
 				
-				cliente.setNome(resultSet.getString("nome"));
-				cliente.setEmail(resultSet.getString("email"));
-				cliente.setCpf(resultSet.getString("cpf"));
-				cliente.setRg(resultSet.getString("rg"));
-				cliente.setEndereco(resultSet.getString("endereco"));
-				cliente.setTelefone(resultSet.getString("telefone"));
-				cliente.setCelular(resultSet.getString("celular"));
-				cliente.setNumero(resultSet.getInt("numero"));
-				cliente.setCep(resultSet.getString("cep"));
-				cliente.setDataNascimento(resultSet.getString("dataNascimento"));
-				cliente.setBairro(resultSet.getString("bairro"));
-				cliente.setCidade(resultSet.getString("cidade"));
-				cliente.setUf(resultSet.getString("uf"));
-				cliente.setComplemento(resultSet.getString("complemento"));
-				cliente.setLimite(resultSet.getDouble("limite"));
+				List<Cliente> lista = new ArrayList<>();
 				
-				lista.add(cliente);
+				String sql = "select * from tb_cliente";
+				dataBase.preparedStatement = dataBase.con.prepareStatement(sql);
+				dataBase.resultSet = dataBase.preparedStatement.executeQuery();
+				
+				while(dataBase.resultSet.next()) {
+					Cliente cliente = new Cliente();
+					
+					cliente.setNome(dataBase.resultSet.getString("nome"));
+					cliente.setEmail(dataBase.resultSet.getString("email"));
+					cliente.setCpf(dataBase.resultSet.getString("cpf"));
+					cliente.setRg(dataBase.resultSet.getString("rg"));
+					cliente.setEndereco(dataBase.resultSet.getString("endereco"));
+					cliente.setTelefone(dataBase.resultSet.getString("telefone"));
+					cliente.setCelular(dataBase.resultSet.getString("celular"));
+					cliente.setNumero(dataBase.resultSet.getInt("numero"));
+					cliente.setCep(dataBase.resultSet.getString("cep"));
+					cliente.setDataNascimento(dataBase.resultSet.getString("data_nascimento"));
+					cliente.setBairro(dataBase.resultSet.getString("bairro"));
+					cliente.setCidade(dataBase.resultSet.getString("cidade"));
+					cliente.setUf(dataBase.resultSet.getString("uf"));
+					cliente.setComplemento(dataBase.resultSet.getString("complemento"));
+					cliente.setLimite(dataBase.resultSet.getDouble("limite"));
+					
+					lista.add(cliente);
+				}
+				
+				return lista;
+							
+			} catch (SQLException e) {
+				JOptionPane.showMessageDialog(null, "Erro: " + e );
+				return null;
+			}finally {
+				dataBase.close();
 			}
-			
-			return lista;
-						
-		} catch (SQLException e) {
-			JOptionPane.showMessageDialog(null, "Erro: " + e );
+		}
+		else {
+			JOptionPane.showMessageDialog(null, "Falha na conexão");
 			return null;
 		}
 	}
@@ -183,42 +201,49 @@ public class ClienteController {
 	 * @return the list
 	 */
 	public List<Cliente> consultarClientesPorNome(String nome) {
-		try {
-
-			List<Cliente> lista = new ArrayList<>();
-
-			String sql = "select * from tb_clientes where nome like ?";
-			PreparedStatement preparedStatement = connection.prepareStatement(sql);
-			preparedStatement.setString(1,nome);			
-			ResultSet resultSet = preparedStatement.executeQuery();
-			
-			while(resultSet.next()) {
-				Cliente cliente = new Cliente();
-				
-				cliente.setNome(resultSet.getString("nome"));
-				cliente.setEmail(resultSet.getString("email"));
-				cliente.setCpf(resultSet.getString("cpf"));
-				cliente.setRg(resultSet.getString("rg"));
-				cliente.setEndereco(resultSet.getString("endereco"));
-				cliente.setTelefone(resultSet.getString("telefone"));
-				cliente.setCelular(resultSet.getString("celular"));
-				cliente.setNumero(resultSet.getInt("numero"));
-				cliente.setCep(resultSet.getString("cep"));
-				cliente.setDataNascimento(resultSet.getString("dataNascimento"));
-				cliente.setBairro(resultSet.getString("bairro"));
-				cliente.setCidade(resultSet.getString("cidade"));
-				cliente.setUf(resultSet.getString("uf"));
-				cliente.setComplemento(resultSet.getString("complemento"));
-				cliente.setLimite(resultSet.getDouble("limite"));
-				
-				lista.add(cliente);
-			}
-			
-			return lista;
+		if(dataBase.getConnection()) {
+				try {
+		
+					List<Cliente> lista = new ArrayList<>();
+		
+					String sql = "select * from tb_cliente where nome like ?";
+					dataBase.preparedStatement = dataBase.con.prepareStatement(sql);
+					dataBase.preparedStatement.setString(1,nome);			
+					dataBase.resultSet = dataBase.preparedStatement.executeQuery();
+					
+					while(dataBase.resultSet.next()) {
+						Cliente cliente = new Cliente();
 						
-		} catch (SQLException e) {
-			JOptionPane.showMessageDialog(null, "Erro: " + e );
-			return null;
-		}
+						cliente.setNome(dataBase.resultSet.getString("nome"));
+						cliente.setEmail(dataBase.resultSet.getString("email"));
+						cliente.setCpf(dataBase.resultSet.getString("cpf"));
+						cliente.setRg(dataBase.resultSet.getString("rg"));
+						cliente.setEndereco(dataBase.resultSet.getString("endereco"));
+						cliente.setTelefone(dataBase.resultSet.getString("telefone"));
+						cliente.setCelular(dataBase.resultSet.getString("celular"));
+						cliente.setNumero(dataBase.resultSet.getInt("numero"));
+						cliente.setCep(dataBase.resultSet.getString("cep"));
+						cliente.setDataNascimento(dataBase.resultSet.getString("data_nascimento"));
+						cliente.setBairro(dataBase.resultSet.getString("bairro"));
+						cliente.setCidade(dataBase.resultSet.getString("cidade"));
+						cliente.setUf(dataBase.resultSet.getString("uf"));
+						cliente.setComplemento(dataBase.resultSet.getString("complemento"));
+						cliente.setLimite(dataBase.resultSet.getDouble("limite"));
+						
+						lista.add(cliente);
+					}
+					
+					return lista;
+								
+				} catch (SQLException e) {
+					JOptionPane.showMessageDialog(null, "Erro: " + e );
+					return null;
+				}finally {
+					dataBase.close();
+				}
+			}else {
+				JOptionPane.showMessageDialog(null, "Falha na conexão");
+				return null;
+			}
 	}
 }

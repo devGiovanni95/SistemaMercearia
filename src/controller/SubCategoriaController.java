@@ -9,7 +9,7 @@ import java.util.List;
 
 import javax.swing.JOptionPane;
 
-import jdbc.ConnectionFactory;
+import jdbc.ConnectionDataBase;
 import model.Categoria;
 import model.Cliente;
 import model.SubCategoria;
@@ -20,35 +20,27 @@ import model.SubCategoria;
  */
 public class SubCategoriaController {
 	
-/** The connection. */
-private Connection connection;
-	
-	/**
-	 * Método que cria uma conexão com banco de dados.
-	 */
-	public SubCategoriaController() {
-		this.connection =  new ConnectionFactory().getConnection();
-	}
+	ConnectionDataBase dataBase = new ConnectionDataBase();
 
 	/**
 	 * Método efetua um comando SQL para efetuar a inserção no banco de dados de uma nova subCategoria.
 	 * @param subCategoria - um objeto do tipo subCategoria com os atributos correspondentes
 	 */
 	public void cadastrarSubCategoria(SubCategoria subCategoria) {
+		if(dataBase.getConnection()) {
 		try {
 			
-			String sql = "insert into tb_subCategorias(codigo,cod_categoria,nome,descricao) "
+			String sql = "insert into tb_subcategoria(codigo,cod_categoria,nome,descricao) "
 					+ " values(?,?,?,?)";
 			
-			PreparedStatement preparedStatement = connection.prepareStatement(sql);
-			preparedStatement.setInt(1, subCategoria.getCodigo());
-			preparedStatement.setInt(2, subCategoria.getCategoria().getCodigo());//pegando o codigo do objeto categoria			
-			preparedStatement.setString(3, subCategoria.getSubCategoria());
-			preparedStatement.setString(4, subCategoria.getDescricao());
+			dataBase.preparedStatement = dataBase.con.prepareStatement(sql);
+			dataBase.preparedStatement.setInt(1, subCategoria.getCodigo());
+			dataBase.preparedStatement.setInt(2, subCategoria.getCategoria().getCodigo());//pegando o codigo do objeto categoria			
+			dataBase.preparedStatement.setString(3, subCategoria.getSubCategoria());
+			dataBase.preparedStatement.setString(4, subCategoria.getDescricao());			
 			
-			
-			preparedStatement.execute();
-			preparedStatement.close();
+			dataBase.preparedStatement.execute();
+			dataBase.preparedStatement.close();
 			
 			JOptionPane.showMessageDialog(null, "Cadastrado com sucesso");
 						
@@ -56,6 +48,11 @@ private Connection connection;
 			JOptionPane.showMessageDialog(null, "Erro: " + erro);
 		} catch(NumberFormatException erro) {
 			JOptionPane.showMessageDialog(null, "Erro: " + erro);
+		}finally {
+			dataBase.close();
+		}
+		}else {
+			JOptionPane.showMessageDialog(null, "Falha na conexão");
 		}
 	}
 	
@@ -64,21 +61,28 @@ private Connection connection;
 	 * @param subCategoria - objeto do tipo subCategoria que identifica o subCategoria a ser excluido no banco de dados.
 	 */
 	public void excluirSubCategoria(SubCategoria subCategoria) {
-		try {
-					
-					String sql = "delete from tb_subCategorias where codigo=?";
-					
-					PreparedStatement preparedStatement = connection.prepareStatement(sql);
-					preparedStatement.setInt(1, subCategoria.getCodigo());
-					
-					preparedStatement.execute();
-					preparedStatement.close();
-					
+		if(dataBase.getConnection()) {
+			try {
+						
+					String sql = "delete from tb_subcategoria where codigo=?";
+						
+					dataBase.preparedStatement = dataBase.con.prepareStatement(sql);
+					dataBase.preparedStatement.setInt(1, subCategoria.getCodigo());
+						
+					dataBase.preparedStatement.execute();
+				
+						
 					JOptionPane.showMessageDialog(null, "Excluido com sucesso");
-					
-				} catch (SQLException erro) {
-					JOptionPane.showMessageDialog(null, "Erro: " + erro);
-				}
+						
+					} catch (SQLException erro) {
+						JOptionPane.showMessageDialog(null, "Erro: " + erro);
+					}finally {
+						dataBase.close();
+					}
+						
+			}else {
+					JOptionPane.showMessageDialog(null, "Falha na conexão");
+			}
 	}
 
 		
@@ -88,26 +92,31 @@ private Connection connection;
 	 * @param subCategoria - objeto do tipo subCategoria que identifica a subCategoria a ser alterada no banco de dados.
 	 */
 	public void alterarSubCategoria(SubCategoria subCategoria) {
+		if(dataBase.getConnection()) {
 		try {
 				
-				String sql = "update tb_subCategorias set nome=?,descricao=?,cod_categoria=?  "
+				String sql = "update tb_subcategoria set nome=?,descricao=?,cod_categoria=?  "
 						+ " where codigo=?";
 				
-				PreparedStatement preparedStatement = connection.prepareStatement(sql);
+				dataBase.preparedStatement = dataBase.con.prepareStatement(sql);
 			
-				preparedStatement.setString(1, subCategoria.getSubCategoria());
-				preparedStatement.setString(2, subCategoria.getDescricao());
-				preparedStatement.setInt(3, subCategoria.getCategoria().getCodigo());				
-				preparedStatement.setInt(4, subCategoria.getCodigo());
+				dataBase.preparedStatement.setString(1, subCategoria.getSubCategoria());
+				dataBase.preparedStatement.setString(2, subCategoria.getDescricao());
+				dataBase.preparedStatement.setInt(3, subCategoria.getCategoria().getCodigo());				
+				dataBase.preparedStatement.setInt(4, subCategoria.getCodigo());
 				
-				preparedStatement.execute();
-				preparedStatement.close();
+				dataBase.preparedStatement.execute();
 				
 				JOptionPane.showMessageDialog(null, "Alterado com sucesso");
 								
 			} catch (SQLException erro) {
 				JOptionPane.showMessageDialog(null, "Erro: " + erro);
+			}finally {
+				dataBase.close();				
+			}}else {
+				JOptionPane.showMessageDialog(null, "Falha na conexão");
 			}
+				
 	}
 	
 	
@@ -117,6 +126,7 @@ private Connection connection;
 	 * @return - retona uma lista com todas as subCategorias. 
 	 */
 	public List<SubCategoria> consultarSubCategorias() {
+		if(dataBase.getConnection()) {
 		try {
 			
 			List<SubCategoria> lista = new ArrayList<>();
@@ -124,22 +134,22 @@ private Connection connection;
 			//String sql = "select * from tb_subCategorias";
 			
 			String sql = "select sc.codigo, sc.nome, sc.descricao, c.nome "
-					+ "from tb_subCategorias as sc join tb_categorias as c"
+					+ "from tb_subcategoria as sc join tb_categoria as c"
 					+ " on ( sc.cod_categoria =  c.codigo)";
 			
-			PreparedStatement preparedStatement = connection.prepareStatement(sql);
-			ResultSet resultSet = preparedStatement.executeQuery();
+			dataBase.preparedStatement = dataBase.con.prepareStatement(sql);
+			dataBase.resultSet = dataBase.preparedStatement.executeQuery();
 			
-			while(resultSet.next()) {
+			while(dataBase.resultSet.next()) {
 				SubCategoria subCategoria = new SubCategoria();
 				Categoria categoria = new Categoria();
 				
-				subCategoria.setCodigo (resultSet.getInt("codigo"));
-				subCategoria.setSubCategoria(resultSet.getString("nome"));
-				subCategoria.setDescricao(resultSet.getString("descricao"));
+				subCategoria.setCodigo (dataBase.resultSet.getInt("codigo"));
+				subCategoria.setSubCategoria(dataBase.resultSet.getString("nome"));
+				subCategoria.setDescricao(dataBase.resultSet.getString("descricao"));
 				
 				//buscando o nome via sql
-				categoria.setNomeCategoria(resultSet.getString("c.nome"));
+				categoria.setNomeCategoria(dataBase.resultSet.getString("c.nome"));
 				//adiciona a categoria
 				subCategoria.setCategoria(categoria);		
 				
@@ -150,30 +160,36 @@ private Connection connection;
 						
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, "Erro: " + e );
-			return null;
+		}finally {
+			dataBase.close();
 		}
+		}else{
+			JOptionPane.showMessageDialog(null, "Falha na conexão");
+		}
+		return null;
 	}
 	
 
 	  public List<SubCategoria> consultarSubCategoriaPorNome(String nome) {
+		  if(dataBase.getConnection()) {
 	        try {
 	        	List<SubCategoria> lista = new ArrayList<>();
 	        	
-	        	String sql = "select * from tb_subCategorias where nome like ?";
+	        	String sql = "select * from  where nome like ?";
 	        	
-	        	PreparedStatement preparedStatement = connection.prepareStatement(sql);	        	
-	            preparedStatement.setString(1, nome);
-	            ResultSet resultSet = preparedStatement.executeQuery();
+	        	dataBase.preparedStatement = dataBase.con.prepareStatement(sql);	        	
+	        	dataBase.preparedStatement.setString(1, nome);
+	            dataBase.resultSet = dataBase.preparedStatement.executeQuery();
 
-	            while (resultSet.next()) {
+	            while (dataBase.resultSet.next()) {
 	               SubCategoria subCategoria = new SubCategoria();
 	                Categoria categoria = new Categoria();
 	                
-	                subCategoria.setCodigo(resultSet.getInt("codigo"));
-	                categoria.setCodigo(resultSet.getInt("cod_categoria"));          
+	                subCategoria.setCodigo(dataBase.resultSet.getInt("codigo"));
+	                categoria.setCodigo(dataBase.resultSet.getInt("cod_categoria"));          
 	                subCategoria.setCategoria(categoria);
-	                subCategoria.setSubCategoria(resultSet.getString("nome"));
-	                subCategoria.setDescricao(resultSet.getString("descricao"));
+	                subCategoria.setSubCategoria(dataBase.resultSet.getString("nome"));
+	                subCategoria.setDescricao(dataBase.resultSet.getString("descricao"));
 	                
 	                lista.add(subCategoria);
 	            }
@@ -182,6 +198,12 @@ private Connection connection;
 	        } catch (SQLException e) {
 	            System.out.println("Erro ao buscar subcategoria por ID: " + e.getMessage());
 	            return null;
+	        }finally {
+				dataBase.close();
+			}
+	        }else {
+	        	JOptionPane.showMessageDialog(null, "Falha na conexão");
+	        	return null;
 	        }
 
 	    }

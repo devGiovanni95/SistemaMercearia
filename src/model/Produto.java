@@ -7,7 +7,7 @@ import java.util.Date;
  * The Class Produtos.
  */
 //Atributos
-public class Produtos {
+public class Produto {
 	
 	/** The codigo. */
 	private int codigo;

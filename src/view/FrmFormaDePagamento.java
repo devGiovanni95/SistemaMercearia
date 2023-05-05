@@ -15,15 +15,19 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JTextPane;
 import javax.swing.border.LineBorder;
 import javax.swing.JButton;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class FrmFormaDePagamento extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
-	private JTextField textField_3;
-	private JTextField textField_4;
+	private JTextField tfValor;
+	private JTextField tfFormaPagamento;
+	private JTextField tfTotalCompra;
+	private JTextField tfTroco;
+	private JTextField tfValorRestante;
 
 	/**
 	 * Launch the application.
@@ -34,6 +38,7 @@ public class FrmFormaDePagamento extends JFrame {
 				try {
 					FrmFormaDePagamento frame = new FrmFormaDePagamento();
 					frame.setVisible(true);
+					
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -45,6 +50,12 @@ public class FrmFormaDePagamento extends JFrame {
 	 * Create the frame.
 	 */
 	public FrmFormaDePagamento() {
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowActivated(WindowEvent e) {
+				tfValor.requestFocusInWindow();
+			}
+		});
 		setBounds(100, 100, 759, 625);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -60,17 +71,25 @@ public class FrmFormaDePagamento extends JFrame {
 		JLabel lblNewLabel = new JLabel("Forma de Pagamento");
 		lblNewLabel.setFont(new Font("Arial", Font.BOLD, 24));
 		
-		textField = new JTextField();
-		textField.setColumns(10);
+		tfValor = new JTextField();
+		tfValor.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+					
+				}
+			}
+		});
+		tfValor.setColumns(10);
 		
-		JLabel lblNewLabel_1 = new JLabel("Valor:");
-		lblNewLabel_1.setFont(new Font("Arial", Font.BOLD, 14));
+		JLabel lblValor = new JLabel("Valor:");
+		lblValor.setFont(new Font("Arial", Font.BOLD, 14));
 		
-		JLabel lblNewLabel_1_1 = new JLabel("Forma de Pagamento:");
-		lblNewLabel_1_1.setFont(new Font("Arial", Font.BOLD, 14));
+		JLabel lblFormaPagamento = new JLabel("Forma de Pagamento:");
+		lblFormaPagamento.setFont(new Font("Arial", Font.BOLD, 14));
 		
-		textField_1 = new JTextField();
-		textField_1.setColumns(10);
+		tfFormaPagamento = new JTextField();
+		tfFormaPagamento.setColumns(10);
 		
 		JTextPane txtpndinheiro = new JTextPane();
 		txtpndinheiro.setFont(new Font("Arial", Font.BOLD, 16));
@@ -78,30 +97,30 @@ public class FrmFormaDePagamento extends JFrame {
 		txtpndinheiro.setBackground(new Color(202, 240, 248));
 		txtpndinheiro.setBorder(new EmptyBorder(0, 0, 0, 0));
 		
-		textField_2 = new JTextField();
-		textField_2.setEditable(false);
-		textField_2.setColumns(10);
+		tfTotalCompra = new JTextField();
+		tfTotalCompra.setEditable(false);
+		tfTotalCompra.setColumns(10);
 		
-		JLabel lblNewLabel_1_2 = new JLabel("Total Compra:");
-		lblNewLabel_1_2.setFont(new Font("Arial", Font.BOLD, 14));
+		JLabel lblTotalCompra = new JLabel("Total Compra:");
+		lblTotalCompra.setFont(new Font("Arial", Font.BOLD, 14));
 		
-		textField_3 = new JTextField();
-		textField_3.setEditable(false);
-		textField_3.setColumns(10);
+		tfTroco = new JTextField();
+		tfTroco.setEditable(false);
+		tfTroco.setColumns(10);
 		
-		JLabel lblNewLabel_1_3 = new JLabel("Troco:");
-		lblNewLabel_1_3.setFont(new Font("Arial", Font.BOLD, 14));
+		JLabel lblTroco = new JLabel("Troco:");
+		lblTroco.setFont(new Font("Arial", Font.BOLD, 14));
 		
-		textField_4 = new JTextField();
-		textField_4.setEditable(false);
-		textField_4.setColumns(10);
+		tfValorRestante = new JTextField();
+		tfValorRestante.setEditable(false);
+		tfValorRestante.setColumns(10);
 		
-		JLabel lblNewLabel_1_4 = new JLabel("Falta:");
-		lblNewLabel_1_4.setFont(new Font("Arial", Font.BOLD, 14));
+		JLabel lblFalta = new JLabel("Falta:");
+		lblFalta.setFont(new Font("Arial", Font.BOLD, 14));
 		
-		JButton btnNewButton = new JButton("Finalizar Venda");
-		btnNewButton.setBackground(new Color(4, 136, 47));
-		btnNewButton.setFont(new Font("Arial", Font.BOLD, 24));
+		JButton btnFinalizarVenda = new JButton("Finalizar Venda");
+		btnFinalizarVenda.setBackground(new Color(4, 136, 47));
+		btnFinalizarVenda.setFont(new Font("Arial", Font.BOLD, 24));
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
@@ -110,30 +129,30 @@ public class FrmFormaDePagamento extends JFrame {
 						.addGroup(gl_contentPane.createSequentialGroup()
 							.addGap(71)
 							.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
-								.addComponent(lblNewLabel_1_4, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
-								.addComponent(lblNewLabel_1_1)
-								.addComponent(lblNewLabel_1)
-								.addComponent(lblNewLabel_1_2))
+								.addComponent(lblFalta, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
+								.addComponent(lblFormaPagamento)
+								.addComponent(lblValor)
+								.addComponent(lblTotalCompra))
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 								.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING, false)
-									.addComponent(textField, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 270, Short.MAX_VALUE)
+									.addComponent(tfValor, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 270, Short.MAX_VALUE)
 									.addComponent(lblNewLabel, Alignment.LEADING)
-									.addComponent(textField_1, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 270, Short.MAX_VALUE)
+									.addComponent(tfFormaPagamento, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 270, Short.MAX_VALUE)
 									.addGroup(gl_contentPane.createSequentialGroup()
 										.addPreferredGap(ComponentPlacement.RELATED)
 										.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 											.addComponent(txtpndinheiro, GroupLayout.PREFERRED_SIZE, 178, GroupLayout.PREFERRED_SIZE)
-											.addComponent(textField_2, GroupLayout.PREFERRED_SIZE, 270, GroupLayout.PREFERRED_SIZE))))
-								.addComponent(textField_4, GroupLayout.PREFERRED_SIZE, 270, GroupLayout.PREFERRED_SIZE)))
+											.addComponent(tfTotalCompra, GroupLayout.PREFERRED_SIZE, 270, GroupLayout.PREFERRED_SIZE))))
+								.addComponent(tfValorRestante, GroupLayout.PREFERRED_SIZE, 270, GroupLayout.PREFERRED_SIZE)))
 						.addGroup(gl_contentPane.createSequentialGroup()
 							.addGap(179)
-							.addComponent(lblNewLabel_1_3)
+							.addComponent(lblTroco)
 							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(textField_3, GroupLayout.PREFERRED_SIZE, 270, GroupLayout.PREFERRED_SIZE))
+							.addComponent(tfTroco, GroupLayout.PREFERRED_SIZE, 270, GroupLayout.PREFERRED_SIZE))
 						.addGroup(gl_contentPane.createSequentialGroup()
 							.addGap(248)
-							.addComponent(btnNewButton, GroupLayout.PREFERRED_SIZE, 218, GroupLayout.PREFERRED_SIZE)))
+							.addComponent(btnFinalizarVenda, GroupLayout.PREFERRED_SIZE, 218, GroupLayout.PREFERRED_SIZE)))
 					.addContainerGap(240, Short.MAX_VALUE))
 		);
 		gl_contentPane.setVerticalGroup(
@@ -142,31 +161,31 @@ public class FrmFormaDePagamento extends JFrame {
 					.addGap(29)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
 						.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
-							.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-							.addComponent(lblNewLabel_1))
+							.addComponent(tfValor, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+							.addComponent(lblValor))
 						.addGroup(gl_contentPane.createSequentialGroup()
 							.addComponent(lblNewLabel)
 							.addGap(50)))
 					.addGap(18)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblNewLabel_1_1, GroupLayout.PREFERRED_SIZE, 17, GroupLayout.PREFERRED_SIZE)
-						.addComponent(textField_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addComponent(lblFormaPagamento, GroupLayout.PREFERRED_SIZE, 17, GroupLayout.PREFERRED_SIZE)
+						.addComponent(tfFormaPagamento, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addGap(39)
 					.addComponent(txtpndinheiro, GroupLayout.PREFERRED_SIZE, 128, GroupLayout.PREFERRED_SIZE)
 					.addGap(18)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
-						.addComponent(textField_2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblNewLabel_1_2, GroupLayout.PREFERRED_SIZE, 17, GroupLayout.PREFERRED_SIZE))
+						.addComponent(tfTotalCompra, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblTotalCompra, GroupLayout.PREFERRED_SIZE, 17, GroupLayout.PREFERRED_SIZE))
 					.addGap(18)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblNewLabel_1_4, GroupLayout.PREFERRED_SIZE, 17, GroupLayout.PREFERRED_SIZE)
-						.addComponent(textField_4, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addComponent(lblFalta, GroupLayout.PREFERRED_SIZE, 17, GroupLayout.PREFERRED_SIZE)
+						.addComponent(tfValorRestante, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addGap(18)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblNewLabel_1_3, GroupLayout.PREFERRED_SIZE, 17, GroupLayout.PREFERRED_SIZE)
-						.addComponent(textField_3, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addComponent(lblTroco, GroupLayout.PREFERRED_SIZE, 17, GroupLayout.PREFERRED_SIZE)
+						.addComponent(tfTroco, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addGap(36)
-					.addComponent(btnNewButton, GroupLayout.PREFERRED_SIZE, 54, GroupLayout.PREFERRED_SIZE)
+					.addComponent(btnFinalizarVenda, GroupLayout.PREFERRED_SIZE, 54, GroupLayout.PREFERRED_SIZE)
 					.addContainerGap(66, Short.MAX_VALUE))
 		);
 		contentPane.setLayout(gl_contentPane);

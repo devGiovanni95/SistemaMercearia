@@ -36,7 +36,7 @@ import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
 import controller.ProdutosController;
 import controller.SubCategoriaController;
-import model.Produtos;
+import model.Produto;
 import model.SubCategoria;
 import util.LimparCampos;
 
@@ -106,7 +106,7 @@ public class FrmProdutos extends JFrame {
 	private void listar() {
 		try {
 		ProdutosController produtosController = new ProdutosController();
-		List<Produtos> lista = produtosController.consultarProdutos();
+		List<Produto> lista = produtosController.consultarProdutos();
 		DefaultTableModel dadosTabela = (DefaultTableModel) tbProdutos.getModel();
 		dadosTabela.setNumRows(0);
 		dadosTabela.setColumnCount(15);
@@ -114,7 +114,7 @@ public class FrmProdutos extends JFrame {
 				" Fabricação"," Validade","Lote", "IPI","ICMS","Margem Lucro","Preco Custo", "Preço Final"});
 		
 
-		for(Produtos produtos : lista) {
+		for(Produto produtos : lista) {
 			dadosTabela.addRow(new Object[]{
 					produtos.getCodigo(),
 					produtos.getDescricao(),
@@ -143,7 +143,7 @@ public class FrmProdutos extends JFrame {
 	 * Método utilizado para salvar os produtos digitados na tela.
 	 */
 	private void salvar() {
-		 	Produtos produto = new Produtos();
+		 	Produto produto = new Produto();
 	        SubCategoria subCategoria = new SubCategoria();
 	        ProdutosController produtosController = new ProdutosController();
 	        
@@ -188,7 +188,7 @@ public class FrmProdutos extends JFrame {
 	 * Alterar.
 	 */
 	private void alterar() {
-	 	Produtos produto = new Produtos();
+	 	Produto produto = new Produto();
         SubCategoria subCategoria = new SubCategoria();
         
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
@@ -233,7 +233,7 @@ public class FrmProdutos extends JFrame {
 	 */
 	private void excluir() {
 		
-		Produtos produtos = new Produtos();
+		Produto produtos = new Produto();
 
 		produtos.setCodigo(Integer.parseInt(tfCodigo.getText()));
 

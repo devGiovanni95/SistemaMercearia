@@ -26,7 +26,7 @@ import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 
 import controller.ProdutosController;
-import model.Produtos;
+import model.Produto;
 import java.awt.event.WindowStateListener;
 
 // TODO: Auto-generated Javadoc
@@ -178,7 +178,7 @@ public class FrmFrenteCaixa extends JFrame{
 	}
 	
 	private void adicionarItens() {
-		Produtos produtos = new Produtos();
+		Produto produtos = new Produto();
 		ProdutosController produtosController = new ProdutosController();
 		
 		produtos = produtosController.consultarProdutosPorCodigoBarras(tfCodigoDeBarras.getText());
@@ -511,6 +511,13 @@ public class FrmFrenteCaixa extends JFrame{
 		btnCancelarVenda.setFont(new Font("Arial", Font.BOLD, 22));
 		
 		JButton btnMenuPrincipal = new JButton("F7 - Menu Principal");
+		btnMenuPrincipal.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//FrmMenuPrincipal frmMenuPrincipal = new FrmMenuPrincipal();
+				//frmMenuPrincipal.setVisible(true);
+				
+			}
+		});
 		btnMenuPrincipal.setFont(new Font("Arial", Font.BOLD, 22));
 		
 		
