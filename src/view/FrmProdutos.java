@@ -152,6 +152,7 @@ public class FrmProdutos extends JFrame {
 		produto.setIcms(Double.parseDouble(tfIcms.getText()));
 		produto.setMargemLucro(Double.parseDouble(tfMargem.getText()));
 		produto.setPrecoCusto(Double.parseDouble(tfPrecoCusto.getText()));
+		produto.setCodigo(Integer.parseInt(tfCodigo.getText()));
 
 		// Calcular o preço final com base na margem de lucro, IPI e ICMS
 		//atualizarPrecoFinal();
