@@ -127,14 +127,12 @@ public class CategoriaController {
 				String sql = "select * from tb_categoria";
 				dataBase.preparedStatement = dataBase.con.prepareStatement(sql);
 				dataBase.resultSet = dataBase.preparedStatement.executeQuery();
+				Categoria categoria = new Categoria();
 
-				while (dataBase.resultSet.next()) {
-					Categoria categoria = new Categoria();
-
+				while(dataBase.resultSet.next()) {
 					categoria.setCodigo(dataBase.resultSet.getInt("codigo"));
 					categoria.setNomeCategoria(dataBase.resultSet.getString("nome"));
 					categoria.setDescricao(dataBase.resultSet.getString("descricao"));
-
 					lista.add(categoria);
 				}
 
@@ -165,7 +163,7 @@ public class CategoriaController {
 	
 				List<Categoria> lista = new ArrayList<>();
 	
-				String sql = "select * from tb_categoria where nome like ?";
+				String sql = "select * from tb_categoria where nome codigo = ?";
 				dataBase.preparedStatement = dataBase.con.prepareStatement(sql);
 				dataBase.preparedStatement.setString(1,nome);			
 				dataBase.resultSet = dataBase.preparedStatement.executeQuery();
@@ -193,5 +191,41 @@ public class CategoriaController {
 			return null;
 		}
 		
+	}
+	
+	
+	
+
+	/**
+	 * Método busca o nome da categoria através do codigo
+	 * @param codigo - id da categoria pesquisada
+	 * @return - retorna o nome da categoria procurada
+	 */
+	public Categoria consultarCategoriasPorId(int codigo) {
+		if (dataBase.getConnection()) {
+			try {			
+
+				String sql = "select nome from tb_categoria where codigo = ?";
+ 				dataBase.preparedStatement = dataBase.con.prepareStatement(sql);
+ 				dataBase.preparedStatement.setInt(1, codigo);
+				dataBase.resultSet = dataBase.preparedStatement.executeQuery();
+
+				Categoria categoria = new Categoria();
+				while (dataBase.resultSet.next()) {
+					categoria.setNomeCategoria(dataBase.resultSet.getString("nome"));				
+				}
+
+				return categoria;
+
+			} catch (SQLException e) {
+				JOptionPane.showMessageDialog(null, "Erro: " + e);
+				return null;
+			} finally {
+				dataBase.close();
+			}
+		} else {
+			JOptionPane.showMessageDialog(null, "Falha na conexão");
+		}
+		return null;
 	}
 }

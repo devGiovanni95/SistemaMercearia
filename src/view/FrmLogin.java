@@ -67,7 +67,7 @@ public class FrmLogin extends JFrame {
 	public FrmLogin() {
 		setResizable(false);
 		setAutoRequestFocus(false);
-		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 914, 611);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(0, 0, 0, 0));
@@ -216,6 +216,7 @@ public class FrmLogin extends JFrame {
 					senha = tfSenha.getText();
 					
 					FuncionarioController funcionarioController = new FuncionarioController();
+					
 					
 					funcionarioController.autenticar(email, senha);
 					tfEmail.setText("");

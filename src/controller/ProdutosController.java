@@ -157,9 +157,15 @@ public class ProdutosController {
 
 				List<Produto> lista = new ArrayList<>();
 
-				String sql = "select p.codigo, p.descricao, p.codigo_barras, p.marca, sc.nome, p.unidade_medida, p.quantidade, p.data_fabricacao, p.data_validade,"
+			/*	String sql = "select p.codigo, p.descricao, p.codigo_barras, p.marca, sc.nome, p.unidade_medida, p.quantidade, p.data_fabricacao, p.data_validade,"
 						+ " p.lote, p.ipi, p.icms, p.margem_lucro, p.preco_custo, p.preco_final "
-						+ "from tb_produto as p join tb_subcategoria as sc " + "on (p.cod_subcategoria = sc.codigo) ";
+						+ "from tb_produto as p inner join tb_subcategoria as sc " + "on (p.cod_subcategoria = sc.codigo)";*/
+				/*String sql ="select p.codigo, p.descricao, p.codigo_barras, p.marca, sc.nome, p.unidade_medida, p.quantidade,"
+						+ " p.data_fabricacao, p.data_validade, p.lote, p.ipi, p.icms, p.margem_lucro, p.preco_custo, p.preco_final from tb_produto"
+						+ " as p inner join tb_subcategoria as sc on (p.cod_subcategoria = sc.codigo)";*/
+				
+				String sql ="select codigo, descricao, codigo_barras, marca, cod_subcategoria, unidade_medida, quantidade,"
+						+ " data_fabricacao, data_validade, lote, ipi, icms, margem_lucro, preco_custo, preco_final from tb_produto";
 
 				dataBase.preparedStatement = dataBase.con.prepareStatement(sql);
 				dataBase.resultSet = dataBase.preparedStatement.executeQuery();
@@ -169,23 +175,24 @@ public class ProdutosController {
 					Produto produto = new Produto();
 					SubCategoria subCategoria = new SubCategoria();
 
-					produto.setCodigo(dataBase.resultSet.getInt("p.codigo"));
-					produto.setDescricao(dataBase.resultSet.getString("p.descricao"));
-					produto.setCodigoDeBarras(dataBase.resultSet.getString("p.codigo_barras"));
-					produto.setMarca(dataBase.resultSet.getString("p.marca"));
-					subCategoria.setSubCategoria(dataBase.resultSet.getString("sc.nome"));
+					produto.setCodigo(dataBase.resultSet.getInt("codigo"));
+					produto.setDescricao(dataBase.resultSet.getString("descricao"));
+					produto.setCodigoDeBarras(dataBase.resultSet.getString("codigo_barras"));
+					produto.setMarca(dataBase.resultSet.getString("marca"));
+					subCategoria.setNome(dataBase.resultSet.getString("cod_subcategoria"));
+					//subCategoria.setCodigo(dataBase.resultSet.getInt("cod_subcategoria"));
 					produto.setSubCategoria(subCategoria);
-					produto.setUnidadeDeMedida(dataBase.resultSet.getString("p.unidade_medida"));
-					produto.setQuantidade(dataBase.resultSet.getDouble("p.quantidade"));
-					produto.setDataFabricacao(dataBase.resultSet.getDate("p.data_fabricacao"));
-					produto.setDataValidade(dataBase.resultSet.getDate("p.data_validade"));
-					produto.setLote(dataBase.resultSet.getString("p.lote"));
-					produto.setIpi(dataBase.resultSet.getDouble("p.ipi"));
-					produto.setIcms(dataBase.resultSet.getDouble("p.icms"));
-					produto.setMargemLucro(dataBase.resultSet.getDouble("p.margem_lucro"));
-					produto.setPrecoCusto(dataBase.resultSet.getDouble("p.preco_custo"));
-					produto.setPrecoFinal(dataBase.resultSet.getDouble("p.preco_final"));
-
+					produto.setUnidadeDeMedida(dataBase.resultSet.getString("unidade_medida"));
+					produto.setQuantidade(dataBase.resultSet.getDouble("quantidade"));
+					produto.setDataFabricacao(dataBase.resultSet.getDate("data_fabricacao"));
+					produto.setDataValidade(dataBase.resultSet.getDate("data_validade"));
+					produto.setLote(dataBase.resultSet.getString("lote"));
+					produto.setIpi(dataBase.resultSet.getDouble("ipi"));
+					produto.setIcms(dataBase.resultSet.getDouble("icms"));
+					produto.setMargemLucro(dataBase.resultSet.getDouble("margem_lucro"));
+					produto.setPrecoCusto(dataBase.resultSet.getDouble("preco_custo"));
+					produto.setPrecoFinal(dataBase.resultSet.getDouble("preco_final"));
+					
 					lista.add(produto);
 				}
 
@@ -225,7 +232,7 @@ public class ProdutosController {
 					produto.setDescricao(dataBase.resultSet.getString("descricao"));
 					produto.setCodigoDeBarras(dataBase.resultSet.getString("codigo_barras"));
 					produto.setMarca(dataBase.resultSet.getString("marca"));
-					// produto.setSubcategoria(buscarSubCategoriaPorId(dataBase.resultSet.getInt("sub_categoria_id")));
+					//produto.setSubcategoria(buscarSubCategoriaPorId(dataBase.resultSet.getInt("cod_subcategoria")));
 					produto.setUnidadeDeMedida(dataBase.resultSet.getString("unidade_medida"));
 					produto.setQuantidade(dataBase.resultSet.getDouble("quantidade"));
 					produto.setDataFabricacao(dataBase.resultSet.getDate("data_fabricacao"));

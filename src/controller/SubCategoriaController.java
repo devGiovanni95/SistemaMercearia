@@ -36,7 +36,7 @@ public class SubCategoriaController {
 			dataBase.preparedStatement = dataBase.con.prepareStatement(sql);
 			dataBase.preparedStatement.setInt(1, subCategoria.getCodigo());
 			dataBase.preparedStatement.setInt(2, subCategoria.getCategoria().getCodigo());//pegando o codigo do objeto categoria			
-			dataBase.preparedStatement.setString(3, subCategoria.getSubCategoria());
+			dataBase.preparedStatement.setString(3, subCategoria.getNome());
 			dataBase.preparedStatement.setString(4, subCategoria.getDescricao());			
 			
 			dataBase.preparedStatement.execute();
@@ -100,7 +100,7 @@ public class SubCategoriaController {
 				
 				dataBase.preparedStatement = dataBase.con.prepareStatement(sql);
 			
-				dataBase.preparedStatement.setString(1, subCategoria.getSubCategoria());
+				dataBase.preparedStatement.setString(1, subCategoria.getNome());
 				dataBase.preparedStatement.setString(2, subCategoria.getDescricao());
 				dataBase.preparedStatement.setInt(3, subCategoria.getCategoria().getCodigo());				
 				dataBase.preparedStatement.setInt(4, subCategoria.getCodigo());
@@ -133,9 +133,11 @@ public class SubCategoriaController {
 			
 			//String sql = "select * from tb_subCategorias";
 			
-			String sql = "select sc.codigo, sc.nome, sc.descricao, c.nome "
-					+ "from tb_subcategoria as sc join tb_categoria as c"
-					+ " on ( sc.cod_categoria =  c.codigo)";
+			/*String sql = "select sc.codigo, sc.nome, sc.descricao, c.codigo "
+					+ "from tb_subcategoria as sc inner join tb_categoria as c"
+					+ " on ( sc.cod_categoria =  c.codigo)";*/
+			
+			String sql = "select codigo, nome, descricao, cod_categoria from tb_subcategoria ";
 			
 			dataBase.preparedStatement = dataBase.con.prepareStatement(sql);
 			dataBase.resultSet = dataBase.preparedStatement.executeQuery();
@@ -145,13 +147,18 @@ public class SubCategoriaController {
 				Categoria categoria = new Categoria();
 				
 				subCategoria.setCodigo (dataBase.resultSet.getInt("codigo"));
-				subCategoria.setSubCategoria(dataBase.resultSet.getString("nome"));
+				subCategoria.setNome(dataBase.resultSet.getString("nome"));
 				subCategoria.setDescricao(dataBase.resultSet.getString("descricao"));
 				
-				//buscando o nome via sql
+				/*//buscando o nome via sql
 				categoria.setNomeCategoria(dataBase.resultSet.getString("c.nome"));
 				//adiciona a categoria
-				subCategoria.setCategoria(categoria);		
+				subCategoria.setCategoria(categoria);	*/
+				
+				//buscando o nome via sql
+				categoria.setCodigo(dataBase.resultSet.getInt("cod_categoria"));
+				//adiciona a categoria
+				subCategoria.setCategoria(categoria);	
 				
 				lista.add(subCategoria);
 			}
@@ -188,7 +195,7 @@ public class SubCategoriaController {
 	                subCategoria.setCodigo(dataBase.resultSet.getInt("codigo"));
 	                categoria.setCodigo(dataBase.resultSet.getInt("cod_categoria"));          
 	                subCategoria.setCategoria(categoria);
-	                subCategoria.setSubCategoria(dataBase.resultSet.getString("nome"));
+	                subCategoria.setNome(dataBase.resultSet.getString("nome"));
 	                subCategoria.setDescricao(dataBase.resultSet.getString("descricao"));
 	                
 	                lista.add(subCategoria);
@@ -207,4 +214,38 @@ public class SubCategoriaController {
 	        }
 
 	    }
+	  
+	  
+		/**
+		 * Método busca o nome da categoria através do codigo
+		 * @param codigo - id da categoria pesquisada
+		 * @return - retorna o nome da categoria procurada
+		 */
+		public Categoria consultarSubCategoriasPorId(int codigo) {
+			if (dataBase.getConnection()) {
+				try {			
+
+					String sql = "select nome from tb_subcategoria where codigo = ?";
+	 				dataBase.preparedStatement = dataBase.con.prepareStatement(sql);
+	 				dataBase.preparedStatement.setInt(1, codigo);
+					dataBase.resultSet = dataBase.preparedStatement.executeQuery();
+
+					Categoria categoria = new Categoria();
+					while (dataBase.resultSet.next()) {
+						categoria.setNomeCategoria(dataBase.resultSet.getString("nome"));				
+					}
+
+					return categoria;
+
+				} catch (SQLException e) {
+					JOptionPane.showMessageDialog(null, "Erro: " + e);
+					return null;
+				} finally {
+					dataBase.close();
+				}
+			} else {
+				JOptionPane.showMessageDialog(null, "Falha na conexão");
+			}
+			return null;
+		}
 	}

@@ -1,7 +1,6 @@
-/model/
-/util/
-/view/
-/assets/
 /controller/
 /jdbc/
+/model/
 /requisitos/
+/util/
+/view/

@@ -6,6 +6,8 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
@@ -34,6 +36,7 @@ import javax.swing.event.AncestorListener;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
+
 import controller.ProdutosController;
 import controller.SubCategoriaController;
 import model.Produto;
@@ -111,12 +114,12 @@ public class FrmProdutos extends JFrame {
 	/** Objeto da classe LimparCampos. */
 	private LimparCampos limparCampos;
 
-	/*
+
 	private void limparTela(JPanel tela) {
 		LimparCampos limpar = new LimparCampos();
 		limpar.Limpar(tela);
 	}
-	*/
+	
 
 	/*
 	 * Método responsável por alterar os dados de um produto cadastrado.
@@ -161,7 +164,7 @@ public class FrmProdutos extends JFrame {
 
 		produtosController.alterarProduto(produto);
 
-		limparCampos.Limpar(abaDadosProdutos);
+		limparTela(abaDadosProdutos);
 		JOptionPane.showMessageDialog(null, "Produto alterado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
 	}
 
@@ -202,7 +205,7 @@ public class FrmProdutos extends JFrame {
 
 		produtosController.cadastrarProduto(produto);
 
-		limparCampos.Limpar(abaDadosProdutos);
+		limparTela(abaDadosProdutos);
 		JOptionPane.showMessageDialog(null, "Produto cadastrado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
 	}
 
@@ -216,7 +219,7 @@ public class FrmProdutos extends JFrame {
 		produtos.setCodigo(Integer.parseInt(tfCodigo.getText()));
 		produtosController.excluirProduto(produtos);
 
-		limparCampos.Limpar(abaDadosProdutos);
+		limparTela(abaDadosProdutos);
 		JOptionPane.showMessageDialog(null, "Produto excluído com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
 	}
 
@@ -246,6 +249,7 @@ public class FrmProdutos extends JFrame {
 	private void consultarProdutoPorNome(){
 		String nomePesquisado = "%" + tfPesquisar.getText() + "%";
 		ProdutosController produtosController = new ProdutosController();
+		SubCategoriaController categoriaController = new SubCategoriaController();
 		List<Produto> lista = produtosController.consultarProdutoPorNome(nomePesquisado);
 		DefaultTableModel dadosTabela = (DefaultTableModel) tabelaProdutos.getModel();
 		dadosTabela.setNumRows(0);
@@ -259,7 +263,7 @@ public class FrmProdutos extends JFrame {
 					produto.getDescricao(),
 					produto.getCodigoDeBarras(),
 					produto.getMarca(),
-					produto.getSubCategoria(),
+					produto.getSubCategoria().getNome(),
 					produto.getUnidadeDeMedida(),
 					produto.getQuantidade(),
 					produto.getDataFabricacao(),
@@ -294,7 +298,7 @@ public class FrmProdutos extends JFrame {
 						produto.getDescricao(),
 						produto.getCodigoDeBarras(),
 						produto.getMarca(),
-						produto.getSubCategoria().getSubCategoria(),
+						produto.getSubCategoria().getNome(),
 						produto.getUnidadeDeMedida(),
 						produto.getQuantidade(),
 						produto.getDataFabricacao(),
@@ -319,15 +323,30 @@ public class FrmProdutos extends JFrame {
 	 */
 	private void atualizarPrecoFinal() {
 		try {
+			
+			double ipi;
+			double icms;
 			double margem = Double.parseDouble(tfMargem.getText());
-			double ipi = Double.parseDouble(tfIpi.getText());
-			double icms = Double.parseDouble(tfIcms.getText());
+			
+			if(tfIpi.getText().equals("")) {
+				ipi = 0;		
+			}else {
+				ipi = Double.parseDouble(tfIpi.getText());				
+			}
+			
+			if(tfIcms.getText().equals("")) {
+				icms = 0;
+			}else {
+				icms = Double.parseDouble(tfIcms.getText());				
+			}
+			
+			
 			double precoCusto = Double.parseDouble(tfPrecoCusto.getText());
 
 			double precoFinal = precoCusto * (1 + (margem + ipi + icms) / 100);
 			tfPrecoFinal.setText(String.format("%.2f", precoFinal));
 		} catch (NumberFormatException e) {
-			// Um dos campos não possui um número válido, não atualiza o Preço Final
+			// Um dos campos não possui um número válido, não atualiza o Preço Final		
 		}
 	}
 
@@ -553,7 +572,7 @@ public class FrmProdutos extends JFrame {
 		btnNovo.setFont(new Font("Arial", Font.BOLD, 24));
 		btnNovo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				limparCampos.Limpar(abaDadosProdutos);
+				limparTela(abaDadosProdutos);
 			}
 		});
 		panelInferior_2.add(btnNovo);
@@ -625,12 +644,30 @@ public class FrmProdutos extends JFrame {
 		tfIpi.setFont(new Font("Arial", Font.BOLD, 14));
 		tfIpi.setColumns(10);
 		tfIpi.getDocument().addDocumentListener(documentListener);
+		tfIpi.addKeyListener(new KeyAdapter() {
+		    @Override
+		    public void keyTyped(KeyEvent e) {
+		        char c = e.getKeyChar();
+		        if (!(Character.isDigit(c) || c == '.')) {
+		            e.consume();
+		        }
+		    }
+		});
 
 		tfIcms = new JTextField();
 		tfIcms.setBackground(Color.WHITE);
 		tfIcms.setFont(new Font("Arial", Font.BOLD, 14));
 		tfIcms.setColumns(10);
 		tfIcms.getDocument().addDocumentListener(documentListener);
+		tfIcms.addKeyListener(new KeyAdapter() {
+		    @Override
+		    public void keyTyped(KeyEvent e) {
+		        char c = e.getKeyChar();
+		        if (!(Character.isDigit(c) || c == '.')) {
+		            e.consume();
+		        }
+		    }
+		});
 
 		JLabel lblMargemLucro = new JLabel("Margem de Lucro %: ");
 		lblMargemLucro.setFont(new Font("Arial", Font.BOLD, 14));
@@ -640,6 +677,15 @@ public class FrmProdutos extends JFrame {
 		tfMargem.setFont(new Font("Arial", Font.BOLD, 14));
 		tfMargem.setColumns(10);
 		tfMargem.getDocument().addDocumentListener(documentListener);
+		tfMargem.addKeyListener(new KeyAdapter() {
+		    @Override
+		    public void keyTyped(KeyEvent e) {
+		        char c = e.getKeyChar();
+		        if (!(Character.isDigit(c) || c == '.')) {
+		            e.consume();
+		        }
+		    }
+		});
 
 		tfMarca = new JTextField();
 		tfMarca.setBackground(Color.WHITE);
@@ -667,6 +713,16 @@ public class FrmProdutos extends JFrame {
 		tfPrecoCusto.setFont(new Font("Arial", Font.BOLD, 14));
 		tfPrecoCusto.setColumns(10);
 		tfPrecoCusto.getDocument().addDocumentListener(documentListener);
+		tfPrecoCusto.addKeyListener(new KeyAdapter() {
+			//Metodo confere se o valor digitado é numerico se nçao é impede de ser digitado
+		    @Override
+		    public void keyTyped(KeyEvent e) {
+		        char c = e.getKeyChar();
+		        if (!(Character.isDigit(c) || c == '.')) {
+		            e.consume();
+		        }
+		    }
+		});
 
 		JButton btnRemover = new JButton("Remover");
 		btnRemover.setFont(new Font("Arial", Font.BOLD, 14));

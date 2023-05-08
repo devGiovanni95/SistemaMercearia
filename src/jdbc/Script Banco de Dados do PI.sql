@@ -2,9 +2,9 @@
 Script Banco de Dados
 
 
-create database mercearia8;
+create database mercearia;
 
-use mercearia8;
+use mercearia;
 
 create table tb_categoria(
    codigo int primary key identity(1,1), 
@@ -19,6 +19,23 @@ create table tb_subcategoria(
    nome varchar (50) not null,
    descricao varchar (100)
 );
+
+CREATE TABLE tb_fornecedor (
+	cnpj varchar(18) primary key,
+	razao_social varchar(100),
+	nome varchar(100),
+	email varchar(50),
+	endereco varchar(100),
+	numero int,
+	bairro varchar(50),
+	cidade varchar(50),
+	uf varchar(2),
+	telefone varchar(15),
+	celular varchar(15),
+	cep varchar(10),
+	complemento varchar(50),
+	inscricao_estadual varchar(20),
+)
 
 create table tb_produto(
    codigo int primary key identity(1,1),
@@ -37,8 +54,6 @@ create table tb_produto(
    preco_custo decimal not null,
    preco_final decimal not null
 );
-
-
 
 
 
@@ -136,9 +151,11 @@ insert into tb_cliente values  ('Carla Santos', 'carla.santos@example.com', '111
 insert into tb_cliente values ('Ana Paula Rocha', 'ana.rocha@example.com', '111.222.333-88', '22.333.444-9', 'Rua das Margaridas, 654', '(19) 5555-5555', '(19) 99999-9999', 321, '13338-000', '1995-05-10', 'Jardim América', 'Indaiatuba', 'SP', 'Casa 2', 1000);
 
 
-insert into tb_funcionario values  ('Fernando Silva', 'fernando.silva@gmail.com', '123.456.789-01', '12.345.678-9', 'Rua Padre José de Anchieta, 300', '(19) 99999-8888', '(19) 98888-7777', 50, '13330-000', '1987-10-01', 'Vila Avaí', 'Indaiatuba', 'SP', 'Apto 301', 3000, '1234', 'Gerente', 'Gerente geral', '12345678900', 5500, '111222333444', 'Solteiro', '44h semanais', '2022-01-01', NULL, 'Sim');
+insert into tb_funcionario values  ('Fernando Silva', 'fernando.silva@gmail.com', '123.456.789-01', '12.345.678-9', 'Rua Padre José de Anchieta, 300', '(19) 99999-8888', '(19) 98888-7777', 50, '13330-000', '1987-10-01', 'Vila Avaí', 'Indaiatuba', 'SP', 'Apto 301', 3000, '1234', 'Gerente', 'Gerente', '12345678900', 5500, '111222333444', 'Solteiro', '44h semanais', '2022-01-01', NULL, 'Sim');
 insert into tb_funcionario values ('Maria Rodrigues', 'maria.rodrigues@gmail.com', '234.567.890-12', '23.456.789-0', 'Rua Campos Salles', '(19) 99999-7777', '(19) 98888-6666', 150, '13330-100', '1987-10-01', 'Centro', 'Indaiatuba', 'SP', 'Casa', 2500, '123456', 'Repositor', 'Estoquista', '23456789012', 3500, '2223334445', 'Casado', '40h semanais', '2022-01-01', NULL, 'Sim');
 insert into tb_funcionario values  ('Ana Clara Oliveira', 'anaclara.oliveira@gmail.com', '345.678.901-23', '34.567.801-2', 'Rua dos Pinheiros', '(19) 99999-9999', '(19) 98888-8888', 300, '13330-000', '1987-10-01', 'Jardim Esplanada', 'Indaiatuba', 'SP', 'Casa 2', 1800, '147258369', 'Caixa', 'Caixa', '3456789012', 3000, '3456789', 'Casada', '36 horas semanais', '2022-01-01', NULL, 'Sim');
+insert into tb_funcionario values  ('Giovanni', 'giovanni', '345.678.901-23', '34.567.801-2', 'Rua dos Pinheiros', '(19) 99999-9999', '(19) 98888-8888', 300, '13330-000', '1987-10-01', 'Jardim Esplanada', 'Indaiatuba', 'SP', 'Casa 2', 1800, '147258369', 'Caixa', 'Caixa', '3456789012', 3000, '1234', 'Casada', '36 horas semanais', '2022-01-01', NULL, 'Sim');
+
 
 
 
@@ -155,3 +172,28 @@ insert into tb_carrinho (codigo_carrinho, codigo_produto, codigo_pedido,quantida
 insert into tb_carrinho (codigo_carrinho, codigo_produto, codigo_pedido,quantidade_produto) values (4,3,'P0001',2 );
 insert into tb_carrinho (codigo_carrinho, codigo_produto, codigo_pedido,quantidade_produto) values (2,1,'P0002',10 );
 insert into tb_carrinho (codigo_carrinho, codigo_produto, codigo_pedido,quantidade_produto) values (3,4,'P0003',6 );
+
+
+INSERT INTO tb_fornecedor (cnpj, razao_social, nome, email, endereco, numero, bairro, cidade, uf, telefone, celular, cep, complemento, inscricao_estadual)
+VALUES ('12345678901234', 'Empresa A', 'João', 'joao@empresa.com', 'Rua A', 100, 'Centro', 'São Paulo', 'SP', '1111111111', '2222222222', '12345-000', 'Sala 1', 'IE123456');
+INSERT INTO tb_fornecedor (cnpj, razao_social, nome, email, endereco, numero, bairro, cidade, uf, telefone, celular, cep, complemento, inscricao_estadual)
+VALUES ('98765432109876', 'Empresa B', 'Maria', 'maria@empresa.com', 'Rua B', 200, 'Vila Nova', 'Rio de Janeiro', 'RJ', '3333333333', '4444444444', '54321-000', 'Sala 2', 'IE654321');
+INSERT INTO tb_fornecedor (cnpj, razao_social, nome, email, endereco, numero, bairro, cidade, uf, telefone, celular, cep, complemento, inscricao_estadual)
+VALUES ('12.345.678/0001-01', 'Fornecedor A', 'João da Silva', 'joao@fornecedora.com', 'Rua dos Fornecedores', 100, 'Centro', 'São Paulo', 'SP', '(11) 1234-5678', '(11) 98765-4321', '01234-567', 'Sala 101', '123456789012345');
+INSERT INTO tb_fornecedor (cnpj, razao_social, nome, email, endereco, numero, bairro, cidade, uf, telefone, celular, cep, complemento, inscricao_estadual)
+VALUES ('23.456.789/0001-02', 'Fornecedor B', 'Maria Oliveira', 'maria@fornecedora.com', 'Rua das Indústrias', 200, 'Industrial', 'Belo Horizonte', 'MG', '(31) 2345-6789', '(31) 87654-3210', '23456-789', 'predio', '234567890123456');
+INSERT INTO tb_fornecedor (cnpj, razao_social, nome, email, endereco, numero, bairro, cidade, uf, telefone, celular, cep, complemento, inscricao_estadual)
+VALUES ('34.567.890/0001-03', 'Fornecedor C', 'Pedro Almeida', 'pedro@fornecedora.com', 'Avenida dos Comerciantes', 300, 'Comercial', 'Rio de Janeiro', 'RJ', '(21) 3456-7890', '(21) 76543-2109', '34567-890', 'Galpao', '345678901234567');
+INSERT INTO tb_fornecedor (cnpj, razao_social, nome, email, endereco, numero, bairro, cidade, uf, telefone, celular, cep, complemento, inscricao_estadual)
+VALUES ('45.678.901/0001-04', 'Fornecedor D', 'Ana Costa', 'ana@fornecedora.com', 'Praça das Empresas', 400, 'Empresarial', 'Recife', 'PE', '(81) 4567-8901', '(81) 65432-1098', '45678-901', 'Sala 202', '345678901234565');
+INSERT INTO tb_fornecedor (cnpj, razao_social, nome, email, endereco, numero, bairro, cidade, uf, telefone, celular, cep, complemento, inscricao_estadual)
+VALUES ('56.789.012/0001-05', 'Fornecedor E', 'Ricardo Santos', 'ricardo@fornecedora.com', 'Alameda das Lojas', 500, 'Shopping', 'Curitiba', 'PR', '(41) 5678-9012', '(41) 98765-4321', '56789-012', 'Loja 10', '345678901234525');
+
+
+
+
+
+
+
+tesdte consulta produto
+select p.codigo, p.descricao, p.codigo_barras, p.marca, sc.nome as 'subcategoria', p.unidade_medida, p.quantidade, p.data_fabricacao, p.data_validade, p.lote, p.ipi, p.icms, p.margem_lucro, p.preco_custo, p.preco_final from tb_produto as p inner join tb_subcategoria as sc on (p.cod_subcategoria = sc.codigo);

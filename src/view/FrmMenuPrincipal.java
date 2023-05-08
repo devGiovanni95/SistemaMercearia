@@ -37,6 +37,12 @@ public class FrmMenuPrincipal extends JFrame {
 	private JLabel lblNomeFuncionarioLogado;
 	
 	private int idAbertura;
+	public JMenu mnFuncionarios;
+	public JMenu mnClientes;
+	public JMenu mnFornecedores;
+	public JMenu mnCategoria;
+	public JMenu mnEstoque;
+	public JMenu mnVendas;
 	
 	
 	
@@ -104,45 +110,45 @@ public class FrmMenuPrincipal extends JFrame {
 		menuBar.setBackground(new Color(202, 240, 248));
 		setJMenuBar(menuBar);
 		
-		JMenu mnVendas = new JMenu("Ponto de Vendas");
+		mnVendas = new JMenu("Ponto de Vendas");
 		mnVendas.setFont(new Font("Arial", Font.BOLD, 15));
 		mnVendas.setBackground(new Color(202, 240, 248));
 		mnVendas.setIcon(new ImageIcon(FrmMenuPrincipal.class.getResource("/assets/ponto-de-venda (1).png")));
 		menuBar.add(mnVendas);
 		
-		JMenuItem mntmNewMenuItem = new JMenuItem("Ir Para PDV");
-		mntmNewMenuItem.addActionListener(new ActionListener() {
+		JMenuItem mnIrPdv = new JMenuItem("Ir Para PDV");
+		mnIrPdv.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				FrmFrenteCaixa frenteCaixa = new FrmFrenteCaixa();
 				frenteCaixa.setVisible(true);
 			}
 		});
 
-		mntmNewMenuItem.setFont(new Font("Arial", Font.BOLD, 15));
-		mntmNewMenuItem.setIcon(new ImageIcon(getClass().getResource("/assets/venda.png")));
-		mntmNewMenuItem.setSize(35,35);
-		mnVendas.add(mntmNewMenuItem);
+		mnIrPdv.setFont(new Font("Arial", Font.BOLD, 15));
+		mnIrPdv.setIcon(new ImageIcon(getClass().getResource("/assets/venda.png")));
+		mnIrPdv.setSize(35,35);
+		mnVendas.add(mnIrPdv);
 		
-		JMenu mnNewMenu_1 = new JMenu("Estoque");
-		mnNewMenu_1.setFont(new Font("Arial", Font.BOLD, 15));
-		mnNewMenu_1.setBackground(new Color(202, 240, 248));
-		mnNewMenu_1.setIcon(new ImageIcon(FrmMenuPrincipal.class.getResource("/assets/lista-de-controle.png")));
-		menuBar.add(mnNewMenu_1);
+		mnEstoque = new JMenu("Estoque");
+		mnEstoque.setFont(new Font("Arial", Font.BOLD, 15));
+		mnEstoque.setBackground(new Color(202, 240, 248));
+		mnEstoque.setIcon(new ImageIcon(FrmMenuPrincipal.class.getResource("/assets/lista-de-controle.png")));
+		menuBar.add(mnEstoque);
 		
-		JMenuItem mntmNewMenuItem_2 = new JMenuItem("Cadastrar Produto");
-		mntmNewMenuItem_2.addActionListener(new ActionListener() {
+		JMenuItem mnCadastrarProduto = new JMenuItem("Cadastrar Produto");
+		mnCadastrarProduto.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				FrmProdutos menu = new FrmProdutos();
 				menu.setVisible(true);
 			}
 		});
 
-		mntmNewMenuItem_2.setFont(new Font("Arial", Font.BOLD, 15));
-		mntmNewMenuItem_2.setIcon(new ImageIcon(getClass().getResource("/assets/produto.png")));
-		mnNewMenu_1.add(mntmNewMenuItem_2);
+		mnCadastrarProduto.setFont(new Font("Arial", Font.BOLD, 15));
+		mnCadastrarProduto.setIcon(new ImageIcon(getClass().getResource("/assets/produto.png")));
+		mnEstoque.add(mnCadastrarProduto);
 		
-		JMenuItem mntmNewMenuItem_8 = new JMenuItem("Pesquisar Produto");
-		mntmNewMenuItem_8.addActionListener(new ActionListener() {
+		JMenuItem mnPesquisarProduto = new JMenuItem("Pesquisar Produto");
+		mnPesquisarProduto.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				FrmProdutos menu = new FrmProdutos();
 				menu.abaPrincipal.setSelectedIndex(1);
@@ -150,16 +156,16 @@ public class FrmMenuPrincipal extends JFrame {
 			}
 		});
 	
-		mntmNewMenuItem_8.setIcon(new ImageIcon(FrmMenuPrincipal.class.getResource("/assets/lista-de-controle.png")));
-		mntmNewMenuItem_8.setFont(new Font("Arial", Font.BOLD, 15));
-		mnNewMenu_1.add(mntmNewMenuItem_8);
+		mnPesquisarProduto.setIcon(new ImageIcon(FrmMenuPrincipal.class.getResource("/assets/lista-de-controle.png")));
+		mnPesquisarProduto.setFont(new Font("Arial", Font.BOLD, 15));
+		mnEstoque.add(mnPesquisarProduto);
 		
-		JMenuItem mntmNewMenuItem_1 = new JMenuItem("Devolução");
-		mntmNewMenuItem_1.setFont(new Font("Arial", Font.BOLD, 15));
-		mntmNewMenuItem_1.setIcon(new ImageIcon(getClass().getResource("/assets/fornecedor.png")));
-		mnNewMenu_1.add(mntmNewMenuItem_1);
+		JMenuItem mnDevolucao = new JMenuItem("Devolução");
+		mnDevolucao.setFont(new Font("Arial", Font.BOLD, 15));
+		mnDevolucao.setIcon(new ImageIcon(getClass().getResource("/assets/fornecedor.png")));
+		mnEstoque.add(mnDevolucao);
 		
-		JMenu mnCategoria = new JMenu("Categorias");
+		mnCategoria = new JMenu("Categorias");
 		mnCategoria.setIcon(new ImageIcon(FrmMenuPrincipal.class.getResource("/assets/categorias.png")));
 		mnCategoria.setFont(new Font("Arial", Font.BOLD, 15));
 		menuBar.add(mnCategoria);
@@ -179,26 +185,26 @@ public class FrmMenuPrincipal extends JFrame {
 		});
 		mnCategoria.add(mnCadastrarCategoria);
 		
-		JMenuItem mntmNewMenuItem_9 = new JMenuItem("Cadastrar SubCategoria");
-		mntmNewMenuItem_9.setIcon(new ImageIcon(FrmMenuPrincipal.class.getResource("/assets/categoria.png")));
-		mnCategoria.add(mntmNewMenuItem_9);
+		JMenuItem mnCadastrarSubcategoria = new JMenuItem("Cadastrar SubCategoria");
+		mnCadastrarSubcategoria.setIcon(new ImageIcon(FrmMenuPrincipal.class.getResource("/assets/categoria.png")));
+		mnCategoria.add(mnCadastrarSubcategoria);
 		
-		JMenuItem mntmNewMenuItem_10 = new JMenuItem("Consultar Categoria");
-		mntmNewMenuItem_10.setIcon(new ImageIcon(FrmMenuPrincipal.class.getResource("/assets/pesquisaCategoria.png")));
-		mnCategoria.add(mntmNewMenuItem_10);
+		JMenuItem mnConsultarCategoria = new JMenuItem("Consultar Categoria");
+		mnConsultarCategoria.setIcon(new ImageIcon(FrmMenuPrincipal.class.getResource("/assets/pesquisaCategoria.png")));
+		mnCategoria.add(mnConsultarCategoria);
 		
-		JMenuItem mntmNewMenuItem_11 = new JMenuItem("Consultar SubCategorias");
-		mntmNewMenuItem_11.setIcon(new ImageIcon(FrmMenuPrincipal.class.getResource("/assets/pesquisa-de-produto.png")));
-		mnCategoria.add(mntmNewMenuItem_11);
+		JMenuItem mnConsultarSubcategoria = new JMenuItem("Consultar SubCategorias");
+		mnConsultarSubcategoria.setIcon(new ImageIcon(FrmMenuPrincipal.class.getResource("/assets/pesquisa-de-produto.png")));
+		mnCategoria.add(mnConsultarSubcategoria);
 		
-		JMenu mnNewMenu_3 = new JMenu("Fornecedores");
-		mnNewMenu_3.setFont(new Font("Arial", Font.BOLD, 15));
-		mnNewMenu_3.setBackground(new Color(202, 240, 248));
-		mnNewMenu_3.setIcon(new ImageIcon(FrmMenuPrincipal.class.getResource("/assets/fornecedor (3).png")));
-		menuBar.add(mnNewMenu_3);
+		mnFornecedores = new JMenu("Fornecedores");
+		mnFornecedores.setFont(new Font("Arial", Font.BOLD, 15));
+		mnFornecedores.setBackground(new Color(202, 240, 248));
+		mnFornecedores.setIcon(new ImageIcon(FrmMenuPrincipal.class.getResource("/assets/fornecedor (3).png")));
+		menuBar.add(mnFornecedores);
 		
-		JMenuItem mntmNewMenuItem_3 = new JMenuItem("Cadastrar Fornecedor");
-		mntmNewMenuItem_3.addActionListener(new ActionListener() {
+		JMenuItem mnCadastrarFornecedor = new JMenuItem("Cadastrar Fornecedor");
+		mnCadastrarFornecedor.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				FrmFornecedor menu;
 				try {
@@ -213,12 +219,12 @@ public class FrmMenuPrincipal extends JFrame {
 			}
 		});
 		
-		mntmNewMenuItem_3.setFont(new Font("Arial", Font.BOLD, 15));
-		mntmNewMenuItem_3.setIcon(new ImageIcon(getClass().getResource("/assets/entregador.png")));
-		mnNewMenu_3.add(mntmNewMenuItem_3);
+		mnCadastrarFornecedor.setFont(new Font("Arial", Font.BOLD, 15));
+		mnCadastrarFornecedor.setIcon(new ImageIcon(getClass().getResource("/assets/entregador.png")));
+		mnFornecedores.add(mnCadastrarFornecedor);
 		
-		JMenuItem mntmNewMenuItem_4 = new JMenuItem("Consultar Fornecedor");
-		mntmNewMenuItem_4.addActionListener(new ActionListener() {
+		JMenuItem mnConsultarFornecedor = new JMenuItem("Consultar Fornecedor");
+		mnConsultarFornecedor.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				FrmFornecedor menu;
 				try {
@@ -232,18 +238,18 @@ public class FrmMenuPrincipal extends JFrame {
 			}
 		});
 
-		mntmNewMenuItem_4.setFont(new Font("Arial", Font.BOLD, 15));
-		mntmNewMenuItem_4.setIcon(new ImageIcon(getClass().getResource("/assets/lista-de-controle.png")));
-		mnNewMenu_3.add(mntmNewMenuItem_4);
+		mnConsultarFornecedor.setFont(new Font("Arial", Font.BOLD, 15));
+		mnConsultarFornecedor.setIcon(new ImageIcon(getClass().getResource("/assets/lista-de-controle.png")));
+		mnFornecedores.add(mnConsultarFornecedor);
 		
-		JMenu mnNewMenu_2 = new JMenu("Clientes");
-		mnNewMenu_2.setFont(new Font("Arial", Font.BOLD, 15));
-		mnNewMenu_2.setBackground(new Color(202, 240, 248));
-		mnNewMenu_2.setIcon(new ImageIcon(FrmMenuPrincipal.class.getResource("/assets/cliente.png")));
-		menuBar.add(mnNewMenu_2);
+		mnClientes = new JMenu("Clientes");
+		mnClientes.setFont(new Font("Arial", Font.BOLD, 15));
+		mnClientes.setBackground(new Color(202, 240, 248));
+		mnClientes.setIcon(new ImageIcon(FrmMenuPrincipal.class.getResource("/assets/cliente.png")));
+		menuBar.add(mnClientes);
 		
-		JMenuItem mntmNewMenuItem_5 = new JMenuItem("Cadastrar Cliente");
-		mntmNewMenuItem_5.addActionListener(new ActionListener() {
+		JMenuItem mnCadastrarClientes = new JMenuItem("Cadastrar Cliente");
+		mnCadastrarClientes.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				FrmCliente menu;
 				try {
@@ -256,12 +262,12 @@ public class FrmMenuPrincipal extends JFrame {
 				
 			}
 		});
-		mntmNewMenuItem_5.setFont(new Font("Arial", Font.BOLD, 15));
-		mntmNewMenuItem_5.setIcon(new ImageIcon(getClass().getResource("/assets/cliente.png")));
-		mnNewMenu_2.add(mntmNewMenuItem_5);
+		mnCadastrarClientes.setFont(new Font("Arial", Font.BOLD, 15));
+		mnCadastrarClientes.setIcon(new ImageIcon(getClass().getResource("/assets/cliente.png")));
+		mnClientes.add(mnCadastrarClientes);
 		
-		JMenuItem mntmNewMenuItem_5_1 = new JMenuItem("Consultar Cliente");
-		mntmNewMenuItem_5_1.addActionListener(new ActionListener() {
+		JMenuItem mnConsultarCliente = new JMenuItem("Consultar Cliente");
+		mnConsultarCliente.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				FrmCliente menu;
 				try {
@@ -274,18 +280,18 @@ public class FrmMenuPrincipal extends JFrame {
 				}
 			}
 		});
-		mntmNewMenuItem_5_1.setFont(new Font("Arial", Font.BOLD, 15));
-		mntmNewMenuItem_5_1.setIcon(new ImageIcon(getClass().getResource("/assets/pesquisa.png")));
-		mnNewMenu_2.add(mntmNewMenuItem_5_1);
+		mnConsultarCliente.setFont(new Font("Arial", Font.BOLD, 15));
+		mnConsultarCliente.setIcon(new ImageIcon(getClass().getResource("/assets/pesquisa.png")));
+		mnClientes.add(mnConsultarCliente);
 		
-		JMenu mnNewMenu_4 = new JMenu("Funcionários");
-		mnNewMenu_4.setFont(new Font("Arial", Font.BOLD, 15));
-		mnNewMenu_4.setBackground(new Color(202, 240, 248));
-		mnNewMenu_4.setIcon(new ImageIcon(FrmMenuPrincipal.class.getResource("/assets/funcionarios.png")));
-		menuBar.add(mnNewMenu_4);
+		mnFuncionarios = new JMenu("Funcionários");
+		mnFuncionarios.setFont(new Font("Arial", Font.BOLD, 15));
+		mnFuncionarios.setBackground(new Color(202, 240, 248));
+		mnFuncionarios.setIcon(new ImageIcon(FrmMenuPrincipal.class.getResource("/assets/funcionarios.png")));
+		menuBar.add(mnFuncionarios);
 		
-		JMenuItem mntmNewMenuItem_5_3 = new JMenuItem("Cadastrar Funcionário");
-		mntmNewMenuItem_5_3.addActionListener(new ActionListener() {
+		JMenuItem mnCadastrarFuncionario = new JMenuItem("Cadastrar Funcionário");
+		mnCadastrarFuncionario.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				FrmFuncionario menu;
 				try {
@@ -297,12 +303,12 @@ public class FrmMenuPrincipal extends JFrame {
 				}
 			}
 		});
-		mntmNewMenuItem_5_3.setFont(new Font("Arial", Font.BOLD, 15));
-		mntmNewMenuItem_5_3.setIcon(new ImageIcon(getClass().getResource("/assets/funcionarios.png")));
-		mnNewMenu_4.add(mntmNewMenuItem_5_3);
+		mnCadastrarFuncionario.setFont(new Font("Arial", Font.BOLD, 15));
+		mnCadastrarFuncionario.setIcon(new ImageIcon(getClass().getResource("/assets/funcionarios.png")));
+		mnFuncionarios.add(mnCadastrarFuncionario);
 		
-		JMenuItem mntmNewMenuItem_5_2 = new JMenuItem("Consultar Funcionário");
-		mntmNewMenuItem_5_2.addActionListener(new ActionListener() {
+		JMenuItem mnConsultarFuncionario = new JMenuItem("Consultar Funcionário");
+		mnConsultarFuncionario.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				FrmFuncionario menu;
 				try {
@@ -315,29 +321,29 @@ public class FrmMenuPrincipal extends JFrame {
 				}
 			}
 		});
-		mntmNewMenuItem_5_2.setFont(new Font("Arial", Font.BOLD, 15));
-		mntmNewMenuItem_5_2.setIcon(new ImageIcon(getClass().getResource("/assets/consulta.png")));
-		mnNewMenu_4.add(mntmNewMenuItem_5_2);
+		mnConsultarFuncionario.setFont(new Font("Arial", Font.BOLD, 15));
+		mnConsultarFuncionario.setIcon(new ImageIcon(getClass().getResource("/assets/consulta.png")));
+		mnFuncionarios.add(mnConsultarFuncionario);
 		
-		JMenu mnNewMenu_6 = new JMenu("Configuração");
-		mnNewMenu_6.setFont(new Font("Arial", Font.BOLD, 15));
-		mnNewMenu_6.setBackground(new Color(202, 240, 248));
-		mnNewMenu_6.setIcon(new ImageIcon(FrmMenuPrincipal.class.getResource("/assets/configuracao2.png")));
-		menuBar.add(mnNewMenu_6);
+		JMenu mnSair = new JMenu("Sair");
+		mnSair.setFont(new Font("Arial", Font.BOLD, 15));
+		mnSair.setBackground(new Color(202, 240, 248));
+		mnSair.setIcon(new ImageIcon(FrmMenuPrincipal.class.getResource("/assets/sair1.png")));
+		menuBar.add(mnSair);
 		
-		JMenuItem mntmNewMenuItem_5_5 = new JMenuItem("Configurar");
-		mntmNewMenuItem_5_5.setFont(new Font("Arial", Font.BOLD, 15));
-		mntmNewMenuItem_5_5.setIcon(new ImageIcon(getClass().getResource("/assets/configuracao.png")));
-		mnNewMenu_6.add(mntmNewMenuItem_5_5);
+		JMenuItem mnSairSistema = new JMenuItem("Sair do Sistema");
+		mnSairSistema.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.exit(0);
+			}
+		});
+		mnSairSistema.setFont(new Font("Arial", Font.BOLD, 15));
+		mnSairSistema.setIcon(new ImageIcon(getClass().getResource("/assets/do-utilizador.png")));
+		mnSair.add(mnSairSistema);
 		
-		JMenu mnNewMenu = new JMenu("Sair");
-		mnNewMenu.setFont(new Font("Arial", Font.BOLD, 15));
-		mnNewMenu.setBackground(new Color(202, 240, 248));
-		mnNewMenu.setIcon(new ImageIcon(FrmMenuPrincipal.class.getResource("/assets/sair1.png")));
-		menuBar.add(mnNewMenu);
-		
-		JMenuItem mntmNewMenuItem_6 = new JMenuItem("Trocar Usuário");
-		mntmNewMenuItem_6.addActionListener(new ActionListener() {
+		JMenuItem mnTrocarUsuario = new JMenuItem("Trocar Usuário");
+		mnSair.add(mnTrocarUsuario);
+		mnTrocarUsuario.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
 					FrmLogin menu = new FrmLogin();
@@ -345,33 +351,13 @@ public class FrmMenuPrincipal extends JFrame {
 
 			}
 		});
-		mntmNewMenuItem_6.setFont(new Font("Arial", Font.BOLD, 15));
-		mntmNewMenuItem_6.setIcon(new ImageIcon(getClass().getResource("/assets/sair.png")));
-		mnNewMenu.add(mntmNewMenuItem_6);
-		
-		JMenuItem mntmNewMenuItem_7 = new JMenuItem("Sair do Sistema");
-		mntmNewMenuItem_7.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				System.exit(0);
-			}
-		});
-		mntmNewMenuItem_7.setFont(new Font("Arial", Font.BOLD, 15));
-		mntmNewMenuItem_7.setIcon(new ImageIcon(getClass().getResource("/assets/do-utilizador.png")));
-		mnNewMenu.add(mntmNewMenuItem_7);
+		mnTrocarUsuario.setFont(new Font("Arial", Font.BOLD, 15));
+		mnTrocarUsuario.setIcon(new ImageIcon(getClass().getResource("/assets/sair.png")));
 		
 		JPanel panel = new JPanel();
+		panel.setBackground(new Color(202, 240, 248));
 		menuBar.add(panel);
 		panel.setLayout(null);
-		
-		JLabel lblUsuarioLogado = new JLabel("Usuário Logado:");
-		lblUsuarioLogado.setFont(new Font("Arial", Font.BOLD, 16));
-		lblUsuarioLogado.setBounds(10, 11, 137, 25);
-		panel.add(lblUsuarioLogado);
-		
-		lblNomeFuncionarioLogado = new JLabel("");
-		lblNomeFuncionarioLogado.setFont(new Font("Arial", Font.BOLD, 14));
-		lblNomeFuncionarioLogado.setBounds(143, 18, 173, 14);
-		panel.add(lblNomeFuncionarioLogado);
 		
 		//Criando plano de fundo
 		ImageIcon icon = new ImageIcon(getClass().getResource("/assets/fundo.png"));
@@ -392,6 +378,16 @@ public class FrmMenuPrincipal extends JFrame {
 			groupLayout.createParallelGroup(Alignment.LEADING)
 				.addComponent(painelDesktop, GroupLayout.DEFAULT_SIZE, 596, Short.MAX_VALUE)
 		);
+		
+		JLabel lblUsuarioLogado = new JLabel("Usuário Logado:");
+		lblUsuarioLogado.setBounds(0, 666, 137, 25);
+		painelDesktop.add(lblUsuarioLogado);
+		lblUsuarioLogado.setFont(new Font("Arial", Font.BOLD, 16));
+		
+		lblNomeFuncionarioLogado = new JLabel("");
+		lblNomeFuncionarioLogado.setBounds(131, 666, 173, 25);
+		painelDesktop.add(lblNomeFuncionarioLogado);
+		lblNomeFuncionarioLogado.setFont(new Font("Arial", Font.BOLD, 14));
 		getContentPane().setLayout(groupLayout);
 		JMenuBar barraMenu = new JMenuBar();
 		JMenu pontoDeVenda = new JMenu("Arqui");

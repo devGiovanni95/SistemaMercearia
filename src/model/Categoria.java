@@ -33,7 +33,7 @@ public class Categoria {
 	 * @return the codigo
 	 */
 	public int getCodigo() {
-		return codigo;
+		return codigo ;
 	}
 	
 	/**
@@ -80,6 +80,7 @@ public class Categoria {
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
 	}
+	
 	
 	
 	

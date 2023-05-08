@@ -13,7 +13,7 @@ public class SubCategoria {
 	private Categoria categoria;
 	
 	/** The sub categoria. */
-	private String subCategoria;
+	private String nome;
 	
 	/** The Descricao. */
 	private String Descricao;
@@ -59,8 +59,8 @@ public class SubCategoria {
 	 *
 	 * @return the sub categoria
 	 */
-	public String getSubCategoria() {
-		return subCategoria;
+	public String getNome() {
+		return nome;
 	}
 	
 	/**
@@ -68,8 +68,8 @@ public class SubCategoria {
 	 *
 	 * @param subCategoria the new sub categoria
 	 */
-	public void setSubCategoria(String subCategoria) {
-		this.subCategoria = subCategoria;
+	public void setNome(String nome) {
+		this.nome = nome;
 	}
 	
 	/**
@@ -97,7 +97,7 @@ public class SubCategoria {
 	 */
 	@Override
 	public String toString() {
-		return subCategoria ;
+		return nome ;
 	}
 	
 	

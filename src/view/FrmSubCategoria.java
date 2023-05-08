@@ -23,10 +23,8 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 import controller.CategoriaController;
-import controller.ClienteController;
 import controller.SubCategoriaController;
 import model.Categoria;
-import model.Cliente;
 import model.SubCategoria;
 
 import java.awt.event.WindowAdapter;
@@ -85,6 +83,7 @@ public class FrmSubCategoria extends JFrame {
 	public void consultarSubCategorias() {
 		try {
 		SubCategoriaController subCategoriaController = new SubCategoriaController();
+		CategoriaController categoriaController = new CategoriaController();
 		List<SubCategoria> lista = subCategoriaController.consultarSubCategorias();
 		DefaultTableModel dadosTabela = (DefaultTableModel) tabelaSubCategorias.getModel();
 		dadosTabela.setNumRows(0);
@@ -95,10 +94,10 @@ public class FrmSubCategoria extends JFrame {
 		for(SubCategoria subCategoria: lista) {
 			dadosTabela.addRow(new Object[]{
 					subCategoria.getCodigo(),
-					subCategoria.getSubCategoria(),
-					subCategoria.getCategoria().getNomeCategoria(),
+					subCategoria.getNome(),
+					categoriaController.consultarCategoriasPorId(subCategoria.getCategoria().getCodigo()),
 					subCategoria.getDescricao()		
-				});
+				});		
 			}
 		}catch (Exception erro) {
 			JOptionPane.showMessageDialog(null,"Ops aconteceu o erro: " + erro);
@@ -124,7 +123,7 @@ public class FrmSubCategoria extends JFrame {
 		for(SubCategoria  subCategoria: lista) {
 			dadosTabela.addRow(new Object[]{
 					subCategoria.getCodigo(),
-					subCategoria.getSubCategoria(),
+					subCategoria.getNome(),
 					subCategoria.getCategoria().getNomeCategoria(),
 					subCategoria.getDescricao()		
 		
@@ -140,10 +139,11 @@ public class FrmSubCategoria extends JFrame {
 	private void preencherDadosSubCategoria() {
 		abaPrincipal.setSelectedIndex(0);
 		
-		tfNomeSubCategoria.setText(tabelaSubCategorias.getValueAt(tabelaSubCategorias.getSelectedRow(),0).toString());
-		tfDescricao.setText(tabelaSubCategorias.getValueAt(tabelaSubCategorias.getSelectedRow(),1).toString());
-		cbCategoria.setSelectedItem(tabelaSubCategorias.getValueAt(tabelaSubCategorias.getSelectedRow(),2).toString());				
-		tfCodigo.setText(tabelaSubCategorias.getValueAt(tabelaSubCategorias.getSelectedRow(),3).toString());
+		tfCodigo.setText(tabelaSubCategorias.getValueAt(tabelaSubCategorias.getSelectedRow(),0).toString());
+		cbCategoria.setSelectedItem(tabelaSubCategorias.getValueAt(tabelaSubCategorias.getSelectedRow(),1).toString());				
+		tfNomeSubCategoria.setText(tabelaSubCategorias.getValueAt(tabelaSubCategorias.getSelectedRow(),2).toString());
+		//Nao esta atualizando no combobox
+		tfDescricao.setText(tabelaSubCategorias.getValueAt(tabelaSubCategorias.getSelectedRow(),3).toString());
 	}
 	
 	
@@ -158,7 +158,7 @@ public class FrmSubCategoria extends JFrame {
 		Categoria categoria = new Categoria();
 		
 		subCategoria.setCodigo(Integer.parseInt(tfCodigo.getText()));
-		subCategoria.setSubCategoria(tfNomeSubCategoria.getText());
+		subCategoria.setNome(tfNomeSubCategoria.getText());
 		subCategoria.setDescricao(tfDescricao.getText());
 		
 		//transformando o item do combo box em  objeto de categoria
@@ -274,6 +274,8 @@ public class FrmSubCategoria extends JFrame {
 		JLabel lblCategoria = new JLabel("Categoria:");
 
 		lblCategoria.setFont(new Font("Arial", Font.BOLD, 14));
+		
+		//Verificar
 		
 		//categoria
 		cbCategoria = new JComboBox<Categoria>();
@@ -493,7 +495,7 @@ public class FrmSubCategoria extends JFrame {
 				Categoria categoria = new Categoria();
 				
 				subCategoria.setCodigo(Integer.parseInt(tfCodigo.getText()));
-				subCategoria.setSubCategoria(tfNomeSubCategoria.getText());
+				subCategoria.setNome(tfNomeSubCategoria.getText());
 				subCategoria.setDescricao(tfDescricao.getText());
 				
 				

@@ -290,8 +290,7 @@ public class FrmFrenteCaixa extends JFrame{
 		
 		JPanel panel_5 = new JPanel();
 		panel_5.setBounds(1, 1, 309, 31);
-		panel_5.setBackground(new Color(10, 87, 194));
-		
+		panel_5.setBackground(new Color(10, 87, 194));		
 		
 		lblSituacaoCaixa = new JLabel();
 		situacaoCaixa();
@@ -650,6 +649,7 @@ public class FrmFrenteCaixa extends JFrame{
 		
 		JPanel painelSubtotal = new JPanel();
 		painelSubTotal.setBackground(new Color(1.0f,1.0f,1.0f,0f));
+		
 		GroupLayout gl_painelSubTotal = new GroupLayout(painelSubTotal);
 		gl_painelSubTotal.setHorizontalGroup(
 			gl_painelSubTotal.createParallelGroup(Alignment.LEADING)

@@ -6,9 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.swing.JOptionPane;
-
 import jdbc.ConnectionDataBase;
 import model.Funcionario;
 import view.FrmMenuPrincipal;
@@ -313,20 +311,45 @@ public class FuncionarioController {
 		try {
 			String sql = "select * from tb_funcionario where email=? and senha=?";
 			
-			//PreparedStatement preparedStatement = connection.prepareStatement(sql);
 			dataBase.preparedStatement = dataBase.con.prepareStatement(sql);
 			dataBase.preparedStatement.setString(1,email);	
 			dataBase.preparedStatement.setString(2,senha);	
 			
-			//ResultSet resultSet = preparedStatement.executeQuery();
+
 			dataBase.resultSet = dataBase.preparedStatement.executeQuery();
 			
 			if(dataBase.resultSet.next()) {
-				JOptionPane.showMessageDialog(null, "Seja bem vindo ao Sistema ");	
-				FrmMenuPrincipal frmMenuPrincipal = new FrmMenuPrincipal();
-				frmMenuPrincipal.setUsuarioLogado(dataBase.resultSet.getString("nome"));
-				frmMenuPrincipal.setVisible(true);
-				frmMenuPrincipal.setSituacaoCaixa(false);
+				
+				if(dataBase.resultSet.getString("nivel_acesso").equals("Gerente")) {
+					
+					JOptionPane.showMessageDialog(null, "Seja bem vindo ao Sistema ");	
+					FrmMenuPrincipal frmMenuPrincipal = new FrmMenuPrincipal();
+					frmMenuPrincipal.setUsuarioLogado(dataBase.resultSet.getString("nome"));
+					frmMenuPrincipal.setVisible(true);
+					frmMenuPrincipal.setSituacaoCaixa(false);					
+				}else if (dataBase.resultSet.getString("nivel_acesso").equals("Caixa")) {
+					JOptionPane.showMessageDialog(null, "Seja bem vindo ao Sistema ");	
+					FrmMenuPrincipal frmMenuPrincipal = new FrmMenuPrincipal();
+					frmMenuPrincipal.setUsuarioLogado(dataBase.resultSet.getString("nome"));
+					frmMenuPrincipal.setVisible(true);
+					frmMenuPrincipal.setSituacaoCaixa(false);	
+					frmMenuPrincipal.mnCategoria.setVisible(false);
+					frmMenuPrincipal.mnClientes.setVisible(false);
+					frmMenuPrincipal.mnEstoque.setVisible(false);
+					frmMenuPrincipal.mnFornecedores.setVisible(false);
+					frmMenuPrincipal.mnFuncionarios.setVisible(false);
+				
+					
+				}else if (dataBase.resultSet.getString("nivel_acesso").equals("Estoquista")) {
+					JOptionPane.showMessageDialog(null, "Seja bem vindo ao Sistema ");	
+					FrmMenuPrincipal frmMenuPrincipal = new FrmMenuPrincipal();
+					frmMenuPrincipal.setUsuarioLogado(dataBase.resultSet.getString("nome"));
+					frmMenuPrincipal.setVisible(true);
+					frmMenuPrincipal.setSituacaoCaixa(false);	
+					frmMenuPrincipal.mnClientes.setVisible(false);
+					frmMenuPrincipal.mnVendas.setVisible(false);
+					frmMenuPrincipal.mnFuncionarios.setVisible(false);
+				}
 			}else {
 				JOptionPane.showMessageDialog(null, "Dados incorretos");
 			}

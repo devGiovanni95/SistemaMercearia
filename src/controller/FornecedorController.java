@@ -101,6 +101,7 @@ public class FornecedorController {
 		    try {
 		    		String sql = "UPDATE tb_fornecedor SET nome = ?, email = ?, endereco = ?, numero = ?, bairro = ?, cidade = ?, celular = ?,"
 		    		+ " telefone = ?, cep = ?, complemento = ?, inscricao_estadual = ?, razao_social = ?, uf = ? WHERE cnpj = ?";	       
+		    		dataBase.preparedStatement = dataBase.con.prepareStatement(sql);
 		    		dataBase.preparedStatement.setString(1, fornecedor.getNome());
 		    		dataBase.preparedStatement.setString(2, fornecedor.getEmail());
 		    		dataBase.preparedStatement.setString(3, fornecedor.getEndereco());
@@ -117,8 +118,7 @@ public class FornecedorController {
 			        dataBase.preparedStatement.setString(14, fornecedor.getCnpj()); 
 			        
 			        dataBase.preparedStatement.executeUpdate();
-			        JOptionPane.showMessageDialog(null, "Alterado com sucesso");
-			        
+			       			        
 		    } catch (SQLException | NumberFormatException e) {
 		        JOptionPane.showMessageDialog(null, "Erro: " + e);
 		    }
