@@ -56,6 +56,7 @@ public class FrmCategoria extends JFrame {
 	/** The tabela clientes. */
 	private JTable tabelaClientes;
 	
+	/** The aba dados categoria. */
 	private JPanel abaDadosCategoria;
 	
 	

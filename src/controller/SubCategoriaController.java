@@ -20,6 +20,7 @@ import model.SubCategoria;
  */
 public class SubCategoriaController {
 	
+	/** The data base. */
 	ConnectionDataBase dataBase = new ConnectionDataBase();
 
 	/**
@@ -177,7 +178,13 @@ public class SubCategoriaController {
 	}
 	
 
-	  public List<SubCategoria> consultarSubCategoriaPorNome(String nome) {
+	  /**
+  	 * Consultar sub categoria por nome.
+  	 *
+  	 * @param nome the nome
+  	 * @return the list
+  	 */
+  	public List<SubCategoria> consultarSubCategoriaPorNome(String nome) {
 		  if(dataBase.getConnection()) {
 	        try {
 	        	List<SubCategoria> lista = new ArrayList<>();
@@ -217,7 +224,8 @@ public class SubCategoriaController {
 	  
 	  
 		/**
-		 * Método busca o nome da categoria através do codigo
+		 * Método busca o nome da categoria através do codigo.
+		 *
 		 * @param codigo - id da categoria pesquisada
 		 * @return - retorna o nome da categoria procurada
 		 */

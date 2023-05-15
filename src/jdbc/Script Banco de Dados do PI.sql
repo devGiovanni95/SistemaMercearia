@@ -1,5 +1,5 @@
 
-Script Banco de Dados
+--Script Banco de Dados
 
 
 create database mercearia;
@@ -35,7 +35,7 @@ CREATE TABLE tb_fornecedor (
 	cep varchar(10),
 	complemento varchar(50),
 	inscricao_estadual varchar(20),
-)
+);
 
 create table tb_produto(
    codigo int primary key identity(1,1),
@@ -105,20 +105,53 @@ create table tb_funcionario(
    ativo varchar(7) not null
 );
 
-create table tb_pedido(
-  codigo varchar(15) primary key,
-  cod_cliente varchar(14) references tb_cliente,
-  cod_funcionario char(14) references tb_funcionario not null,
-  forma_pagamento varchar(20) not null, 
-  data_venda datetime not null,
-  valor_venda decimal
+create table tb_forma_pagamento( 
+	codigo varchar(20) primary key ,
+	dinheiro money,
+	cartao_credito money,
+	cartao_debito money, 
+	vale_alimentacao money,
+	vale_refeicao money,
+	pix money,
+	troco money,
+	total_compra money
+)
+
+
+create table tb_abertura_fechamento (
+  codigo INT PRIMARY KEY identity,
+  dataAbertura DATETIME,
+  dataFechamento DATETIME,
+  funcionario char(14) references tb_funcionario,
+  trocoInicial money,
+  caixa_situacao bit
 );
 
-create table tb_carrinho(
-   codigo_carrinho int primary key,
+
+create table tb_pedido(
+  codigo varchar(20) primary key,
+  cod_cliente varchar(14) references tb_cliente,
+  cod_funcionario char(14) references tb_funcionario not null,
+  cod_forma_pagamento varchar(20) references tb_forma_pagamento not null , 
+  data_venda datetime not null,
+  valor_venda money
+);
+
+/*
+create table tb_item_pedido(
+   codigo int primary key identity,
    codigo_produto int not null references tb_produto,
-   codigo_pedido varchar(15) not null references tb_pedido,
-   quantidade_produto decimal not null
+   codigo_pedido varchar(20) not null references tb_pedido,
+   quantidade_produto decimal(6,3) not null
+);*/
+
+  create table tb_item_pedido(
+   codigo int primary key identity(1,1),
+   codigo_produto int not null references tb_produto,
+   codigo_pedido varchar(20) not null references tb_pedido,
+   quantidade_produto decimal(6,3) not null,
+   preco_unitario money not null,
+   valor_total money not null
 );
 
 
@@ -155,6 +188,13 @@ insert into tb_funcionario values  ('Fernando Silva', 'fernando.silva@gmail.com'
 insert into tb_funcionario values ('Maria Rodrigues', 'maria.rodrigues@gmail.com', '234.567.890-12', '23.456.789-0', 'Rua Campos Salles', '(19) 99999-7777', '(19) 98888-6666', 150, '13330-100', '1987-10-01', 'Centro', 'Indaiatuba', 'SP', 'Casa', 2500, '123456', 'Repositor', 'Estoquista', '23456789012', 3500, '2223334445', 'Casado', '40h semanais', '2022-01-01', NULL, 'Sim');
 insert into tb_funcionario values  ('Ana Clara Oliveira', 'anaclara.oliveira@gmail.com', '345.678.901-23', '34.567.801-2', 'Rua dos Pinheiros', '(19) 99999-9999', '(19) 98888-8888', 300, '13330-000', '1987-10-01', 'Jardim Esplanada', 'Indaiatuba', 'SP', 'Casa 2', 1800, '147258369', 'Caixa', 'Caixa', '3456789012', 3000, '3456789', 'Casada', '36 horas semanais', '2022-01-01', NULL, 'Sim');
 insert into tb_funcionario values  ('Giovanni', 'giovanni', '345.678.901-23', '34.567.801-2', 'Rua dos Pinheiros', '(19) 99999-9999', '(19) 98888-8888', 300, '13330-000', '1987-10-01', 'Jardim Esplanada', 'Indaiatuba', 'SP', 'Casa 2', 1800, '147258369', 'Caixa', 'Caixa', '3456789012', 3000, '1234', 'Casada', '36 horas semanais', '2022-01-01', NULL, 'Sim');
+
+
+
+insert into tb_funcionario values  ('Giovanni', 'caixa', '345.678.941-23', '34.567.801-2', 'Rua dos Pinheiros', '(19) 99999-9999', '(19) 98888-8888', 300, '13330-000', '1987-10-01', 'Jardim Esplanada', 'Indaiatuba', 'SP', 'Casa 2', 1800, 'caixa', 'Caixa', 'Caixa', '3456789012', 3000, 'caixa', 'Casada', '36 horas semanais', '2022-01-01', NULL, 'Sim');
+insert into tb_funcionario values  ('Giovanni', 'estoquista', '345.878.901-23', '34.567.801-2', 'Rua dos Pinheiros', '(19) 99999-9999', '(19) 98888-8888', 300, '13330-000', '1987-10-01', 'Jardim Esplanada', 'Indaiatuba', 'SP', 'Casa 2', 1800, 'estoquista', 'Caixa', 'Estoquista', '3456789012', 3000, 'estoquista', 'Casada', '36 horas semanais', '2022-01-01', NULL, 'Sim');
+insert into tb_funcionario values  ('Giovanni', 'gerente', '345.978.901-23', '34.567.801-2', 'Rua dos Pinheiros', '(19) 99999-9999', '(19) 98888-8888', 300, '13330-000', '1987-10-01', 'Jardim Esplanada', 'Indaiatuba', 'SP', 'Casa 2', 1800, 'gerente', 'Caixa', 'Gerente', '3456789012', 3000, 'gerente', 'Casada', '36 horas semanais', '2022-01-01', NULL, 'Sim');
+
 
 
 
@@ -195,5 +235,14 @@ VALUES ('56.789.012/0001-05', 'Fornecedor E', 'Ricardo Santos', 'ricardo@fornece
 
 
 
-tesdte consulta produto
+--tesdte consulta produto
 select p.codigo, p.descricao, p.codigo_barras, p.marca, sc.nome as 'subcategoria', p.unidade_medida, p.quantidade, p.data_fabricacao, p.data_validade, p.lote, p.ipi, p.icms, p.margem_lucro, p.preco_custo, p.preco_final from tb_produto as p inner join tb_subcategoria as sc on (p.cod_subcategoria = sc.codigo);
+
+
+
+SELECT * FROM tb_abertura_fechamento;
+
+
+insert into tb_abertura_fechamento (dataAbertura, funcionario, trocoInicial) values('2023/05/12 08:05:50','123.456.789-01',200);
+
+select max(codigo) codigo from tb_abertura_fechamento

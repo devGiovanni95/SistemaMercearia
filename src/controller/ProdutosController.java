@@ -23,6 +23,7 @@ public class ProdutosController {
 	/** The sub categoria controller. */
 	private SubCategoriaController subCategoriaController;
 
+	/** The data base. */
 	ConnectionDataBase dataBase = new ConnectionDataBase();
 
 	/*
@@ -258,11 +259,17 @@ public class ProdutosController {
 		return null;
 	}
 
+	/**
+	 * Consultar produtos por codigo barras.
+	 *
+	 * @param codigoDeBarras the codigo de barras
+	 * @return the produto
+	 */
 	public Produto consultarProdutosPorCodigoBarras(String codigoDeBarras) {
 			if(dataBase.getConnection()) {
 				try {
 			
-					String sql = "select descricao, codigo_barras,unidade_medida, quantidade, data_fabricacao,"
+					String sql = "select codigo,descricao, codigo_barras,unidade_medida, quantidade, data_fabricacao,"
 							+ " preco_final " + "from tb_produto where codigo_barras = ?";
 		
 					dataBase.preparedStatement = dataBase.con.prepareStatement(sql);
@@ -273,6 +280,7 @@ public class ProdutosController {
 		
 					if (dataBase.resultSet.next()) {
 		
+						produto.setCodigo(dataBase.resultSet.getInt("codigo"));
 						produto.setDescricao(dataBase.resultSet.getString("descricao"));
 						produto.setCodigoDeBarras(dataBase.resultSet.getString("codigo_barras"));
 						produto.setUnidadeDeMedida(dataBase.resultSet.getString("unidade_medida"));

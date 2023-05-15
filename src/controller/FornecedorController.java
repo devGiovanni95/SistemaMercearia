@@ -19,6 +19,7 @@ import model.Fornecedor;
  */
 public class FornecedorController {
 
+	/** The data base. */
 	ConnectionDataBase dataBase = new ConnectionDataBase();
 
 	/**

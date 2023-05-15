@@ -63,6 +63,7 @@ public class FrmSubCategoria extends JFrame {
 	/** The tabela sub categorias. */
 	private JTable tabelaSubCategorias;
 	
+	/** The aba dados sub categorias. */
 	private JPanel abaDadosSubCategorias;
 	
 	

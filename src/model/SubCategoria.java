@@ -55,18 +55,18 @@ public class SubCategoria {
 	}
 	
 	/**
-	 * Gets the sub categoria.
+	 * Gets the sub nome.
 	 *
-	 * @return the sub categoria
+	 * @return the sub nome
 	 */
 	public String getNome() {
 		return nome;
 	}
 	
 	/**
-	 * Sets the sub categoria.
+	 * Sets the sub nome.
 	 *
-	 * @param subCategoria the new sub categoria
+	 * @param nome the new sub nome
 	 */
 	public void setNome(String nome) {
 		this.nome = nome;

@@ -27,6 +27,10 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.JFormattedTextField;
 import javax.swing.JPasswordField;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -42,6 +46,28 @@ public class FrmLogin extends JFrame {
 	
 	/** The tf senha. */
 	private JPasswordField tfSenha;
+	
+	private void conferirAutenticar() {
+		// TODO Auto-generated method stub
+		try {
+			String email;
+			String senha;
+			
+			email = tfEmail.getText();
+			senha = tfSenha.getText();
+			
+			FuncionarioController funcionarioController = new FuncionarioController();
+			
+			
+			funcionarioController.autenticar(email, senha);
+			tfEmail.setText("");
+			tfSenha.setText("");
+			
+		} catch (Exception e2) {
+			JOptionPane.showMessageDialog(null,"Erro: "+ e2 );
+		}
+		
+	}
 
 	/**
 	 * Launch the application.
@@ -65,16 +91,24 @@ public class FrmLogin extends JFrame {
 	 * Create the frame.
 	 */
 	public FrmLogin() {
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowActivated(WindowEvent e) {
+				tfEmail.requestFocusInWindow();
+			}
+		});
 		setResizable(false);
-		setAutoRequestFocus(false);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setAutoRequestFocus(true);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 914, 611);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(0, 0, 0, 0));
 		this.setLocationRelativeTo(null);//tela centralizada
 		setContentPane(contentPane);
 		setTitle("Tela de Login");
-
+		
+		
+		
 		
 		//Criando plano de fundo
 		ImageIcon icon = new ImageIcon(getClass().getResource("/assets/fundo.png"));
@@ -121,6 +155,14 @@ public class FrmLogin extends JFrame {
 		lblNewLabel.setFont(new Font("Arial", Font.BOLD, 26));
 		
 		tfEmail = new JTextField();
+		tfEmail.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+					tfSenha.requestFocus();
+				}
+			}
+		});
 		tfEmail.setFont(new Font("Arial", Font.BOLD, 20));
 		tfEmail.setColumns(25);
 		GroupLayout gl_panel_8 = new GroupLayout(panel_8);
@@ -167,6 +209,14 @@ public class FrmLogin extends JFrame {
 		lblSenha.setFont(new Font("Arial", Font.BOLD, 26));
 		
 		tfSenha = new JPasswordField();
+		tfSenha.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if(e.getKeyCode()==KeyEvent.VK_ENTER) {
+					conferirAutenticar();
+				}
+			}
+		});
 		tfSenha.setFont(new Font("Arial", Font.BOLD, 20));
 		//textField_1.setDropMode(DropMode.ON);
 		tfSenha.setColumns(25);
@@ -208,24 +258,8 @@ public class FrmLogin extends JFrame {
 		btnEntrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			
-				try {
-					String email;
-					String senha;
-					
-					email = tfEmail.getText();
-					senha = tfSenha.getText();
-					
-					FuncionarioController funcionarioController = new FuncionarioController();
-					
-					
-					funcionarioController.autenticar(email, senha);
-					tfEmail.setText("");
-					tfSenha.setText("");
-					
-				} catch (Exception e2) {
-					JOptionPane.showMessageDialog(null,"Erro: "+ e2 );
-				}
-				
+				conferirAutenticar();			
+		
 			}
 		});
 		GroupLayout gl_desktopPane = new GroupLayout(desktopPane);

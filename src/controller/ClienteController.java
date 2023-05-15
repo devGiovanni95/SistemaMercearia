@@ -246,4 +246,58 @@ public class ClienteController {
 				return null;
 			}
 	}
+	
+
+	/**
+	 * Método que cria um ArrayList do tipo cliente para listar os cliente do banco de dados que
+	 *  corresponde ao nome digitado. A partir de um comando SQL.
+	 *
+	 * @param cpf the cpf
+	 * @return the list
+	 */
+	public Cliente consultarClientesPorCpf(String cpf) {
+		if(dataBase.getConnection()) {
+				try {
+		
+					Cliente lista ;
+		
+					String sql = "select * from tb_cliente where cpf like ?";
+					dataBase.preparedStatement = dataBase.con.prepareStatement(sql);
+					dataBase.preparedStatement.setString(1,cpf);			
+					dataBase.resultSet = dataBase.preparedStatement.executeQuery();
+					Cliente cliente = new Cliente();
+					
+					while(dataBase.resultSet.next()) {
+						
+						cliente.setNome(dataBase.resultSet.getString("nome"));
+						cliente.setEmail(dataBase.resultSet.getString("email"));
+						cliente.setCpf(dataBase.resultSet.getString("cpf"));
+						cliente.setRg(dataBase.resultSet.getString("rg"));
+						cliente.setEndereco(dataBase.resultSet.getString("endereco"));
+						cliente.setTelefone(dataBase.resultSet.getString("telefone"));
+						cliente.setCelular(dataBase.resultSet.getString("celular"));
+						cliente.setNumero(dataBase.resultSet.getInt("numero"));
+						cliente.setCep(dataBase.resultSet.getString("cep"));
+						cliente.setDataNascimento(dataBase.resultSet.getString("data_nascimento"));
+						cliente.setBairro(dataBase.resultSet.getString("bairro"));
+						cliente.setCidade(dataBase.resultSet.getString("cidade"));
+						cliente.setUf(dataBase.resultSet.getString("uf"));
+						cliente.setComplemento(dataBase.resultSet.getString("complemento"));
+						cliente.setLimite(dataBase.resultSet.getDouble("limite"));
+						
+					}
+					
+					return cliente;
+								
+				} catch (SQLException e) {
+					JOptionPane.showMessageDialog(null, "Erro: " + e );
+					return null;
+				}finally {
+					dataBase.close();
+				}
+			}else {
+				JOptionPane.showMessageDialog(null, "Falha na conexão");
+				return null;
+			}
+	}
 }

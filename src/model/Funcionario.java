@@ -573,8 +573,25 @@ public class Funcionario{
 	public void setDemissao(String demissao) {
 		this.demissao = demissao;
 	}
+
+	/**
+	 * To string.
+	 *
+	 * @return the string
+	 */
+	@Override
+	public String toString() {
+		return "Funcionario [nome=" + nome + ", email=" + email + ", cpf=" + cpf + ", rg=" + rg + ", endereco="
+				+ endereco + ", telefone=" + telefone + ", celular=" + celular + ", numero=" + numero + ", cep=" + cep
+				+ ", dataNascimento=" + dataNascimento + ", bairro=" + bairro + ", cidade=" + cidade + ", uf=" + uf
+				+ ", complemento=" + complemento + ", limite=" + limite + ", codigo=" + codigo + ", senha=" + senha
+				+ ", cargo=" + cargo + ", nivelAcesso=" + nivelAcesso + ", pisPasep=" + pisPasep + ", salario="
+				+ salario + ", carteiraTrabalho=" + carteiraTrabalho + ", estadoCivil=" + estadoCivil
+				+ ", jornadaTrabalho=" + jornadaTrabalho + ", admissao=" + admissao + ", demissao=" + demissao
+				+ ", ativo=" + ativo + "]";
+	}
 	
-		
+	
 	
 	 
 }

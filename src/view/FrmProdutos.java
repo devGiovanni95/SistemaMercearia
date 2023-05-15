@@ -115,6 +115,11 @@ public class FrmProdutos extends JFrame {
 	private LimparCampos limparCampos;
 
 
+	/**
+	 * Limpar tela.
+	 *
+	 * @param tela the tela
+	 */
 	private void limparTela(JPanel tela) {
 		LimparCampos limpar = new LimparCampos();
 		limpar.Limpar(tela);
@@ -128,6 +133,9 @@ public class FrmProdutos extends JFrame {
 	 * O objeto Produto é passado como parâmetro para o método alterarProduto() da classe ProdutosController.
 	 */
 
+	/**
+	 * Alterar produto.
+	 */
 	private void alterarProduto(){
 		Produto produto = new Produto();
 		SubCategoria subCategoria = new SubCategoria();
@@ -171,6 +179,9 @@ public class FrmProdutos extends JFrame {
 
 
 
+	/**
+	 * Cadastrar produto.
+	 */
 	private void cadastrarProduto(){
 		Produto produto = new Produto();
 		SubCategoria subCategoria = new SubCategoria();
@@ -223,6 +234,9 @@ public class FrmProdutos extends JFrame {
 		JOptionPane.showMessageDialog(null, "Produto excluído com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
 	}
 
+	/**
+	 * Preencher dados produto.
+	 */
 	/*
 	 * Método utilizado para preencher os dados do produto na tela.
 	 */
@@ -246,6 +260,9 @@ public class FrmProdutos extends JFrame {
 		tfPrecoFinal.setText(tabelaProdutos.getValueAt(tabelaProdutos.getSelectedRow(), 14).toString());
 	}
 
+	/**
+	 * Consultar produto por nome.
+	 */
 	private void consultarProdutoPorNome(){
 		String nomePesquisado = "%" + tfPesquisar.getText() + "%";
 		ProdutosController produtosController = new ProdutosController();

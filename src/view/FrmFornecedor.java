@@ -89,7 +89,7 @@ public class FrmFornecedor extends JFrame {
 	/** The text field razao social. */
 	private JTextField tfRazaoSocial;
 
-	/** the combo box uf */
+	/**  the combo box uf. */
 	private JComboBox<String> cbUf;
 
 	/** The aba dados pessoais. */
@@ -137,6 +137,9 @@ public class FrmFornecedor extends JFrame {
 		JOptionPane.showMessageDialog(null, "Fornecedor alterado com sucesso!");
 	}
 
+	/**
+	 * Cadastrar fornecedor.
+	 */
 	/*
 	 * Metodo para cadastrar fornecedores no banco de dados.
 	 */
@@ -165,6 +168,9 @@ public class FrmFornecedor extends JFrame {
 		JOptionPane.showMessageDialog(null, "Fornecedor cadastrado com sucesso!");
 	}
 
+	/**
+	 * Excluir fornecedor.
+	 */
 	/*
 	 * Metodo para excluir um fornecedor do banco de dados.
 	 */
@@ -181,6 +187,9 @@ public class FrmFornecedor extends JFrame {
 		JOptionPane.showMessageDialog(null, "Fornecedor excluido com sucesso!");
 	}
 
+	/**
+	 * Preencher dados fornecedor.
+	 */
 	/*
 	 * Metodo para preencher os campos da tela com os dados do fornecedor
 	 * selecionado na tabela.
@@ -235,6 +244,9 @@ public class FrmFornecedor extends JFrame {
 
 	}
 
+	/**
+	 * Consultar fornecedores.
+	 */
 	private void consultarFornecedores() {
 		try {
 			FornecedorController fornecedorController = new FornecedorController();

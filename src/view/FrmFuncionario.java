@@ -129,10 +129,13 @@ public class FrmFuncionario extends JFrame {
 	/** The cb ativo 1. */
 	private JComboBox<String> cbAtivo;
 
+	/** The cb uf. */
 	private JComboBox <String>cbUf;
 	
+	/** The aba dados pessoais. */
 	private JPanel abaDadosPessoais ;
 	
+	/** The tf data nascimento. */
 	private JFormattedTextField tfDataNascimento;
 	
 	

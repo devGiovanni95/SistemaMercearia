@@ -7,20 +7,25 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.text.ParseException;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
+
+import controller.FuncionarioController;
+
 import javax.swing.ImageIcon;
 import javax.swing.JDesktopPane;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+
+import model.Funcionario;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -31,44 +36,115 @@ public class FrmMenuPrincipal extends JFrame {
 	/** The usuario logado. */
 	private String usuarioLogado;
 	
+	/** The situacao caixa. */
 	private boolean situacaoCaixa;
 	
 	/** The lbl nome funcionario logado. */
 	private JLabel lblNomeFuncionarioLogado;
 	
+	/** The id abertura. */
 	private int idAbertura;
+	
+	/** The mn funcionarios. */
 	public JMenu mnFuncionarios;
+	
+	/** The mn clientes. */
 	public JMenu mnClientes;
+	
+	/** The mn fornecedores. */
 	public JMenu mnFornecedores;
+	
+	/** The mn categoria. */
 	public JMenu mnCategoria;
+	
+	/** The mn estoque. */
 	public JMenu mnEstoque;
+	
+	/** The mn vendas. */
 	public JMenu mnVendas;
+	
+	Funcionario funcionario ;
+	
+	private String cpfFuncionario;
 	
 	
 	
 
+	public String getCpfFuncionario() {
+		return cpfFuncionario;
+	}
+
+	public void setCpfFuncionario(String cpfFuncionario) {
+		this.cpfFuncionario = cpfFuncionario;
+	}
+
+	public Funcionario getFuncionario() {
+		return funcionario;
+	}
+
+	public void setFuncionario(Funcionario funcionario) {
+		this.funcionario = funcionario;
+	}
+
+	/**
+	 * Gets the id abertura.
+	 *
+	 * @return the id abertura
+	 */
 	public int getIdAbertura() {
 		return idAbertura;
 	}
 
+	/**
+	 * Sets the id abertura.
+	 *
+	 * @param idAbertura the new id abertura
+	 */
 	public void setIdAbertura(int idAbertura) {
 		this.idAbertura = idAbertura;
 	}
 
+	/**
+	 * Gets the usuario logado.
+	 *
+	 * @return the usuario logado
+	 */
 	public String getUsuarioLogado() {
 		return usuarioLogado;
 	}
 
+	/**
+	 * Sets the usuario logado.
+	 *
+	 * @param usuarioLogado the new usuario logado
+	 */
 	public void setUsuarioLogado(String usuarioLogado) {
 		this.usuarioLogado = usuarioLogado;
 	}
 
+	/**
+	 * Gets the situacao caixa.
+	 *
+	 * @return the situacao caixa
+	 */
 	public boolean getSituacaoCaixa() {
 		return situacaoCaixa;
 	}
 
+	/**
+	 * Sets the situacao caixa.
+	 *
+	 * @param situacaoCaixa the new situacao caixa
+	 */
 	public void setSituacaoCaixa(boolean situacaoCaixa) {
 		this.situacaoCaixa = situacaoCaixa;
+	}
+	
+	
+	public Funcionario conferirUsuarioLogado() {
+		funcionario = new Funcionario();
+		FuncionarioController funcionarioController = new FuncionarioController();
+		return funcionario = funcionarioController.consultarFuncionariosPorCpf(cpfFuncionario);
 	}
 
 	/**
@@ -96,7 +172,9 @@ public class FrmMenuPrincipal extends JFrame {
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowActivated(WindowEvent e) {
-				lblNomeFuncionarioLogado.setText(usuarioLogado);
+				conferirUsuarioLogado();
+				lblNomeFuncionarioLogado.setText(funcionario.getNome());
+				System.out.println(funcionario);
 			}
 		});
 		setBackground(new Color(202, 240, 248));
@@ -120,6 +198,7 @@ public class FrmMenuPrincipal extends JFrame {
 		mnIrPdv.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				FrmFrenteCaixa frenteCaixa = new FrmFrenteCaixa();
+				frenteCaixa.setFuncionario(funcionario);
 				frenteCaixa.setVisible(true);
 			}
 		});
@@ -177,6 +256,7 @@ public class FrmMenuPrincipal extends JFrame {
 				try {
 					FrmCategoria frmCategoria = new FrmCategoria();
 					frmCategoria.setVisible(true);
+					dispose();
 				} catch (ParseException e1) {
 					e1.printStackTrace();
 				}
@@ -211,7 +291,6 @@ public class FrmMenuPrincipal extends JFrame {
 					menu = new FrmFornecedor();
 					menu.setVisible(true);
 				} catch (ParseException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 	

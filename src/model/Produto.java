@@ -335,5 +335,15 @@ public class Produto {
 		this.precoFinal = precoFinal;
 	}
 
+	@Override
+	public String toString() {
+		return "Produto [codigo=" + codigo + ", descricao=" + descricao + ", codigoDeBarras=" + codigoDeBarras
+				+ ", marca=" + marca + ", subCategoria=" + subCategoria + ", unidadeDeMedida=" + unidadeDeMedida
+				+ ", quantidade=" + quantidade + ", dataFabricacao=" + dataFabricacao + ", dataValidade=" + dataValidade
+				+ ", lote=" + lote + ", ipi=" + ipi + ", icms=" + icms + ", margemLucro=" + margemLucro
+				+ ", precoCusto=" + precoCusto + ", precoFinal=" + precoFinal + "]";
+	}
+
+	
 }
 

@@ -16,6 +16,7 @@ import model.Categoria;
  */
 public class CategoriaController {
 
+	/** The data base. */
 	ConnectionDataBase dataBase = new ConnectionDataBase();
 
 	/**
@@ -197,7 +198,8 @@ public class CategoriaController {
 	
 
 	/**
-	 * Método busca o nome da categoria através do codigo
+	 * Método busca o nome da categoria através do codigo.
+	 *
 	 * @param codigo - id da categoria pesquisada
 	 * @return - retorna o nome da categoria procurada
 	 */

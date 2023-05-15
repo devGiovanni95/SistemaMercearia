@@ -24,6 +24,7 @@ public class FuncionarioController {
 		this.connection =  new ConnectionDataBase().getConnection();
 	}*/
 	
+	/** The data base. */
 	ConnectionDataBase dataBase = new ConnectionDataBase();
 
 
@@ -233,6 +234,66 @@ public class FuncionarioController {
 		return null;
 	
 	}
+	
+	/**
+	 * Consultar funcionarios por cpf.
+	 *
+	 * @param cpf the cpf
+	 * @return the funcionario
+	 */
+	public Funcionario consultarFuncionariosPorCpf(String cpf) {
+	    if (dataBase.getConnection()) {
+	        try {
+	            String sql = "SELECT * FROM tb_funcionario WHERE cpf = ?";
+	            dataBase.preparedStatement = dataBase.con.prepareStatement(sql);
+	            dataBase.preparedStatement.setString(1, cpf);
+	            dataBase.resultSet = dataBase.preparedStatement.executeQuery();
+
+	            Funcionario funcionario = new Funcionario();
+
+	            if (dataBase.resultSet.next()) {
+	                funcionario.setNome(dataBase.resultSet.getString("nome"));
+	                funcionario.setEmail(dataBase.resultSet.getString("email"));
+	                funcionario.setCpf(dataBase.resultSet.getString("cpf"));
+	                funcionario.setRg(dataBase.resultSet.getString("rg"));
+	                funcionario.setEndereco(dataBase.resultSet.getString("endereco"));
+	                funcionario.setTelefone(dataBase.resultSet.getString("telefone"));
+	                funcionario.setCelular(dataBase.resultSet.getString("celular"));
+	                funcionario.setNumero(dataBase.resultSet.getInt("numero"));
+	                funcionario.setCep(dataBase.resultSet.getString("cep"));
+	                funcionario.setDataNascimento(dataBase.resultSet.getString("data_nascimento"));
+	                funcionario.setBairro(dataBase.resultSet.getString("bairro"));
+	                funcionario.setCidade(dataBase.resultSet.getString("cidade"));
+	                funcionario.setUf(dataBase.resultSet.getString("uf"));
+	                funcionario.setComplemento(dataBase.resultSet.getString("complemento"));
+	                funcionario.setLimite(dataBase.resultSet.getDouble("limite"));
+	                funcionario.setSenha(dataBase.resultSet.getString("senha"));
+	                funcionario.setCargo(dataBase.resultSet.getString("cargo"));
+	                funcionario.setNivelAcesso(dataBase.resultSet.getString("nivel_acesso"));
+	                funcionario.setPisPasep(dataBase.resultSet.getString("pis_pasep"));
+	                funcionario.setSalario(dataBase.resultSet.getDouble("salario"));
+	                funcionario.setCarteiraTrabalho(dataBase.resultSet.getString("carteira_trabalho"));
+	                funcionario.setEstadoCivil(dataBase.resultSet.getString("estado_civil"));
+	                funcionario.setJornadaTrabalho(dataBase.resultSet.getString("jornada_trabalho"));
+	                funcionario.setAdmissao(dataBase.resultSet.getString("admissao"));
+	                funcionario.setDemissao(dataBase.resultSet.getString("demissao"));
+	                funcionario.setAtivo(dataBase.resultSet.getString("ativo"));
+	            }
+
+	            return funcionario;
+
+	        } catch (SQLException e) {
+	            JOptionPane.showMessageDialog(null, "Erro: " + e);
+	        } finally {
+	            dataBase.close();
+	        }
+	    } else {
+	        JOptionPane.showMessageDialog(null, "Falha na conexão");
+	    }
+	    return null;
+	}
+
+	
 	/**
 	 * Método que cria um ArrayList do tipo funcionário para listar os funcionários do banco de dados que
 	 *  corresponde ao nome digitado. A partir de um comando SQL.
@@ -298,6 +359,12 @@ public class FuncionarioController {
 	}	
 	
 	
+
+
+
+	
+	
+	
 	/**
 	 * Método que a partir de um comando de pesquisa do SQL, efetua uma verificação para
 	 *  conferir se há um funcionário cadastrado com permissão de uso no sistema.
@@ -324,13 +391,15 @@ public class FuncionarioController {
 					
 					JOptionPane.showMessageDialog(null, "Seja bem vindo ao Sistema ");	
 					FrmMenuPrincipal frmMenuPrincipal = new FrmMenuPrincipal();
-					frmMenuPrincipal.setUsuarioLogado(dataBase.resultSet.getString("nome"));
+					frmMenuPrincipal.setCpfFuncionario(dataBase.resultSet.getString("cpf"));
 					frmMenuPrincipal.setVisible(true);
-					frmMenuPrincipal.setSituacaoCaixa(false);					
+					frmMenuPrincipal.setSituacaoCaixa(false);
+					
+					
 				}else if (dataBase.resultSet.getString("nivel_acesso").equals("Caixa")) {
 					JOptionPane.showMessageDialog(null, "Seja bem vindo ao Sistema ");	
 					FrmMenuPrincipal frmMenuPrincipal = new FrmMenuPrincipal();
-					frmMenuPrincipal.setUsuarioLogado(dataBase.resultSet.getString("nome"));
+					frmMenuPrincipal.setCpfFuncionario(dataBase.resultSet.getString("cpf"));
 					frmMenuPrincipal.setVisible(true);
 					frmMenuPrincipal.setSituacaoCaixa(false);	
 					frmMenuPrincipal.mnCategoria.setVisible(false);
@@ -338,12 +407,12 @@ public class FuncionarioController {
 					frmMenuPrincipal.mnEstoque.setVisible(false);
 					frmMenuPrincipal.mnFornecedores.setVisible(false);
 					frmMenuPrincipal.mnFuncionarios.setVisible(false);
-				
+
 					
 				}else if (dataBase.resultSet.getString("nivel_acesso").equals("Estoquista")) {
 					JOptionPane.showMessageDialog(null, "Seja bem vindo ao Sistema ");	
 					FrmMenuPrincipal frmMenuPrincipal = new FrmMenuPrincipal();
-					frmMenuPrincipal.setUsuarioLogado(dataBase.resultSet.getString("nome"));
+					frmMenuPrincipal.setCpfFuncionario(dataBase.resultSet.getString("cpf"));
 					frmMenuPrincipal.setVisible(true);
 					frmMenuPrincipal.setSituacaoCaixa(false);	
 					frmMenuPrincipal.mnClientes.setVisible(false);
