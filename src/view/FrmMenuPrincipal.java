@@ -25,6 +25,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 
+import model.AberturaEFechamentoCaixa;
 import model.Funcionario;
 
 // TODO: Auto-generated Javadoc
@@ -67,8 +68,16 @@ public class FrmMenuPrincipal extends JFrame {
 	
 	private String cpfFuncionario;
 	
+	AberturaEFechamentoCaixa aberturaEFechamentoCaixa = new AberturaEFechamentoCaixa();
 	
-	
+
+	public AberturaEFechamentoCaixa getAberturaEFechamentoCaixa() {
+		return aberturaEFechamentoCaixa;
+	}
+
+	public void setAberturaEFechamentoCaixa(AberturaEFechamentoCaixa aberturaEFechamentoCaixa) {
+		this.aberturaEFechamentoCaixa = aberturaEFechamentoCaixa;
+	}
 
 	public String getCpfFuncionario() {
 		return cpfFuncionario;

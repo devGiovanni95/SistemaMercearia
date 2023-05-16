@@ -123,5 +123,13 @@ public class AberturaEFechamentoCaixa {
 	public void setSituacaoCaixa(boolean situacaoCaixa) {
 		this.situacaoCaixa = situacaoCaixa;
 	}
+
+	@Override
+	public String toString() {
+		return "AberturaEFechamentoCaixa [codigo=" + codigo + ", dataAbertura=" + dataAbertura + ", dataFechamento="
+				+ dataFechamento + ", funcionario=" + funcionario + ", trocoInicial=" + trocoInicial
+				+ ", situacaoCaixa=" + situacaoCaixa + "]";
+	}
 	
+
 }

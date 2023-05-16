@@ -120,10 +120,10 @@ create table tb_forma_pagamento(
 
 create table tb_abertura_fechamento (
   codigo INT PRIMARY KEY identity,
-  dataAbertura DATETIME,
-  dataFechamento DATETIME,
+  data_abertura DATETIME,
+  data_fechamento DATETIME,
   funcionario char(14) references tb_funcionario,
-  trocoInicial money,
+  troco_inicial money,
   caixa_situacao bit
 );
 
