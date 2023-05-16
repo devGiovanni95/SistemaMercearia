@@ -29,7 +29,7 @@ public class AberturaEFechamentoCaixaController {
 			try {
 				
 			
-				String sql = "insert into tb_abertura_fechamento (dataAbertura, funcionario, trocoInicial, caixa_situacao)"				
+				String sql = "insert into tb_abertura_fechamento (data_abertura, funcionario, troco_inicial, caixa_situacao)"				
 						+ " values(?,?,?,?)";
 				
 				dataBase.preparedStatement = dataBase.con.prepareStatement(sql);
@@ -64,7 +64,7 @@ public class AberturaEFechamentoCaixaController {
 		if(dataBase.getConnection()) {
 		try {
 				
-				String sql = "update tb_abertura_fechamento set dataFechamento=?, caixa_situacao=? "
+				String sql = "update tb_abertura_fechamento set data_fechamento=?, caixa_situacao=? "
 						+ " where codigo=?";
 				
 				dataBase.preparedStatement = dataBase.con.prepareStatement(sql);
@@ -72,7 +72,7 @@ public class AberturaEFechamentoCaixaController {
 				dataBase.preparedStatement.setBoolean(2, caixa.isSituacaoCaixa());
 				dataBase.preparedStatement.setInt(3, caixa.getCodigo());
 				
-				dataBase.preparedStatement.execute();
+				dataBase.preparedStatement.executeUpdate();
 				
 				JOptionPane.showMessageDialog(null, "Caixa fechado com sucesso");
 								
@@ -93,7 +93,7 @@ public class AberturaEFechamentoCaixaController {
 	 *
 	 * @param caixa the caixa
 	 */
-	public void excluirAberturaS(AberturaEFechamentoCaixa caixa) {
+	public void excluirAbertura(AberturaEFechamentoCaixa caixa) {
 		
 		if(dataBase.getConnection()) {
 				try {
@@ -124,58 +124,62 @@ public class AberturaEFechamentoCaixaController {
 	 * @param codigo the codigo
 	 * @return the int
 	 */
-	public int consultarAberturaEmExecucao(int codigo) {
+	
+	
+	//conferir
+	public AberturaEFechamentoCaixa consultarAberturaEmExecucao(int codigo) {
 		AberturaEFechamentoCaixa caixa = new AberturaEFechamentoCaixa(); 
 		FuncionarioController funcionarioController = new FuncionarioController();
 		Funcionario funcionario = new Funcionario();
-//	int idAbertura = 0;
+		//	int idAbertura = 0;
 		if(dataBase.getConnection()) {
 		try {
 			String sql = "select * from tb_abertura_fechamento where codigo = ? ";
 			
 			dataBase.preparedStatement = dataBase.con.prepareStatement(sql);
-			dataBase.resultSet = dataBase.preparedStatement.executeQuery();
 			dataBase.preparedStatement.setInt(1,codigo);			
 			dataBase.resultSet = dataBase.preparedStatement.executeQuery();
 			
 			if(dataBase.resultSet.next()) {
 				
 				caixa.setCodigo(dataBase.resultSet.getInt("codigo"));
-				caixa.setDataAbertura(dataBase.resultSet.getString("dataAbertura"));
-				caixa.setDataFechamento(dataBase.resultSet.getString("dataFechamento"));
+				caixa.setDataAbertura(dataBase.resultSet.getString("data_abertura"));
+				caixa.setDataFechamento(dataBase.resultSet.getString("data_fechamento"));
 				funcionario = funcionarioController.consultarFuncionariosPorCpf(dataBase.resultSet.getString("funcionario"));				
 				caixa.setFuncionario(funcionario);
-				caixa.setDataFechamento(dataBase.resultSet.getString("dataFechamento"));
-				caixa.setTrocoInicial(dataBase.resultSet.getDouble("dataFechamento"));		
-				
+				caixa.setDataFechamento(dataBase.resultSet.getString("data_fechamento"));
+				caixa.setTrocoInicial(dataBase.resultSet.getDouble("troco_inicial"));		
+				caixa.setSituacaoCaixa(dataBase.resultSet.getBoolean("caixa_situacao"));		
 				
 			}		
 			
 			//System.out.println(caixa + "no tri" );
-			return caixa.getCodigo();
+			return caixa;
 			} catch (SQLException e) {
-				JOptionPane.showMessageDialog(null, "Erro: " + e );
+				JOptionPane.showMessageDialog(null, "Erro: conferir abertura" + e );
 				//System.out.println(caixa + "no catch" );
-				return caixa.getCodigo();
+				System.out.println(caixa);
+				return caixa;
 			}finally {
 				dataBase.close();
 			}
 		}else {
 			JOptionPane.showMessageDialog(null, "Falha na conexão");
-			return 0;
+			
 		}
-		//return idAbertura;
-		//return caixa;
+		return null;
+
 		
 	}
+	
 	
 	/**
 	 * Retornar ultima abertura caixa.
 	 *
 	 * @return the int
 	 */
-	public int retornarUltimaAberturaCaixa() {
-		AberturaEFechamentoCaixa caixa = new AberturaEFechamentoCaixa(); 
+	public AberturaEFechamentoCaixa retornarUltimaAberturaCaixa() {
+		AberturaEFechamentoCaixa aberturaEFechamentoCaixa = new AberturaEFechamentoCaixa(); 
 		
 //	int idAbertura = 0;
 		if(dataBase.getConnection()) {
@@ -187,27 +191,25 @@ public class AberturaEFechamentoCaixaController {
 			
 			if(dataBase.resultSet.next()) {
 				
-				caixa.setCodigo(dataBase.resultSet.getInt("codigo"));
+				aberturaEFechamentoCaixa.setCodigo(dataBase.resultSet.getInt("codigo"));
 				
 				
 			}		
 			
 			//System.out.println(caixa + "no tri" );
-			return caixa.getCodigo();
+			return aberturaEFechamentoCaixa;
 			} catch (SQLException e) {
 				JOptionPane.showMessageDialog(null, "Erro: " + e );
 				//System.out.println(caixa + "no catch" );
-				return caixa.getCodigo();
+				return null;
 			}finally {
 				dataBase.close();
 			}
 		}else {
 			JOptionPane.showMessageDialog(null, "Falha na conexão");
-			return 0;
+			return null;
 		}
-		//return idAbertura;
-		//return caixa;
-		
+	
 	}
 }
 	
