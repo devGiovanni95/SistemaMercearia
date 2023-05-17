@@ -4,14 +4,14 @@ package model;
 /**
  * The Class ItensVenda.
  */
-public class ItemPedido {
+public class ItemVenda {
 	 
  	/** The produto. */
  	/* private int  codigo;*/
 	  private Produto produto;
 	  
   	/** The pedido. */
-  	private Pedido pedido;
+  	private Venda venda;
 	  
   	/** The quantidade. */
   	private double quantidade;
@@ -26,7 +26,7 @@ public class ItemPedido {
   	
 	  
 	  
-	public ItemPedido() {
+	public ItemVenda() {
 		super();
 	}
 
@@ -36,14 +36,14 @@ public class ItemPedido {
 	 * Instantiates a new itens venda.
 	 *
 	 * @param produto the produto
-	 * @param pedido the pedido
+	 * @param venda the pedido
 	 * @param quantidade the quantidade
 	 * @param subtotal the subtotal
 	 */
-	public ItemPedido(/*int codigo,*/ Produto produto, Pedido pedido, double quantidade,double precoUnitario, double subtotal) {
+	public ItemVenda(/*int codigo,*/ Produto produto, Venda venda, double quantidade,double precoUnitario, double subtotal) {
 		/*this.codigo = codigo;*/
 		this.produto = produto;
-		this.pedido = pedido;
+		this.venda = venda;
 		this.quantidade = quantidade;
 		this.precoUnitario = precoUnitario;
 		this.subtotal = subtotal;
@@ -56,12 +56,6 @@ public class ItemPedido {
 	 *
 	 * @return the produto
 	 */
-	/*public int getCodigo() {
-		return codigo;
-	}
-	public void setCodigo(int codigo) {
-		this.codigo = codigo;
-	}*/
 	public Produto getProduto() {
 		return produto;
 	}
@@ -77,12 +71,22 @@ public class ItemPedido {
 	
 	
 	
+	/**
+	 * Gets the preco unitario.
+	 *
+	 * @return the preco unitario
+	 */
 	public double getPrecoUnitario() {
 		return precoUnitario;
 	}
 
 
 
+	/**
+	 * Sets the preco unitario.
+	 *
+	 * @param precoUnitario the new preco unitario
+	 */
 	public void setPrecoUnitario(double precoUnitario) {
 		this.precoUnitario = precoUnitario;
 	}
@@ -94,17 +98,17 @@ public class ItemPedido {
 	 *
 	 * @return the pedido
 	 */
-	public Pedido getPedido() {
-		return pedido;
+	public Venda getPedido() {
+		return venda;
 	}
 	
 	/**
 	 * Sets the pedido.
 	 *
-	 * @param pedido the new pedido
+	 * @param venda the new pedido
 	 */
-	public void setPedido(Pedido pedido) {
-		this.pedido = pedido;
+	public void setPedido(Venda venda) {
+		this.venda = venda;
 	}
 	
 	/**
@@ -147,7 +151,7 @@ public class ItemPedido {
 
 	@Override
 	public String toString() {
-		return "ItemPedido [produto=" + produto + ", pedido=" + pedido + ", quantidade=" + quantidade
+		return "ItemPedido [produto=" + produto + ", pedido=" + venda + ", quantidade=" + quantidade
 				+ ", precoUnitario=" + precoUnitario + ", subtotal=" + subtotal + "]";
 	}
 	  

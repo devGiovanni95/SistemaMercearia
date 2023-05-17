@@ -5,10 +5,10 @@ import java.sql.SQLException;
 import javax.swing.JOptionPane;
 
 import jdbc.ConnectionDataBase;
-import model.ItemPedido;
-import model.Pedido;
+import model.ItemVenda;
+import model.Venda;
 
-public class ItemPedidoController {
+public class ItemVendaController {
 	
 	/**
 	 * Método que cria uma conexão com banco de dados.
@@ -17,21 +17,21 @@ public class ItemPedidoController {
 
 	/**
 	 * Método efetua um comando SQL para efetuar a inserção no banco de dados de um novo itemPedido.
-	 * @param itemPedido - um objeto do tipo itemPedido com os atributos correspondentes
+	 * @param itemVenda - um objeto do tipo itemPedido com os atributos correspondentes
 	 */
-	public void cadastrarItemPedido(ItemPedido itemPedido) {
+	public void cadastrarItemVenda(ItemVenda itemVenda) {
 		if(dataBase.getConnection()) {
 			try {
 				
-				String sql = "insert into tb_item_pedido(codigo_produto,codigo_pedido,quantidade_produto,preco_unitario,valor_total)"
+				String sql = "insert into tb_item_venda(codigo_produto,codigo_venda,quantidade_produto,preco_unitario,valor_total)"
 						+ " values(?,?,?,?,?)";
 				
 				dataBase.preparedStatement = dataBase.con.prepareStatement(sql);
-				dataBase.preparedStatement.setInt(1, itemPedido.getProduto().getCodigo());
-				dataBase.preparedStatement.setString(2, itemPedido.getPedido().getCodigo());
-				dataBase.preparedStatement.setDouble(3, itemPedido.getQuantidade());
-				dataBase.preparedStatement.setDouble(4, itemPedido.getPrecoUnitario());
-				dataBase.preparedStatement.setDouble(5, itemPedido.getSubtotal());
+				dataBase.preparedStatement.setInt(1, itemVenda.getProduto().getCodigo());
+				dataBase.preparedStatement.setString(2, itemVenda.getPedido().getCodigo());
+				dataBase.preparedStatement.setDouble(3, itemVenda.getQuantidade());
+				dataBase.preparedStatement.setDouble(4, itemVenda.getPrecoUnitario());
+				dataBase.preparedStatement.setDouble(5, itemVenda.getSubtotal());
 				
 				
 				dataBase.preparedStatement.execute();

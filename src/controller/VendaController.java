@@ -5,9 +5,9 @@ import java.sql.SQLException;
 import javax.swing.JOptionPane;
 
 import jdbc.ConnectionDataBase;
-import model.Pedido;
+import model.Venda;
 
-public class PedidoController {
+public class VendaController {
 	
 	/**
 	 * Método que cria uma conexão com banco de dados.
@@ -16,22 +16,22 @@ public class PedidoController {
 
 	/**
 	 * Método efetua um comando SQL para efetuar a inserção no banco de dados de um novo pedido.
-	 * @param pedido - um objeto do tipo pedido com os atributos correspondentes
+	 * @param venda - um objeto do tipo pedido com os atributos correspondentes
 	 */
-	public void cadastrarPedido(Pedido pedido) {
+	public void cadastrarVenda(Venda venda) {
 		if(dataBase.getConnection()) {
 			try {
 				
-				String sql = "insert into tb_pedido(codigo,cod_cliente,cod_funcionario,cod_forma_pagamento,data_venda,valor_venda)"
+				String sql = "insert into tb_venda(codigo,cod_cliente,cod_funcionario,cod_forma_pagamento,data_venda,valor_venda)"
 						+ " values(?,?,?,?,?,?)";
 				
 				dataBase.preparedStatement = dataBase.con.prepareStatement(sql);
-				dataBase.preparedStatement.setString(1, pedido.getCodigo());
-				dataBase.preparedStatement.setString(2, pedido.getCliente().getCpf());
-				dataBase.preparedStatement.setString(3, pedido.getFuncionario().getCpf());
-				dataBase.preparedStatement.setString(4, pedido.getFormaPagamento().getCodigo());
-				dataBase.preparedStatement.setString(5, pedido.getDataVenda());
-				dataBase.preparedStatement.setDouble(6, pedido.getValorVenda());
+				dataBase.preparedStatement.setString(1, venda.getCodigo());
+				dataBase.preparedStatement.setString(2, venda.getCliente().getCpf());
+				dataBase.preparedStatement.setString(3, venda.getFuncionario().getCpf());
+				dataBase.preparedStatement.setString(4, venda.getFormaPagamento().getCodigo());
+				dataBase.preparedStatement.setString(5, venda.getDataVenda());
+				dataBase.preparedStatement.setDouble(6, venda.getValorVenda());
 				
 				dataBase.preparedStatement.execute();
 				

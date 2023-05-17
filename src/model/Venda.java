@@ -4,7 +4,7 @@ package model;
 /**
  * The Class Pedido.
  */
-public class Pedido {
+public class Venda {
 
 	/** The codigo. */
 	private String codigo;

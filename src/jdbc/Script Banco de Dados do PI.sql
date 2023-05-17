@@ -128,7 +128,7 @@ create table tb_abertura_fechamento (
 );
 
 
-create table tb_pedido(
+create table tb_venda(
   codigo varchar(20) primary key,
   cod_cliente varchar(14) references tb_cliente,
   cod_funcionario char(14) references tb_funcionario not null,
@@ -138,17 +138,17 @@ create table tb_pedido(
 );
 
 /*
-create table tb_item_pedido(
+create table tb_item_venda(
    codigo int primary key identity,
    codigo_produto int not null references tb_produto,
    codigo_pedido varchar(20) not null references tb_pedido,
    quantidade_produto decimal(6,3) not null
 );*/
 
-  create table tb_item_pedido(
+  create table tb_item_venda(
    codigo int primary key identity(1,1),
    codigo_produto int not null references tb_produto,
-   codigo_pedido varchar(20) not null references tb_pedido,
+   codigo_venda varchar(20) not null references tb_venda,
    quantidade_produto decimal(6,3) not null,
    preco_unitario money not null,
    valor_total money not null

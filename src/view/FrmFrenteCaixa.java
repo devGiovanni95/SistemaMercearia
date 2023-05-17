@@ -40,8 +40,8 @@ import controller.ProdutosController;
 import model.AberturaEFechamentoCaixa;
 import model.Cliente;
 import model.Funcionario;
-import model.ItemPedido;
-import model.Pedido;
+import model.ItemVenda;
+import model.Venda;
 import model.Produto;
 import util.GeradorDeCodigo;
 
@@ -117,76 +117,132 @@ public class FrmFrenteCaixa extends JFrame{
 	/** The codigo abertura caixa. */
 	private int codigoAberturaCaixa;
 	
+	/** The lbl nome funcionario. */
 	private JLabel lblNomeFuncionario;
 	
+	/** The lbl venda. */
 	private JLabel lblVenda ;
 	
+	/** The venda iniciada. */
 	private boolean vendaIniciada;
 	
+	/** The dados tabela. */
 	DefaultTableModel dadosTabela;
 	
 	/** The cliente. */
 	Cliente cliente = new Cliente();
 	
+	/** The funcionario. */
 	Funcionario funcionario = new Funcionario();
 	
+	/** The x. */
 	GeradorDeCodigo x = new GeradorDeCodigo();
 	
-	Pedido pedido = new Pedido();
+	/** The venda. */
+	Venda venda = new Venda();
 	
-	ArrayList<ItemPedido> 	itensPedido = new ArrayList<>();
+	/** The itens pedido. */
+	ArrayList<ItemVenda> itensPedido = new ArrayList<>();
 	
+	/** The abertura E fechamento caixa. */
 	AberturaEFechamentoCaixa aberturaEFechamentoCaixa = new AberturaEFechamentoCaixa();
 
 
 
-	public ArrayList<ItemPedido> getItensPedido() {
+	/**
+	 * Gets the itens pedido.
+	 *
+	 * @return the itens pedido
+	 */
+	public ArrayList<ItemVenda> getItensPedido() {
 		return itensPedido;
 	}
 
 
-	public void setItensPedido(ArrayList<ItemPedido> itensPedido) {
+	/**
+	 * Sets the itens pedido.
+	 *
+	 * @param itensPedido the new itens pedido
+	 */
+	public void setItensPedido(ArrayList<ItemVenda> itensPedido) {
 		this.itensPedido = itensPedido;
 	}
 
 
-	public Pedido getPedido() {
-		return pedido;
+	/**
+	 * Gets the pedido.
+	 *
+	 * @return the pedido
+	 */
+	public Venda getPedido() {
+		return venda;
 	}
 
 
-	public void setPedido(Pedido pedido) {
-		this.pedido = pedido;
+	/**
+	 * Sets the pedido.
+	 *
+	 * @param venda the new pedido
+	 */
+	public void setPedido(Venda venda) {
+		this.venda = venda;
 	}
 
 
+	/**
+	 * Gets the funcionario.
+	 *
+	 * @return the funcionario
+	 */
 	public Funcionario getFuncionario() {
 		return funcionario;
 	}
 
 
+	/**
+	 * Sets the funcionario.
+	 *
+	 * @param funcionario the new funcionario
+	 */
 	public void setFuncionario(Funcionario funcionario) {
 		this.funcionario = funcionario;
 	}
 
 
+	/**
+	 * Gets the lbl nome funcionario.
+	 *
+	 * @return the lbl nome funcionario
+	 */
 	public JLabel getLblNomeFuncionario() {
 		return lblNomeFuncionario;
 	}
 
 
+	/**
+	 * Sets the lbl nome funcionario.
+	 *
+	 * @param lblNomeFuncionario the new lbl nome funcionario
+	 */
 	public void setLblNomeFuncionario(JLabel lblNomeFuncionario) {
 		this.lblNomeFuncionario = lblNomeFuncionario;
 	}
 	
-	
-
-
+	/**
+	 * Gets the abertura E fechamento caixa.
+	 *
+	 * @return the abertura E fechamento caixa
+	 */
 	public AberturaEFechamentoCaixa getAberturaEFechamentoCaixa() {
 		return aberturaEFechamentoCaixa;
 	}
 
 
+	/**
+	 * Sets the abertura E fechamento caixa.
+	 *
+	 * @param aberturaEFechamentoCaixa the new abertura E fechamento caixa
+	 */
 	public void setAberturaEFechamentoCaixa(AberturaEFechamentoCaixa aberturaEFechamentoCaixa) {
 		this.aberturaEFechamentoCaixa = aberturaEFechamentoCaixa;
 	}
@@ -232,11 +288,21 @@ public class FrmFrenteCaixa extends JFrame{
 	
 	
 	
+	/**
+	 * Checks if is venda iniciada.
+	 *
+	 * @return true, if is venda iniciada
+	 */
 	public boolean isVendaIniciada() {
 		return vendaIniciada;
 	}
 
 
+	/**
+	 * Sets the venda iniciada.
+	 *
+	 * @param vendaIniciada the new venda iniciada
+	 */
 	public void setVendaIniciada(boolean vendaIniciada) {
 		this.vendaIniciada = vendaIniciada;
 	}
@@ -250,40 +316,46 @@ public class FrmFrenteCaixa extends JFrame{
 	public Cliente consultarCpf() {
 		ClienteController clienteController = new ClienteController();
 		cliente = clienteController.consultarClientesPorCpf(tfCpf.getText());
-		pedido.setCliente(cliente);
+		venda.setCliente(cliente);
 		return cliente;
 	}
 
-	/*	public int conferirSeHaCaixaAberto() {
-		AberturaEFechamentoCaixaController aberturaEFechamentoCaixaController = new AberturaEFechamentoCaixaController();		
-			if(aberturaEFechamentoCaixaController.consultarAberturaEmExecucao(retornaUltimoCodigoDeAberto()).equals(null)) {
-				efetuarAberturaCaixa();
-				return retornaUltimoCodigoDeAberto();			
-			}
-			setAberturaEFechamentoCaixa(aberturaEFechamentoCaixaController.consultarAberturaEmExecucao(retornaUltimoCodigoDeAberto()));
-			if (getAberturaEFechamentoCaixa().isSituacaoCaixa()) {
-				return getAberturaEFechamentoCaixa().getCodigo();
-				}else {
-				}
-		
-	}*/
+	/**
+	 * Método utilizado para alterar texto do label e sua cor.
+	 */
+	public void textoCaixaFechado() {
+		lblSituacaoCaixa.setText("Caixa Fechado");
+		lblSituacaoCaixa.setForeground(Color.RED);
+	
+	}
 	
 	
+	/**
+	 * Método utilizado para alterar texto do label e sua cor.
+	 */
+	public void textoCaixaAberto() {
+		lblSituacaoCaixa.setText("Caixa Aberto");
+		lblSituacaoCaixa.setForeground(Color.GREEN);
+	
+	}
+	
+	/**
+	 * Método confere no Banco de Dados se há alguma venda em aberta.
+	 *
+	 * @return - retorna se a condição é verdadeira ou falsa
+	 */
 	public boolean conferirSeHaCaixaAberto() {
 		AberturaEFechamentoCaixaController aberturaEFechamentoCaixaController = new AberturaEFechamentoCaixaController();
 		boolean confere;
 			if(aberturaEFechamentoCaixaController.consultarAberturaEmExecucao(retornaUltimoCodigoDeAberto()) == null){
-				lblSituacaoCaixa = new JLabel("Caixa Fechado");
-				lblSituacaoCaixa.setForeground(Color.RED);
+				textoCaixaFechado();
 				confere =  false;		
 			}else if (aberturaEFechamentoCaixaController.consultarAberturaEmExecucao(retornaUltimoCodigoDeAberto()).isSituacaoCaixa()) {
-				lblSituacaoCaixa = new JLabel("Caixa Aberto");
-				lblSituacaoCaixa.setForeground(Color.GREEN);
+				textoCaixaAberto();
 				confere = true;
 				setAberturaEFechamentoCaixa(aberturaEFechamentoCaixaController.consultarAberturaEmExecucao(retornaUltimoCodigoDeAberto()));
 			} else {
-				lblSituacaoCaixa = new JLabel("Caixa Fechado");
-				lblSituacaoCaixa.setForeground(Color.RED);
+				textoCaixaFechado();
 				confere = false;
 			}
 		return confere;
@@ -295,28 +367,22 @@ public class FrmFrenteCaixa extends JFrame{
 	public void efetuarAberturaCaixa() {
 		AberturaEFechamentoCaixa aberturaEFechamentoCaixa = new AberturaEFechamentoCaixa();
 		AberturaEFechamentoCaixaController aberturaEFechamentoCaixaController = new AberturaEFechamentoCaixaController();
-		/*FuncionarioController funcionarioController = new FuncionarioController();
-		Funcionario funcionario = new Funcionario();
-		funcionario = funcionarioController.consultarFuncionariosPorCpf("123.456.789-01");*/
-		
 
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
 		LocalDateTime dataAtual = LocalDateTime.now();
-		String dataFormatada = dataAtual.format(formatter);
-		//System.out.println(dataFormatada);		
+		String dataFormatada = dataAtual.format(formatter);	
 		aberturaEFechamentoCaixa.setDataAbertura(dataFormatada);
 		aberturaEFechamentoCaixa.setTrocoInicial(trocoInicial);
 		aberturaEFechamentoCaixa.setFuncionario(getFuncionario());
 		aberturaEFechamentoCaixa.setSituacaoCaixa(true);
-		
-		//System.out.println(funcionario);
+
 		
 		aberturaEFechamentoCaixaController.cadastrarAbertura(aberturaEFechamentoCaixa);	
 		
 	}
 	
 	/**
-	 * Efetuar fechamento.
+	 * Efetuar fechamento do caixa.
 	 */
 	public void efetuarFechamento(){
 		FrmFormaDePagamento forma = new FrmFormaDePagamento();
@@ -332,6 +398,7 @@ public class FrmFrenteCaixa extends JFrame{
 		aberturaEFechamentoCaixaController.cadastrarFechamento(aberturaEFechamentoCaixa);
 		forma.setVisible(true);
 		this.dispose();
+		textoCaixaFechado();
 		
 	}
 	
@@ -350,6 +417,7 @@ public class FrmFrenteCaixa extends JFrame{
 	
 	/**
 	 * Método responsável por definir o troco inicial. 
+	 * Verificar se o caixa já está aberto ou não
 	 * E fazer a validação do troco informado.  
 	 */
 	public void conferirTroco() {
@@ -360,19 +428,12 @@ public class FrmFrenteCaixa extends JFrame{
 					trocoInicial =  Double.parseDouble(JOptionPane.showInputDialog("Digite no Troco Inicial"));
 					if(trocoInicial >= 0) {
 						JOptionPane.showMessageDialog(null, "Caixa Aberto");//criar uma tela personalizada
-						frmMenuPrincipal.setSituacaoCaixa(true);	
-						lblSituacaoCaixa.setText("Caixa Aberto");
-						lblSituacaoCaixa.setForeground(Color.GREEN);
 						
 						setConferirSituacaoCaixa(true);						
-						//habilitarBotoesCaixa();
 						tfCodigoDeBarras.requestFocusInWindow();
 						tfCodigoDeBarras.setFocusable(true);
 						efetuarAberturaCaixa();
 						setCodigoAberturaCaixa(retornaUltimoCodigoDeAberto());
-//						setCodigoAberturaCaixa(conferirSeHaCaixaAberto());
-						//retornaCodigoDeAberto();
-						//System.out.println(getCodigoAberturaCaixa());
 									
 						}else {
 							JOptionPane.showMessageDialog(null, "Valor tem ser maior ou igual a zero");
@@ -416,20 +477,15 @@ public class FrmFrenteCaixa extends JFrame{
 		
 		if(totalCompra > 0) {			
 			FrmFormaDePagamento formaDePagamento = new FrmFormaDePagamento();
-			//passando o objeto inteiro para a proxima tela
 			formaDePagamento.cliente = cliente;
-			//passando o valor da compra  //convertendo em string
 			formaDePagamento.setTotalCompra(totalCompra);
 			formaDePagamento.setTotalFaltante(totalCompra);
-			
-			
+
 			formaDePagamento.setVisible(true);
-			pedido.setValorVenda(totalCompra);			
-			formaDePagamento.setPedido(pedido);
+			venda.setValorVenda(totalCompra);			
+			formaDePagamento.setPedido(venda);
 			formaDePagamento.setFrenteCaixa(this);
 			formaDePagamento.setListaItensCarinho(dadosTabela);
-			
-			//Para minimizar/esconder a tela
 			this.dispose();
 		}else {
 			JOptionPane.showMessageDialog(null, "Ops venda não pode ser finalizada pois não há nenhum lançamento");
@@ -439,7 +495,7 @@ public class FrmFrenteCaixa extends JFrame{
 	
 	
 	/**
-	 * Itens tabela.
+	 * Método define o titulo de informação da Tabela.
 	 */
 	public void itensTabela() { 
 		//linha tabela titulo
@@ -464,9 +520,12 @@ public class FrmFrenteCaixa extends JFrame{
 		}
 
 		
+		/**
+		 * Método adiciona os itens na tabela de listagem dos produtos na venda.
+		 */
 		private void adicionarItens() {
 			Produto produto = new Produto();
-			Pedido pedido = new Pedido();
+			Venda venda = new Venda();
 			ProdutosController produtosController = new ProdutosController();		
 			
 			produto = produtosController.consultarProdutosPorCodigoBarras(tfCodigoDeBarras.getText());
@@ -487,9 +546,9 @@ public class FrmFrenteCaixa extends JFrame{
 				totalCompra += subTotal;
 				lblTotalCompra.setText(totalCompra.toString());
 		
-				ItemPedido itemPedido = new ItemPedido(produto, getPedido(), quantidade, produto.getPrecoFinal(), subTotal);		
+				ItemVenda itemVenda = new ItemVenda(produto, getPedido(), quantidade, produto.getPrecoFinal(), subTotal);		
 
-				itensPedido.add(itemPedido);
+				itensPedido.add(itemVenda);
 				
 				dadosTabela.addRow(new Object[] {
 						produto.getCodigoDeBarras(),
@@ -505,26 +564,16 @@ public class FrmFrenteCaixa extends JFrame{
 				tfQuantidadeDeItens.setText("1");
 		}
 		
-	
-	/**
-	 * Método responsável por conferir se o caixa está aberto ou fechada.
-	 */
-		/*public void conferirEstadoCaixa() {
-		
-			FrmMenuPrincipal frmMenuPrincipal = new FrmMenuPrincipal();
-			conferirSituacaoCaixa = frmMenuPrincipal.getSituacaoCaixa();		
-			if (isConferirSituacaoCaixa() == true) {
-				habilitarBotoesCaixa();
-			}else {
-				desabilitarBotoesCaixa();
-			}
-	}*/
-		
-		
+
+		/**
+		 * Método responsável por realizar a verificação se o coixa está fechado e inicializar uma venda.
+		 */
 		public void iniciarVenda() {
-			if(isVendaIniciada() == false) {
+			if(isConferirSituacaoCaixa() == false) {
+				JOptionPane.showMessageDialog(null, "Caixa Fechado");
+			}else if(isVendaIniciada() == false) {
 				setVendaIniciada(true);
-				pedido.setCodigo(x.geraCodigo());
+				venda.setCodigo(x.geraCodigo());
 				lblVenda.setForeground(Color.GREEN);
 				lblVenda.setText("Venda Iniciada");
 				tfCodigoDeBarras.requestFocus();
@@ -533,6 +582,9 @@ public class FrmFrenteCaixa extends JFrame{
 			}
 		}
 	
+		/**
+		 * Método responsével por abrir a tela de menu principal.
+		 */
 	public void voltarParaMenu() {
 		FrmMenuPrincipal frmMenuPrincipal = new FrmMenuPrincipal();
 		frmMenuPrincipal.setVisible(true);
@@ -581,7 +633,10 @@ public class FrmFrenteCaixa extends JFrame{
 
 				lblNomeFuncionario.setText(funcionario.getNome());
 				setVendaIniciada(false);
-				pedido.setFuncionario(funcionario);
+				venda.setFuncionario(funcionario);
+				
+				lblSituacaoCaixa = new JLabel("Caixa Fechado");
+				lblSituacaoCaixa.setForeground(Color.RED);
 				
 			}
 
@@ -621,8 +676,8 @@ public class FrmFrenteCaixa extends JFrame{
 		panel_5.setBackground(new Color(10, 87, 194));		
 		
 		lblSituacaoCaixa = new JLabel();
+		lblSituacaoCaixa.setFont(new Font("Arial", Font.BOLD, 45));
 		lblSituacaoCaixa.setHorizontalAlignment(SwingConstants.CENTER);
-		//situacaoCaixa();
 		
 		JPanel painelListaProdutos = new JPanel();
 		painelListaProdutos.setBackground(new Color(255, 255, 255));
@@ -835,7 +890,8 @@ public class FrmFrenteCaixa extends JFrame{
 		btnFecharCaixa.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(isConferirSituacaoCaixa()) {
-					efetuarFechamento();					
+					efetuarFechamento();	
+					textoCaixaFechado();
 				}
 			}
 		});

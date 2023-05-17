@@ -29,13 +29,13 @@ import javax.swing.event.AncestorListener;
 import javax.swing.table.DefaultTableModel;
 
 import controller.FormaPagamentoController;
-import controller.ItemPedidoController;
-import controller.PedidoController;
+import controller.ItemVendaController;
+import controller.VendaController;
 import controller.ProdutosController;
 import model.Cliente;
 import model.FormaPagamento;
-import model.ItemPedido;
-import model.Pedido;
+import model.ItemVenda;
+import model.Venda;
 import model.Produto;
 import util.GeradorDeCodigo;
 
@@ -105,43 +105,80 @@ public class FrmFormaDePagamento extends JFrame {
 	/** The pix. */
 	private double pix;
 
+	/** The codigo de pagamento gerado automatico. */
 	private String codigoDePagamentoGeradoAutomatico;
 
+	/** The gerador de codigo. */
 	GeradorDeCodigo geradorDeCodigo;
 
+	/** The forma pagamento. */
 	FormaPagamento formaPagamento;
 
+	/** The forma pagamento controller. */
 	FormaPagamentoController formaPagamentoController;
 	
+	/** The frente caixa. */
 	FrmFrenteCaixa frenteCaixa = new FrmFrenteCaixa();
 	
-	Pedido pedido = new Pedido();
+	/** The venda. */
+	Venda venda = new Venda();
 	
+	/** The lista itens carinho. */
 	DefaultTableModel listaItensCarinho;  
 	
 
+	/**
+	 * Gets the lista itens carinho.
+	 *
+	 * @return the lista itens carinho
+	 */
 	public DefaultTableModel getListaItensCarinho() {
 		return listaItensCarinho;
 	}
 
+	/**
+	 * Sets the lista itens carinho.
+	 *
+	 * @param listaItensCarinho the new lista itens carinho
+	 */
 	public void setListaItensCarinho(DefaultTableModel listaItensCarinho) {
 		this.listaItensCarinho = listaItensCarinho;
 	}
 
+	/**
+	 * Gets the frente caixa.
+	 *
+	 * @return the frente caixa
+	 */
 	public FrmFrenteCaixa getFrenteCaixa() {
 		return frenteCaixa;
 	}
 
+	/**
+	 * Sets the frente caixa.
+	 *
+	 * @param frenteCaixa the new frente caixa
+	 */
 	public void setFrenteCaixa(FrmFrenteCaixa frenteCaixa) {
 		this.frenteCaixa = frenteCaixa;
 	}
 
-	public Pedido getPedido() {
-		return pedido;
+	/**
+	 * Gets the pedido.
+	 *
+	 * @return the pedido
+	 */
+	public Venda getPedido() {
+		return venda;
 	}
 
-	public void setPedido(Pedido pedido) {
-		this.pedido = pedido;
+	/**
+	 * Sets the pedido.
+	 *
+	 * @param venda the new pedido
+	 */
+	public void setPedido(Venda venda) {
+		this.venda = venda;
 	}
 
 
@@ -183,10 +220,20 @@ public class FrmFormaDePagamento extends JFrame {
 	
 	
 
+	/**
+	 * Gets the codigo de pagamento gerado automatico.
+	 *
+	 * @return the codigo de pagamento gerado automatico
+	 */
 	public String getCodigoDePagamentoGeradoAutomatico() {
 		return codigoDePagamentoGeradoAutomatico;
 	}
 
+	/**
+	 * Sets the codigo de pagamento gerado automatico.
+	 *
+	 * @param codigoDePagamentoGeradoAutomatico the new codigo de pagamento gerado automatico
+	 */
 	public void setCodigoDePagamentoGeradoAutomatico(String codigoDePagamentoGeradoAutomatico) {
 		this.codigoDePagamentoGeradoAutomatico = codigoDePagamentoGeradoAutomatico;
 	}
@@ -294,10 +341,13 @@ public class FrmFormaDePagamento extends JFrame {
 		return true;
 	}
 	
+	/**
+	 * Cadastrar itens pedido.
+	 */
 	public void cadastrarItensPedido() {
-		ItemPedidoController itemPedidoController = new ItemPedidoController();
-		ItemPedido itemPedido = new ItemPedido();
-		List<ItemPedido> lista = new ArrayList<>();
+		ItemVendaController itemVendaController = new ItemVendaController();
+		ItemVenda itemVenda = new ItemVenda();
+		List<ItemVenda> lista = new ArrayList<>();
 		Produto produto = new Produto();
 		ProdutosController produtosController = new ProdutosController();  
 		
@@ -307,30 +357,36 @@ public class FrmFormaDePagamento extends JFrame {
 		for(int i = 1; i<= lista.size();i++) {
 			produto = produtosController.consultarProdutosPorCodigoBarras(listaItensCarinho.getValueAt(i,0).toString());
 			System.out.println("Conferir este0"+produto);
-			itemPedido.setPedido(getPedido());
-			itemPedido.setProduto(produto);
-			itemPedido.setQuantidade(Double.parseDouble(listaItensCarinho.getValueAt(i,2).toString()));
-			itemPedido.setPrecoUnitario(Double.parseDouble(listaItensCarinho.getValueAt(i,4).toString()));
-			itemPedido.setSubtotal(Double.parseDouble(listaItensCarinho.getValueAt(i,5).toString()));
+			itemVenda.setPedido(getPedido());
+			itemVenda.setProduto(produto);
+			itemVenda.setQuantidade(Double.parseDouble(listaItensCarinho.getValueAt(i,2).toString()));
+			itemVenda.setPrecoUnitario(Double.parseDouble(listaItensCarinho.getValueAt(i,4).toString()));
+			itemVenda.setSubtotal(Double.parseDouble(listaItensCarinho.getValueAt(i,5).toString()));
 			
-			itemPedidoController.cadastrarItemPedido(itemPedido);
-			System.out.println(itemPedido);
+			itemVendaController.cadastrarItemVenda(itemVenda);
+			System.out.println(itemVenda);
 		}
 		
 	}
 	
 	
+	/**
+	 * Cadastrar pedido.
+	 */
 	public void cadastrarPedido() {
 		
-		PedidoController pedidoController = new PedidoController();
+		VendaController vendaController = new VendaController();
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
 		LocalDateTime dataAtual = LocalDateTime.now();
 		String dataFormatada = dataAtual.format(formatter);		
-		pedido.setDataVenda(dataFormatada);		 
-		pedidoController.cadastrarPedido(pedido);
+		venda.setDataVenda(dataFormatada);		 
+		vendaController.cadastrarVenda(venda);
 	}
 	
 
+	/**
+	 * Cadastrar pagamento.
+	 */
 	public void cadastrarPagamento() {
 		formaPagamento = new FormaPagamento();
 		formaPagamentoController = new FormaPagamentoController();
@@ -350,15 +406,19 @@ public class FrmFormaDePagamento extends JFrame {
 		formaPagamento.setTotalCompra(Double.parseDouble(tfTotalCompra.getText()));
 
 		formaPagamentoController.cadastrarFormaPagamento(formaPagamento);
-		pedido.setFormaPagamento(formaPagamento);
+		venda.setFormaPagamento(formaPagamento);
+		
 		
 	}
 	
+	/**
+	 * Nova venda.
+	 */
 	public void novaVenda() {
 		FrmFrenteCaixa frmFrenteCaixa = new FrmFrenteCaixa();
 		frmFrenteCaixa.setVisible(true);
 		frmFrenteCaixa.setFuncionario(frenteCaixa.getFuncionario());
-		
+		this.dispose();
 	}
 
 	/**
