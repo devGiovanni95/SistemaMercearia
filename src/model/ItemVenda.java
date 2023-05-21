@@ -5,7 +5,9 @@ package model;
  * The Class ItensVenda.
  */
 public class ItemVenda {
-	 
+	
+	private String codigo;
+	
  	/** The produto. */
  	/* private int  codigo;*/
 	  private Produto produto;
@@ -51,6 +53,20 @@ public class ItemVenda {
 
 	
 	
+	
+	
+	public String getCodigo() {
+		return codigo;
+	}
+
+
+
+	public void setCodigo(String codigo) {
+		this.codigo = codigo;
+	}
+
+
+
 	/**
 	 * Gets the produto.
 	 *
@@ -98,7 +114,7 @@ public class ItemVenda {
 	 *
 	 * @return the pedido
 	 */
-	public Venda getPedido() {
+	public Venda getVenda() {
 		return venda;
 	}
 	
@@ -107,7 +123,7 @@ public class ItemVenda {
 	 *
 	 * @param venda the new pedido
 	 */
-	public void setPedido(Venda venda) {
+	public void setVenda(Venda venda) {
 		this.venda = venda;
 	}
 	

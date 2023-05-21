@@ -145,7 +145,7 @@ public class AberturaEFechamentoCaixaController {
 				caixa.setCodigo(dataBase.resultSet.getInt("codigo"));
 				caixa.setDataAbertura(dataBase.resultSet.getString("data_abertura"));
 				caixa.setDataFechamento(dataBase.resultSet.getString("data_fechamento"));
-				funcionario = funcionarioController.consultarFuncionariosPorCpf(dataBase.resultSet.getString("funcionario"));				
+				funcionario = (Funcionario) funcionarioController.consultarFuncionariosPorCpf(dataBase.resultSet.getString("funcionario"));				
 				caixa.setFuncionario(funcionario);
 				caixa.setDataFechamento(dataBase.resultSet.getString("data_fechamento"));
 				caixa.setTrocoInicial(dataBase.resultSet.getDouble("troco_inicial"));		

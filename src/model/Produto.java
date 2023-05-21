@@ -10,7 +10,7 @@ import java.util.Date;
 public class Produto {
 	
 	/** The codigo. */
-	private int codigo;
+	//private int codigo;
 	
 	/** The descricao. */
 	private String descricao;
@@ -70,7 +70,7 @@ public class Produto {
 	 *
 	 * @return the codigo
 	 */
-	public int getCodigo() {
+	/*public int getCodigo() {
 			return codigo;
 		}
 
@@ -79,9 +79,9 @@ public class Produto {
 		 *
 		 * @param codigo the new codigo
 		 */
-		public void setCodigo(int codigo) {
+	/*	public void setCodigo(int codigo) {
 			this.codigo = codigo;
-		}
+		}*/
 
 	/**
 	 * Gets the descricao.
@@ -337,7 +337,7 @@ public class Produto {
 
 	@Override
 	public String toString() {
-		return "Produto [codigo=" + codigo + ", descricao=" + descricao + ", codigoDeBarras=" + codigoDeBarras
+		return "Produto [descricao=" + descricao + ", codigoDeBarras=" + codigoDeBarras
 				+ ", marca=" + marca + ", subCategoria=" + subCategoria + ", unidadeDeMedida=" + unidadeDeMedida
 				+ ", quantidade=" + quantidade + ", dataFabricacao=" + dataFabricacao + ", dataValidade=" + dataValidade
 				+ ", lote=" + lote + ", ipi=" + ipi + ", icms=" + icms + ", margemLucro=" + margemLucro

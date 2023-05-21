@@ -9,7 +9,7 @@ import java.util.List;
 
 import javax.swing.JOptionPane;
 
-
+import interfaces.InterfaceFornecedor;
 import jdbc.ConnectionDataBase;
 import model.Fornecedor;
 
@@ -17,7 +17,7 @@ import model.Fornecedor;
 /**
  * The Class FornecedorController.
  */
-public class FornecedorController {
+public class FornecedorController implements InterfaceFornecedor {
 
 	/** The data base. */
 	ConnectionDataBase dataBase = new ConnectionDataBase();
@@ -189,7 +189,7 @@ public class FornecedorController {
 	 * @param nome - parametro utilizado como base de pesquisa. 
 	 * @return - retorna uma lista com os resultados encontrados.
 	 */
-	public List<Fornecedor> consultarFornecedorPorNome(String nome) {
+	public List<Fornecedor> consultarFornecedoresPorNome(String nome) {
 	    if(dataBase.getConnection()) {
 		    try {
 		    	List<Fornecedor> lista = new ArrayList<>();

@@ -7,6 +7,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
+
+import interfaces.InterfaceFuncionario;
 import jdbc.ConnectionDataBase;
 import model.Funcionario;
 import view.FrmMenuPrincipal;
@@ -15,7 +17,7 @@ import view.FrmMenuPrincipal;
 /**
  * The Class FuncionarioController.
  */
-public class FuncionarioController {
+public class FuncionarioController implements InterfaceFuncionario {
 	
 	/*/**
 	 * Método que cria uma conexão com banco de dados.
@@ -176,7 +178,7 @@ public class FuncionarioController {
 	 * A partir de um comando SQL.
 	 * @return - retona uma lista com todos de funcionários 
 	 */
-	public List<Funcionario> ConsultarFuncionarios() {
+	public List<Funcionario> consultarFuncionarios() {
 		
 		if (dataBase.getConnection()) {
 			try {
@@ -248,9 +250,9 @@ public class FuncionarioController {
 	            dataBase.preparedStatement = dataBase.con.prepareStatement(sql);
 	            dataBase.preparedStatement.setString(1, cpf);
 	            dataBase.resultSet = dataBase.preparedStatement.executeQuery();
-
 	            Funcionario funcionario = new Funcionario();
 
+	            
 	            if (dataBase.resultSet.next()) {
 	                funcionario.setNome(dataBase.resultSet.getString("nome"));
 	                funcionario.setEmail(dataBase.resultSet.getString("email"));
@@ -278,6 +280,7 @@ public class FuncionarioController {
 	                funcionario.setAdmissao(dataBase.resultSet.getString("admissao"));
 	                funcionario.setDemissao(dataBase.resultSet.getString("demissao"));
 	                funcionario.setAtivo(dataBase.resultSet.getString("ativo"));
+
 	            }
 
 	            return funcionario;

@@ -168,7 +168,7 @@ public class FrmFormaDePagamento extends JFrame {
 	 *
 	 * @return the pedido
 	 */
-	public Venda getPedido() {
+	public Venda getVenda() {
 		return venda;
 	}
 
@@ -177,7 +177,7 @@ public class FrmFormaDePagamento extends JFrame {
 	 *
 	 * @param venda the new pedido
 	 */
-	public void setPedido(Venda venda) {
+	public void setVenda(Venda venda) {
 		this.venda = venda;
 	}
 
@@ -356,8 +356,8 @@ public class FrmFormaDePagamento extends JFrame {
 		
 		for(int i = 1; i<= lista.size();i++) {
 			produto = produtosController.consultarProdutosPorCodigoBarras(listaItensCarinho.getValueAt(i,0).toString());
-			System.out.println("Conferir este0"+produto);
-			itemVenda.setPedido(getPedido());
+			System.out.println("Conferir este"+produto);
+			itemVenda.setVenda(getVenda());
 			itemVenda.setProduto(produto);
 			itemVenda.setQuantidade(Double.parseDouble(listaItensCarinho.getValueAt(i,2).toString()));
 			itemVenda.setPrecoUnitario(Double.parseDouble(listaItensCarinho.getValueAt(i,4).toString()));

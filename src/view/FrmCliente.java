@@ -120,7 +120,7 @@ public class FrmCliente extends JFrame {
 	public void consultarClientes() {
 		try {
 		ClienteController clienteController = new ClienteController();
-		List<Cliente> lista = clienteController.consultarCliente();
+		List<Cliente> lista = clienteController.consultarClientes();
 		DefaultTableModel dadosTabela = (DefaultTableModel) tabelaClientes.getModel();
 		dadosTabela.setNumRows(0);
 		dadosTabela.setColumnCount(15);

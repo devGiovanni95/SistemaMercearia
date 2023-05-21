@@ -224,7 +224,7 @@ public class FrmFornecedor extends JFrame {
 			String nomePesquisado = "%" + tfPesquisar.getText() + "%";
 
 			FornecedorController fornecedorController = new FornecedorController();
-			List<Fornecedor> lista = fornecedorController.consultarFornecedorPorNome(nomePesquisado);
+			List<Fornecedor> lista = fornecedorController.consultarFornecedoresPorNome(nomePesquisado);
 			DefaultTableModel dadosTabela = (DefaultTableModel) tabelaFornecedores.getModel();
 			dadosTabela.setNumRows(0);
 			dadosTabela.setColumnCount(14);
