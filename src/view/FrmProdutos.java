@@ -36,6 +36,13 @@ import javax.swing.event.AncestorListener;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import javax.swing.text.MaskFormatter;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 import controller.ProdutosController;
 import controller.SubCategoriaController;
@@ -124,7 +131,7 @@ public class FrmProdutos extends JFrame {
 		LimparCampos limpar = new LimparCampos();
 		limpar.Limpar(tela);
 	}
-	
+
 
 	/*
 	 * Método responsável por alterar os dados de um produto cadastrado.
@@ -340,32 +347,70 @@ public class FrmProdutos extends JFrame {
 	 */
 	private void atualizarPrecoFinal() {
 		try {
-			
+
 			double ipi;
 			double icms;
 			double margem = Double.parseDouble(tfMargem.getText());
-			
+
 			if(tfIpi.getText().equals("")) {
-				ipi = 0;		
+				ipi = 0;
 			}else {
-				ipi = Double.parseDouble(tfIpi.getText());				
+				ipi = Double.parseDouble(tfIpi.getText());
 			}
-			
+
 			if(tfIcms.getText().equals("")) {
 				icms = 0;
 			}else {
-				icms = Double.parseDouble(tfIcms.getText());				
+				icms = Double.parseDouble(tfIcms.getText());
 			}
-			
-			
+
+
 			double precoCusto = Double.parseDouble(tfPrecoCusto.getText());
 
 			double precoFinal = precoCusto * (1 + (margem + ipi + icms) / 100);
 			tfPrecoFinal.setText(String.format("%.2f", precoFinal));
 		} catch (NumberFormatException e) {
-			// Um dos campos não possui um número válido, não atualiza o Preço Final		
+			// Um dos campos não possui um número válido, não atualiza o Preço Final
 		}
 	}
+
+	/**
+	 * Cria um campo de texto formatado com a máscara especificada.
+	 *
+	 * @param mascara A máscara para aplicar ao campo de texto formatado.
+	 * @return Um novo JFormattedTextField com a máscara aplicada.
+	 */
+	private JFormattedTextField criarCampoComMascara(String mascara) {
+		MaskFormatter maskFormatter = null;
+		try {
+			maskFormatter = new MaskFormatter(mascara);
+		} catch (java.text.ParseException e) {
+			e.printStackTrace();
+		}
+
+		return new JFormattedTextField(maskFormatter);
+	}
+
+	public void verificarData(JFormattedTextField tfData) {
+		if (tfData.getText() != null && tfData.getText().trim().length() == 10) {  // Check if the date is fully input
+			try {
+				SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+				sdf.setLenient(false);
+				Calendar cal = Calendar.getInstance();
+				cal.setTime(sdf.parse(tfData.getText()));
+				int year = cal.get(Calendar.YEAR);
+
+				// Check if the year is within the acceptable range
+				if (year > 2100 || year < 2023) {
+					JOptionPane.showMessageDialog(null, "Insira uma data válida (antes do ano 2100 e depois de 2023).");
+					tfData.setText("");
+				}
+			} catch (ParseException ex) {
+				// Ignore as the date isn't fully inserted yet
+			}
+		}
+	}
+
 
 
 	/**
@@ -662,13 +707,13 @@ public class FrmProdutos extends JFrame {
 		tfIpi.setColumns(10);
 		tfIpi.getDocument().addDocumentListener(documentListener);
 		tfIpi.addKeyListener(new KeyAdapter() {
-		    @Override
-		    public void keyTyped(KeyEvent e) {
-		        char c = e.getKeyChar();
-		        if (!(Character.isDigit(c) || c == '.')) {
-		            e.consume();
-		        }
-		    }
+			@Override
+			public void keyTyped(KeyEvent e) {
+				char c = e.getKeyChar();
+				if (!(Character.isDigit(c) || c == '.')) {
+					e.consume();
+				}
+			}
 		});
 
 		tfIcms = new JTextField();
@@ -677,13 +722,13 @@ public class FrmProdutos extends JFrame {
 		tfIcms.setColumns(10);
 		tfIcms.getDocument().addDocumentListener(documentListener);
 		tfIcms.addKeyListener(new KeyAdapter() {
-		    @Override
-		    public void keyTyped(KeyEvent e) {
-		        char c = e.getKeyChar();
-		        if (!(Character.isDigit(c) || c == '.')) {
-		            e.consume();
-		        }
-		    }
+			@Override
+			public void keyTyped(KeyEvent e) {
+				char c = e.getKeyChar();
+				if (!(Character.isDigit(c) || c == '.')) {
+					e.consume();
+				}
+			}
 		});
 
 		JLabel lblMargemLucro = new JLabel("Margem de Lucro %: ");
@@ -695,13 +740,13 @@ public class FrmProdutos extends JFrame {
 		tfMargem.setColumns(10);
 		tfMargem.getDocument().addDocumentListener(documentListener);
 		tfMargem.addKeyListener(new KeyAdapter() {
-		    @Override
-		    public void keyTyped(KeyEvent e) {
-		        char c = e.getKeyChar();
-		        if (!(Character.isDigit(c) || c == '.')) {
-		            e.consume();
-		        }
-		    }
+			@Override
+			public void keyTyped(KeyEvent e) {
+				char c = e.getKeyChar();
+				if (!(Character.isDigit(c) || c == '.')) {
+					e.consume();
+				}
+			}
 		});
 
 		tfMarca = new JTextField();
@@ -713,6 +758,19 @@ public class FrmProdutos extends JFrame {
 		tfDataFabricacao.setBackground(Color.WHITE);
 		tfDataFabricacao.setFont(new Font("Arial", Font.BOLD, 14));
 		tfDataFabricacao.setColumns(10);
+		JFormattedTextField tfDataFabricacao = criarCampoComMascara("##/##/####");
+
+		tfDataFabricacao.getDocument().addDocumentListener(new DocumentListener() {
+			public void changedUpdate(DocumentEvent e) {
+				verificarData(tfDataFabricacao);
+			}
+			public void removeUpdate(DocumentEvent e) {
+				verificarData(tfDataFabricacao);
+			}
+			public void insertUpdate(DocumentEvent e) {
+				verificarData(tfDataFabricacao);
+			}
+		});
 
 		JLabel lblPrecoCusto = new JLabel("Preço de Custo: ");
 		lblPrecoCusto.setFont(new Font("Arial", Font.BOLD, 14));
@@ -724,6 +782,19 @@ public class FrmProdutos extends JFrame {
 		tfValidade.setBackground(Color.WHITE);
 		tfValidade.setFont(new Font("Arial", Font.BOLD, 14));
 		tfValidade.setColumns(10);
+		JFormattedTextField tfValidade = criarCampoComMascara("##/##/####");
+
+		tfValidade.getDocument().addDocumentListener(new DocumentListener() {
+			public void changedUpdate (DocumentEvent e){
+				verificarData(tfValidade);
+			}
+			public void removeUpdate (DocumentEvent e){
+				verificarData(tfValidade);
+			}
+			public void insertUpdate (DocumentEvent e){
+				verificarData(tfValidade);
+			}
+		});
 
 		tfPrecoCusto = new JTextField();
 		tfPrecoCusto.setBackground(Color.WHITE);
@@ -732,13 +803,13 @@ public class FrmProdutos extends JFrame {
 		tfPrecoCusto.getDocument().addDocumentListener(documentListener);
 		tfPrecoCusto.addKeyListener(new KeyAdapter() {
 			//Metodo confere se o valor digitado é numerico se nçao é impede de ser digitado
-		    @Override
-		    public void keyTyped(KeyEvent e) {
-		        char c = e.getKeyChar();
-		        if (!(Character.isDigit(c) || c == '.')) {
-		            e.consume();
-		        }
-		    }
+			@Override
+			public void keyTyped(KeyEvent e) {
+				char c = e.getKeyChar();
+				if (!(Character.isDigit(c) || c == '.')) {
+					e.consume();
+				}
+			}
 		});
 
 		JButton btnRemover = new JButton("Remover");
