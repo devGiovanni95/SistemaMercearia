@@ -228,15 +228,15 @@ public class FrmEntradaEstoque extends JFrame {
 	private void preencherDadosProduto(){
 		abaPrincipal.setSelectedIndex(0);
 
-		tfCodigo.setText(tabelaEstoque.getValueAt(tabelaEstoque.getSelectedRow(), 0).toString());
-		tfDescricao.setText(tabelaEstoque.getValueAt(tabelaEstoque.getSelectedRow(), 1).toString());
-		tfCodigoDeBarras.setText(tabelaEstoque.getValueAt(tabelaEstoque.getSelectedRow(), 2).toString());
-		tfMarca.setText(tabelaEstoque.getValueAt(tabelaEstoque.getSelectedRow(), 3).toString());
-		cbSubCategoria.setSelectedItem(tabelaEstoque.getValueAt(tabelaEstoque.getSelectedRow(), 4).toString());
-		cbUnidadeDeMedida.setSelectedItem(tabelaEstoque.getValueAt(tabelaEstoque.getSelectedRow(), 5).toString());
-		tfQtdEstoque.setText(tabelaEstoque.getValueAt(tabelaEstoque.getSelectedRow(), 6).toString());
-		tfDataFabricacao.setText(tabelaEstoque.getValueAt(tabelaEstoque.getSelectedRow(), 7).toString());
-		tfValidade.setText(tabelaEstoque.getValueAt(tabelaEstoque.getSelectedRow(), 8).toString());
+		//tfCodigo.setText(tabelaEstoque.getValueAt(tabelaEstoque.getSelectedRow(), 0).toString());
+		tfDescricao.setText(tabelaEstoque.getValueAt(tabelaEstoque.getSelectedRow(), 0).toString());
+		tfCodigoDeBarras.setText(tabelaEstoque.getValueAt(tabelaEstoque.getSelectedRow(), 1).toString());
+		tfMarca.setText(tabelaEstoque.getValueAt(tabelaEstoque.getSelectedRow(), 2).toString());
+		cbSubCategoria.setSelectedItem(tabelaEstoque.getValueAt(tabelaEstoque.getSelectedRow(), 3).toString());
+		cbUnidadeDeMedida.setSelectedItem(tabelaEstoque.getValueAt(tabelaEstoque.getSelectedRow(), 4).toString());
+		tfQtdEstoque.setText(tabelaEstoque.getValueAt(tabelaEstoque.getSelectedRow(), 5).toString());
+		tfDataFabricacao.setText(tabelaEstoque.getValueAt(tabelaEstoque.getSelectedRow(), 6).toString());
+		tfValidade.setText(tabelaEstoque.getValueAt(tabelaEstoque.getSelectedRow(), 7).toString());
 
 		tfPrecoUnitario.setText(tabelaEstoque.getValueAt(tabelaEstoque.getSelectedRow(), 13).toString());
 		tfSubTotal.setText(tabelaEstoque.getValueAt(tabelaEstoque.getSelectedRow(), 14).toString());
@@ -582,7 +582,7 @@ public class FrmEntradaEstoque extends JFrame {
 		tfDataFabricacao.setFont(new Font("Arial", Font.BOLD, 14));
 		tfDataFabricacao.setColumns(10);
 
-		JLabel lvlPrecoUnitario = new JLabel("Preço de Custo:");
+		JLabel lvlPrecoUnitario = new JLabel("Preço Unitario:");
 		lvlPrecoUnitario.setFont(new Font("Arial", Font.BOLD, 14));
 
 		JLabel lblValidade = new JLabel("Data de Validade: ");
@@ -669,12 +669,14 @@ public class FrmEntradaEstoque extends JFrame {
 		cbFornecedor.setBackground(Color.WHITE);
 		GroupLayout gl_abaCadastrarProduto = new GroupLayout(abaCadastrarProduto);
 		gl_abaCadastrarProduto.setHorizontalGroup(
-				gl_abaCadastrarProduto.createParallelGroup(Alignment.LEADING)
-						.addComponent(abaDadosEstoque, GroupLayout.DEFAULT_SIZE, 1340, Short.MAX_VALUE)
+			gl_abaCadastrarProduto.createParallelGroup(Alignment.LEADING)
+				.addComponent(abaDadosEstoque, GroupLayout.DEFAULT_SIZE, 1339, Short.MAX_VALUE)
 		);
 		gl_abaCadastrarProduto.setVerticalGroup(
-				gl_abaCadastrarProduto.createParallelGroup(Alignment.LEADING)
-						.addComponent(abaDadosEstoque, GroupLayout.PREFERRED_SIZE, 472, Short.MAX_VALUE)
+			gl_abaCadastrarProduto.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_abaCadastrarProduto.createSequentialGroup()
+					.addComponent(abaDadosEstoque, GroupLayout.PREFERRED_SIZE, 531, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 		);
 		GroupLayout gl_abaDadosEstoque = new GroupLayout(abaDadosEstoque);
 		gl_abaDadosEstoque.setHorizontalGroup(
@@ -704,8 +706,8 @@ public class FrmEntradaEstoque extends JFrame {
 							.addGap(38)
 							.addComponent(lblDataFabricacao))
 						.addGroup(gl_abaDadosEstoque.createSequentialGroup()
-							.addGap(91)
-							.addComponent(lblSubtotal)))
+							.addGap(76)
+							.addComponent(lvlPrecoUnitario)))
 					.addGap(10)
 					.addGroup(gl_abaDadosEstoque.createParallelGroup(Alignment.LEADING)
 						.addComponent(tfCodigoDeBarras, GroupLayout.PREFERRED_SIZE, 551, GroupLayout.PREFERRED_SIZE)
@@ -725,11 +727,11 @@ public class FrmEntradaEstoque extends JFrame {
 							.addGap(4)
 							.addComponent(tfValidade, GroupLayout.PREFERRED_SIZE, 151, GroupLayout.PREFERRED_SIZE))
 						.addGroup(gl_abaDadosEstoque.createSequentialGroup()
-							.addComponent(tfSubTotal, GroupLayout.PREFERRED_SIZE, 236, GroupLayout.PREFERRED_SIZE)
-							.addGap(48)
-							.addComponent(lvlPrecoUnitario)
-							.addGap(4)
-							.addComponent(tfPrecoUnitario, GroupLayout.PREFERRED_SIZE, 151, GroupLayout.PREFERRED_SIZE)))
+							.addComponent(tfPrecoUnitario, GroupLayout.PREFERRED_SIZE, 151, GroupLayout.PREFERRED_SIZE)
+							.addGap(35)
+							.addComponent(lblQuantidadeComprada)
+							.addGap(10)
+							.addComponent(tfQuantidadeComprada, GroupLayout.PREFERRED_SIZE, 195, GroupLayout.PREFERRED_SIZE)))
 					.addGap(143)
 					.addComponent(painelFotoProduto, GroupLayout.PREFERRED_SIZE, 283, GroupLayout.PREFERRED_SIZE))
 				.addGroup(gl_abaDadosEstoque.createSequentialGroup()
@@ -737,10 +739,10 @@ public class FrmEntradaEstoque extends JFrame {
 					.addComponent(lblDataEntrada)
 					.addGap(12)
 					.addComponent(tfDataEntrada, GroupLayout.PREFERRED_SIZE, 236, GroupLayout.PREFERRED_SIZE)
-					.addGap(1)
-					.addComponent(lblQuantidadeComprada)
+					.addGap(10)
+					.addComponent(lblSubtotal)
 					.addGap(4)
-					.addComponent(tfQuantidadeComprada, GroupLayout.PREFERRED_SIZE, 150, GroupLayout.PREFERRED_SIZE)
+					.addComponent(tfSubTotal, GroupLayout.PREFERRED_SIZE, 214, GroupLayout.PREFERRED_SIZE)
 					.addGap(143)
 					.addComponent(btnAdicionar, GroupLayout.PREFERRED_SIZE, 283, GroupLayout.PREFERRED_SIZE))
 				.addGroup(gl_abaDadosEstoque.createSequentialGroup()
@@ -775,8 +777,8 @@ public class FrmEntradaEstoque extends JFrame {
 							.addComponent(lblMarca)
 							.addGap(24)
 							.addComponent(lblDataFabricacao)
-							.addGap(24)
-							.addComponent(lblSubtotal))
+							.addGap(29)
+							.addComponent(lvlPrecoUnitario))
 						.addGroup(gl_abaDadosEstoque.createSequentialGroup()
 							.addGap(10)
 							.addComponent(tfCodigoDeBarras, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
@@ -802,15 +804,15 @@ public class FrmEntradaEstoque extends JFrame {
 									.addGap(3)
 									.addComponent(lblValidade))
 								.addComponent(tfValidade, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-							.addGap(18)
+							.addGap(23)
 							.addGroup(gl_abaDadosEstoque.createParallelGroup(Alignment.LEADING)
-								.addComponent(tfSubTotal, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addComponent(tfPrecoUnitario, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 								.addGroup(gl_abaDadosEstoque.createSequentialGroup()
 									.addGap(3)
-									.addComponent(lvlPrecoUnitario))
-								.addComponent(tfPrecoUnitario, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+									.addComponent(lblQuantidadeComprada))
+								.addComponent(tfQuantidadeComprada, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
 						.addComponent(painelFotoProduto, GroupLayout.PREFERRED_SIZE, 279, GroupLayout.PREFERRED_SIZE))
-					.addGap(14)
+					.addGap(12)
 					.addGroup(gl_abaDadosEstoque.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_abaDadosEstoque.createSequentialGroup()
 							.addGap(7)
@@ -820,10 +822,10 @@ public class FrmEntradaEstoque extends JFrame {
 							.addComponent(tfDataEntrada, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 						.addGroup(gl_abaDadosEstoque.createSequentialGroup()
 							.addGap(7)
-							.addComponent(lblQuantidadeComprada))
+							.addComponent(lblSubtotal))
 						.addGroup(gl_abaDadosEstoque.createSequentialGroup()
 							.addGap(4)
-							.addComponent(tfQuantidadeComprada, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+							.addComponent(tfSubTotal, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 						.addComponent(btnAdicionar))
 					.addGap(4)
 					.addGroup(gl_abaDadosEstoque.createParallelGroup(Alignment.LEADING)

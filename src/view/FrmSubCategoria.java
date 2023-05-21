@@ -188,6 +188,20 @@ public class FrmSubCategoria extends JFrame {
 		limparTela(abaDadosSubCategorias);
 	}
 	
+	public void consultarCategorias() {
+
+		//listando  categorias dentro do combobox
+		CategoriaController categoriaController = new CategoriaController();
+		List<Categoria> listaDeCategoria = categoriaController.consultarCategorias();
+		
+		//removendo para limpar todos os campos 
+	//	cbCategoria.removeAllItems();
+		
+		//colocando dentro do combobox todos os dados
+		for(Categoria cat : listaDeCategoria) {
+			cbCategoria.addItem(cat);
+		}	
+	}
 	
 	
 	/**
@@ -282,17 +296,8 @@ public class FrmSubCategoria extends JFrame {
 		cbCategoria = new JComboBox<Categoria>();
 		cbCategoria.addAncestorListener(new AncestorListener() {
 			public void ancestorAdded(AncestorEvent event) {
-				//listando  categorias dentro do combobox
-				CategoriaController categoriaController = new CategoriaController();
-				List<Categoria> listaDeCategoria = categoriaController.consultarCategorias();
-				
-				//removendo para limpar todos os campos 
-				cbCategoria.removeAll();
-				
-				//colocando dentro do combobox todos os dados
-				for(Categoria categoria : listaDeCategoria) {
-					cbCategoria.addItem(categoria);
-				}	
+			//	----------------------------------------------------------------------------------------------------------------------------------------------------------------
+				consultarCategorias();
 			}
 			public void ancestorMoved(AncestorEvent event) {
 			}

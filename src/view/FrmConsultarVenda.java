@@ -11,7 +11,6 @@ import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.List;
-
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.ImageIcon;
@@ -75,7 +74,16 @@ public class FrmConsultarVenda extends JFrame {
 		LimparCampos limpar = new LimparCampos();
 		limpar.Limpar(tela);
 	}
-	
+
+	/**
+	 * Limpar tela.
+	 *
+	 * @param tela the tela
+	 */
+	private void limparTabela(JTable table) {
+		LimparCampos limpar = new LimparCampos();
+		limpar.resetarTabela(table);
+	}
 
 	/**
 	 * Consultar venda por nome.
@@ -113,47 +121,42 @@ public class FrmConsultarVenda extends JFrame {
 			dadosTabela.setColumnCount(6);
 			dadosTabela.addRow(new Object[] { "Código", "Cliente", "Funcionario", "Forma de Pagamento", "Data da Venda",
 					"Valor venda" });
-			 
+			String aux;
 
 			for (Venda venda : lista) {
-				dadosTabela.addRow(new Object[] { 
-						venda.getCodigo(), 
-						venda.getCliente().getNome(),
-						venda.getFuncionario().getNome(),
-						venda.getFormaPagamento().getCodigo(),
-						venda.getDataVenda(),
-						venda.getValorVenda()
-						});
+
+				if (venda.getCliente().getNome() == null) {
+					aux = "Cliente não informado";
+				} else {
+					aux = venda.getCliente().getNome();
+				}
+				
+				dadosTabela.addRow(new Object[] { venda.getCodigo(), aux, venda.getFuncionario().getNome(),
+						venda.getFormaPagamento().getCodigo(), venda.getDataVenda().replace("-", "/"), venda.getValorVenda()});
 			}
 		} catch (Exception erro) {
 			JOptionPane.showMessageDialog(null, "Ops aconteceu o erro: " + erro);
 		}
 	}
-	
+
 	/**
 	 * Metodo utilizado para listar todas as vendas e adiciona-los na tabela.
 	 */
 	public void consultarItens() {
 		try {
-			ItemVendaController itemVendaController = new ItemVendaController();			
+			ItemVendaController itemVendaController = new ItemVendaController();
 			List<ItemVenda> lista = itemVendaController.consultarItensVendaPorCodigo(tfCodigo.getText());
 			DefaultTableModel dadosTabela = (DefaultTableModel) tabelaItens.getModel();
 			dadosTabela.setNumRows(0);
 			dadosTabela.setColumnCount(6);
-			dadosTabela.addRow(new Object[] {"Código de Barras","Descrição","Quantidade Produtos","Tipo","Preço Unit.","Subtotal"});
-			
-		
+			dadosTabela.addRow(new Object[] { "Código de Barras", "Descrição", "Quantidade Produtos", "Tipo",
+					"Preço Unit.", "Subtotal" });
 
 			for (ItemVenda item : lista) {
-				dadosTabela.addRow(new Object[] { 
-											
-						item.getProduto().getCodigoDeBarras(),
-						item.getProduto().getDescricao(),
-						item.getQuantidade(),
-						item.getProduto().getUnidadeDeMedida(),
-						item.getPrecoUnitario(),
-						item.getSubtotal()
-						});
+				dadosTabela.addRow(new Object[] {
+
+						item.getProduto().getCodigoDeBarras(), item.getProduto().getDescricao(), item.getQuantidade(),
+						item.getProduto().getUnidadeDeMedida(), item.getPrecoUnitario(), item.getSubtotal() });
 			}
 		} catch (Exception erro) {
 			JOptionPane.showMessageDialog(null, "Ops aconteceu o erro: " + erro);
@@ -161,32 +164,28 @@ public class FrmConsultarVenda extends JFrame {
 		}
 	}
 
-	
 	/*
-	 * Metodo para preencher os campos da tela com os dados da venda
-	 * selecionada na tabela.
+	 * Metodo para preencher os campos da tela com os dados da venda selecionada na
+	 * tabela.
 	 */
 	private void preencherDadosVendas() {
 		abaPrincipal.setSelectedIndex(1);
 
 		tfCodigo.setText(tabelaVendas.getValueAt(tabelaVendas.getSelectedRow(), 0).toString());
-		
-		
-		try{
+
+		try {
 			tfCliente.setText(tabelaVendas.getValueAt(tabelaVendas.getSelectedRow(), 1).toString());
-		}catch (NullPointerException e) {
+		} catch (NullPointerException e) {
 			tfCliente.setText("Não Informado");
 		}
-		
-		
+
 		tfFuncionario.setText(tabelaVendas.getValueAt(tabelaVendas.getSelectedRow(), 2).toString());
 		tfCodPagamento.setText(tabelaVendas.getValueAt(tabelaVendas.getSelectedRow(), 3).toString());
 		tfDataVenda.setText(tabelaVendas.getValueAt(tabelaVendas.getSelectedRow(), 4).toString());
 		tfValorVenda.setText(tabelaVendas.getValueAt(tabelaVendas.getSelectedRow(), 5).toString());
-		
+
 	}
-	
-	
+
 	/**
 	 * Launch the application.
 	 *
@@ -204,7 +203,6 @@ public class FrmConsultarVenda extends JFrame {
 			}
 		});
 	}
-	
 
 	/**
 	 * Create the frame.
@@ -289,13 +287,13 @@ public class FrmConsultarVenda extends JFrame {
 
 		JPanel espacoEsquerdo = new JPanel();
 		espacoEsquerdo.setBackground(new Color(202, 240, 248));
-		panelInferior_2.add(espacoEsquerdo); 
+		panelInferior_2.add(espacoEsquerdo);
 		panelInferior.setLayout(gl_panelInferior);
 
 		JLayeredPane abaConsultarVenda = new JLayeredPane();
 		abaConsultarVenda.setBackground(new Color(202, 240, 248));
 		abaPrincipal.addTab("Consulta de Vendas", null, abaConsultarVenda, null);
-	
+
 		JLabel lblNomePesquisa = new JLabel("Data:");
 		lblNomePesquisa.setFont(new Font("Arial", Font.BOLD, 14));
 		lblNomePesquisa.setBounds(10, 35, 48, 17);
@@ -310,8 +308,7 @@ public class FrmConsultarVenda extends JFrame {
 		btnPesquisar.setFont(new Font("Tahoma", Font.BOLD, 14));
 		btnPesquisar.setBounds(460, 30, 137, 25);
 		abaConsultarVenda.add(btnPesquisar);
-		
-		
+
 		tfCodigo = new JTextField();
 
 		btnPesquisar.addActionListener(new ActionListener() {
@@ -325,7 +322,8 @@ public class FrmConsultarVenda extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				preencherDadosVendas();
-				limparCampos.resetarTabela(tabelaItens);
+				// limparCampos.resetarTabela(tabelaItens);
+				limparTabela(tabelaItens);
 			}
 
 		});
@@ -397,60 +395,56 @@ public class FrmConsultarVenda extends JFrame {
 		espacoDireito.setBackground(new Color(202, 240, 248));
 		panelInferior_2.add(espacoDireito);
 		GroupLayout gl_abaConsultarItens = new GroupLayout(abaConsultarItens);
-		gl_abaConsultarItens.setHorizontalGroup(
-			gl_abaConsultarItens.createParallelGroup(Alignment.LEADING)
-				.addComponent(abaDadosItens, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-		);
-		gl_abaConsultarItens.setVerticalGroup(
-			gl_abaConsultarItens.createParallelGroup(Alignment.LEADING)
+		gl_abaConsultarItens.setHorizontalGroup(gl_abaConsultarItens.createParallelGroup(Alignment.LEADING)
+				.addComponent(abaDadosItens, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE));
+		gl_abaConsultarItens.setVerticalGroup(gl_abaConsultarItens.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_abaConsultarItens.createSequentialGroup()
-					.addComponent(abaDadosItens, GroupLayout.PREFERRED_SIZE, 530, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-		);
-		
+						.addComponent(abaDadosItens, GroupLayout.PREFERRED_SIZE, 530, GroupLayout.PREFERRED_SIZE)
+						.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
+
 		JLabel lblNewLabel = new JLabel("Código:");
 		lblNewLabel.setFont(new Font("Arial", Font.BOLD, 15));
-		
+
 		JLabel lblCliente = new JLabel("Cliente:");
 		lblCliente.setFont(new Font("Arial", Font.BOLD, 15));
-		
+
 		JLabel lblFuncionrio = new JLabel("Funcionário:");
 		lblFuncionrio.setFont(new Font("Arial", Font.BOLD, 15));
-		
+
 		tfCodigo.setFont(new Font("Arial", Font.BOLD, 15));
 		tfCodigo.setColumns(10);
-		
+
 		tfCliente = new JTextField();
 		tfCliente.setFont(new Font("Arial", Font.BOLD, 15));
 		tfCliente.setColumns(10);
-		
+
 		tfFuncionario = new JTextField();
 		tfFuncionario.setFont(new Font("Arial", Font.BOLD, 15));
 		tfFuncionario.setColumns(10);
-		
+
 		JLabel lblFormaPagamento = new JLabel("Código Pagamento:");
 		lblFormaPagamento.setFont(new Font("Arial", Font.BOLD, 15));
-		
+
 		tfCodPagamento = new JTextField();
 		tfCodPagamento.setFont(new Font("Arial", Font.BOLD, 15));
 		tfCodPagamento.setColumns(10);
-		
+
 		JLabel lblDataVenda = new JLabel("Data Venda:");
 		lblDataVenda.setFont(new Font("Arial", Font.BOLD, 15));
-		
+
 		tfDataVenda = new JTextField();
 		tfDataVenda.setFont(new Font("Arial", Font.BOLD, 15));
 		tfDataVenda.setColumns(10);
-		
+
 		JLabel lblValorVenda = new JLabel("Valor Venda:");
 		lblValorVenda.setFont(new Font("Arial", Font.BOLD, 15));
-		
+
 		tfValorVenda = new JTextField();
 		tfValorVenda.setFont(new Font("Arial", Font.BOLD, 15));
 		tfValorVenda.setColumns(10);
-		
+
 		tabelaItens = new JTable();
-		
+
 		JButton btnConsultar = new JButton("Consultar");
 		btnConsultar.addMouseListener(new MouseAdapter() {
 			@Override
@@ -460,64 +454,53 @@ public class FrmConsultarVenda extends JFrame {
 		});
 		btnConsultar.setFont(new Font("Arial", Font.BOLD, 15));
 		GroupLayout gl_abaDadosItens = new GroupLayout(abaDadosItens);
-		gl_abaDadosItens.setHorizontalGroup(
-			gl_abaDadosItens.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_abaDadosItens.createSequentialGroup()
-					.addContainerGap()
-					.addGroup(gl_abaDadosItens.createParallelGroup(Alignment.LEADING)
+		gl_abaDadosItens.setHorizontalGroup(gl_abaDadosItens.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_abaDadosItens.createSequentialGroup().addContainerGap().addGroup(gl_abaDadosItens
+						.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_abaDadosItens.createSequentialGroup()
-							.addComponent(lblCliente, GroupLayout.PREFERRED_SIZE, 55, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(tfCliente, GroupLayout.PREFERRED_SIZE, 169, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addComponent(lblFuncionrio)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(tfFuncionario, GroupLayout.PREFERRED_SIZE, 152, GroupLayout.PREFERRED_SIZE))
-						.addGroup(gl_abaDadosItens.createSequentialGroup()
-							.addComponent(lblNewLabel)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(tfCodigo, GroupLayout.PREFERRED_SIZE, 228, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(btnConsultar, GroupLayout.PREFERRED_SIZE, 140, GroupLayout.PREFERRED_SIZE)))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(lblFormaPagamento)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(tfCodPagamento, GroupLayout.PREFERRED_SIZE, 167, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(lblDataVenda)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(tfDataVenda, GroupLayout.DEFAULT_SIZE, 226, Short.MAX_VALUE)
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addComponent(lblValorVenda)
-					.addGap(4)
-					.addComponent(tfValorVenda, GroupLayout.PREFERRED_SIZE, 126, GroupLayout.PREFERRED_SIZE)
-					.addGap(27))
-				.addComponent(tabelaItens, GroupLayout.DEFAULT_SIZE, 1378, Short.MAX_VALUE)
-		);
-		gl_abaDadosItens.setVerticalGroup(
-			gl_abaDadosItens.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_abaDadosItens.createSequentialGroup()
-					.addGap(19)
-					.addGroup(gl_abaDadosItens.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblNewLabel)
-						.addComponent(tfCodigo, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(btnConsultar))
-					.addGap(36)
-					.addGroup(gl_abaDadosItens.createParallelGroup(Alignment.BASELINE)
-						.addComponent(tfCliente, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblFuncionrio, GroupLayout.PREFERRED_SIZE, 18, GroupLayout.PREFERRED_SIZE)
-						.addComponent(tfFuncionario, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)
-						.addComponent(tfDataVenda, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblValorVenda, GroupLayout.PREFERRED_SIZE, 18, GroupLayout.PREFERRED_SIZE)
-						.addComponent(tfValorVenda, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblFormaPagamento, GroupLayout.PREFERRED_SIZE, 18, GroupLayout.PREFERRED_SIZE)
-						.addComponent(tfCodPagamento, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblCliente, GroupLayout.PREFERRED_SIZE, 18, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblDataVenda, GroupLayout.PREFERRED_SIZE, 18, GroupLayout.PREFERRED_SIZE))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(tabelaItens, GroupLayout.DEFAULT_SIZE, 421, Short.MAX_VALUE)
-					.addGap(0))
-		);
+								.addComponent(lblCliente, GroupLayout.PREFERRED_SIZE, 55, GroupLayout.PREFERRED_SIZE)
+								.addPreferredGap(ComponentPlacement.RELATED)
+								.addComponent(tfCliente, GroupLayout.PREFERRED_SIZE, 169, GroupLayout.PREFERRED_SIZE)
+								.addPreferredGap(ComponentPlacement.UNRELATED).addComponent(lblFuncionrio)
+								.addPreferredGap(ComponentPlacement.RELATED).addComponent(tfFuncionario,
+										GroupLayout.PREFERRED_SIZE, 152, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_abaDadosItens.createSequentialGroup().addComponent(lblNewLabel)
+								.addPreferredGap(ComponentPlacement.RELATED)
+								.addComponent(tfCodigo, GroupLayout.PREFERRED_SIZE, 228, GroupLayout.PREFERRED_SIZE)
+								.addPreferredGap(ComponentPlacement.RELATED).addComponent(btnConsultar,
+										GroupLayout.PREFERRED_SIZE, 140, GroupLayout.PREFERRED_SIZE)))
+						.addPreferredGap(ComponentPlacement.RELATED).addComponent(lblFormaPagamento)
+						.addPreferredGap(ComponentPlacement.RELATED)
+						.addComponent(tfCodPagamento, GroupLayout.PREFERRED_SIZE, 167, GroupLayout.PREFERRED_SIZE)
+						.addPreferredGap(ComponentPlacement.RELATED).addComponent(lblDataVenda)
+						.addPreferredGap(ComponentPlacement.RELATED)
+						.addComponent(tfDataVenda, GroupLayout.DEFAULT_SIZE, 226, Short.MAX_VALUE)
+						.addPreferredGap(ComponentPlacement.UNRELATED).addComponent(lblValorVenda).addGap(4)
+						.addComponent(tfValorVenda, GroupLayout.PREFERRED_SIZE, 126, GroupLayout.PREFERRED_SIZE)
+						.addGap(27))
+				.addComponent(tabelaItens, GroupLayout.DEFAULT_SIZE, 1378, Short.MAX_VALUE));
+		gl_abaDadosItens.setVerticalGroup(gl_abaDadosItens.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_abaDadosItens.createSequentialGroup().addGap(19)
+						.addGroup(gl_abaDadosItens.createParallelGroup(Alignment.BASELINE).addComponent(lblNewLabel)
+								.addComponent(tfCodigo, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+										GroupLayout.PREFERRED_SIZE)
+								.addComponent(btnConsultar))
+						.addGap(36)
+						.addGroup(gl_abaDadosItens.createParallelGroup(Alignment.BASELINE)
+								.addComponent(tfCliente, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)
+								.addComponent(lblFuncionrio, GroupLayout.PREFERRED_SIZE, 18, GroupLayout.PREFERRED_SIZE)
+								.addComponent(tfFuncionario, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)
+								.addComponent(tfDataVenda, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)
+								.addComponent(lblValorVenda, GroupLayout.PREFERRED_SIZE, 18, GroupLayout.PREFERRED_SIZE)
+								.addComponent(tfValorVenda, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)
+								.addComponent(lblFormaPagamento, GroupLayout.PREFERRED_SIZE, 18,
+										GroupLayout.PREFERRED_SIZE)
+								.addComponent(tfCodPagamento, GroupLayout.PREFERRED_SIZE, 24,
+										GroupLayout.PREFERRED_SIZE)
+								.addComponent(lblCliente, GroupLayout.PREFERRED_SIZE, 18, GroupLayout.PREFERRED_SIZE)
+								.addComponent(lblDataVenda, GroupLayout.PREFERRED_SIZE, 18, GroupLayout.PREFERRED_SIZE))
+						.addPreferredGap(ComponentPlacement.RELATED)
+						.addComponent(tabelaItens, GroupLayout.DEFAULT_SIZE, 421, Short.MAX_VALUE).addGap(0)));
 		abaDadosItens.setLayout(gl_abaDadosItens);
 		abaConsultarItens.setLayout(gl_abaConsultarItens);
 		getContentPane().setLayout(groupLayout);

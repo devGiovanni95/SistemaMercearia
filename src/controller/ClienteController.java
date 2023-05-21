@@ -31,8 +31,8 @@ public class ClienteController implements InterfaceCliente {
 		if(dataBase.getConnection()) {
 			try {
 				
-				String sql = "insert into tb_cliente(nome,email,cpf,rg,endereco,telefone,celular,numero,cep,dataNascimento,bairro,cidade,uf,complemento,limite) "
-						+ " values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+				String sql = "insert into tb_cliente(nome,email,cpf,rg,endereco,telefone,celular,numero,cep,data_nascimento,bairro,cidade,uf,complemento,limite) "
+						+ " values(?,?,?,?,?,?,?,?,?,CONVERT(datetime, ? , 103),?,?,?,?,?)";
 				
 				dataBase.preparedStatement = dataBase.con.prepareStatement(sql);
 				dataBase.preparedStatement.setString(1, cliente.getNome());
@@ -152,7 +152,9 @@ public class ClienteController implements InterfaceCliente {
 				
 				List<Cliente> lista = new ArrayList<>();
 				
-				String sql = "select * from tb_cliente";
+				//String sql = "select * from tb_cliente";
+				String sql = "select nome,email,cpf,rg,endereco,telefone,celular,numero,cep,FORMAT(data_nascimento, 'dd/MM/yyyy')as data_nascimento,bairro,cidade,uf,complemento,limite"
+						+ " from tb_cliente";
 				dataBase.preparedStatement = dataBase.con.prepareStatement(sql);
 				dataBase.resultSet = dataBase.preparedStatement.executeQuery();
 				
@@ -206,7 +208,7 @@ public class ClienteController implements InterfaceCliente {
 		
 					List<Cliente> lista = new ArrayList<>();
 		
-					String sql = "select * from tb_cliente where nome like ?";
+					String sql = "select nome,email,cpf,rg,endereco,telefone,celular,numero,cep,FORMAT(data_nascimento, 'dd/MM/yyyy')as data_nascimento,bairro,cidade,uf,complemento,limite from tb_cliente where nome like ?";
 					dataBase.preparedStatement = dataBase.con.prepareStatement(sql);
 					dataBase.preparedStatement.setString(1,nome);			
 					dataBase.resultSet = dataBase.preparedStatement.executeQuery();
@@ -261,7 +263,7 @@ public class ClienteController implements InterfaceCliente {
 		
 					Cliente lista ;
 		
-					String sql = "select * from tb_cliente where cpf like ?";
+					String sql = "select nome,email,cpf,rg,endereco,telefone,celular,numero,cep,FORMAT(data_nascimento, 'dd/MM/yyyy')as data_nascimento,bairro,cidade,uf,complemento,limite from tb_cliente where cpf like ?";
 					dataBase.preparedStatement = dataBase.con.prepareStatement(sql);
 					dataBase.preparedStatement.setString(1,cpf);			
 					dataBase.resultSet = dataBase.preparedStatement.executeQuery();
