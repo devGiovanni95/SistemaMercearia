@@ -156,7 +156,7 @@ public class FrmFuncionario extends JFrame {
 	public void consultarFuncionarios() {
 		try {
 		FuncionarioController funcionarioController = new FuncionarioController();
-		List<Funcionario> lista = funcionarioController.ConsultarFuncionarios();
+		List<Funcionario> lista = funcionarioController.consultarFuncionarios();
 		DefaultTableModel dadosTabela = (DefaultTableModel) tabelaFuncionarios.getModel();
 		dadosTabela.setNumRows(0);
 		dadosTabela.setColumnCount(26);

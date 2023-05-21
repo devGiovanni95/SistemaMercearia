@@ -5,7 +5,9 @@ import java.awt.Component;
 import javax.swing.JComboBox;
 import javax.swing.JDesktopPane;
 import javax.swing.JPanel;
+import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -48,4 +50,9 @@ public class LimparCampos {
 			}
 		}
 	}
+	
+	public void resetarTabela(JTable tabela) {
+        DefaultTableModel model = (DefaultTableModel) tabela.getModel();
+        model.setRowCount(0); // Remove todas as linhas do modelo
+    }
 }

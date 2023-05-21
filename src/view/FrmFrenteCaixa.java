@@ -392,6 +392,7 @@ public class FrmFrenteCaixa extends JFrame{
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
 		LocalDateTime dataAtual = LocalDateTime.now();
 		String dataFormatada = dataAtual.format(formatter);
+		
 		aberturaEFechamentoCaixa.setCodigo(retornaUltimoCodigoDeAberto());
 		aberturaEFechamentoCaixa.setDataFechamento(dataFormatada);
 		aberturaEFechamentoCaixa.setSituacaoCaixa(false);		
@@ -483,7 +484,7 @@ public class FrmFrenteCaixa extends JFrame{
 
 			formaDePagamento.setVisible(true);
 			venda.setValorVenda(totalCompra);			
-			formaDePagamento.setPedido(venda);
+			formaDePagamento.setVenda(venda);
 			formaDePagamento.setFrenteCaixa(this);
 			formaDePagamento.setListaItensCarinho(dadosTabela);
 			this.dispose();

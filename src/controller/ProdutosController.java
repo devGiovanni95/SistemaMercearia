@@ -1,24 +1,21 @@
 package controller;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import model.Produto;
-import model.Categoria;
-import model.SubCategoria;
 
 import javax.swing.JOptionPane;
 
 import jdbc.ConnectionDataBase;
+import interfaces.InterfaceProduto;
+import model.Produto;
+import model.SubCategoria;
 
 // TODO: Auto-generated Javadoc
 /**
  * The Class ProdutosController.
  */
-public class ProdutosController {
+public class ProdutosController implements InterfaceProduto{
 
 	/** The sub categoria controller. */
 	private SubCategoriaController subCategoriaController;
@@ -87,8 +84,8 @@ public class ProdutosController {
 		if (dataBase.getConnection()) {
 			try {
 
-				String sql = "DELETE FROM produto WHERE id = ?";
-				dataBase.preparedStatement.setInt(1, produto.getCodigo());
+				String sql = "DELETE FROM produto WHERE codigo_barras = ?";
+				dataBase.preparedStatement.setString(1, produto.getCodigoDeBarras());
 				dataBase.preparedStatement.execute();
 
 				JOptionPane.showMessageDialog(null, "Produto excluído com sucesso");
@@ -111,24 +108,24 @@ public class ProdutosController {
 	public void alterarProduto(Produto produto) {
 		if (dataBase.getConnection()) {
 			try {
-				String sql = "UPDATE produto SET descricao = ?, codigo_barras = ?, marca = ?, cod_subcategoria = ?, unidade_medida = ?,"
-						+ " quantidade = ?, data_fabricacao = ?, data_validade = ?, lote = ?, ipi = ?, icms = ?, margem_lucro = ?, preco_custo = ?, preco_final = ? WHERE id = ?";
+				String sql = "UPDATE produto SET descricao = ?,  marca = ?, cod_subcategoria = ?, unidade_medida = ?,"
+						+ " quantidade = ?, data_fabricacao = ?, data_validade = ?, lote = ?, ipi = ?, icms = ?, margem_lucro = ?, preco_custo = ?, preco_final = ? WHERE codigo_barras = ?";
 
 				dataBase.preparedStatement.setString(1, produto.getDescricao());
-				dataBase.preparedStatement.setString(2, produto.getCodigoDeBarras());
-				dataBase.preparedStatement.setString(3, produto.getMarca());
-				dataBase.preparedStatement.setInt(4, produto.getSubCategoria().getCodigo());
-				dataBase.preparedStatement.setString(5, produto.getUnidadeDeMedida());
-				dataBase.preparedStatement.setDouble(6, produto.getQuantidade());
-				dataBase.preparedStatement.setDate(7, new java.sql.Date(produto.getDataFabricacao().getTime()));
-				dataBase.preparedStatement.setDate(8, new java.sql.Date(produto.getDataValidade().getTime()));
-				dataBase.preparedStatement.setString(9, produto.getLote());
-				dataBase.preparedStatement.setDouble(10, produto.getIpi());
-				dataBase.preparedStatement.setDouble(11, produto.getIcms());
-				dataBase.preparedStatement.setDouble(12, produto.getMargemLucro());
-				dataBase.preparedStatement.setDouble(13, produto.getPrecoCusto());
-				dataBase.preparedStatement.setDouble(14, produto.getPrecoFinal());
-				dataBase.preparedStatement.setInt(15, produto.getCodigo());
+				dataBase.preparedStatement.setString(2, produto.getMarca());
+				dataBase.preparedStatement.setInt(3, produto.getSubCategoria().getCodigo());
+				dataBase.preparedStatement.setString(4, produto.getUnidadeDeMedida());
+				dataBase.preparedStatement.setDouble(5, produto.getQuantidade());
+				dataBase.preparedStatement.setDate(6, new java.sql.Date(produto.getDataFabricacao().getTime()));
+				dataBase.preparedStatement.setDate(7, new java.sql.Date(produto.getDataValidade().getTime()));
+				dataBase.preparedStatement.setString(8, produto.getLote());
+				dataBase.preparedStatement.setDouble(9, produto.getIpi());
+				dataBase.preparedStatement.setDouble(10, produto.getIcms());
+				dataBase.preparedStatement.setDouble(11, produto.getMargemLucro());
+				dataBase.preparedStatement.setDouble(12, produto.getPrecoCusto());
+				dataBase.preparedStatement.setDouble(13, produto.getPrecoFinal());
+				//dataBase.preparedStatement.setInt(15, produto.getCodigo());
+				dataBase.preparedStatement.setString(14, produto.getCodigoDeBarras());
 
 				dataBase.preparedStatement.executeUpdate();
 
@@ -176,7 +173,7 @@ public class ProdutosController {
 					Produto produto = new Produto();
 					SubCategoria subCategoria = new SubCategoria();
 
-					produto.setCodigo(dataBase.resultSet.getInt("codigo"));
+					//produto.setCodigo(dataBase.resultSet.getInt("codigo"));
 					produto.setDescricao(dataBase.resultSet.getString("descricao"));
 					produto.setCodigoDeBarras(dataBase.resultSet.getString("codigo_barras"));
 					produto.setMarca(dataBase.resultSet.getString("marca"));
@@ -218,7 +215,7 @@ public class ProdutosController {
 	 * @param nome - parametro utilizado como base de pesquisa.
 	 * @return - retorna uma lista com os resultados encontrados.
 	 */
-	public List<Produto> consultarProdutoPorNome(String nome) {
+	public List<Produto> consultarProdutosPorNome(String nome) {
 		if (dataBase.getConnection()) {
 			try {
 				List<Produto> lista = new ArrayList<>();
@@ -229,7 +226,7 @@ public class ProdutosController {
 
 				while (dataBase.resultSet.next()) {
 					Produto produto = new Produto();
-					produto.setCodigo(dataBase.resultSet.getInt("codigo"));
+					//produto.setCodigo(dataBase.resultSet.getInt("codigo"));
 					produto.setDescricao(dataBase.resultSet.getString("descricao"));
 					produto.setCodigoDeBarras(dataBase.resultSet.getString("codigo_barras"));
 					produto.setMarca(dataBase.resultSet.getString("marca"));
@@ -266,39 +263,49 @@ public class ProdutosController {
 	 * @return the produto
 	 */
 	public Produto consultarProdutosPorCodigoBarras(String codigoDeBarras) {
+		Produto produto = new Produto();
+		boolean exibiuErro = false;
 			if(dataBase.getConnection()) {
 				try {
 			
-					String sql = "select codigo,descricao, codigo_barras,unidade_medida, quantidade, data_fabricacao,"
+					String sql = "select descricao, codigo_barras,unidade_medida, quantidade, data_fabricacao,"
 							+ " preco_final " + "from tb_produto where codigo_barras = ?";
 		
 					dataBase.preparedStatement = dataBase.con.prepareStatement(sql);
 					dataBase.preparedStatement.setString(1, codigoDeBarras);
 					dataBase.resultSet = dataBase.preparedStatement.executeQuery();
-					Produto produto = new Produto();
 					SubCategoria subCategoria = new SubCategoria();
 		
-					if (dataBase.resultSet.next()) {
+					if(dataBase.resultSet.next()) {
 		
-						produto.setCodigo(dataBase.resultSet.getInt("codigo"));
+						//produto.setCodigo(dataBase.resultSet.getInt("codigo"));
 						produto.setDescricao(dataBase.resultSet.getString("descricao"));
 						produto.setCodigoDeBarras(dataBase.resultSet.getString("codigo_barras"));
 						produto.setUnidadeDeMedida(dataBase.resultSet.getString("unidade_medida"));
 						produto.setQuantidade(dataBase.resultSet.getDouble("quantidade"));
 						produto.setPrecoFinal(dataBase.resultSet.getDouble("preco_final"));
 					}
-					return produto;
 		
-				} catch (SQLException e) {
+				}catch(SQLException e) {
+					if (!exibiuErro) {
 					JOptionPane.showMessageDialog(null, "Erro ao listar produtos: " + e);
-					return null;
-				}finally {
+					System.exit(0);
+					//return null;
+					exibiuErro = true;
+				}
+				}catch (NullPointerException e) {
+					// TODO: handle exception
+					dataBase.close();
+					System.exit(0);
+				}
+				finally {
 					dataBase.close();
 				}
 		}else {
 			JOptionPane.showMessageDialog(null, "Falha na conexão");
-			return null;
+			//return null;
 		}
+			return produto;
 	}
 
 }

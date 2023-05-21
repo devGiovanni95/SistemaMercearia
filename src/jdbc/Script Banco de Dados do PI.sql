@@ -38,9 +38,8 @@ CREATE TABLE tb_fornecedor (
 );
 
 create table tb_produto(
-   codigo int primary key identity(1,1),
+   codigo_barras varchar (13) primary key,
    descricao varchar (255) not null,
-   codigo_barras varchar (13) not null,
    marca varchar (30)not null,
    cod_subcategoria integer not null references tb_subcategoria,
    unidade_medida varchar(5) not null,
@@ -147,12 +146,25 @@ create table tb_item_venda(
 
   create table tb_item_venda(
    codigo int primary key identity(1,1),
-   codigo_produto int not null references tb_produto,
+   codigo_produto varchar (13) references tb_produto,
    codigo_venda varchar(20) not null references tb_venda,
    quantidade_produto decimal(6,3) not null,
    preco_unitario money not null,
    valor_total money not null
 );
+
+
+
+
+create table tb_produto_fornecedor(
+codigo int primary key identity,
+cod_produto varchar (13),
+cod_fornecedor char(20),
+data_entrada datetime,
+quantidade decimal(6,3),
+preco_unitario money,
+subtotal money
+)
 
 
 ----Scripts de inserts

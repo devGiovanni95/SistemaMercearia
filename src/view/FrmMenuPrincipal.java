@@ -153,7 +153,7 @@ public class FrmMenuPrincipal extends JFrame {
 	public Funcionario conferirUsuarioLogado() {
 		funcionario = new Funcionario();
 		FuncionarioController funcionarioController = new FuncionarioController();
-		return funcionario = funcionarioController.consultarFuncionariosPorCpf(cpfFuncionario);
+		return funcionario = (Funcionario) funcionarioController.consultarFuncionariosPorCpf(cpfFuncionario);
 	}
 
 	/**

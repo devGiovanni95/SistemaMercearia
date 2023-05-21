@@ -83,8 +83,16 @@ public class FormaPagamentoController  {
 				while(dataBase.resultSet.next()) {
 					FormaPagamento formaPagamento = new FormaPagamento();
 					
-				/*	formaPagamento.setCodigo(dataBase.resultSet.getInt("codigo"));
-					formaPagamento.setNome(dataBase.resultSet.getString("nome"));*/
+					formaPagamento.setCodigo(dataBase.resultSet.getString("codigo"));
+					formaPagamento.setDinheiro(dataBase.resultSet.getDouble("dinheiro"));
+					formaPagamento.setCartaoCredito(dataBase.resultSet.getDouble("cartao_credito"));
+					formaPagamento.setCartaoDebito(dataBase.resultSet.getDouble("cartao_debito"));
+					formaPagamento.setValeAlimentacao(dataBase.resultSet.getDouble("vale_alimentacao"));
+					formaPagamento.setValeRefeicao(dataBase.resultSet.getDouble("vale_refeicao"));
+					formaPagamento.setPix(dataBase.resultSet.getDouble("pix"));
+					formaPagamento.setTroco(dataBase.resultSet.getDouble("troco"));
+					formaPagamento.setTotalCompra(dataBase.resultSet.getDouble("total_compra"));
+					
 						
 					lista.add(formaPagamento);
 				}
@@ -93,6 +101,7 @@ public class FormaPagamentoController  {
 							
 			} catch (SQLException e) {
 				JOptionPane.showMessageDialog(null, "Erro: " + e );
+				dataBase.close();
 				return null;
 			}finally {
 				dataBase.close();
@@ -110,29 +119,35 @@ public class FormaPagamentoController  {
 	 * @param codigo the codigo
 	 * @return the forma pagamento
 	 */
-	public FormaPagamento consultarFormaDePagamentosCod(int codigo) {
+	public FormaPagamento consultarFormaDePagamentosPorCodigo(String codigo) {
 		if(dataBase.getConnection()) {
 			try {
 				
 							
 				String sql = "select * from tb_forma_pagamento where codigo = ?";
 				dataBase.preparedStatement = dataBase.con.prepareStatement(sql);
-				dataBase.preparedStatement.setInt(1,codigo);			
+				dataBase.preparedStatement.setString(1,codigo);			
 				dataBase.resultSet = dataBase.preparedStatement.executeQuery();
 				
 				FormaPagamento formaPagamento = new FormaPagamento();
 			
-					while(dataBase.resultSet.next()) {
-					
-					/*formaPagamento.setCodigo(dataBase.resultSet.getInt("codigo"));
-					formaPagamento.setNome(dataBase.resultSet.getString("nome"));	*/					
+					while(dataBase.resultSet.next()) {						
+						formaPagamento.setCodigo(dataBase.resultSet.getString("codigo"));
+						formaPagamento.setDinheiro(dataBase.resultSet.getDouble("dinheiro"));
+						formaPagamento.setCartaoCredito(dataBase.resultSet.getDouble("cartao_credito"));
+						formaPagamento.setCartaoDebito(dataBase.resultSet.getDouble("cartao_debito"));
+						formaPagamento.setValeAlimentacao(dataBase.resultSet.getDouble("vale_alimentacao"));
+						formaPagamento.setValeRefeicao(dataBase.resultSet.getDouble("vale_refeicao"));
+						formaPagamento.setPix(dataBase.resultSet.getDouble("pix"));
+						formaPagamento.setTroco(dataBase.resultSet.getDouble("troco"));
+						formaPagamento.setTotalCompra(dataBase.resultSet.getDouble("total_compra"));	
 					}
-			
-				
+					
 					return formaPagamento;
 							
 			} catch (SQLException e) {
 				JOptionPane.showMessageDialog(null, "Erro: " + e );
+				dataBase.close();
 				return null;
 			}finally {
 				dataBase.close();

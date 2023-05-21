@@ -7,7 +7,7 @@ import java.util.List;
 
 import javax.swing.JOptionPane;
 
-
+import interfaces.InterfaceCliente;
 import jdbc.ConnectionDataBase;
 import model.Cliente;
 
@@ -15,7 +15,7 @@ import model.Cliente;
 /**
  * The Class ClienteController.
  */
-public class ClienteController {
+public class ClienteController implements InterfaceCliente {
 
 	
 	/**
@@ -146,7 +146,7 @@ public class ClienteController {
 	 * A partir de um comando SQL.
 	 * @return - retona uma lista com todos de cliente. 
 	 */
-	public List<Cliente> consultarCliente() {
+	public List<Cliente> consultarClientes() {
 		if(dataBase.getConnection()) {
 			try {
 				
