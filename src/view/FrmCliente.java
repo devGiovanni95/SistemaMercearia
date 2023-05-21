@@ -235,7 +235,7 @@ public class FrmCliente extends JFrame {
 		tfCelular.setText(tabelaClientes.getValueAt(tabelaClientes.getSelectedRow(),6).toString());
 		tfNumero.setText(tabelaClientes.getValueAt(tabelaClientes.getSelectedRow(),7).toString());
 		tfCep.setText(tabelaClientes.getValueAt(tabelaClientes.getSelectedRow(),8).toString());
-		tfDataNascimento.setText(tabelaClientes.getValueAt(tabelaClientes.getSelectedRow(),9).toString());
+		tfDataNascimento.setText(tabelaClientes.getValueAt(tabelaClientes.getSelectedRow(),9).toString().replace("-", ""));
 		tfBairro.setText(tabelaClientes.getValueAt(tabelaClientes.getSelectedRow(),10).toString());
 		tfCidade.setText(tabelaClientes.getValueAt(tabelaClientes.getSelectedRow(),11).toString());
 		cbUf.setSelectedItem(tabelaClientes.getValueAt(tabelaClientes.getSelectedRow(),12).toString());

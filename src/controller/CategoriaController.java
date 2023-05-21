@@ -120,10 +120,10 @@ public class CategoriaController {
 	 * @return - retona uma lista com todas as categorias.
 	 */
 	public List<Categoria> consultarCategorias() {
+		List<Categoria> lista = new ArrayList<>();
 		if (dataBase.getConnection()) {
 			try {
 
-				List<Categoria> lista = new ArrayList<>();
 
 				String sql = "select * from tb_categoria";
 				dataBase.preparedStatement = dataBase.con.prepareStatement(sql);
@@ -137,20 +137,21 @@ public class CategoriaController {
 					lista.add(categoria);
 				}
 
-				return lista;
 
 			} catch (SQLException e) {
 				JOptionPane.showMessageDialog(null, "Erro: " + e);
-				return null;
+				//return null;
 			} finally {
 				dataBase.close();
 			}
 		} else {
 			JOptionPane.showMessageDialog(null, "Falha na conexão");
 		}
-		return null;
-	}
 
+		return lista;
+	}
+	
+	
 	/**
 	 * Método que cria um ArrayList do tipo categoria para listar as categoria do
 	 * banco de dados que corresponde ao nome digitado. A partir de um comando SQL.

@@ -84,7 +84,7 @@ public class ProdutosController implements InterfaceProduto{
 		if (dataBase.getConnection()) {
 			try {
 
-				String sql = "DELETE FROM produto WHERE codigo_barras = ?";
+				String sql = "DELETE FROM tb_produto WHERE codigo_barras = ?";
 				dataBase.preparedStatement.setString(1, produto.getCodigoDeBarras());
 				dataBase.preparedStatement.execute();
 
@@ -108,7 +108,7 @@ public class ProdutosController implements InterfaceProduto{
 	public void alterarProduto(Produto produto) {
 		if (dataBase.getConnection()) {
 			try {
-				String sql = "UPDATE produto SET descricao = ?,  marca = ?, cod_subcategoria = ?, unidade_medida = ?,"
+				String sql = "UPDATE tb_produto SET descricao = ?,  marca = ?, cod_subcategoria = ?, unidade_medida = ?,"
 						+ " quantidade = ?, data_fabricacao = ?, data_validade = ?, lote = ?, ipi = ?, icms = ?, margem_lucro = ?, preco_custo = ?, preco_final = ? WHERE codigo_barras = ?";
 
 				dataBase.preparedStatement.setString(1, produto.getDescricao());
@@ -162,7 +162,7 @@ public class ProdutosController implements InterfaceProduto{
 						+ " p.data_fabricacao, p.data_validade, p.lote, p.ipi, p.icms, p.margem_lucro, p.preco_custo, p.preco_final from tb_produto"
 						+ " as p inner join tb_subcategoria as sc on (p.cod_subcategoria = sc.codigo)";*/
 				
-				String sql ="select codigo, descricao, codigo_barras, marca, cod_subcategoria, unidade_medida, quantidade,"
+				String sql ="select descricao, codigo_barras, marca, cod_subcategoria, unidade_medida, quantidade,"
 						+ " data_fabricacao, data_validade, lote, ipi, icms, margem_lucro, preco_custo, preco_final from tb_produto";
 
 				dataBase.preparedStatement = dataBase.con.prepareStatement(sql);
@@ -219,7 +219,7 @@ public class ProdutosController implements InterfaceProduto{
 		if (dataBase.getConnection()) {
 			try {
 				List<Produto> lista = new ArrayList<>();
-				String sql = "SELECT * FROM produto WHERE descricao LIKE ?";
+				String sql = "SELECT * FROM tb_produto WHERE descricao LIKE ?";
 				dataBase.preparedStatement = dataBase.con.prepareStatement(sql);
 				dataBase.preparedStatement.setString(1, "%" + nome + "%");
 				dataBase.resultSet = dataBase.preparedStatement.executeQuery();
@@ -278,7 +278,7 @@ public class ProdutosController implements InterfaceProduto{
 		
 					if(dataBase.resultSet.next()) {
 		
-						//produto.setCodigo(dataBase.resultSet.getInt("codigo"));
+					
 						produto.setDescricao(dataBase.resultSet.getString("descricao"));
 						produto.setCodigoDeBarras(dataBase.resultSet.getString("codigo_barras"));
 						produto.setUnidadeDeMedida(dataBase.resultSet.getString("unidade_medida"));
@@ -289,7 +289,7 @@ public class ProdutosController implements InterfaceProduto{
 				}catch(SQLException e) {
 					if (!exibiuErro) {
 					JOptionPane.showMessageDialog(null, "Erro ao listar produtos: " + e);
-					System.exit(0);
+					System.exit(1);
 					//return null;
 					exibiuErro = true;
 				}
@@ -306,6 +306,32 @@ public class ProdutosController implements InterfaceProduto{
 			//return null;
 		}
 			return produto;
+	}
+	
+	
+	
+	
+	public void alterarQuantidade(Produto produto) {
+		if (dataBase.getConnection()) {
+			try {
+				String sql = "UPDATE tb_produto SET quantidade = ? WHERE codigo_barras = ?";
+
+				dataBase.preparedStatement.setDouble(1, produto.getQuantidade());
+				dataBase.preparedStatement.setString(2, produto.getCodigoDeBarras());
+
+				dataBase.preparedStatement.executeUpdate();
+
+				JOptionPane.showMessageDialog(null, "Produto alterado com sucesso");
+
+			} catch (SQLException | NumberFormatException e) {
+				JOptionPane.showMessageDialog(null, "Erro: " + e);
+			}finally {
+				dataBase.close();
+			}
+
+		} else {
+			JOptionPane.showMessageDialog(null, "Falha na conexão");
+		}
 	}
 
 }

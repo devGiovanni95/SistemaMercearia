@@ -184,8 +184,12 @@ public class FuncionarioController implements InterfaceFuncionario {
 			try {
 	
 				List<Funcionario> lista = new ArrayList<>();
+				
+				
 	
-				String sql = "select * from tb_funcionario";
+				String sql = "select nome,email,cpf,rg,endereco,telefone,celular,numero,cep,FORMAT(data_nascimento, 'dd/MM/yyyy')as data_nascimento,bairro,cidade,uf,complemento,"
+						+ "limite, senha , cargo , nivel_acesso , pis_pasep , salario , carteira_trabalho , estado_civil , jornada_trabalho ,FORMAT(admissao, 'dd/MM/yyyy')as admissao ,"
+						+ " FORMAT(demissao, 'dd/MM/yyyy')as demissao, ativo from tb_funcionario";
 				
 				dataBase.preparedStatement = dataBase.con.prepareStatement(sql);
 				dataBase.resultSet = dataBase.preparedStatement.executeQuery();
@@ -246,7 +250,9 @@ public class FuncionarioController implements InterfaceFuncionario {
 	public Funcionario consultarFuncionariosPorCpf(String cpf) {
 	    if (dataBase.getConnection()) {
 	        try {
-	            String sql = "SELECT * FROM tb_funcionario WHERE cpf = ?";
+	            String sql = "select nome,email,cpf,rg,endereco,telefone,celular,numero,cep,FORMAT(data_nascimento, 'dd/MM/yyyy')as data_nascimento,bairro,cidade,uf,complemento,"
+	            		+ "limite, senha , cargo , nivel_acesso , pis_pasep , salario , carteira_trabalho , estado_civil , jornada_trabalho , admissao ,"
+	            		+ "demissao, ativo from tb_funcionario WHERE cpf = ?";
 	            dataBase.preparedStatement = dataBase.con.prepareStatement(sql);
 	            dataBase.preparedStatement.setString(1, cpf);
 	            dataBase.resultSet = dataBase.preparedStatement.executeQuery();

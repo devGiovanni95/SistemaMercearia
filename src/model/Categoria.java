@@ -24,7 +24,7 @@ public class Categoria {
 	//para mostrar somente o nome da categoria na Tela de subCategoria
 	@Override
 	public String toString() {
-		return nomeCategoria ;
+		return getNomeCategoria() ;
 	}
 	
 	/**
@@ -80,6 +80,7 @@ public class Categoria {
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
 	}
+	
 	
 	
 	

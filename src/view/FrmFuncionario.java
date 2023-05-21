@@ -109,7 +109,7 @@ public class FrmFuncionario extends JFrame {
 	private JTextField tfCarteiraTrabalho;
 	
 	/** The cb estado civil. */
-	private JComboBox<String> cbEstadoCivil;
+	private JComboBox<String> cbEstadoCivil ;
 	
 	/** The tf jornada trabalho. */
 	private JTextField tfJornadaTrabalho;
@@ -273,7 +273,7 @@ public class FrmFuncionario extends JFrame {
 		funcionario.setUf(cbUf.getSelectedItem().toString());
 		funcionario.setComplemento(tfComplemento.getText());
 		funcionario.setLimite(Double.parseDouble(tfLimite.getText()));		
-		funcionario.setCodigo(tfCpf.getText());				
+		//funcionario.setCodigo(tfCpf.getText());				
 		funcionario.setSenha(tfSenha.getText());
 		funcionario.setCargo(tfCargo.getText());
 		funcionario.setNivelAcesso(cbNivelAcesso.getSelectedItem().toString());
@@ -526,6 +526,7 @@ public class FrmFuncionario extends JFrame {
 				"PB", "PR", "PE", "PI", "RJ", "RN", "RS", "RO", "RR", "SC", "SP", "SE", "TO" }));
 		cbUf.setFont(new Font("Arial", Font.BOLD, 14));
 		
+		
 		JLabel lblUf = new JLabel("UF:");
 		lblUf.setFont(new Font("Arial", Font.BOLD, 14));
 		
@@ -596,9 +597,9 @@ public class FrmFuncionario extends JFrame {
 				JLabel lblCtps_1 = new JLabel("Estado Civil:");
 				lblCtps_1.setFont(new Font("Arial", Font.BOLD, 14));
 				
-				JComboBox<String> cbEstadoCivil_1 = new JComboBox<String>();
-				cbEstadoCivil_1.setFont(new Font("Arial", Font.BOLD, 14));
-				cbEstadoCivil_1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] {"","Solteiro(a)","Casado(a)","Divorciado(a)"}));
+				JComboBox<String> cbEstadoCivil = new JComboBox<String>();
+				cbEstadoCivil.setFont(new Font("Arial", Font.BOLD, 14));
+				cbEstadoCivil.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] {"","Solteiro(a)","Casado(a)","Divorciado(a)"}));
 				
 				JLabel lblJornada = new JLabel("Jornada:");
 				lblJornada.setFont(new Font("Arial", Font.BOLD, 14));
@@ -710,7 +711,7 @@ public class FrmFuncionario extends JFrame {
 									.addGap(46)
 									.addComponent(lblCtps_1)
 									.addGap(4)
-									.addComponent(cbEstadoCivil_1, GroupLayout.PREFERRED_SIZE, 199, GroupLayout.PREFERRED_SIZE)
+									.addComponent(cbEstadoCivil, GroupLayout.PREFERRED_SIZE, 199, GroupLayout.PREFERRED_SIZE)
 									.addGap(10)
 									.addComponent(lblJornada)
 									.addGap(4)
@@ -896,7 +897,7 @@ public class FrmFuncionario extends JFrame {
 								.addGroup(gl_abaDadosPessoais.createSequentialGroup()
 									.addGap(1)
 									.addComponent(lblCtps_1))
-								.addComponent(cbEstadoCivil_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addComponent(cbEstadoCivil, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 								.addGroup(gl_abaDadosPessoais.createSequentialGroup()
 									.addGap(1)
 									.addComponent(lblJornada))
