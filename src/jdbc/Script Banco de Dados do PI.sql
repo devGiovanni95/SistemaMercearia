@@ -34,7 +34,7 @@ CREATE TABLE tb_fornecedor (
 	celular varchar(15),
 	cep varchar(10),
 	complemento varchar(50),
-	inscricao_estadual varchar(20),
+	inscricao_estadual varchar(15),
 );
 
 create table tb_produto(

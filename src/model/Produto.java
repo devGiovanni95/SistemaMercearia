@@ -1,7 +1,5 @@
 package model;
 
-import java.util.Date;
-
 // TODO: Auto-generated Javadoc
 /**
  * The Class Produtos.
@@ -31,10 +29,10 @@ public class Produto {
 	private double quantidade;
 	
 	/** The data fabricacao. */
-	private Date dataFabricacao;
+	private String dataFabricacao;
 	
 	/** The data validade. */
-	private Date dataValidade;
+	private String dataValidade;
 	
 	/** The lote. */
 	private String lote;
@@ -196,7 +194,7 @@ public class Produto {
 	 *
 	 * @return the data fabricacao
 	 */
-	public Date getDataFabricacao() {
+	public String getDataFabricacao() {
 		return dataFabricacao;
 	}
 	
@@ -205,7 +203,7 @@ public class Produto {
 	 *
 	 * @param dataFabricacao the new data fabricacao
 	 */
-	public void setDataFabricacao(Date dataFabricacao) {
+	public void setDataFabricacao(String dataFabricacao) {
 		this.dataFabricacao = dataFabricacao;
 	}
 	
@@ -214,7 +212,7 @@ public class Produto {
 	 *
 	 * @return the data validade
 	 */
-	public Date getDataValidade() {
+	public String getDataValidade() {
 		return dataValidade;
 	}
 	
@@ -223,7 +221,7 @@ public class Produto {
 	 *
 	 * @param dataValidade the new data validade
 	 */
-	public void setDataValidade(Date dataValidade) {
+	public void setDataValidade(String dataValidade) {
 		this.dataValidade = dataValidade;
 	}
 	

@@ -1,2 +1,32 @@
-script.sql
+# Arquivos de configuração específicos do IntelliJ IDEA
+.idea/
 
+# Arquivos de configuração específicos do Eclipse
+.settings/
+.classpath
+.project
+
+# Arquivos binários e arquivos gerados durante a compilação
+/bin/
+/target/
+
+# Arquivos de log
+*.log
+
+# Arquivos de backup
+*~
+
+# Arquivos de configuração do Maven
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+
+# Outros arquivos e diretórios específicos do projeto
+/out/
+/.classpath
+/.factorypath
+/*.iml
+/.metadata/

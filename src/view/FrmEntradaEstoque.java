@@ -141,13 +141,8 @@ public class FrmEntradaEstoque extends JFrame {
 		produto.setSubCategoria(subCategoria);
 		produto.setUnidadeDeMedida(cbUnidadeDeMedida.getSelectedItem().toString());
 		produto.setQuantidade(Integer.parseInt(tfQtdEstoque.getText()));
-		try {
-			produto.setDataFabricacao(dateFormat.parse(tfDataFabricacao.getText()));
-			produto.setDataValidade(dateFormat.parse(tfValidade.getText()));
-		} catch (ParseException ex) {
-			JOptionPane.showMessageDialog(null, "Erro ao converter a data. Por favor, insira a data no formato dd/MM/yyyy.", "Erro", JOptionPane.ERROR_MESSAGE);
-			return;
-		}
+		produto.setDataFabricacao(tfDataFabricacao.getText());
+		produto.setDataValidade(tfValidade.getText());
 
 		produto.setPrecoCusto(Double.parseDouble(tfPrecoUnitario.getText()));
 		//produto.setCodigo(Integer.parseInt(tfCodigo.getText()));
@@ -184,13 +179,8 @@ public class FrmEntradaEstoque extends JFrame {
 		produto.setSubCategoria(subCategoria);
 		produto.setUnidadeDeMedida(cbUnidadeDeMedida.getSelectedItem().toString());
 		produto.setQuantidade(Integer.parseInt(tfQtdEstoque.getText()));
-		try {
-			produto.setDataFabricacao(dateFormat.parse(tfDataFabricacao.getText()));
-			produto.setDataValidade(dateFormat.parse(tfValidade.getText()));
-		} catch (ParseException ex) {
-			JOptionPane.showMessageDialog(null, "Erro ao converter a data. Por favor, insira a data no formato dd/MM/yyyy.", "Erro", JOptionPane.ERROR_MESSAGE);
-			return;
-		}
+		produto.setDataFabricacao(tfDataFabricacao.getText());
+		produto.setDataValidade(tfValidade.getText());
 
 		produto.setPrecoCusto(Double.parseDouble(tfPrecoUnitario.getText()));
 
