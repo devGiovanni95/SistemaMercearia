@@ -304,6 +304,14 @@ public class Fornecedor {
 	public void setUf(String uf) {
 		this.uf = uf;
 	}
+	public Fornecedor() {
+		// TODO Auto-generated constructor stub
+	}
+
+	@Override
+	public String toString() {
+		return getNome();
+	}
 	
 	
 	
