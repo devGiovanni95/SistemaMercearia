@@ -1,12 +1,12 @@
 package controller;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Vector;
+
 import javax.swing.JOptionPane;
+
 import jdbc.ConnectionDataBase;
 import model.Categoria;
 
@@ -30,12 +30,11 @@ public class CategoriaController {
 		if (dataBase.getConnection()) {
 			try {
 
-				String sql = "insert into tb_categoria(codigo,nome,descricao) " + " values(?,?,?)";
+				String sql = "insert into tb_categoria(nome,descricao) " + " values(?,?)";
 
 				dataBase.preparedStatement = dataBase.con.prepareStatement(sql);
-				dataBase.preparedStatement.setInt(1, categoria.getCodigo());
-				dataBase.preparedStatement.setString(2, categoria.getNomeCategoria());
-				dataBase.preparedStatement.setString(3, categoria.getDescricao());
+				dataBase.preparedStatement.setString(1, categoria.getNomeCategoria());
+				dataBase.preparedStatement.setString(2, categoria.getDescricao());
 
 				dataBase.preparedStatement.execute();
 
@@ -123,14 +122,12 @@ public class CategoriaController {
 		List<Categoria> lista = new ArrayList<>();
 		if (dataBase.getConnection()) {
 			try {
-
-
 				String sql = "select * from tb_categoria";
 				dataBase.preparedStatement = dataBase.con.prepareStatement(sql);
 				dataBase.resultSet = dataBase.preparedStatement.executeQuery();
-				Categoria categoria = new Categoria();
 
 				while(dataBase.resultSet.next()) {
+					Categoria categoria = new Categoria();
 					categoria.setCodigo(dataBase.resultSet.getInt("codigo"));
 					categoria.setNomeCategoria(dataBase.resultSet.getString("nome"));
 					categoria.setDescricao(dataBase.resultSet.getString("descricao"));
@@ -149,6 +146,41 @@ public class CategoriaController {
 		}
 
 		return lista;
+	}
+
+	
+	
+
+	public Vector<Categoria> consultarCategoriasComboBox() {
+		Vector<Categoria> categorias = new Vector<Categoria>();
+		if (dataBase.getConnection()) {
+			try {
+
+
+				String sql = "select * from tb_categoria";
+				dataBase.preparedStatement = dataBase.con.prepareStatement(sql);
+				dataBase.resultSet = dataBase.preparedStatement.executeQuery();
+
+				while(dataBase.resultSet.next()) {
+					Categoria categoria = new Categoria();
+					categoria.setCodigo(dataBase.resultSet.getInt("codigo"));
+					categoria.setNomeCategoria(dataBase.resultSet.getString("nome"));
+					categoria.setDescricao(dataBase.resultSet.getString("descricao"));	
+					categorias.add(categoria);
+				}
+				
+			} catch (SQLException e) {
+				JOptionPane.showMessageDialog(null, "Erro: " + e);
+
+			} finally {
+				//dataBase.close();
+			}
+		} else {
+			JOptionPane.showMessageDialog(null, "Falha na conexão");
+		}
+//		return null;
+		return categorias;
+
 	}
 	
 	

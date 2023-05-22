@@ -4,13 +4,18 @@ import interfaces.InterfaceProduto;
 import jdbc.ConnectionDataBase;
 import model.Produto;
 import model.SubCategoria;
-
 import javax.swing.*;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.text.SimpleDateFormat;
+import javax.swing.JOptionPane;
+import jdbc.ConnectionDataBase;
+import interfaces.InterfaceProduto;
+import model.CadastroProdutoFornecedorEstoque;
+import model.Produto;
+import model.SubCategoria;
 
 
 // TODO: Auto-generated Javadoc
@@ -74,6 +79,44 @@ public class ProdutosController implements InterfaceProduto{
 			JOptionPane.showMessageDialog(null, "Falha na conexão");
 		}
 	}
+	
+	
+	public void cadastrarProdutoFornecedor(CadastroProdutoFornecedorEstoque cadastroProdutoFornecedorEstoque) {
+		if (dataBase.getConnection()) {
+			try {
+				String sql = "insert into tb_produto (descricao, codigo_barras, marca, cod_subcategoria, unidade_medida, quantidade, data_fabricacao, data_validade, "
+						+ "lote, ipi, icms, margem_lucro, preco_custo, preco_final) "
+						+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+				dataBase.preparedStatement.setString(1, produto.getDescricao());
+				dataBase.preparedStatement.setString(2, produto.getCodigoDeBarras());
+				dataBase.preparedStatement.setString(3, produto.getMarca());
+				dataBase.preparedStatement.setInt(4, produto.getSubCategoria().getCodigo());
+				dataBase.preparedStatement.setString(5, produto.getUnidadeDeMedida());
+				dataBase.preparedStatement.setDouble(6, produto.getQuantidade());
+				dataBase.preparedStatement.setDate(7, new java.sql.Date(produto.getDataFabricacao().getTime()));
+				dataBase.preparedStatement.setDate(8, new java.sql.Date(produto.getDataValidade().getTime()));
+				dataBase.preparedStatement.setString(9, produto.getLote());
+				dataBase.preparedStatement.setDouble(10, produto.getIpi());
+				dataBase.preparedStatement.setDouble(11, produto.getIcms());
+				dataBase.preparedStatement.setDouble(12, produto.getMargemLucro());
+				dataBase.preparedStatement.setDouble(13, produto.getPrecoCusto());
+				dataBase.preparedStatement.setDouble(14, produto.getPrecoFinal());
+
+				dataBase.preparedStatement.execute();
+
+				JOptionPane.showMessageDialog(null, "Produto cadastrado com sucesso");
+
+			} catch (SQLException | NumberFormatException erro) {
+				JOptionPane.showMessageDialog(null, "Erro: " + erro);
+			} finally {
+				dataBase.close();
+			}
+		} else {
+			JOptionPane.showMessageDialog(null, "Falha na conexão");
+		}
+	}
+
 
 
 	/**
