@@ -15,23 +15,13 @@ import java.awt.event.WindowEvent;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Vector;
-
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.GroupLayout;
+import javax.swing.*;
 import javax.swing.GroupLayout.Alignment;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JLayeredPane;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JTabbedPane;
-import javax.swing.JTable;
-import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.LineBorder;
 import javax.swing.event.AncestorEvent;
@@ -39,7 +29,7 @@ import javax.swing.event.AncestorListener;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
-
+import javax.swing.text.MaskFormatter;
 import controller.FornecedorController;
 import controller.ProdutosController;
 import controller.SubCategoriaController;
@@ -158,13 +148,8 @@ public class FrmProdutos extends JFrame {
 		produto.setSubCategoria(subCategoria);
 		produto.setUnidadeDeMedida(cbUnidadeDeMedida.getSelectedItem().toString());
 		produto.setQuantidade(Integer.parseInt(tfQtdEstoque.getText()));
-		try {
-			produto.setDataFabricacao(dateFormat.parse(tfDataFabricacao.getText()));
-			produto.setDataValidade(dateFormat.parse(tfValidade.getText()));
-		} catch (ParseException ex) {
-			JOptionPane.showMessageDialog(null, "Erro ao converter a data. Por favor, insira a data no formato dd/MM/yyyy.", "Erro", JOptionPane.ERROR_MESSAGE);
-			return;
-		}
+		produto.setDataFabricacao(tfDataFabricacao.getText());
+		produto.setDataValidade(tfValidade.getText());
 		produto.setLote(tfLote.getText());
 		produto.setIpi(Double.parseDouble(tfIpi.getText()));
 		produto.setIcms(Double.parseDouble(tfIcms.getText()));
@@ -204,13 +189,8 @@ public class FrmProdutos extends JFrame {
 		produto.setSubCategoria(subCategoria);
 		produto.setUnidadeDeMedida(cbUnidadeDeMedida.getSelectedItem().toString());
 		produto.setQuantidade(Integer.parseInt(tfQtdEstoque.getText()));
-		try {
-			produto.setDataFabricacao(dateFormat.parse(tfDataFabricacao.getText()));
-			produto.setDataValidade(dateFormat.parse(tfValidade.getText()));
-		} catch (ParseException ex) {
-			JOptionPane.showMessageDialog(null, "Erro ao converter a data. Por favor, insira a data no formato dd/MM/yyyy.", "Erro", JOptionPane.ERROR_MESSAGE);
-			return;
-		}
+		produto.setDataFabricacao(tfDataFabricacao.getText());
+		produto.setDataValidade(tfValidade.getText());
 		produto.setLote(tfLote.getText());
 		produto.setIpi(Double.parseDouble(tfIpi.getText()));
 		produto.setIcms(Double.parseDouble(tfIcms.getText()));
@@ -257,7 +237,7 @@ public class FrmProdutos extends JFrame {
 		cbSubCategoria.setSelectedItem(tabelaProdutos.getValueAt(tabelaProdutos.getSelectedRow(), 3).toString());
 		cbUnidadeDeMedida.setSelectedItem(tabelaProdutos.getValueAt(tabelaProdutos.getSelectedRow(), 4).toString());
 		tfQtdEstoque.setText(tabelaProdutos.getValueAt(tabelaProdutos.getSelectedRow(), 5).toString());
-		tfDataFabricacao.setText(tabelaProdutos.getValueAt(tabelaProdutos.getSelectedRow(), 6).toString());
+		tfDataFabricacao.setText(tabelaProdutos.getValueAt(tabelaProdutos.getSelectedRow(), 6).toString().replace("/","")); //vai
 		tfValidade.setText(tabelaProdutos.getValueAt(tabelaProdutos.getSelectedRow(), 7).toString());
 		tfLote.setText(tabelaProdutos.getValueAt(tabelaProdutos.getSelectedRow(), 8).toString());
 		tfIpi.setText(tabelaProdutos.getValueAt(tabelaProdutos.getSelectedRow(), 9).toString());
@@ -393,6 +373,43 @@ public class FrmProdutos extends JFrame {
 		} catch (Exception e) {
 			JOptionPane.showConfirmDialog(null, e.getMessage());
 		}		
+	}
+
+	/**
+	 * Cria um campo de texto formatado com a máscara especificada.
+	 *
+	 * @param mascara A máscara para aplicar ao campo de texto formatado.
+	 * @return Um novo JFormattedTextField com a máscara aplicada.
+	 */
+	private JFormattedTextField criarCampoComMascara(String mascara) {
+		MaskFormatter maskFormatter = null;
+		try {
+			maskFormatter = new MaskFormatter(mascara);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+
+		return new JFormattedTextField(maskFormatter);
+	}
+
+	public void verificarData(JFormattedTextField tfData) {
+		if (tfData.getText() != null && tfData.getText().trim().length() == 10) {  // Check if the date is fully input
+			try {
+				SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+				sdf.setLenient(false);
+				Calendar cal = Calendar.getInstance();
+				cal.setTime(sdf.parse(tfData.getText()));
+				int year = cal.get(Calendar.YEAR);
+
+				// Check if the year is within the acceptable range
+				if (year > 2100 || year < 2023) {
+					JOptionPane.showMessageDialog(null, "Insira uma data válida (antes do ano 2100 e depois de 2023).");
+					tfData.setText("");
+				}
+			} catch (ParseException ex) {
+				// Ignore as the date isn't fully inserted yet
+			}
+		}
 	}
 
 
@@ -737,10 +754,23 @@ public class FrmProdutos extends JFrame {
 		tfMarca.setFont(new Font("Arial", Font.BOLD, 14));
 		tfMarca.setColumns(10);
 
-		tfDataFabricacao = new JTextField();
-		tfDataFabricacao.setBackground(Color.WHITE);
-		tfDataFabricacao.setFont(new Font("Arial", Font.BOLD, 14));
-		tfDataFabricacao.setColumns(10);
+        tfDataFabricacao = new JTextField();
+        tfDataFabricacao.setBackground(Color.WHITE);
+        tfDataFabricacao.setFont(new Font("Arial", Font.BOLD, 14));
+        tfDataFabricacao.setColumns(10);
+        JFormattedTextField tfDataFabricacao = criarCampoComMascara("##/##/####");
+
+        tfDataFabricacao.getDocument().addDocumentListener(new DocumentListener() {
+            public void changedUpdate(DocumentEvent e) {
+                verificarData(tfDataFabricacao);
+            }
+            public void removeUpdate(DocumentEvent e) {
+                verificarData(tfDataFabricacao);
+            }
+            public void insertUpdate(DocumentEvent e) {
+                verificarData(tfDataFabricacao);
+            }
+        });
 
 		JLabel lblPrecoCusto = new JLabel("Preço de Custo: ");
 		lblPrecoCusto.setFont(new Font("Arial", Font.BOLD, 14));
@@ -748,10 +778,23 @@ public class FrmProdutos extends JFrame {
 		JLabel lblValidade = new JLabel("Data de Validade: ");
 		lblValidade.setFont(new Font("Arial", Font.BOLD, 14));
 
-		tfValidade = new JTextField();
-		tfValidade.setBackground(Color.WHITE);
-		tfValidade.setFont(new Font("Arial", Font.BOLD, 14));
-		tfValidade.setColumns(10);
+        tfValidade = new JTextField();
+        tfValidade.setBackground(Color.WHITE);
+        tfValidade.setFont(new Font("Arial", Font.BOLD, 14));
+        tfValidade.setColumns(10);
+        JFormattedTextField tfValidade = criarCampoComMascara("##/##/####");
+
+        tfValidade.getDocument().addDocumentListener(new DocumentListener() {
+            public void changedUpdate (DocumentEvent e){
+                verificarData(tfValidade);
+            }
+            public void removeUpdate (DocumentEvent e){
+                verificarData(tfValidade);
+            }
+            public void insertUpdate (DocumentEvent e){
+                verificarData(tfValidade);
+            }
+        });
 
 		tfPrecoCusto = new JTextField();
 		tfPrecoCusto.setBackground(Color.WHITE);
