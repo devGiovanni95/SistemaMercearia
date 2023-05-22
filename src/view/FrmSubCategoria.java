@@ -1,14 +1,26 @@
 package view;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.sql.ResultSet;
 import java.text.ParseException;
 import java.util.List;
+import java.util.Vector;
 
+import javax.swing.ComboBoxModel;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -18,26 +30,19 @@ import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
-import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.AncestorEvent;
+import javax.swing.event.AncestorListener;
 import javax.swing.table.DefaultTableModel;
+
 import controller.CategoriaController;
 import controller.SubCategoriaController;
 import model.Categoria;
 import model.SubCategoria;
-
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.awt.GridLayout;
-import java.awt.Dimension;
 import util.LimparCampos;
-
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import javax.swing.ImageIcon;
-import javax.swing.event.AncestorListener;
-import javax.swing.event.AncestorEvent;
+import java.awt.event.ItemListener;
+import java.awt.event.ItemEvent;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -65,6 +70,12 @@ public class FrmSubCategoria extends JFrame {
 	
 	/** The aba dados sub categorias. */
 	private JPanel abaDadosSubCategorias;
+	
+	/** The aba principal. */
+	public JTabbedPane abaPrincipal;
+	
+	/** The cb categoria. */
+	private JComboBox<Categoria> cbCategoria;
 	
 	
 	/**
@@ -144,7 +155,11 @@ public class FrmSubCategoria extends JFrame {
 		cbCategoria.setSelectedItem(tabelaSubCategorias.getValueAt(tabelaSubCategorias.getSelectedRow(),1).toString());				
 		tfNomeSubCategoria.setText(tabelaSubCategorias.getValueAt(tabelaSubCategorias.getSelectedRow(),2).toString());
 		//Nao esta atualizando no combobox
-		tfDescricao.setText(tabelaSubCategorias.getValueAt(tabelaSubCategorias.getSelectedRow(),3).toString());
+		try {
+			tfDescricao.setText(tabelaSubCategorias.getValueAt(tabelaSubCategorias.getSelectedRow(),3).toString());			
+		} catch (Exception e) {
+			tfDescricao.setText("Não informado");
+		}
 	}
 	
 	
@@ -188,19 +203,19 @@ public class FrmSubCategoria extends JFrame {
 		limparTela(abaDadosSubCategorias);
 	}
 	
+	Vector<Categoria> idCategoria;
 	public void consultarCategorias() {
-
-		//listando  categorias dentro do combobox
-		CategoriaController categoriaController = new CategoriaController();
-		List<Categoria> listaDeCategoria = categoriaController.consultarCategorias();
+			try {
+				CategoriaController categoriaController = new CategoriaController();
+				idCategoria = categoriaController.consultarCategoriasComboBox();
+							
+				cbCategoria.setModel(new DefaultComboBoxModel<>(idCategoria));			
+			
+		} catch (Exception e) {
+			JOptionPane.showConfirmDialog(null, e.getMessage());
+		}
 		
-		//removendo para limpar todos os campos 
-	//	cbCategoria.removeAllItems();
 		
-		//colocando dentro do combobox todos os dados
-		for(Categoria cat : listaDeCategoria) {
-			cbCategoria.addItem(cat);
-		}	
 	}
 	
 	
@@ -222,11 +237,7 @@ public class FrmSubCategoria extends JFrame {
 		});
 	}
 	
-	/** The aba principal. */
-	public JTabbedPane abaPrincipal;
-	
-	/** The cb categoria. */
-	private JComboBox<Categoria> cbCategoria;
+
 
 	/**
 	 * Create the frame.
@@ -294,9 +305,14 @@ public class FrmSubCategoria extends JFrame {
 		
 		//categoria
 		cbCategoria = new JComboBox<Categoria>();
+		cbCategoria.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent e) {
+
+			}
+		});
 		cbCategoria.addAncestorListener(new AncestorListener() {
 			public void ancestorAdded(AncestorEvent event) {
-			//	----------------------------------------------------------------------------------------------------------------------------------------------------------------
+			
 				consultarCategorias();
 			}
 			public void ancestorMoved(AncestorEvent event) {

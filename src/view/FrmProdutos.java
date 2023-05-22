@@ -14,9 +14,12 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-
+import java.util.Vector;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.GroupLayout;
 import javax.swing.*;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
@@ -27,9 +30,10 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.MaskFormatter;
-
+import controller.FornecedorController;
 import controller.ProdutosController;
 import controller.SubCategoriaController;
+import model.Fornecedor;
 import model.Produto;
 import model.SubCategoria;
 import util.LimparCampos;
@@ -105,6 +109,7 @@ public class FrmProdutos extends JFrame {
 	/** Objeto da classe LimparCampos. */
 	private LimparCampos limparCampos;
 	private JTextField tfDataEntrada;
+	JComboBox<Fornecedor> cbFornecedor;
 
 
 	/**
@@ -346,6 +351,28 @@ public class FrmProdutos extends JFrame {
 		} catch (NumberFormatException e) {
 			// Um dos campos não possui um número válido, não atualiza o Preço Final		
 		}
+	}
+	
+	//List<Fornecedor> fornecedorr = new ArrayList<>();
+	Vector<Fornecedor> fornecedorr;
+	public void consultarFornecedores() {
+			try {
+				FornecedorController fornecedorController = new FornecedorController();
+				fornecedorr= fornecedorController.consultarFornecedoresComboBox();
+				
+				
+				 /* DefaultComboBoxModel<Fornecedor> comboBoxModel = new DefaultComboBoxModel<>(fornecedorr.toArray(new Fornecedor[0]));
+			       cbFornecedor.setModel(comboBoxModel);*/
+							
+				cbFornecedor.setModel(new DefaultComboBoxModel<>(fornecedorr));	
+			/*	for(Fornecedor f: fornecedorr) {
+					cbFornecedor.addItem(f);
+				}*/
+				
+			
+		} catch (Exception e) {
+			JOptionPane.showConfirmDialog(null, e.getMessage());
+		}		
 	}
 
 	/**
@@ -830,9 +857,17 @@ public class FrmProdutos extends JFrame {
 		JLabel lblFornecedor = new JLabel("Fornecedor:");
 		lblFornecedor.setFont(new Font("Arial", Font.BOLD, 14));
 		
-		JComboBox<SubCategoria> cbFornecedor = new JComboBox<SubCategoria>();
+		cbFornecedor = new JComboBox<Fornecedor>();
+		cbFornecedor.addAncestorListener(new AncestorListener() {
+			public void ancestorAdded(AncestorEvent event) {
+				consultarFornecedores();
+			}
+			public void ancestorMoved(AncestorEvent event) {
+			}
+			public void ancestorRemoved(AncestorEvent event) {
+			}
+		});
 		cbFornecedor.setFont(new Font("Arial", Font.BOLD, 14));
-		cbFornecedor.setEnabled(false);
 		cbFornecedor.setEditable(true);
 		cbFornecedor.setBackground(Color.WHITE);
 		GroupLayout gl_abaDadosProdutos = new GroupLayout(abaDadosProdutos);

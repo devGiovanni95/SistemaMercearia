@@ -1,11 +1,9 @@
 package controller;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Vector;
 
 import javax.swing.JOptionPane;
 
@@ -178,6 +176,50 @@ public class FornecedorController implements InterfaceFornecedor {
 		    	JOptionPane.showMessageDialog(null, "Falha na conexão");
 		    }
 			return null;
+	}
+	
+	
+	
+	public Vector<Fornecedor> consultarFornecedoresComboBox() {
+		Vector<Fornecedor> fornecedores = new Vector<Fornecedor>();
+		if (dataBase.getConnection()) {
+			try {
+				String sql = "SELECT * FROM tb_fornecedor";
+				dataBase.preparedStatement = dataBase.con.prepareStatement(sql);
+				dataBase.resultSet = dataBase.preparedStatement.executeQuery();
+				
+				
+				while (dataBase.resultSet.next()) {
+					Fornecedor fornecedor = new Fornecedor();
+					fornecedor.setNome(dataBase.resultSet.getString("nome"));
+					fornecedor.setEmail(dataBase.resultSet.getString("email"));
+					fornecedor.setEndereco(dataBase.resultSet.getString("endereco"));
+					fornecedor.setNumero(dataBase.resultSet.getInt("numero"));
+					fornecedor.setCnpj(dataBase.resultSet.getString("cnpj"));
+					fornecedor.setBairro(dataBase.resultSet.getString("bairro"));
+					fornecedor.setCidade(dataBase.resultSet.getString("cidade"));
+					fornecedor.setCelular(dataBase.resultSet.getString("celular"));
+					fornecedor.setTelefone(dataBase.resultSet.getString("telefone"));
+					fornecedor.setCep(dataBase.resultSet.getString("cep"));
+					fornecedor.setComplemento(dataBase.resultSet.getString("complemento"));
+					fornecedor.setInscricaoEstadual(dataBase.resultSet.getString("inscricao_estadual"));
+					fornecedor.setRazaoSocial(dataBase.resultSet.getString("razao_social"));
+					fornecedor.setUf(dataBase.resultSet.getString("uf"));
+					
+					fornecedores.add(fornecedor);
+				}
+				
+				//return lista;
+			} catch (SQLException e) {
+				JOptionPane.showMessageDialog(null, "Erro ao listar fornecedores: " + e);
+			}finally {
+				dataBase.close();					
+			}
+		}
+		else{
+			JOptionPane.showMessageDialog(null, "Falha na conexão");
+		}
+		return fornecedores;
 	}
 
 	

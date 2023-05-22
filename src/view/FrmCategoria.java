@@ -77,12 +77,13 @@ public class FrmCategoria extends JFrame {
 	private void cadastrarCategoria() {
 		Categoria categoria = new Categoria();
 		CategoriaController categoriaController = new CategoriaController();	
-		
-		categoria.setCodigo(Integer.parseInt(tfCodigo.getText()));
-		categoria.setNomeCategoria(tfCategoria.getText());
-		categoria.setDescricao(tfDescricao.getText());				
-		
-		categoriaController.cadastrarCategoria(categoria);
+		try {
+			categoria.setNomeCategoria(tfCategoria.getText());
+			categoria.setDescricao(tfDescricao.getText());					
+			categoriaController.cadastrarCategoria(categoria);			
+		} catch (Exception e) {
+			System.out.println(e);
+		}
 		
 		limparTela(abaDadosCategoria);
 	}
@@ -252,6 +253,7 @@ public class FrmCategoria extends JFrame {
 		lbCodigo.setFont(new Font("Arial", Font.BOLD, 14));
 		
 		tfCodigo = new JTextField();
+		tfCodigo.setEditable(false);
 		tfCodigo.setFont(new Font("Arial", Font.BOLD, 14));
 		tfCodigo.setColumns(10);
 		
