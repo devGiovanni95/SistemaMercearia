@@ -34,6 +34,8 @@ import javax.swing.text.MaskFormatter;
 import controller.FornecedorController;
 import model.Fornecedor;
 import util.LimparCampos;
+import javax.swing.text.*;
+import util.TextFieldLimit;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -269,6 +271,19 @@ public class FrmFornecedor extends JFrame {
 		}
 	}
 
+		private JFormattedTextField criarCampoComMascara(String mascara) {
+		MaskFormatter maskFormatter = null;
+		try {
+			maskFormatter = new MaskFormatter(mascara);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+
+		return new JFormattedTextField(maskFormatter);
+	}
+
+
+
 	/**
 	 * Launch the application.
 	 *
@@ -337,18 +352,21 @@ public class FrmFornecedor extends JFrame {
 		lblNomeFantasia.setFont(new Font("Arial", Font.BOLD, 14));
 
 		tfNomeFantasia = new JTextField();
+		tfNomeFantasia = new TextFieldLimit(100);
 		tfNomeFantasia.setColumns(10);
 
 		JLabel lblEmail = new JLabel("E-mail:");
 		lblEmail.setFont(new Font("Arial", Font.BOLD, 14));
 
 		tfEmail = new JTextField();
+		tfEmail = new TextFieldLimit(50);
 		tfEmail.setColumns(10);
 
 		JLabel lblEndereo = new JLabel("Endereço:");
 		lblEndereo.setFont(new Font("Arial", Font.BOLD, 14));
 
 		tfEndereco = new JTextField();
+		tfEndereco = new TextFieldLimit(100);
 		tfEndereco.setColumns(10);
 
 		JLabel lblNumero = new JLabel("Numero: ");
@@ -361,12 +379,14 @@ public class FrmFornecedor extends JFrame {
 		lblCnpj_1_1.setFont(new Font("Arial", Font.BOLD, 14));
 
 		tfBairro = new JTextField();
+		tfBairro = new TextFieldLimit(50);
 		tfBairro.setColumns(10);
 
 		JLabel lblCnpj_1_2 = new JLabel("Cidade:");
 		lblCnpj_1_2.setFont(new Font("Arial", Font.BOLD, 14));
 
 		tfCidade = new JTextField();
+		tfCidade = new TextFieldLimit(50);
 		tfCidade.setColumns(10);
 
 		JLabel lblCnpj = new JLabel("Complemento:");
@@ -396,25 +416,33 @@ public class FrmFornecedor extends JFrame {
 		lblUf.setFont(new Font("Arial", Font.BOLD, 14));
 
 		tfComplemento = new JTextField();
+		tfComplemento = new TextFieldLimit(50);
 		tfComplemento.setColumns(10);
 
 		JLabel lblIncricaoEstadual = new JLabel("Inscrição Estadual:");
 		lblIncricaoEstadual.setFont(new Font("Arial", Font.BOLD, 14));
 
 		tfInscricaoEstadual = new JTextField();
+		tfInscricaoEstadual = criarCampoComMascara("###.###.###.###");
 		tfInscricaoEstadual.setColumns(10);
 
 		JLabel lblRazaoSocial = new JLabel("Razão Social:");
 		lblRazaoSocial.setFont(new Font("Arial", Font.BOLD, 14));
 
 		tfRazaoSocial = new JTextField();
+		tfRazaoSocial = new TextFieldLimit(100);
 		tfRazaoSocial.setColumns(10);
 
 		JLabel lblCpf = new JLabel("CNPJ:");
 		lblCpf.setFont(new Font("Arial", Font.BOLD, 14));
 
-		tfCnpj = new JTextField();
+		//tfCnpj = new JTextField(); // sem mascara
+		//tfCnpj = new JFormattedTextField(new MaskFormatter("##.###.###/####-##")); // outra forma de criar a mascara, funciona
+		//JFormattedTextField tfCnpj = criarCampoComMascara("##.###.###/####-##"); // estava dando erro
+
+		tfCnpj = criarCampoComMascara("##.###.###/####-##");
 		tfCnpj.setColumns(10);
+
 		GroupLayout gl_abaCadastrarFornecedor = new GroupLayout(abaCadastrarFornecedor);
 		gl_abaCadastrarFornecedor.setHorizontalGroup(gl_abaCadastrarFornecedor.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_abaCadastrarFornecedor.createSequentialGroup().addGap(70)

@@ -26,44 +26,42 @@ public class FornecedorController implements InterfaceFornecedor {
 	 * Método efetua um comando SQL para efetuar a inserção no banco de dados de um novo fornecedor.
 	 * @param fornecedor - um objeto do tipo cliente com os atributos correspondentes
 	 */
-	
+
 	public void cadastrarFornecedor(Fornecedor fornecedor) {
-		if(dataBase.getConnection()) {
-		    try {
-		    	String sql = "INSERT INTO tb_fornecedor (nome, email, endereco, numero, cnpj, bairro, cidade, celular, telefone, cep, complemento, inscricao_estadual, razao_social, uf) "
-		            + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-		        
-		        // Definindo os valores dos placeholders a partir do objeto Fornecedor
-		        dataBase.preparedStatement.setString(1, fornecedor.getNome());
-		        dataBase.preparedStatement.setString(2, fornecedor.getEmail());
-		        dataBase.preparedStatement.setString(3, fornecedor.getEndereco());
-		        dataBase.preparedStatement.setInt(4, fornecedor.getNumero());
-		        dataBase.preparedStatement.setString(5, fornecedor.getCnpj());
-		        dataBase.preparedStatement.setString(6, fornecedor.getBairro());
-		        dataBase.preparedStatement.setString(7, fornecedor.getCidade());
-		        dataBase.preparedStatement.setString(8, fornecedor.getCelular());
-		        dataBase.preparedStatement.setString(9, fornecedor.getTelefone());
-		        dataBase.preparedStatement.setString(10, fornecedor.getCep());
-		        dataBase.preparedStatement.setString(11, fornecedor.getComplemento());
-		        dataBase.preparedStatement.setString(12, fornecedor.getInscricaoEstadual());
-		        dataBase.preparedStatement.setString(13, fornecedor.getRazaoSocial());
-		        dataBase.preparedStatement.setString(14, fornecedor.getUf());
-		        
-		        dataBase.preparedStatement.execute();
-		        
-		        JOptionPane.showMessageDialog(null, "Cadastrado com sucesso");
-		                    
-		    } catch (SQLException | NumberFormatException erro) {
-		        JOptionPane.showMessageDialog(null, "Erro: " + erro);
-		    }finally {
+		if (dataBase.getConnection()) {
+			try {
+				String sql = "INSERT INTO tb_fornecedor (nome, email, endereco, numero, cnpj, bairro, cidade, celular, telefone, cep, complemento, inscricao_estadual, razao_social, uf) "
+						+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+				dataBase.preparedStatement = dataBase.con.prepareStatement(sql);
+				dataBase.preparedStatement.setString(1, fornecedor.getNome());
+				dataBase.preparedStatement.setString(2, fornecedor.getEmail());
+				dataBase.preparedStatement.setString(3, fornecedor.getEndereco());
+				dataBase.preparedStatement.setInt(4, fornecedor.getNumero());
+				dataBase.preparedStatement.setString(5, fornecedor.getCnpj());
+				dataBase.preparedStatement.setString(6, fornecedor.getBairro());
+				dataBase.preparedStatement.setString(7, fornecedor.getCidade());
+				dataBase.preparedStatement.setString(8, fornecedor.getCelular());
+				dataBase.preparedStatement.setString(9, fornecedor.getTelefone());
+				dataBase.preparedStatement.setString(10, fornecedor.getCep());
+				dataBase.preparedStatement.setString(11, fornecedor.getComplemento());
+				dataBase.preparedStatement.setString(12, fornecedor.getInscricaoEstadual());
+				dataBase.preparedStatement.setString(13, fornecedor.getRazaoSocial());
+				dataBase.preparedStatement.setString(14, fornecedor.getUf());
+
+				dataBase.preparedStatement.execute();
+
+				JOptionPane.showMessageDialog(null, "Cadastrado com sucesso");
+
+			} catch (SQLException | NumberFormatException erro) {
+				JOptionPane.showMessageDialog(null, "Erro: " + erro);
+			} finally {
 				dataBase.close();
-		    }
-			    }else {
-					JOptionPane.showMessageDialog(null, "Falha na conexão");
-				}
+			}
+		} else {
+			JOptionPane.showMessageDialog(null, "Falha na conexão");
+		}
 	}
-
-
 	
 	/**
 	 * Método que a partir do código passado, executa o comando SQL para a exclusão do fornecedor no banco de dados.

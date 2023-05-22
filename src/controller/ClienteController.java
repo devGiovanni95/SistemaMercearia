@@ -32,7 +32,7 @@ public class ClienteController implements InterfaceCliente {
 			try {
 				
 				String sql = "insert into tb_cliente(nome,email,cpf,rg,endereco,telefone,celular,numero,cep,data_nascimento,bairro,cidade,uf,complemento,limite) "
-						+ " values(?,?,?,?,?,?,?,?,?,CONVERT(datetime, ? , 103),?,?,?,?,?)";
+						+ " values(?,?,?,?,?,?,?,?,?,CONVERT(datetime, ? , 103),?,?,?,?,?)"; //103 = dd/mm/yyyy irá converter a data para o formato do banco de dados de acordo com o padrão brasileiro, de string para datetime
 				
 				dataBase.preparedStatement = dataBase.con.prepareStatement(sql);
 				dataBase.preparedStatement.setString(1, cliente.getNome());
