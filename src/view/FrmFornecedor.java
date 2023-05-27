@@ -12,21 +12,9 @@ import java.awt.event.*;
 import java.text.ParseException;
 import java.util.List;
 
-import javax.swing.GroupLayout;
+import javax.swing.*;
 import javax.swing.GroupLayout.Alignment;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JFormattedTextField;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JTabbedPane;
-import javax.swing.JTable;
-import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
-import javax.swing.ListSelectionModel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.MaskFormatter;
@@ -34,7 +22,7 @@ import javax.swing.text.MaskFormatter;
 import controller.FornecedorController;
 import model.Fornecedor;
 import util.LimparCampos;
-import javax.swing.text.*;
+
 import util.TextFieldLimit;
 
 // TODO: Auto-generated Javadoc
@@ -132,11 +120,13 @@ public class FrmFornecedor extends JFrame {
 		fornecedor.setInscricaoEstadual(tfInscricaoEstadual.getText());
 
 		FornecedorController fornecedorController = new FornecedorController();
-
-		fornecedorController.alterarFornecedor(fornecedor);
-
-		limparTela(abaCadastrarFornecedor);
-		JOptionPane.showMessageDialog(null, "Fornecedor alterado com sucesso!");
+		try {
+			fornecedorController.alterarFornecedor(fornecedor);
+			limparTela(abaCadastrarFornecedor);
+			JOptionPane.showMessageDialog(null, "Fornecedor alterado com sucesso!");
+		} catch (Exception ex) {
+			JOptionPane.showMessageDialog(null, ex.getMessage());
+		}
 	}
 
 	/**
@@ -164,10 +154,13 @@ public class FrmFornecedor extends JFrame {
 		fornecedor.setRazaoSocial(tfRazaoSocial.getText());
 
 		FornecedorController fornecedorController = new FornecedorController();
-		fornecedorController.cadastrarFornecedor(fornecedor);
-
-		limparTela(abaCadastrarFornecedor);
-		JOptionPane.showMessageDialog(null, "Fornecedor cadastrado com sucesso!");
+		try {
+			fornecedorController.cadastrarFornecedor(fornecedor);
+			limparTela(abaCadastrarFornecedor);
+			JOptionPane.showMessageDialog(null, "Fornecedor cadastrado com sucesso!");
+		} catch (Exception ex) {
+			JOptionPane.showMessageDialog(null, ex.getMessage());
+		}
 	}
 
 	/**
@@ -183,11 +176,16 @@ public class FrmFornecedor extends JFrame {
 
 		FornecedorController fornecedorController = new FornecedorController();
 
-		fornecedorController.excluirFornecedor(fornecedor);
-
-		limparTela(abaCadastrarFornecedor);
-		JOptionPane.showMessageDialog(null, "Fornecedor excluido com sucesso!");
+		try {
+			fornecedorController.excluirFornecedor(fornecedor);
+			limparTela(abaCadastrarFornecedor);
+			JOptionPane.showMessageDialog(null, "Fornecedor excluído com sucesso!");
+		} catch (Exception ex) {
+			JOptionPane.showMessageDialog(null, ex.getMessage());
+		}
 	}
+
+
 
 	/**
 	 * Preencher dados fornecedor.
@@ -223,8 +221,7 @@ public class FrmFornecedor extends JFrame {
 	 */
 	public void consultarFornecedoresPorNome() {
 		try {
-			String nomePesquisado = "%" + tfPesquisar.getText() + "%";
-
+			String nomePesquisado = tfPesquisar.getText();
 			FornecedorController fornecedorController = new FornecedorController();
 			List<Fornecedor> lista = fornecedorController.consultarFornecedoresPorNome(nomePesquisado);
 			DefaultTableModel dadosTabela = (DefaultTableModel) tabelaFornecedores.getModel();
@@ -243,7 +240,6 @@ public class FrmFornecedor extends JFrame {
 		} catch (Exception erro) {
 			JOptionPane.showMessageDialog(null, "Ops, aconteceu o erro: " + erro);
 		}
-
 	}
 
 	/**
@@ -270,18 +266,6 @@ public class FrmFornecedor extends JFrame {
 			JOptionPane.showMessageDialog(null, "Ops, aconteceu o erro: " + erro);
 		}
 	}
-
-		private JFormattedTextField criarCampoComMascara(String mascara) {
-		MaskFormatter maskFormatter = null;
-		try {
-			maskFormatter = new MaskFormatter(mascara);
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-
-		return new JFormattedTextField(maskFormatter);
-	}
-
 
 
 	/**
@@ -341,7 +325,7 @@ public class FrmFornecedor extends JFrame {
 		abaCadastrarFornecedor.setBackground(new Color(202, 240, 248));
 		abaPrincipal.addTab("Cadastrar Fornecedor", null, abaCadastrarFornecedor, null);
 
-		JLabel lbCodigo = new JLabel("Código: ");
+		JLabel lbCodigo = new JLabel("Código do fornecedor: ");
 		lbCodigo.setFont(new Font("Arial", Font.BOLD, 14));
 
 		tfCodigo = new JTextField();
@@ -352,57 +336,70 @@ public class FrmFornecedor extends JFrame {
 		lblNomeFantasia.setFont(new Font("Arial", Font.BOLD, 14));
 
 		tfNomeFantasia = new JTextField();
-		tfNomeFantasia = new TextFieldLimit(100);
+		tfNomeFantasia = new TextFieldLimit(100, new TextFieldLimit.ValidadorString());
 		tfNomeFantasia.setColumns(10);
 
 		JLabel lblEmail = new JLabel("E-mail:");
 		lblEmail.setFont(new Font("Arial", Font.BOLD, 14));
 
 		tfEmail = new JTextField();
-		tfEmail = new TextFieldLimit(50);
+		tfEmail = new TextFieldLimit(50, new TextFieldLimit.ValidadorString());
 		tfEmail.setColumns(10);
 
 		JLabel lblEndereo = new JLabel("Endereço:");
 		lblEndereo.setFont(new Font("Arial", Font.BOLD, 14));
 
 		tfEndereco = new JTextField();
-		tfEndereco = new TextFieldLimit(100);
+		tfEndereco = new TextFieldLimit(100, new TextFieldLimit.ValidadorString());
 		tfEndereco.setColumns(10);
 
 		JLabel lblNumero = new JLabel("Numero: ");
 		lblNumero.setFont(new Font("Arial", Font.BOLD, 14));
 
 		tfNumero = new JTextField();
+		tfNumero = new TextFieldLimit(9, new TextFieldLimit.ValidadorInteiro());
 		tfNumero.setColumns(10);
 
 		JLabel lblCnpj_1_1 = new JLabel("Bairro:");
 		lblCnpj_1_1.setFont(new Font("Arial", Font.BOLD, 14));
 
 		tfBairro = new JTextField();
-		tfBairro = new TextFieldLimit(50);
+		tfBairro = new TextFieldLimit(50, new TextFieldLimit.ValidadorString());
 		tfBairro.setColumns(10);
 
 		JLabel lblCnpj_1_2 = new JLabel("Cidade:");
 		lblCnpj_1_2.setFont(new Font("Arial", Font.BOLD, 14));
 
 		tfCidade = new JTextField();
-		tfCidade = new TextFieldLimit(50);
+		tfCidade = new TextFieldLimit(50, new TextFieldLimit.ValidadorString());
 		tfCidade.setColumns(10);
 
 		JLabel lblCnpj = new JLabel("Complemento:");
 		lblCnpj.setFont(new Font("Arial", Font.BOLD, 14));
 
 		JLabel lblCelular = new JLabel("Celular:");
-		lblCelular.setFont(new Font("Arial", Font.BOLD, 14));
 		tfCelular = new JFormattedTextField(new MaskFormatter("(##)# ####-####"));
+		lblCelular.setFont(new Font("Arial", Font.BOLD, 14));
 
 		JLabel lbTelefone = new JLabel("Telefone:");
-		lbTelefone.setFont(new Font("Arial", Font.BOLD, 14));
 		tfTelefone = new JFormattedTextField(new MaskFormatter("(##) ####-####"));
+		lbTelefone.setFont(new Font("Arial", Font.BOLD, 14));
 
 		JLabel lblCep = new JLabel("CEP:");
-		lblCep.setFont(new Font("Arial", Font.BOLD, 14));
 		tfCep = new JFormattedTextField(new MaskFormatter("##.###-###"));
+		lblCep.setFont(new Font("Arial", Font.BOLD, 14));
+
+		JLabel lblIncricaoEstadual = new JLabel("Inscrição Estadual:");
+		lblIncricaoEstadual.setFont(new Font("Arial", Font.BOLD, 14));
+
+		tfInscricaoEstadual = new JFormattedTextField(new MaskFormatter("###.###.###.###"));
+		tfInscricaoEstadual.setColumns(10);
+
+		JLabel lblCpf = new JLabel("CNPJ:");
+		lblCpf.setFont(new Font("Arial", Font.BOLD, 14));
+
+		tfCnpj = new JFormattedTextField(new MaskFormatter("##.###.###/####-##"));
+		tfCnpj.setColumns(10);
 
 		cbUf = new JComboBox();
 		cbUf.setModel(new javax.swing.DefaultComboBoxModel<>(
@@ -416,32 +413,17 @@ public class FrmFornecedor extends JFrame {
 		lblUf.setFont(new Font("Arial", Font.BOLD, 14));
 
 		tfComplemento = new JTextField();
-		tfComplemento = new TextFieldLimit(50);
+		tfComplemento = new TextFieldLimit(50, new TextFieldLimit.ValidadorString());
 		tfComplemento.setColumns(10);
 
-		JLabel lblIncricaoEstadual = new JLabel("Inscrição Estadual:");
-		lblIncricaoEstadual.setFont(new Font("Arial", Font.BOLD, 14));
-
-		tfInscricaoEstadual = new JTextField();
-		tfInscricaoEstadual = criarCampoComMascara("###.###.###.###");
-		tfInscricaoEstadual.setColumns(10);
 
 		JLabel lblRazaoSocial = new JLabel("Razão Social:");
 		lblRazaoSocial.setFont(new Font("Arial", Font.BOLD, 14));
 
 		tfRazaoSocial = new JTextField();
-		tfRazaoSocial = new TextFieldLimit(100);
+		tfRazaoSocial = new TextFieldLimit(100, new TextFieldLimit.ValidadorString());
 		tfRazaoSocial.setColumns(10);
 
-		JLabel lblCpf = new JLabel("CNPJ:");
-		lblCpf.setFont(new Font("Arial", Font.BOLD, 14));
-
-		//tfCnpj = new JTextField(); // sem mascara
-		//tfCnpj = new JFormattedTextField(new MaskFormatter("##.###.###/####-##")); // outra forma de criar a mascara, funciona
-		//JFormattedTextField tfCnpj = criarCampoComMascara("##.###.###/####-##"); // estava dando erro
-
-		tfCnpj = criarCampoComMascara("##.###.###/####-##");
-		tfCnpj.setColumns(10);
 
 		GroupLayout gl_abaCadastrarFornecedor = new GroupLayout(abaCadastrarFornecedor);
 		gl_abaCadastrarFornecedor.setHorizontalGroup(gl_abaCadastrarFornecedor.createParallelGroup(Alignment.LEADING)
@@ -632,7 +614,7 @@ public class FrmFornecedor extends JFrame {
 		tfPesquisar = new JTextField();
 		tfPesquisar.setColumns(10);
 
-		JLabel lblCodigoPesquisa = new JLabel("Código: ");
+		JLabel lblCodigoPesquisa = new JLabel("Nome Fantasia: ");
 		lblCodigoPesquisa.setFont(new Font("Arial", Font.BOLD, 14));
 
 		JButton btnPesquisar = new JButton("Pesquisar");
@@ -688,10 +670,15 @@ public class FrmFornecedor extends JFrame {
 		lblFornecedores.setForeground(Color.WHITE);
 		lblFornecedores.setFont(new Font("Arial Black", Font.BOLD, 40));
 
+
 		JLabel lblVoltar = new JLabel("Voltar");
 		lblVoltar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				// Fechar a janela atual
+				SwingUtilities.getWindowAncestor(lblVoltar).dispose();
+
+				// Abrir a janela principal
 				FrmMenuPrincipal menu = new FrmMenuPrincipal();
 				menu.setVisible(true);
 			}
@@ -711,6 +698,7 @@ public class FrmFornecedor extends JFrame {
 								.addComponent(lblVoltar, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE)
 								.addComponent(lblFornecedores))));
 		panelSuperior.setLayout(gl_panelSuperior);
+
 
 		JPanel panelInferior = new JPanel();
 		panelInferior.setBackground(new Color(202, 240, 248));

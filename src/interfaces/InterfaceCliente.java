@@ -6,11 +6,11 @@ import model.Cliente;
 
 public interface InterfaceCliente{
 	
-	void cadastrarCliente(Cliente cliente);
-	void excluirCliente(Cliente cliente);
-	void alterarCliente(Cliente cliente);
-	List<Cliente> consultarClientes();
-	List<Cliente>  consultarClientesPorNome(String nome);
+	void cadastrarCliente(Cliente cliente) throws Exception;
+	void excluirCliente(Cliente cliente) throws Exception;
+	void alterarCliente(Cliente cliente) throws Exception;
+	List<Cliente> consultarClientes() throws Exception;
+	List<Cliente>  consultarClientesPorNome(String nome) throws Exception;
 	Cliente consultarClientesPorCpf(String cpf);	
 	
 }

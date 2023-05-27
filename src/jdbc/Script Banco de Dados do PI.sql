@@ -6,19 +6,6 @@ create database mercearia;
 
 use mercearia;
 
-create table tb_categoria(
-   codigo int primary key identity(1,1), 
-   nome varchar (50) not null,
-   descricao varchar (100)
-);
-
-
-create table tb_subcategoria(
-   codigo int primary key identity(1,1),
-   cod_categoria int not null references tb_categoria,
-   nome varchar (50) not null,
-   descricao varchar (100)
-);
 
 CREATE TABLE tb_fornecedor (
 	cnpj varchar(18) primary key,
@@ -35,6 +22,20 @@ CREATE TABLE tb_fornecedor (
 	cep varchar(10),
 	complemento varchar(50),
 	inscricao_estadual varchar(15),
+);
+
+create table tb_categoria(
+   codigo int primary key identity(1,1), 
+   nome varchar (50) not null,
+   descricao varchar (100)
+);
+
+
+create table tb_subcategoria(
+   codigo int primary key identity(1,1),
+   cod_categoria int not null references tb_categoria,
+   nome varchar (50) not null,
+   descricao varchar (100)
 );
 
 create table tb_produto(

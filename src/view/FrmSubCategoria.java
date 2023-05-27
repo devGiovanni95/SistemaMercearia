@@ -16,20 +16,8 @@ import java.text.ParseException;
 import java.util.List;
 import java.util.Vector;
 
-import javax.swing.ComboBoxModel;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.GroupLayout;
+import javax.swing.*;
 import javax.swing.GroupLayout.Alignment;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JTabbedPane;
-import javax.swing.JTable;
-import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.AncestorEvent;
@@ -448,10 +436,15 @@ public class FrmSubCategoria extends JFrame {
 		lblNewLabel_1.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				// Fechar a janela atual
+				SwingUtilities.getWindowAncestor(lblNewLabel_1).dispose();
+
+				// Abrir a janela principal
 				FrmMenuPrincipal menu = new FrmMenuPrincipal();
-				menu.setVisible(true);				
+				menu.setVisible(true);
 			}
 		});
+
 		lblNewLabel_1.setForeground(Color.WHITE);
 		lblNewLabel_1.setFont(new Font("Arial", Font.BOLD, 18));
 		lblNewLabel_1.setIcon(new ImageIcon(FrmSubCategoria.class.getResource("/assets/sair.png")));

@@ -11,18 +11,8 @@ import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.List;
-import javax.swing.GroupLayout;
+import javax.swing.*;
 import javax.swing.GroupLayout.Alignment;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JLayeredPane;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JTabbedPane;
-import javax.swing.JTable;
-import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.table.DefaultTableModel;
 
@@ -241,10 +231,15 @@ public class FrmConsultarVenda extends JFrame {
 		lblVoltar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				// Fechar a janela atual
+				SwingUtilities.getWindowAncestor(lblVoltar).dispose();
+
+				// Abrir a janela principal
 				FrmMenuPrincipal menu = new FrmMenuPrincipal();
 				menu.setVisible(true);
 			}
 		});
+
 		lblVoltar.setIcon(new ImageIcon(FrmConsultarVenda.class.getResource("/assets/sair.png")));
 		lblVoltar.setForeground(Color.WHITE);
 		lblVoltar.setFont(new Font("Arial", Font.BOLD, 18));

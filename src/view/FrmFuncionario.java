@@ -7,20 +7,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.ParseException;
 import java.util.List;
-import javax.swing.GroupLayout;
+import javax.swing.*;
 import javax.swing.GroupLayout.Alignment;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JFormattedTextField;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JTabbedPane;
-import javax.swing.JTable;
-import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
-import javax.swing.ListSelectionModel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.MaskFormatter;
@@ -31,7 +20,6 @@ import java.awt.GridLayout;
 import javax.swing.border.LineBorder;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import javax.swing.ImageIcon;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -1002,10 +990,15 @@ public class FrmFuncionario extends JFrame {
 		lblNewLabel_1.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				// Fechar a janela atual
+				SwingUtilities.getWindowAncestor(lblNewLabel_1).dispose();
+
+				// Abrir a janela principal
 				FrmMenuPrincipal menu = new FrmMenuPrincipal();
 				menu.setVisible(true);
 			}
 		});
+
 		lblNewLabel_1.setIcon(new ImageIcon(FrmFuncionario.class.getResource("/assets/sair.png")));
 		lblNewLabel_1.setForeground(Color.WHITE);
 		lblNewLabel_1.setFont(new Font("Arial", Font.BOLD, 18));
