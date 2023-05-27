@@ -6,11 +6,11 @@ import model.Fornecedor;
 
 public interface InterfaceFornecedor{
 	
-	void cadastrarFornecedor(Fornecedor fornecedor);
-	void excluirFornecedor(Fornecedor fornecedor);
-	void alterarFornecedor(Fornecedor fornecedor);
-	List<Fornecedor> consultarFornecedores();
-	List<Fornecedor>  consultarFornecedoresPorNome(String nome);
+	void cadastrarFornecedor(Fornecedor fornecedor) throws Exception;
+	void excluirFornecedor(Fornecedor fornecedor) throws Exception;
+	void alterarFornecedor(Fornecedor fornecedor) throws Exception;
+	List<Fornecedor> consultarFornecedores() throws Exception;
+	List<Fornecedor>  consultarFornecedoresPorNome(String nome) throws Exception;
 	
 	
 }
