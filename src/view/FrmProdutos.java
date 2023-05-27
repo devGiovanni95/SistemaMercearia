@@ -12,16 +12,24 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 import java.util.Vector;
+
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.GroupLayout;
-import javax.swing.*;
 import javax.swing.GroupLayout.Alignment;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JLayeredPane;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.LineBorder;
 import javax.swing.event.AncestorEvent;
@@ -29,16 +37,16 @@ import javax.swing.event.AncestorListener;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.text.MaskFormatter;
+
+import controller.CadastroProdutoFornecedorEstoqueController;
 import controller.FornecedorController;
 import controller.ProdutosController;
 import controller.SubCategoriaController;
+import model.CadastroProdutoFornecedorEstoque;
 import model.Fornecedor;
 import model.Produto;
 import model.SubCategoria;
 import util.LimparCampos;
-
-
 
 // TODO: Auto-generated Javadoc
 /**
@@ -101,7 +109,7 @@ public class FrmProdutos extends JFrame {
 	private JPanel abaDadosProdutos;
 
 	/** The aba principal. */
-	public JTabbedPane abaPrincipal ;
+	public JTabbedPane abaPrincipal;
 
 	/** The tf codigo. */
 	private JTextField tfCodigo;
@@ -109,8 +117,7 @@ public class FrmProdutos extends JFrame {
 	/** Objeto da classe LimparCampos. */
 	private LimparCampos limparCampos;
 	private JTextField tfDataEntrada;
-	JComboBox<Fornecedor> cbFornecedor;
-
+	private JComboBox<Fornecedor> cbFornecedor;
 
 	/**
 	 * Limpar tela.
@@ -121,19 +128,21 @@ public class FrmProdutos extends JFrame {
 		LimparCampos limpar = new LimparCampos();
 		limpar.Limpar(tela);
 	}
-	
 
 	/*
 	 * Método responsável por alterar os dados de um produto cadastrado.
-	 * Os dados são obtidos dos campos de texto na interface gráfica e armazenados em um objeto do tipo Produto,
-	Em seguida, os campos de texto na interface gráfica são limpos através do método Limpar() da classe LimparCampos.
-	 * O objeto Produto é passado como parâmetro para o método alterarProduto() da classe ProdutosController.
+	 * Os dados são obtidos dos campos de texto na interface gráfica e armazenados
+	 * em um objeto do tipo Produto,
+	 * Em seguida, os campos de texto na interface gráfica são limpos através do
+	 * método Limpar() da classe LimparCampos.
+	 * O objeto Produto é passado como parâmetro para o método alterarProduto() da
+	 * classe ProdutosController.
 	 */
 
 	/**
 	 * Alterar produto.
 	 */
-	private void alterarProduto(){
+	private void alterarProduto() {
 		Produto produto = new Produto();
 		SubCategoria subCategoria = new SubCategoria();
 
@@ -144,7 +153,7 @@ public class FrmProdutos extends JFrame {
 		produto.setDescricao(tfDescricao.getText());
 		produto.setCodigoDeBarras(tfCodigoDeBarras.getText());
 		produto.setMarca(tfMarca.getText());
-		subCategoria = (SubCategoria)cbSubCategoria.getSelectedItem();
+		subCategoria = (SubCategoria) cbSubCategoria.getSelectedItem();
 		produto.setSubCategoria(subCategoria);
 		produto.setUnidadeDeMedida(cbUnidadeDeMedida.getSelectedItem().toString());
 		produto.setQuantidade(Integer.parseInt(tfQtdEstoque.getText()));
@@ -155,26 +164,24 @@ public class FrmProdutos extends JFrame {
 		produto.setIcms(Double.parseDouble(tfIcms.getText()));
 		produto.setMargemLucro(Double.parseDouble(tfMargem.getText()));
 		produto.setPrecoCusto(Double.parseDouble(tfPrecoCusto.getText()));
-		//produto.setCodigo(Integer.parseInt(tfCodigo.getText()));
+		// produto.setCodigo(Integer.parseInt(tfCodigo.getText()));
 
 		// Calcular o preço final com base na margem de lucro, IPI e ICMS
-		//atualizarPrecoFinal();
+		// atualizarPrecoFinal();
 
-		produto.setPrecoFinal(Double.parseDouble(tfPrecoFinal.getText().replaceAll(",",".")));
+		produto.setPrecoFinal(Double.parseDouble(tfPrecoFinal.getText().replaceAll(",", ".")));
 
 		produtosController.alterarProduto(produto);
 
 		limparTela(abaDadosProdutos);
-		JOptionPane.showMessageDialog(null, "Produto alterado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+		JOptionPane.showMessageDialog(null, "Produto alterado com sucesso!", "Sucesso",
+				JOptionPane.INFORMATION_MESSAGE);
 	}
-
-
-
 
 	/**
 	 * Cadastrar produto.
 	 */
-	private void cadastrarProduto(){
+	private void cadastrarProduto() {
 		Produto produto = new Produto();
 		SubCategoria subCategoria = new SubCategoria();
 
@@ -185,10 +192,11 @@ public class FrmProdutos extends JFrame {
 		produto.setDescricao(tfDescricao.getText());
 		produto.setCodigoDeBarras(tfCodigoDeBarras.getText());
 		produto.setMarca(tfMarca.getText());
-		subCategoria = (SubCategoria)cbSubCategoria.getSelectedItem();
+		subCategoria = (SubCategoria) cbSubCategoria.getSelectedItem();
 		produto.setSubCategoria(subCategoria);
 		produto.setUnidadeDeMedida(cbUnidadeDeMedida.getSelectedItem().toString());
-		produto.setQuantidade(Integer.parseInt(tfQtdEstoque.getText()));
+		// produto.setQuantidade(Integer.parseInt(tfQtdEstoque.getText()));
+		produto.setQuantidade(0);
 		produto.setDataFabricacao(tfDataFabricacao.getText());
 		produto.setDataValidade(tfValidade.getText());
 		produto.setLote(tfLote.getText());
@@ -197,14 +205,53 @@ public class FrmProdutos extends JFrame {
 		produto.setMargemLucro(Double.parseDouble(tfMargem.getText()));
 		produto.setPrecoCusto(Double.parseDouble(tfPrecoCusto.getText()));
 
-		produto.setPrecoFinal(Double.parseDouble(tfPrecoFinal.getText().replaceAll(",",".")));
+		produto.setPrecoFinal(Double.parseDouble(tfPrecoFinal.getText().replaceAll(",", ".")));
 		// Calcular o preço final com base na margem de lucro, IPI e ICMS
-		//atualizarPrecoFinal();
+		// atualizarPrecoFinal();
 
 		produtosController.cadastrarProduto(produto);
 
+		
+		JOptionPane.showMessageDialog(null, "Produto cadastrado com sucesso!", "Sucesso",
+				JOptionPane.INFORMATION_MESSAGE);
+		System.out.println(produto);
+	}
+
+	private void cadastrarProdutoFornecedorEstoque() {
+		CadastroProdutoFornecedorEstoque cadastroProdutoFornecedorEstoque = new CadastroProdutoFornecedorEstoque();
+		CadastroProdutoFornecedorEstoqueController cadastroProdutoFornecedorEstoqueController = new CadastroProdutoFornecedorEstoqueController();
+
+		Produto produto = new Produto();
+		ProdutosController produtosController = new ProdutosController();
+		produto = produtosController.consultarProdutosPorCodigoBarras(tfCodigoDeBarras.getText());
+
+		Fornecedor fornecedor = new Fornecedor();
+		FornecedorController fornecedorController = new FornecedorController();
+		
+		
+		fornecedor = (Fornecedor) cbFornecedor.getSelectedItem();
+	
+
+		double precoUnitario = calcularPrecoCusto();
+		double subtotal = calcularPrecoCusto();
+
+		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+
+		cadastroProdutoFornecedorEstoque.setProduto(produto);
+		cadastroProdutoFornecedorEstoque.setFornecedor(fornecedor);
+		cadastroProdutoFornecedorEstoque.setDataEntrada(tfDataEntrada.getText());
+		cadastroProdutoFornecedorEstoque.setQuantidade(Double.parseDouble(tfQtdEstoque.getText()));
+		cadastroProdutoFornecedorEstoque.setPrecoUnitario(Double.parseDouble(tfPrecoCusto.getText()));
+		subtotal = (Double.parseDouble(tfQtdEstoque.getText())) * precoUnitario;
+		cadastroProdutoFornecedorEstoque.setSubTotal(subtotal);
+
+		cadastroProdutoFornecedorEstoqueController.cadastrarProdutoFornecedor(cadastroProdutoFornecedorEstoque);
 		limparTela(abaDadosProdutos);
-		JOptionPane.showMessageDialog(null, "Produto cadastrado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+		JOptionPane.showMessageDialog(null, "Histórico cadastrado com sucesso!", "Sucesso",
+				JOptionPane.INFORMATION_MESSAGE);
+
+		System.out.println(cadastroProdutoFornecedorEstoque);
+		limparTela(abaDadosProdutos);
 	}
 
 	/**
@@ -214,11 +261,13 @@ public class FrmProdutos extends JFrame {
 		Produto produtos = new Produto();
 		ProdutosController produtosController = new ProdutosController();
 
-		produtos = produtosController.consultarProdutosPorCodigoBarras(tfCodigoDeBarras.getText());;
+		produtos = produtosController.consultarProdutosPorCodigoBarras(tfCodigoDeBarras.getText());
+
 		produtosController.excluirProduto(produtos);
 
 		limparTela(abaDadosProdutos);
-		JOptionPane.showMessageDialog(null, "Produto excluído com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+		JOptionPane.showMessageDialog(null, "Produto excluído com sucesso!", "Sucesso",
+				JOptionPane.INFORMATION_MESSAGE);
 	}
 
 	/**
@@ -227,7 +276,7 @@ public class FrmProdutos extends JFrame {
 	/*
 	 * Método utilizado para preencher os dados do produto na tela.
 	 */
-	private void preencherDadosProduto(){
+	private void preencherDadosProduto() {
 		abaPrincipal.setSelectedIndex(0);
 
 		tfCodigo.setText(tabelaProdutos.getValueAt(tabelaProdutos.getSelectedRow(), 1).toString());
@@ -237,7 +286,8 @@ public class FrmProdutos extends JFrame {
 		cbSubCategoria.setSelectedItem(tabelaProdutos.getValueAt(tabelaProdutos.getSelectedRow(), 3).toString());
 		cbUnidadeDeMedida.setSelectedItem(tabelaProdutos.getValueAt(tabelaProdutos.getSelectedRow(), 4).toString());
 		tfQtdEstoque.setText(tabelaProdutos.getValueAt(tabelaProdutos.getSelectedRow(), 5).toString());
-		tfDataFabricacao.setText(tabelaProdutos.getValueAt(tabelaProdutos.getSelectedRow(), 6).toString().replace("/","")); //vai
+		tfDataFabricacao
+				.setText(tabelaProdutos.getValueAt(tabelaProdutos.getSelectedRow(), 6).toString()/*.replace("/", "")*/); // vai
 		tfValidade.setText(tabelaProdutos.getValueAt(tabelaProdutos.getSelectedRow(), 7).toString());
 		tfLote.setText(tabelaProdutos.getValueAt(tabelaProdutos.getSelectedRow(), 8).toString());
 		tfIpi.setText(tabelaProdutos.getValueAt(tabelaProdutos.getSelectedRow(), 9).toString());
@@ -245,12 +295,15 @@ public class FrmProdutos extends JFrame {
 		tfMargem.setText(tabelaProdutos.getValueAt(tabelaProdutos.getSelectedRow(), 11).toString());
 		tfPrecoCusto.setText(tabelaProdutos.getValueAt(tabelaProdutos.getSelectedRow(), 12).toString());
 		tfPrecoFinal.setText(tabelaProdutos.getValueAt(tabelaProdutos.getSelectedRow(), 13).toString());
+		
+		cbFornecedor.setEnabled(false);
+		tfDataEntrada.setEnabled(false);
 	}
 
 	/**
 	 * Consultar produto por nome.
 	 */
-	private void consultarProdutoPorNome(){
+	private void consultarProdutoPorNome() {
 		String nomePesquisado = "%" + tfPesquisar.getText() + "%";
 		ProdutosController produtosController = new ProdutosController();
 		SubCategoriaController categoriaController = new SubCategoriaController();
@@ -258,12 +311,12 @@ public class FrmProdutos extends JFrame {
 		DefaultTableModel dadosTabela = (DefaultTableModel) tabelaProdutos.getModel();
 		dadosTabela.setNumRows(0);
 		dadosTabela.setColumnCount(15);
-		dadosTabela.addRow(new Object[]{"Descrição", "Codigo de Barras", "Marca", "SubCategoria", "Unidade de Medida", "Quantidade",
-				" Fabricação"," Validade","Lote", "IPI","ICMS","Margem Lucro","Preco Custo", "Preço Final"});
+		dadosTabela.addRow(new Object[] { "Descrição", "Codigo de Barras", "Marca", "SubCategoria", "Unidade de Medida",
+				"Quantidade",
+				" Fabricação", " Validade", "Lote", "IPI", "ICMS", "Margem Lucro", "Preco Custo", "Preço Final" });
 
-		for(Produto produto : lista) {
-			dadosTabela.addRow(new Object[]{
-				/*	produto.getCodigo(),*/
+		for (Produto produto : lista) {
+			dadosTabela.addRow(new Object[] {
 					produto.getDescricao(),
 					produto.getCodigoDeBarras(),
 					produto.getMarca(),
@@ -282,7 +335,6 @@ public class FrmProdutos extends JFrame {
 		}
 	}
 
-
 	/**
 	 * Metodo utilizado para listar todos os produtos e adiciona-los na tabela.
 	 */
@@ -293,11 +345,12 @@ public class FrmProdutos extends JFrame {
 			DefaultTableModel dadosTabela = (DefaultTableModel) tabelaProdutos.getModel();
 			dadosTabela.setNumRows(0);
 			dadosTabela.setColumnCount(15);
-			dadosTabela.addRow(new Object[]{"Descrição", "Codigo de Barras", "Marca", "SubCategoria", "Unidade de Medida", "Quantidade",
-					" Fabricação"," Validade","Lote", "IPI","ICMS","Margem Lucro","Preco Custo", "Preço Final"});
+			dadosTabela.addRow(new Object[] { "Descrição", "Codigo de Barras", "Marca", "SubCategoria",
+					"Unidade de Medida", "Quantidade",
+					" Fabricação", " Validade", "Lote", "IPI", "ICMS", "Margem Lucro", "Preco Custo", "Preço Final" });
 
-			for(Produto produto : lista) {
-				dadosTabela.addRow(new Object[]{						
+			for (Produto produto : lista) {
+				dadosTabela.addRow(new Object[] {
 						produto.getDescricao(),
 						produto.getCodigoDeBarras(),
 						produto.getMarca(),
@@ -314,104 +367,104 @@ public class FrmProdutos extends JFrame {
 						produto.getPrecoFinal()
 				});
 			}
-		}catch (Exception erro) {
-			JOptionPane.showMessageDialog(null,"Ops aconteceu o erro: " + erro);
+		} catch (Exception erro) {
+			JOptionPane.showMessageDialog(null, "Ops aconteceu o erro: " + erro);
 		}
 	}
 
-
 	/**
-	 * Atualiza o campo Preço Final com base nos campos de Margem de Lucro, IPI e ICMS.
-	 * Caso algum campo não possua um valor numérico válido, não atualiza o Preço Final.
+	 * Atualiza o campo Preço Final com base nos campos de Margem de Lucro, IPI e
+	 * ICMS.
+	 * Caso algum campo não possua um valor numérico válido, não atualiza o Preço
+	 * Final.
 	 */
 	private void atualizarPrecoFinal() {
 		try {
-			
+
 			double ipi;
 			double icms;
 			double margem = Double.parseDouble(tfMargem.getText());
-			
-			if(tfIpi.getText().equals("")) {
-				ipi = 0;		
-			}else {
-				ipi = Double.parseDouble(tfIpi.getText());				
+
+			if (tfIpi.getText().equals("")) {
+				ipi = 0;
+			} else {
+				ipi = Double.parseDouble(tfIpi.getText());
 			}
-			
-			if(tfIcms.getText().equals("")) {
+
+			if (tfIcms.getText().equals("")) {
 				icms = 0;
-			}else {
-				icms = Double.parseDouble(tfIcms.getText());				
+			} else {
+				icms = Double.parseDouble(tfIcms.getText());
 			}
-			
-			
+
 			double precoCusto = Double.parseDouble(tfPrecoCusto.getText());
 
 			double precoFinal = precoCusto * (1 + (margem + ipi + icms) / 100);
 			tfPrecoFinal.setText(String.format("%.2f", precoFinal));
 		} catch (NumberFormatException e) {
-			// Um dos campos não possui um número válido, não atualiza o Preço Final		
+			// Um dos campos não possui um número válido, não atualiza o Preço Final
 		}
 	}
-	
-	//List<Fornecedor> fornecedorr = new ArrayList<>();
-	Vector<Fornecedor> fornecedorr;
+
+	private double calcularPrecoCusto() {
+		double ipi;
+		double icms;
+		double precoCusto = 0;
+		double precoFinal = 0;
+
+		try {
+
+			if (tfIpi.getText().equals("")) {
+				ipi = 0;
+			} else {
+				ipi = Double.parseDouble(tfIpi.getText());
+			}
+
+			if (tfIcms.getText().equals("")) {
+				icms = 0;
+			} else {
+				icms = Double.parseDouble(tfIcms.getText());
+			}
+
+			if (tfPrecoCusto.getText().equals("")) {
+				icms = 0;
+			} else {
+				icms = Double.parseDouble(tfIcms.getText());
+			}
+
+			precoFinal = precoCusto * (1 + (ipi + icms) / 100);
+
+		} catch (NumberFormatException e) {
+			JOptionPane.showMessageDialog(null, "Ops Verifique os campos preenchidos");
+
+		}
+		return precoFinal;
+	}
+
+	Vector<Fornecedor> fornecedor;
+
 	public void consultarFornecedores() {
-			try {
-				FornecedorController fornecedorController = new FornecedorController();
-				fornecedorr= fornecedorController.consultarFornecedoresComboBox();
-				
-				
-				 /* DefaultComboBoxModel<Fornecedor> comboBoxModel = new DefaultComboBoxModel<>(fornecedorr.toArray(new Fornecedor[0]));
-			       cbFornecedor.setModel(comboBoxModel);*/
-							
-				cbFornecedor.setModel(new DefaultComboBoxModel<>(fornecedorr));	
-			/*	for(Fornecedor f: fornecedorr) {
-					cbFornecedor.addItem(f);
-				}*/
-				
-			
+		try {
+			FornecedorController fornecedorController = new FornecedorController();
+			fornecedor = fornecedorController.consultarFornecedoresComboBox();
+
+			/*
+			 * DefaultComboBoxModel<Fornecedor> comboBoxModel = new
+			 * DefaultComboBoxModel<>(fornecedorr.toArray(new Fornecedor[0]));
+			 * cbFornecedor.setModel(comboBoxModel);
+			 */
+
+			cbFornecedor.setModel(new DefaultComboBoxModel<>(fornecedor));
+			/*
+			 * for(Fornecedor f: fornecedorr) {
+			 * cbFornecedor.addItem(f);
+			 * }
+			 */
+
 		} catch (Exception e) {
 			JOptionPane.showConfirmDialog(null, e.getMessage());
-		}		
-	}
-
-	/**
-	 * Cria um campo de texto formatado com a máscara especificada.
-	 *
-	 * @param mascara A máscara para aplicar ao campo de texto formatado.
-	 * @return Um novo JFormattedTextField com a máscara aplicada.
-	 */
-	private JFormattedTextField criarCampoComMascara(String mascara) {
-		MaskFormatter maskFormatter = null;
-		try {
-			maskFormatter = new MaskFormatter(mascara);
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-
-		return new JFormattedTextField(maskFormatter);
-	}
-
-	public void verificarData(JFormattedTextField tfData) {
-		if (tfData.getText() != null && tfData.getText().trim().length() == 10) {  // Check if the date is fully input
-			try {
-				SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-				sdf.setLenient(false);
-				Calendar cal = Calendar.getInstance();
-				cal.setTime(sdf.parse(tfData.getText()));
-				int year = cal.get(Calendar.YEAR);
-
-				// Check if the year is within the acceptable range
-				if (year > 2100 || year < 2023) {
-					JOptionPane.showMessageDialog(null, "Insira uma data válida (antes do ano 2100 e depois de 2023).");
-					tfData.setText("");
-				}
-			} catch (ParseException ex) {
-				// Ignore as the date isn't fully inserted yet
-			}
 		}
 	}
-
 
 	/**
 	 * Launch the application.
@@ -431,7 +484,6 @@ public class FrmProdutos extends JFrame {
 		});
 	}
 
-
 	/**
 	 * Create the frame.
 	 */
@@ -449,11 +501,9 @@ public class FrmProdutos extends JFrame {
 		setBounds(100, 100, 1360, 768);
 		this.setLocationRelativeTo(null);
 
-
 		abaPrincipal = new JTabbedPane(JTabbedPane.TOP);
 		abaPrincipal.setBorder(null);
 		abaPrincipal.setBackground(new Color(202, 240, 248));
-
 
 		JPanel panelInferior = new JPanel();
 		panelInferior.setBorder(null);
@@ -485,49 +535,47 @@ public class FrmProdutos extends JFrame {
 								.addComponent(lblProdutos)
 								.addPreferredGap(ComponentPlacement.RELATED, 957, Short.MAX_VALUE)
 								.addComponent(lblVoltar, GroupLayout.PREFERRED_SIZE, 88, GroupLayout.PREFERRED_SIZE)
-								.addGap(46))
-		);
+								.addGap(46)));
 		gl_panelSuperior.setVerticalGroup(
 				gl_panelSuperior.createParallelGroup(Alignment.TRAILING)
 						.addGroup(gl_panelSuperior.createSequentialGroup()
 								.addContainerGap(22, Short.MAX_VALUE)
 								.addGroup(gl_panelSuperior.createParallelGroup(Alignment.LEADING)
-										.addComponent(lblVoltar, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE)
-										.addComponent(lblProdutos)))
-		);
+										.addComponent(lblVoltar, GroupLayout.PREFERRED_SIZE, 32,
+												GroupLayout.PREFERRED_SIZE)
+										.addComponent(lblProdutos))));
 		panelSuperior.setLayout(gl_panelSuperior);
 		GroupLayout groupLayout = new GroupLayout(getContentPane());
 		groupLayout.setHorizontalGroup(
-			groupLayout.createParallelGroup(Alignment.LEADING)
-				.addComponent(panelSuperior, GroupLayout.DEFAULT_SIZE, 1344, Short.MAX_VALUE)
-				.addComponent(panelInferior, GroupLayout.DEFAULT_SIZE, 1344, Short.MAX_VALUE)
-				.addComponent(abaPrincipal, GroupLayout.PREFERRED_SIZE, 1344, Short.MAX_VALUE)
-		);
+				groupLayout.createParallelGroup(Alignment.LEADING)
+						.addComponent(panelSuperior, GroupLayout.DEFAULT_SIZE, 1285, Short.MAX_VALUE)
+						.addComponent(abaPrincipal, GroupLayout.PREFERRED_SIZE, 1344, Short.MAX_VALUE)
+						.addComponent(panelInferior, GroupLayout.DEFAULT_SIZE, 1344, Short.MAX_VALUE));
 		groupLayout.setVerticalGroup(
-			groupLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(groupLayout.createSequentialGroup()
-					.addComponent(panelSuperior, GroupLayout.PREFERRED_SIZE, 79, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addComponent(abaPrincipal, GroupLayout.DEFAULT_SIZE, 539, Short.MAX_VALUE)
-					.addGap(18)
-					.addComponent(panelInferior, GroupLayout.PREFERRED_SIZE, 71, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap())
-		);
+				groupLayout.createParallelGroup(Alignment.LEADING)
+						.addGroup(groupLayout.createSequentialGroup()
+								.addComponent(panelSuperior, GroupLayout.PREFERRED_SIZE, 79, GroupLayout.PREFERRED_SIZE)
+								.addPreferredGap(ComponentPlacement.UNRELATED)
+								.addComponent(abaPrincipal, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+										GroupLayout.PREFERRED_SIZE)
+								.addPreferredGap(ComponentPlacement.RELATED, 57, Short.MAX_VALUE)
+								.addComponent(panelInferior, GroupLayout.PREFERRED_SIZE, 71, GroupLayout.PREFERRED_SIZE)
+								.addContainerGap()));
 
 		JPanel panelInferior_2 = new JPanel();
 		panelInferior_2.setBackground(new Color(202, 240, 248));
 		GroupLayout gl_panelInferior = new GroupLayout(panelInferior);
 		gl_panelInferior.setHorizontalGroup(
 				gl_panelInferior.createParallelGroup(Alignment.TRAILING)
-						.addComponent(panelInferior_2, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 1275, Short.MAX_VALUE)
-		);
+						.addComponent(panelInferior_2, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 1275,
+								Short.MAX_VALUE));
 		gl_panelInferior.setVerticalGroup(
 				gl_panelInferior.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_panelInferior.createSequentialGroup()
 								.addContainerGap()
-								.addComponent(panelInferior_2, GroupLayout.PREFERRED_SIZE, 49, GroupLayout.PREFERRED_SIZE)
-								.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-		);
+								.addComponent(panelInferior_2, GroupLayout.PREFERRED_SIZE, 49,
+										GroupLayout.PREFERRED_SIZE)
+								.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
 		panelInferior_2.setLayout(new GridLayout(0, 6, 10, 0));
 
 		JPanel espacoEsquerdo = new JPanel();
@@ -546,87 +594,104 @@ public class FrmProdutos extends JFrame {
 		abaDadosProdutos.setBackground(new Color(202, 240, 248));
 
 		JLabel lblDescricao = new JLabel("Descrição:");
+		lblDescricao.setBounds(158, 121, 102, 17);
 		lblDescricao.setFont(new Font("Arial", Font.BOLD, 14));
 
 		JLabel lblSubcategoria = new JLabel("Subcategoria: ");
+		lblSubcategoria.setBounds(136, 205, 104, 19);
 		lblSubcategoria.setFont(new Font("Arial", Font.BOLD, 14));
 
 		JLabel lblMarca = new JLabel("Marca: ");
+		lblMarca.setBounds(187, 248, 79, 17);
 		lblMarca.setFont(new Font("Arial", Font.BOLD, 14));
 
 		JLabel lblQtdEstoque = new JLabel("Quantidade em Estoque: ");
+		lblQtdEstoque.setBounds(62, 160, 204, 23);
 		lblQtdEstoque.setFont(new Font("Arial", Font.BOLD, 14));
 
 		JLabel lblCodigoDeBarras = new JLabel("Código de Barras:");
+		lblCodigoDeBarras.setBounds(104, 77, 162, 23);
 		lblCodigoDeBarras.setFont(new Font("Arial", Font.BOLD, 14));
 
 		JLabel lblDataFabricacao = new JLabel("Data de Fabricação: ");
+		lblDataFabricacao.setBounds(92, 289, 170, 17);
 		lblDataFabricacao.setFont(new Font("Arial", Font.BOLD, 14));
 
 		JLabel lblLote = new JLabel("Lote: ");
+		lblLote.setBounds(197, 333, 67, 17);
 		lblLote.setFont(new Font("Arial", Font.BOLD, 14));
 
-		JLabel lblIcms = new JLabel("ICMS:");
+		JLabel lblIcms = new JLabel("ICMS: ");
+		lblIcms.setBounds(192, 376, 61, 17);
 		lblIcms.setFont(new Font("Arial", Font.BOLD, 14));
 
 		JLabel lblIpi = new JLabel("IPI:");
+		lblIpi.setBounds(211, 419, 42, 17);
 		lblIpi.setFont(new Font("Arial", Font.BOLD, 14));
 
 		tfLote = new JTextField();
+		tfLote.setBounds(235, 327, 239, 23);
 		tfLote.setBackground(Color.WHITE);
 		tfLote.setFont(new Font("Arial", Font.BOLD, 14));
 		tfLote.setColumns(10);
 
 		tfCodigoDeBarras = new JTextField();
+		tfCodigoDeBarras.setBounds(235, 77, 568, 23);
 		tfCodigoDeBarras.setBackground(Color.WHITE);
 		tfCodigoDeBarras.setFont(new Font("Arial", Font.BOLD, 14));
 		tfCodigoDeBarras.setColumns(10);
 
 		tfDescricao = new JTextField();
+		tfDescricao.setBounds(235, 118, 568, 23);
 		tfDescricao.setBackground(Color.WHITE);
 		tfDescricao.setFont(new Font("Arial", Font.BOLD, 14));
 		tfDescricao.setColumns(10);
 
 		tfQtdEstoque = new JTextField();
+		tfQtdEstoque.setToolTipText("Campo disponivel para editar produto");
+		tfQtdEstoque.setBounds(235, 160, 199, 23);
 		tfQtdEstoque.setBackground(Color.WHITE);
 		tfQtdEstoque.setFont(new Font("Arial", Font.BOLD, 14));
 		tfQtdEstoque.setColumns(10);
 
 		JLabel lblUnidadeDeMedida = new JLabel("Unidade de Medida: ");
+		lblUnidadeDeMedida.setBounds(480, 163, 155, 17);
 		lblUnidadeDeMedida.setFont(new Font("Arial", Font.BOLD, 14));
 
 		cbUnidadeDeMedida = new JComboBox<String>();
+		cbUnidadeDeMedida.setBounds(639, 159, 164, 25);
 		cbUnidadeDeMedida.setBackground(Color.WHITE);
 		cbUnidadeDeMedida.setFont(new Font("Arial", Font.BOLD, 14));
 		cbUnidadeDeMedida.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] {
-				"KG","UN", "CX"
+				"KG", "UN", "CX"
 		}));
 
 		cbSubCategoria = new JComboBox<SubCategoria>();
+		cbSubCategoria.setBounds(235, 202, 568, 25);
 		cbSubCategoria.addAncestorListener(new AncestorListener() {
 			public void ancestorAdded(AncestorEvent event) {
 
-				//listando  subcategorias dentro do combobox
+				// listando subcategorias dentro do combobox
 				SubCategoriaController subCategoriaController = new SubCategoriaController();
 				List<SubCategoria> listaDeSubCategoria = subCategoriaController.consultarSubCategorias();
 
-				//removendo para limpar todos os campos
+				// removendo para limpar todos os campos
 				cbSubCategoria.removeAll();
 
-				//colocando dentro do combobox todos os dados
-				for(SubCategoria subCategoria : listaDeSubCategoria) {
+				// colocando dentro do combobox todos os dados
+				for (SubCategoria subCategoria : listaDeSubCategoria) {
 					cbSubCategoria.addItem(subCategoria);
 				}
 			}
+
 			public void ancestorMoved(AncestorEvent event) {
 			}
+
 			public void ancestorRemoved(AncestorEvent event) {
 			}
 		});
 		cbSubCategoria.setBackground(Color.WHITE);
 		cbSubCategoria.setFont(new Font("Arial", Font.BOLD, 14));
-
-
 
 		JButton btnNovo = new JButton("Novo");
 		btnNovo.setBackground(new Color(106, 76, 147));
@@ -635,6 +700,8 @@ public class FrmProdutos extends JFrame {
 		btnNovo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				limparTela(abaDadosProdutos);
+				cbFornecedor.setEnabled(true);
+				tfDataEntrada.setEnabled(true);
 			}
 		});
 		panelInferior_2.add(btnNovo);
@@ -652,19 +719,17 @@ public class FrmProdutos extends JFrame {
 
 		panelInferior_2.add(btnAlterar);
 
-
 		JButton btnSalvar = new JButton("Salvar");
 		btnSalvar.setForeground(Color.WHITE);
 		btnSalvar.setBackground(new Color(138, 201, 38));
 		btnSalvar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				cadastrarProduto();
+				cadastrarProdutoFornecedorEstoque();
 			}
 		});
 		btnSalvar.setFont(new Font("Arial", Font.BOLD, 24));
 		panelInferior_2.add(btnSalvar);
-
-
 
 		JButton btnExcluir = new JButton("Excluir");
 		btnExcluir.addActionListener(new ActionListener() {
@@ -677,12 +742,9 @@ public class FrmProdutos extends JFrame {
 		btnExcluir.setFont(new Font("Arial", Font.BOLD, 24));
 		panelInferior_2.add(btnExcluir);
 
-
-
 		JPanel espacoDireito = new JPanel();
 		espacoDireito.setBackground(new Color(202, 240, 248));
 		panelInferior_2.add(espacoDireito);
-
 
 		DocumentListener documentListener = new DocumentListener() {
 			@Override
@@ -702,389 +764,217 @@ public class FrmProdutos extends JFrame {
 		};
 
 		tfIpi = new JTextField();
+		tfIpi.setBounds(235, 413, 230, 23);
 		tfIpi.setBackground(Color.WHITE);
 		tfIpi.setFont(new Font("Arial", Font.BOLD, 14));
 		tfIpi.setColumns(10);
 		tfIpi.getDocument().addDocumentListener(documentListener);
 		tfIpi.addKeyListener(new KeyAdapter() {
-		    @Override
-		    public void keyTyped(KeyEvent e) {
-		        char c = e.getKeyChar();
-		        if (!(Character.isDigit(c) || c == '.')) {
-		            e.consume();
-		        }
-		    }
+			@Override
+			public void keyTyped(KeyEvent e) {
+				char c = e.getKeyChar();
+				if (!(Character.isDigit(c) || c == '.')) {
+					e.consume();
+				}
+			}
 		});
 
 		tfIcms = new JTextField();
+		tfIcms.setBounds(235, 370, 234, 23);
 		tfIcms.setBackground(Color.WHITE);
 		tfIcms.setFont(new Font("Arial", Font.BOLD, 14));
 		tfIcms.setColumns(10);
 		tfIcms.getDocument().addDocumentListener(documentListener);
 		tfIcms.addKeyListener(new KeyAdapter() {
-		    @Override
-		    public void keyTyped(KeyEvent e) {
-		        char c = e.getKeyChar();
-		        if (!(Character.isDigit(c) || c == '.')) {
-		            e.consume();
-		        }
-		    }
+			@Override
+			public void keyTyped(KeyEvent e) {
+				char c = e.getKeyChar();
+				if (!(Character.isDigit(c) || c == '.')) {
+					e.consume();
+				}
+			}
 		});
 
 		JLabel lblMargemLucro = new JLabel("Margem de Lucro %: ");
+		lblMargemLucro.setBounds(473, 371, 155, 17);
 		lblMargemLucro.setFont(new Font("Arial", Font.BOLD, 14));
 
 		tfMargem = new JTextField();
+		tfMargem.setBounds(639, 368, 164, 23);
 		tfMargem.setBackground(Color.WHITE);
 		tfMargem.setFont(new Font("Arial", Font.BOLD, 14));
 		tfMargem.setColumns(10);
 		tfMargem.getDocument().addDocumentListener(documentListener);
 		tfMargem.addKeyListener(new KeyAdapter() {
-		    @Override
-		    public void keyTyped(KeyEvent e) {
-		        char c = e.getKeyChar();
-		        if (!(Character.isDigit(c) || c == '.')) {
-		            e.consume();
-		        }
-		    }
+			@Override
+			public void keyTyped(KeyEvent e) {
+				char c = e.getKeyChar();
+				if (!(Character.isDigit(c) || c == '.')) {
+					e.consume();
+				}
+			}
 		});
 
 		tfMarca = new JTextField();
+		tfMarca.setBounds(235, 245, 568, 23);
 		tfMarca.setBackground(Color.WHITE);
 		tfMarca.setFont(new Font("Arial", Font.BOLD, 14));
 		tfMarca.setColumns(10);
 
-        tfDataFabricacao = new JTextField();
-        tfDataFabricacao.setBackground(Color.WHITE);
-        tfDataFabricacao.setFont(new Font("Arial", Font.BOLD, 14));
-        tfDataFabricacao.setColumns(10);
-        JFormattedTextField tfDataFabricacao = criarCampoComMascara("##/##/####");
-
-        tfDataFabricacao.getDocument().addDocumentListener(new DocumentListener() {
-            public void changedUpdate(DocumentEvent e) {
-                verificarData(tfDataFabricacao);
-            }
-            public void removeUpdate(DocumentEvent e) {
-                verificarData(tfDataFabricacao);
-            }
-            public void insertUpdate(DocumentEvent e) {
-                verificarData(tfDataFabricacao);
-            }
-        });
+		tfDataFabricacao = new JTextField();
+		tfDataFabricacao.setBounds(235, 286, 239, 23);
+		tfDataFabricacao.setBackground(Color.WHITE);
+		tfDataFabricacao.setFont(new Font("Arial", Font.BOLD, 14));
+		tfDataFabricacao.setColumns(10);
 
 		JLabel lblPrecoCusto = new JLabel("Preço de Custo: ");
+		lblPrecoCusto.setBounds(514, 330, 127, 17);
 		lblPrecoCusto.setFont(new Font("Arial", Font.BOLD, 14));
 
 		JLabel lblValidade = new JLabel("Data de Validade: ");
+		lblValidade.setBounds(505, 289, 136, 17);
 		lblValidade.setFont(new Font("Arial", Font.BOLD, 14));
 
-        tfValidade = new JTextField();
-        tfValidade.setBackground(Color.WHITE);
-        tfValidade.setFont(new Font("Arial", Font.BOLD, 14));
-        tfValidade.setColumns(10);
-        JFormattedTextField tfValidade = criarCampoComMascara("##/##/####");
-
-        tfValidade.getDocument().addDocumentListener(new DocumentListener() {
-            public void changedUpdate (DocumentEvent e){
-                verificarData(tfValidade);
-            }
-            public void removeUpdate (DocumentEvent e){
-                verificarData(tfValidade);
-            }
-            public void insertUpdate (DocumentEvent e){
-                verificarData(tfValidade);
-            }
-        });
+		tfValidade = new JTextField();
+		tfValidade.setBounds(645, 286, 158, 23);
+		tfValidade.setBackground(Color.WHITE);
+		tfValidade.setFont(new Font("Arial", Font.BOLD, 14));
+		tfValidade.setColumns(10);
 
 		tfPrecoCusto = new JTextField();
+		tfPrecoCusto.setBounds(645, 327, 158, 23);
 		tfPrecoCusto.setBackground(Color.WHITE);
 		tfPrecoCusto.setFont(new Font("Arial", Font.BOLD, 14));
 		tfPrecoCusto.setColumns(10);
 		tfPrecoCusto.getDocument().addDocumentListener(documentListener);
 		tfPrecoCusto.addKeyListener(new KeyAdapter() {
-			//Metodo confere se o valor digitado é numerico se nçao é impede de ser digitado
-		    @Override
-		    public void keyTyped(KeyEvent e) {
-		        char c = e.getKeyChar();
-		        if (!(Character.isDigit(c) || c == '.')) {
-		            e.consume();
-		        }
-		    }
+			// Metodo confere se o valor digitado é numerico se não é impede de ser digitado
+			@Override
+			public void keyTyped(KeyEvent e) {
+				char c = e.getKeyChar();
+				if (!(Character.isDigit(c) || c == '.')) {
+					e.consume();
+				}
+			}
 		});
 
 		JButton btnRemover = new JButton("Remover");
+		btnRemover.setBounds(946, 409, 302, 25);
 		btnRemover.setFont(new Font("Arial", Font.BOLD, 14));
 
 		JButton btnAdicionar = new JButton("Adicionar");
+		btnAdicionar.setBounds(946, 364, 302, 27);
 		btnAdicionar.setFont(new Font("Arial", Font.BOLD, 14));
 
 		JPanel painelFotoProduto = new JPanel();
+		painelFotoProduto.setBounds(946, 67, 302, 279);
 		painelFotoProduto.setBorder(new LineBorder(new Color(0, 0, 0), 2));
 
 		JLabel lblPrecoFinal = new JLabel("Preço Final: ");
+		lblPrecoFinal.setBounds(505, 419, 87, 17);
 		lblPrecoFinal.setFont(new Font("Arial", Font.BOLD, 14));
 
 		tfPrecoFinal = new JTextField();
+		tfPrecoFinal.setBounds(601, 416, 202, 23);
 		tfPrecoFinal.setBackground(Color.WHITE);
 		tfPrecoFinal.setFont(new Font("Arial", Font.BOLD, 14));
 		tfPrecoFinal.setColumns(10);
 		tfPrecoFinal.setEditable(false);
 
 		JLabel lblCodigo = new JLabel("Codigo:");
+		lblCodigo.setBounds(173, 30, 54, 17);
 		lblCodigo.setFont(new Font("Arial", Font.BOLD, 14));
 
 		tfCodigo = new JTextField();
+		tfCodigo.setBounds(235, 29, 302, 20);
 		tfCodigo.setEditable(false);
 		tfCodigo.setColumns(10);
 		GroupLayout gl_abaCadastrarProduto = new GroupLayout(abaCadastrarProduto);
 		gl_abaCadastrarProduto.setHorizontalGroup(
 				gl_abaCadastrarProduto.createParallelGroup(Alignment.LEADING)
-						.addComponent(abaDadosProdutos, GroupLayout.DEFAULT_SIZE, 1340, Short.MAX_VALUE)
-		);
+						.addComponent(abaDadosProdutos, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE,
+								Short.MAX_VALUE));
 		gl_abaCadastrarProduto.setVerticalGroup(
 				gl_abaCadastrarProduto.createParallelGroup(Alignment.LEADING)
-						.addComponent(abaDadosProdutos, GroupLayout.PREFERRED_SIZE, 472, Short.MAX_VALUE)
-		);
-		
+						.addComponent(abaDadosProdutos, GroupLayout.DEFAULT_SIZE, 537, Short.MAX_VALUE));
+		abaDadosProdutos.setLayout(null);
+		abaDadosProdutos.add(lblCodigoDeBarras);
+		abaDadosProdutos.add(lblDescricao);
+		abaDadosProdutos.add(lblQtdEstoque);
+		abaDadosProdutos.add(lblSubcategoria);
+		abaDadosProdutos.add(lblMarca);
+		abaDadosProdutos.add(lblDataFabricacao);
+		abaDadosProdutos.add(lblLote);
+		abaDadosProdutos.add(tfCodigoDeBarras);
+		abaDadosProdutos.add(tfDescricao);
+		abaDadosProdutos.add(tfQtdEstoque);
+		abaDadosProdutos.add(lblUnidadeDeMedida);
+		abaDadosProdutos.add(cbUnidadeDeMedida);
+		abaDadosProdutos.add(cbSubCategoria);
+		abaDadosProdutos.add(tfMarca);
+		abaDadosProdutos.add(tfDataFabricacao);
+		abaDadosProdutos.add(lblValidade);
+		abaDadosProdutos.add(tfValidade);
+		abaDadosProdutos.add(tfLote);
+		abaDadosProdutos.add(lblPrecoCusto);
+		abaDadosProdutos.add(tfPrecoCusto);
+		abaDadosProdutos.add(tfCodigo);
+		abaDadosProdutos.add(lblIcms);
+		abaDadosProdutos.add(lblPrecoFinal);
+		abaDadosProdutos.add(lblIpi);
+		abaDadosProdutos.add(tfIcms);
+		abaDadosProdutos.add(lblMargemLucro);
+		abaDadosProdutos.add(tfPrecoFinal);
+		abaDadosProdutos.add(tfIpi);
+		abaDadosProdutos.add(tfMargem);
+		abaDadosProdutos.add(btnRemover);
+		abaDadosProdutos.add(btnAdicionar);
+		abaDadosProdutos.add(painelFotoProduto);
+		abaDadosProdutos.add(lblCodigo);
+
+		/*
+		 * //JComboBox<SubCategoria> cbFornecedor = new JComboBox<SubCategoria>();
+		 * cbFornecedor.setFont(new Font("Arial", Font.BOLD, 14));
+		 * cbFornecedor.setEnabled(false);
+		 * cbFornecedor.setEditable(true);
+		 * cbFornecedor.setBackground(Color.WHITE);
+		 * cbFornecedor.setBounds(235, 485, 568, 23);
+		 * abaDadosProdutos.add(cbFornecedor);
+		 */
+
+		JLabel lblFornecedor = new JLabel("Fornecedor:");
+		lblFornecedor.setFont(new Font("Arial", Font.BOLD, 14));
+		lblFornecedor.setBounds(144, 487, 96, 19);
+		abaDadosProdutos.add(lblFornecedor);
+
 		JLabel lblDataEntrada = new JLabel("Data de Entrada:");
 		lblDataEntrada.setFont(new Font("Arial", Font.BOLD, 14));
-		
+		lblDataEntrada.setBounds(116, 450, 115, 17);
+		abaDadosProdutos.add(lblDataEntrada);
+
 		tfDataEntrada = new JTextField();
 		tfDataEntrada.setFont(new Font("Arial", Font.BOLD, 14));
 		tfDataEntrada.setColumns(10);
 		tfDataEntrada.setBackground(Color.WHITE);
-		
-		JLabel lblFornecedor = new JLabel("Fornecedor:");
-		lblFornecedor.setFont(new Font("Arial", Font.BOLD, 14));
-		
+		tfDataEntrada.setBounds(235, 447, 232, 23);
+		abaDadosProdutos.add(tfDataEntrada);
+
 		cbFornecedor = new JComboBox<Fornecedor>();
 		cbFornecedor.addAncestorListener(new AncestorListener() {
 			public void ancestorAdded(AncestorEvent event) {
 				consultarFornecedores();
 			}
+
 			public void ancestorMoved(AncestorEvent event) {
 			}
+
 			public void ancestorRemoved(AncestorEvent event) {
 			}
 		});
 		cbFornecedor.setFont(new Font("Arial", Font.BOLD, 14));
-		cbFornecedor.setEditable(true);
 		cbFornecedor.setBackground(Color.WHITE);
-		GroupLayout gl_abaDadosProdutos = new GroupLayout(abaDadosProdutos);
-		gl_abaDadosProdutos.setHorizontalGroup(
-			gl_abaDadosProdutos.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_abaDadosProdutos.createSequentialGroup()
-					.addGap(200)
-					.addComponent(lblCodigo)
-					.addGap(8)
-					.addComponent(tfCodigo, GroupLayout.PREFERRED_SIZE, 97, GroupLayout.PREFERRED_SIZE))
-				.addGroup(gl_abaDadosProdutos.createSequentialGroup()
-					.addGap(75)
-					.addGroup(gl_abaDadosProdutos.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_abaDadosProdutos.createSequentialGroup()
-							.addGap(49)
-							.addGroup(gl_abaDadosProdutos.createParallelGroup(Alignment.LEADING)
-								.addGroup(gl_abaDadosProdutos.createSequentialGroup()
-									.addGap(138)
-									.addComponent(tfCodigoDeBarras, GroupLayout.PREFERRED_SIZE, 540, GroupLayout.PREFERRED_SIZE))
-								.addComponent(lblCodigoDeBarras, GroupLayout.PREFERRED_SIZE, 162, GroupLayout.PREFERRED_SIZE)))
-						.addGroup(gl_abaDadosProdutos.createSequentialGroup()
-							.addGap(100)
-							.addGroup(gl_abaDadosProdutos.createParallelGroup(Alignment.LEADING)
-								.addGroup(gl_abaDadosProdutos.createSequentialGroup()
-									.addGap(87)
-									.addComponent(tfDescricao, GroupLayout.PREFERRED_SIZE, 540, GroupLayout.PREFERRED_SIZE))
-								.addComponent(lblDescricao, GroupLayout.PREFERRED_SIZE, 104, GroupLayout.PREFERRED_SIZE)))
-						.addGroup(gl_abaDadosProdutos.createSequentialGroup()
-							.addGroup(gl_abaDadosProdutos.createParallelGroup(Alignment.LEADING)
-								.addComponent(lblQtdEstoque, GroupLayout.PREFERRED_SIZE, 204, GroupLayout.PREFERRED_SIZE)
-								.addGroup(gl_abaDadosProdutos.createSequentialGroup()
-									.addGap(187)
-									.addComponent(tfQtdEstoque, GroupLayout.PREFERRED_SIZE, 171, GroupLayout.PREFERRED_SIZE)))
-							.addGap(46)
-							.addComponent(lblUnidadeDeMedida, GroupLayout.PREFERRED_SIZE, 155, GroupLayout.PREFERRED_SIZE)
-							.addGap(4)
-							.addComponent(cbUnidadeDeMedida, GroupLayout.PREFERRED_SIZE, 164, GroupLayout.PREFERRED_SIZE))
-						.addGroup(gl_abaDadosProdutos.createSequentialGroup()
-							.addGap(73)
-							.addComponent(lblSubcategoria, GroupLayout.PREFERRED_SIZE, 104, GroupLayout.PREFERRED_SIZE)
-							.addGap(10)
-							.addComponent(cbSubCategoria, GroupLayout.PREFERRED_SIZE, 540, GroupLayout.PREFERRED_SIZE))
-						.addGroup(gl_abaDadosProdutos.createSequentialGroup()
-							.addGap(125)
-							.addGroup(gl_abaDadosProdutos.createParallelGroup(Alignment.LEADING)
-								.addGroup(gl_abaDadosProdutos.createSequentialGroup()
-									.addGap(62)
-									.addComponent(tfMarca, GroupLayout.PREFERRED_SIZE, 540, GroupLayout.PREFERRED_SIZE))
-								.addComponent(lblMarca, GroupLayout.PREFERRED_SIZE, 79, GroupLayout.PREFERRED_SIZE)))
-						.addGroup(gl_abaDadosProdutos.createSequentialGroup()
-							.addGap(34)
-							.addGroup(gl_abaDadosProdutos.createParallelGroup(Alignment.LEADING)
-								.addComponent(lblDataFabricacao, GroupLayout.PREFERRED_SIZE, 170, GroupLayout.PREFERRED_SIZE)
-								.addGroup(gl_abaDadosProdutos.createSequentialGroup()
-									.addGap(153)
-									.addComponent(tfDataFabricacao, GroupLayout.PREFERRED_SIZE, 211, GroupLayout.PREFERRED_SIZE)))
-							.addGap(31)
-							.addComponent(lblValidade, GroupLayout.PREFERRED_SIZE, 136, GroupLayout.PREFERRED_SIZE)
-							.addGap(4)
-							.addComponent(tfValidade, GroupLayout.PREFERRED_SIZE, 158, GroupLayout.PREFERRED_SIZE))
-						.addGroup(gl_abaDadosProdutos.createSequentialGroup()
-							.addGap(137)
-							.addGroup(gl_abaDadosProdutos.createParallelGroup(Alignment.LEADING)
-								.addComponent(lblLote, GroupLayout.PREFERRED_SIZE, 67, GroupLayout.PREFERRED_SIZE)
-								.addGroup(gl_abaDadosProdutos.createSequentialGroup()
-									.addGap(50)
-									.addComponent(tfLote, GroupLayout.PREFERRED_SIZE, 211, GroupLayout.PREFERRED_SIZE)))
-							.addGap(40)
-							.addComponent(lblPrecoCusto, GroupLayout.PREFERRED_SIZE, 127, GroupLayout.PREFERRED_SIZE)
-							.addGap(4)
-							.addComponent(tfPrecoCusto, GroupLayout.PREFERRED_SIZE, 158, GroupLayout.PREFERRED_SIZE)))
-					.addGap(144)
-					.addComponent(painelFotoProduto, GroupLayout.PREFERRED_SIZE, 302, GroupLayout.PREFERRED_SIZE))
-				.addGroup(gl_abaDadosProdutos.createSequentialGroup()
-					.addGap(208)
-					.addComponent(lblIcms)
-					.addGap(14)
-					.addComponent(tfIcms, GroupLayout.PREFERRED_SIZE, 202, GroupLayout.PREFERRED_SIZE)
-					.addGap(4)
-					.addComponent(lblMargemLucro, GroupLayout.PREFERRED_SIZE, 155, GroupLayout.PREFERRED_SIZE)
-					.addGap(11)
-					.addComponent(tfMargem, GroupLayout.PREFERRED_SIZE, 168, GroupLayout.PREFERRED_SIZE)
-					.addGap(140)
-					.addComponent(btnAdicionar, GroupLayout.PREFERRED_SIZE, 302, GroupLayout.PREFERRED_SIZE))
-				.addGroup(gl_abaDadosProdutos.createSequentialGroup()
-					.addGap(137)
-					.addGroup(gl_abaDadosProdutos.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_abaDadosProdutos.createSequentialGroup()
-							.addGap(94)
-							.addComponent(lblIpi))
-						.addComponent(lblDataEntrada))
-					.addGap(10)
-					.addGroup(gl_abaDadosProdutos.createParallelGroup(Alignment.LEADING)
-						.addComponent(tfIpi, GroupLayout.PREFERRED_SIZE, 202, GroupLayout.PREFERRED_SIZE)
-						.addGroup(gl_abaDadosProdutos.createSequentialGroup()
-							.addGap(2)
-							.addComponent(tfDataEntrada, GroupLayout.PREFERRED_SIZE, 236, GroupLayout.PREFERRED_SIZE)))
-					.addGap(4)
-					.addComponent(lblPrecoFinal)
-					.addGap(10)
-					.addComponent(tfPrecoFinal, GroupLayout.PREFERRED_SIZE, 202, GroupLayout.PREFERRED_SIZE)
-					.addGap(143)
-					.addComponent(btnRemover, GroupLayout.PREFERRED_SIZE, 302, GroupLayout.PREFERRED_SIZE))
-				.addGroup(gl_abaDadosProdutos.createSequentialGroup()
-					.addGap(167)
-					.addComponent(lblFornecedor)
-					.addGap(8)
-					.addComponent(cbFornecedor, GroupLayout.PREFERRED_SIZE, 540, GroupLayout.PREFERRED_SIZE))
-		);
-		gl_abaDadosProdutos.setVerticalGroup(
-			gl_abaDadosProdutos.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_abaDadosProdutos.createSequentialGroup()
-					.addGap(11)
-					.addGroup(gl_abaDadosProdutos.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_abaDadosProdutos.createSequentialGroup()
-							.addGap(1)
-							.addComponent(lblCodigo))
-						.addComponent(tfCodigo, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addGap(28)
-					.addGroup(gl_abaDadosProdutos.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_abaDadosProdutos.createSequentialGroup()
-							.addGroup(gl_abaDadosProdutos.createParallelGroup(Alignment.LEADING)
-								.addComponent(tfCodigoDeBarras, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-								.addComponent(lblCodigoDeBarras, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE))
-							.addGap(18)
-							.addGroup(gl_abaDadosProdutos.createParallelGroup(Alignment.LEADING)
-								.addComponent(tfDescricao, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-								.addGroup(gl_abaDadosProdutos.createSequentialGroup()
-									.addGap(3)
-									.addComponent(lblDescricao)))
-							.addGap(18)
-							.addGroup(gl_abaDadosProdutos.createParallelGroup(Alignment.LEADING)
-								.addGroup(gl_abaDadosProdutos.createSequentialGroup()
-									.addGap(1)
-									.addGroup(gl_abaDadosProdutos.createParallelGroup(Alignment.LEADING)
-										.addComponent(lblQtdEstoque, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE)
-										.addComponent(tfQtdEstoque, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
-								.addGroup(gl_abaDadosProdutos.createSequentialGroup()
-									.addGap(4)
-									.addComponent(lblUnidadeDeMedida))
-								.addComponent(cbUnidadeDeMedida, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE))
-							.addGap(18)
-							.addGroup(gl_abaDadosProdutos.createParallelGroup(Alignment.LEADING)
-								.addGroup(gl_abaDadosProdutos.createSequentialGroup()
-									.addGap(3)
-									.addComponent(lblSubcategoria, GroupLayout.PREFERRED_SIZE, 19, GroupLayout.PREFERRED_SIZE))
-								.addComponent(cbSubCategoria, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-							.addGap(18)
-							.addGroup(gl_abaDadosProdutos.createParallelGroup(Alignment.LEADING)
-								.addComponent(tfMarca, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-								.addGroup(gl_abaDadosProdutos.createSequentialGroup()
-									.addGap(3)
-									.addComponent(lblMarca)))
-							.addGap(18)
-							.addGroup(gl_abaDadosProdutos.createParallelGroup(Alignment.LEADING)
-								.addGroup(gl_abaDadosProdutos.createSequentialGroup()
-									.addGap(3)
-									.addComponent(lblDataFabricacao))
-								.addComponent(tfDataFabricacao, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-								.addGroup(gl_abaDadosProdutos.createSequentialGroup()
-									.addGap(3)
-									.addComponent(lblValidade))
-								.addComponent(tfValidade, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-							.addGap(18)
-							.addGroup(gl_abaDadosProdutos.createParallelGroup(Alignment.LEADING)
-								.addGroup(gl_abaDadosProdutos.createSequentialGroup()
-									.addGap(3)
-									.addComponent(lblLote))
-								.addComponent(tfLote, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-								.addGroup(gl_abaDadosProdutos.createSequentialGroup()
-									.addGap(3)
-									.addComponent(lblPrecoCusto))
-								.addComponent(tfPrecoCusto, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
-						.addGroup(gl_abaDadosProdutos.createSequentialGroup()
-							.addGap(8)
-							.addComponent(painelFotoProduto, GroupLayout.PREFERRED_SIZE, 279, GroupLayout.PREFERRED_SIZE)))
-					.addGap(4)
-					.addGroup(gl_abaDadosProdutos.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_abaDadosProdutos.createSequentialGroup()
-							.addGap(5)
-							.addComponent(lblIcms))
-						.addGroup(gl_abaDadosProdutos.createSequentialGroup()
-							.addGap(2)
-							.addComponent(tfIcms, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-						.addGroup(gl_abaDadosProdutos.createSequentialGroup()
-							.addGap(3)
-							.addComponent(lblMargemLucro))
-						.addComponent(tfMargem, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addGroup(gl_abaDadosProdutos.createSequentialGroup()
-							.addGap(14)
-							.addComponent(btnAdicionar, GroupLayout.PREFERRED_SIZE, 27, GroupLayout.PREFERRED_SIZE)))
-					.addGap(4)
-					.addGroup(gl_abaDadosProdutos.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_abaDadosProdutos.createSequentialGroup()
-							.addGap(3)
-							.addComponent(lblIpi)
-							.addGap(20)
-							.addComponent(lblDataEntrada))
-						.addGroup(gl_abaDadosProdutos.createSequentialGroup()
-							.addComponent(tfIpi, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-							.addGap(14)
-							.addComponent(tfDataEntrada, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-						.addGroup(gl_abaDadosProdutos.createSequentialGroup()
-							.addGap(6)
-							.addComponent(lblPrecoFinal))
-						.addComponent(tfPrecoFinal, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addGroup(gl_abaDadosProdutos.createSequentialGroup()
-							.addGap(14)
-							.addComponent(btnRemover)))
-					.addGap(24)
-					.addGroup(gl_abaDadosProdutos.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_abaDadosProdutos.createSequentialGroup()
-							.addGap(2)
-							.addComponent(lblFornecedor, GroupLayout.PREFERRED_SIZE, 19, GroupLayout.PREFERRED_SIZE))
-						.addComponent(cbFornecedor, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
-		);
-		abaDadosProdutos.setLayout(gl_abaDadosProdutos);
+		cbFornecedor.setBounds(235, 486, 568, 25);
+		abaDadosProdutos.add(cbFornecedor);
 		abaCadastrarProduto.setLayout(gl_abaCadastrarProduto);
 
 		JLayeredPane abaConsultarProdutos = new JLayeredPane();

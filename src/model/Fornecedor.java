@@ -310,7 +310,8 @@ public class Fornecedor {
 
 	@Override
 	public String toString() {
-		return getNome();
+//		return getNome();
+		return getCnpj();
 	}
 	
 	

@@ -142,8 +142,7 @@ public class FornecedorController implements InterfaceFornecedor {
 			    	List<Fornecedor> lista = new ArrayList<>();
 			    	String sql = "SELECT * FROM tb_fornecedor";
 			    	dataBase.preparedStatement = dataBase.con.prepareStatement(sql);
-			        dataBase.resultSet = dataBase.preparedStatement.executeQuery();
-		
+			        dataBase.resultSet = dataBase.preparedStatement.executeQuery();		
 		        
 		        while (dataBase.resultSet.next()) {
 		            Fornecedor fornecedor = new Fornecedor();
@@ -230,9 +229,9 @@ public class FornecedorController implements InterfaceFornecedor {
 	 * @return - retorna uma lista com os resultados encontrados.
 	 */
 	public List<Fornecedor> consultarFornecedoresPorNome(String nome) {
+		List<Fornecedor> lista = new ArrayList<>();
 	    if(dataBase.getConnection()) {
 		    try {
-		    	List<Fornecedor> lista = new ArrayList<>();
 		    	String sql = "SELECT * FROM tb_fornecedor WHERE nome LIKE ?";
 		    	dataBase.preparedStatement = dataBase.con.prepareStatement(sql);
 		    	dataBase.preparedStatement.setString(1, "%" + nome + "%");
@@ -257,7 +256,6 @@ public class FornecedorController implements InterfaceFornecedor {
 	
 		            lista.add(fornecedor);
 		        }
-		        return lista;
 		        
 		    } catch (SQLException e) {
 		        JOptionPane.showMessageDialog(null, "Erro ao buscar fornecedor por nome: " + e);
@@ -268,7 +266,49 @@ public class FornecedorController implements InterfaceFornecedor {
 	    }else {
 	    	JOptionPane.showMessageDialog(null, "Falha na conexão");
 	    }
-		return null;
+		return lista;
+	    
+	}
+	
+	public List<Fornecedor> consultarFornecedoresPorCnpj(String cnpj) {
+		List<Fornecedor> lista = new ArrayList<>();
+	    if(dataBase.getConnection()) {
+		    try {
+		    	String sql = "SELECT * FROM tb_fornecedor WHERE nome cnpj ?";
+		    	dataBase.preparedStatement = dataBase.con.prepareStatement(sql);
+		    	dataBase.preparedStatement.setString(1, "%" + cnpj + "%");
+		        dataBase.resultSet = dataBase.preparedStatement.executeQuery();
+		        
+		        while (dataBase.resultSet.next()) {
+		            Fornecedor fornecedor = new Fornecedor();
+		            fornecedor.setNome(dataBase.resultSet.getString("nome"));
+		            fornecedor.setEmail(dataBase.resultSet.getString("email"));
+		            fornecedor.setEndereco(dataBase.resultSet.getString("endereco"));
+		            fornecedor.setNumero(dataBase.resultSet.getInt("numero"));
+		            fornecedor.setCnpj(dataBase.resultSet.getString("cnpj"));
+		            fornecedor.setBairro(dataBase.resultSet.getString("bairro"));
+		            fornecedor.setCidade(dataBase.resultSet.getString("cidade"));
+		            fornecedor.setCelular(dataBase.resultSet.getString("celular"));
+		            fornecedor.setTelefone(dataBase.resultSet.getString("telefone"));
+		            fornecedor.setCep(dataBase.resultSet.getString("cep"));
+		            fornecedor.setComplemento(dataBase.resultSet.getString("complemento"));
+		            fornecedor.setInscricaoEstadual(dataBase.resultSet.getString("inscricao_estadual"));
+		            fornecedor.setRazaoSocial(dataBase.resultSet.getString("razao_social"));
+		            fornecedor.setUf(dataBase.resultSet.getString("uf"));
+	
+		            lista.add(fornecedor);
+		        }
+		        
+		    } catch (SQLException e) {
+		        JOptionPane.showMessageDialog(null, "Erro ao buscar fornecedor por cnpj: " + e);
+		    }
+		    finally {
+		    	dataBase.close();
+		    }
+	    }else {
+	    	JOptionPane.showMessageDialog(null, "Falha na conexão");
+	    }
+		return lista;
 	    
 	}
 

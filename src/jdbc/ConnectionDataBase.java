@@ -33,7 +33,7 @@ public class ConnectionDataBase {
 	private final String URL = "jdbc:sqlserver://localhost:1433;databasename=" + DATABASENAME;
 	
 	/** The login. */
-	private final String LOGIN = "giovanni";
+	private final String LOGIN = "sa";
 	
 	/** The senha. */
 	private final String SENHA = "123456";

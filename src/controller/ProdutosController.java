@@ -17,12 +17,11 @@ import model.CadastroProdutoFornecedorEstoque;
 import model.Produto;
 import model.SubCategoria;
 
-
 // TODO: Auto-generated Javadoc
 /**
  * The Class ProdutosController.
  */
-public class ProdutosController implements InterfaceProduto{
+public class ProdutosController implements InterfaceProduto {
 
 	/** The sub categoria controller. */
 	private SubCategoriaController subCategoriaController;
@@ -47,46 +46,11 @@ public class ProdutosController implements InterfaceProduto{
 			try {
 				String sql = "insert into tb_produto (descricao, codigo_barras, marca, cod_subcategoria, unidade_medida, quantidade, data_fabricacao, data_validade, "
 						+ "lote, ipi, icms, margem_lucro, preco_custo, preco_final) "
-						+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+						+ "VALUES (?, ?, ?, ?, ?, ?, CONVERT(datetime, ? , 103), CONVERT(datetime, ? , 103), ?, ?, ?, ?, ?, ?)";
 
-				SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy"); // Supondo que a data esteja nesse formato
-
-				dataBase.preparedStatement.setString(1, produto.getDescricao());
-				dataBase.preparedStatement.setString(2, produto.getCodigoDeBarras());
-				dataBase.preparedStatement.setString(3, produto.getMarca());
-				dataBase.preparedStatement.setInt(4, produto.getSubCategoria().getCodigo());
-				dataBase.preparedStatement.setString(5, produto.getUnidadeDeMedida());
-				dataBase.preparedStatement.setDouble(6, produto.getQuantidade());
-				dataBase.preparedStatement.setDate(7, new java.sql.Date(format.parse(produto.getDataFabricacao()).getTime()));
-				dataBase.preparedStatement.setDate(8, new java.sql.Date(format.parse(produto.getDataValidade()).getTime()));
-				dataBase.preparedStatement.setString(9, produto.getLote());
-				dataBase.preparedStatement.setDouble(10, produto.getIpi());
-				dataBase.preparedStatement.setDouble(11, produto.getIcms());
-				dataBase.preparedStatement.setDouble(12, produto.getMargemLucro());
-				dataBase.preparedStatement.setDouble(13, produto.getPrecoCusto());
-				dataBase.preparedStatement.setDouble(14, produto.getPrecoFinal());
-
-				dataBase.preparedStatement.execute();
-
-				JOptionPane.showMessageDialog(null, "Produto cadastrado com sucesso");
-
-			} catch (SQLException | NumberFormatException | ParseException erro) {
-				JOptionPane.showMessageDialog(null, "Erro: " + erro);
-			} finally {
-				dataBase.close();
-			}
-		} else {
-			JOptionPane.showMessageDialog(null, "Falha na conexão");
-		}
-	}
-	
-	
-	public void cadastrarProdutoFornecedor(CadastroProdutoFornecedorEstoque cadastroProdutoFornecedorEstoque) {
-		if (dataBase.getConnection()) {
-			try {
-				String sql = "insert into tb_produto (descricao, codigo_barras, marca, cod_subcategoria, unidade_medida, quantidade, data_fabricacao, data_validade, "
-						+ "lote, ipi, icms, margem_lucro, preco_custo, preco_final) "
-						+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+				dataBase.preparedStatement = dataBase.con.prepareStatement(sql);
+				// SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy"); // Supondo que
+				// a data esteja nesse formato
 
 				dataBase.preparedStatement.setString(1, produto.getDescricao());
 				dataBase.preparedStatement.setString(2, produto.getCodigoDeBarras());
@@ -94,8 +58,8 @@ public class ProdutosController implements InterfaceProduto{
 				dataBase.preparedStatement.setInt(4, produto.getSubCategoria().getCodigo());
 				dataBase.preparedStatement.setString(5, produto.getUnidadeDeMedida());
 				dataBase.preparedStatement.setDouble(6, produto.getQuantidade());
-				dataBase.preparedStatement.setDate(7, new java.sql.Date(produto.getDataFabricacao().getTime()));
-				dataBase.preparedStatement.setDate(8, new java.sql.Date(produto.getDataValidade().getTime()));
+				dataBase.preparedStatement.setString(7, produto.getDataFabricacao());
+				dataBase.preparedStatement.setString(8, produto.getDataValidade());
 				dataBase.preparedStatement.setString(9, produto.getLote());
 				dataBase.preparedStatement.setDouble(10, produto.getIpi());
 				dataBase.preparedStatement.setDouble(11, produto.getIcms());
@@ -116,8 +80,6 @@ public class ProdutosController implements InterfaceProduto{
 			JOptionPane.showMessageDialog(null, "Falha na conexão");
 		}
 	}
-
-
 
 	/**
 	 * Método que a partir do código passado, executa o comando SQL para a exclusão
@@ -156,17 +118,18 @@ public class ProdutosController implements InterfaceProduto{
 		if (dataBase.getConnection()) {
 			try {
 				String sql = "UPDATE produto SET descricao = ?,  marca = ?, cod_subcategoria = ?, unidade_medida = ?,"
-						+ " quantidade = ?, data_fabricacao = ?, data_validade = ?, lote = ?, ipi = ?, icms = ?, margem_lucro = ?, preco_custo = ?, preco_final = ? WHERE codigo_barras = ?";
+						+ " quantidade = ?, data_fabricacao = CONVERT(datetime, ? , 103), data_validade = CONVERT(datetime, ? , 103), lote = ?, ipi = ?, icms = ?, margem_lucro = ?, preco_custo = ?, preco_final = ? WHERE codigo_barras = ?";
 
-				SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy"); // Supondo que a data esteja nesse formato
+				// SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy"); // Supondo que
+				// a data esteja nesse formato
 
 				dataBase.preparedStatement.setString(1, produto.getDescricao());
 				dataBase.preparedStatement.setString(2, produto.getMarca());
 				dataBase.preparedStatement.setInt(3, produto.getSubCategoria().getCodigo());
 				dataBase.preparedStatement.setString(4, produto.getUnidadeDeMedida());
 				dataBase.preparedStatement.setDouble(5, produto.getQuantidade());
-				dataBase.preparedStatement.setDate(6, new java.sql.Date(format.parse(produto.getDataFabricacao()).getTime()));
-				dataBase.preparedStatement.setDate(7, new java.sql.Date(format.parse(produto.getDataValidade()).getTime()));
+				dataBase.preparedStatement.setString(6, produto.getDataFabricacao());
+				dataBase.preparedStatement.setString(7, produto.getDataValidade());
 				dataBase.preparedStatement.setString(8, produto.getLote());
 				dataBase.preparedStatement.setDouble(9, produto.getIpi());
 				dataBase.preparedStatement.setDouble(10, produto.getIcms());
@@ -179,7 +142,7 @@ public class ProdutosController implements InterfaceProduto{
 
 				JOptionPane.showMessageDialog(null, "Produto alterado com sucesso");
 
-			} catch (SQLException | NumberFormatException | ParseException erro) {
+			} catch (SQLException | NumberFormatException erro) {
 				JOptionPane.showMessageDialog(null, "Erro: " + erro);
 			} finally {
 				dataBase.close();
@@ -199,10 +162,10 @@ public class ProdutosController implements InterfaceProduto{
 	public List<Produto> consultarProdutos() {
 		if (dataBase.getConnection()) {
 			try {
-				SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");  // Cria um objeto formatador
+				SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy"); // Cria um objeto formatador
 
 				List<Produto> lista = new ArrayList<>();
-				String sql ="select codigo_barras, descricao, marca, cod_subcategoria, unidade_medida, quantidade,"
+				String sql = "select codigo_barras, descricao, marca, cod_subcategoria, unidade_medida, quantidade,"
 						+ " data_fabricacao, data_validade, lote, ipi, icms, margem_lucro, preco_custo, preco_final from tb_produto";
 
 				dataBase.preparedStatement = dataBase.con.prepareStatement(sql);
@@ -241,15 +204,15 @@ public class ProdutosController implements InterfaceProduto{
 			} catch (SQLException e) {
 				JOptionPane.showMessageDialog(null, "Erro ao listar produtos: " + e);
 				return null;
-			}finally {
+			} finally {
 				dataBase.close();
 			}
 		} else {
-			JOptionPane.showMessageDialog(null, "Falha na conexão");
+			// JOptionPane.showMessageDialog(null, "Falha na conexão");
+			System.exit(1);
 			return null;
 		}
 	}
-
 
 	/**
 	 * Método que cria um ArrayList do tipo Produtos para listar os produtos do
@@ -261,7 +224,8 @@ public class ProdutosController implements InterfaceProduto{
 	public List<Produto> consultarProdutosPorNome(String nome) {
 		if (dataBase.getConnection()) {
 			try {
-				SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");  // Cria um objeto formatador
+				SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy"); // Cria um
+				// objeto formatador
 
 				List<Produto> lista = new ArrayList<>();
 				String sql = "SELECT * FROM produto WHERE descricao LIKE ?";
@@ -278,8 +242,8 @@ public class ProdutosController implements InterfaceProduto{
 					produto.setQuantidade(dataBase.resultSet.getDouble("quantidade"));
 
 					// Aqui você pega a data do banco e formata para o formato desejado
-					String dataFabricacao = format.format(dataBase.resultSet.getDate("data_fabricacao"));
-					String dataValidade = format.format(dataBase.resultSet.getDate("data_validade"));
+					String dataFabricacao = format.format(dataBase.resultSet.getString("data_fabricacao"));
+					String dataValidade = format.format(dataBase.resultSet.getString("data_validade"));
 					produto.setDataFabricacao(dataFabricacao);
 					produto.setDataValidade(dataValidade);
 
@@ -295,7 +259,7 @@ public class ProdutosController implements InterfaceProduto{
 				return lista;
 			} catch (SQLException e) {
 				JOptionPane.showMessageDialog(null, "Erro ao buscar produto por nome: " + e);
-			}finally {
+			} finally {
 				dataBase.close();
 			}
 		} else {
@@ -313,7 +277,7 @@ public class ProdutosController implements InterfaceProduto{
 	public Produto consultarProdutosPorCodigoBarras(String codigoDeBarras) {
 		Produto produto = new Produto();
 		boolean exibiuErro = false;
-		if(dataBase.getConnection()) {
+		if (dataBase.getConnection()) {
 			try {
 
 				String sql = "select descricao, codigo_barras,unidade_medida, quantidade, data_fabricacao,"
@@ -324,9 +288,9 @@ public class ProdutosController implements InterfaceProduto{
 				dataBase.resultSet = dataBase.preparedStatement.executeQuery();
 				SubCategoria subCategoria = new SubCategoria();
 
-				if(dataBase.resultSet.next()) {
+				if (dataBase.resultSet.next()) {
 
-					//produto.setCodigo(dataBase.resultSet.getInt("codigo"));
+					// produto.setCodigo(dataBase.resultSet.getInt("codigo"));
 					produto.setDescricao(dataBase.resultSet.getString("descricao"));
 					produto.setCodigoDeBarras(dataBase.resultSet.getString("codigo_barras"));
 					produto.setUnidadeDeMedida(dataBase.resultSet.getString("unidade_medida"));
@@ -334,28 +298,26 @@ public class ProdutosController implements InterfaceProduto{
 					produto.setPrecoFinal(dataBase.resultSet.getDouble("preco_final"));
 				}
 
-			}catch(SQLException e) {
+			} catch (SQLException e) {
 				if (!exibiuErro) {
 					JOptionPane.showMessageDialog(null, "Erro ao listar produtos: " + e);
 					System.exit(0);
-					//return null;
+					// return null;
 					exibiuErro = true;
 				}
-			}catch (NullPointerException e) {
+			} catch (NullPointerException e) {
 				// TODO: handle exception
 				dataBase.close();
 				System.exit(0);
-			}
-			finally {
+			} finally {
 				dataBase.close();
 			}
-		}else {
+		} else {
 			JOptionPane.showMessageDialog(null, "Falha na conexão");
-			//return null;
+			// return null;
 		}
 		return produto;
 	}
-
 
 	public void alterarQuantidade(Produto produto) {
 		if (dataBase.getConnection()) {
@@ -371,7 +333,7 @@ public class ProdutosController implements InterfaceProduto{
 
 			} catch (SQLException | NumberFormatException e) {
 				JOptionPane.showMessageDialog(null, "Erro: " + e);
-			}finally {
+			} finally {
 				dataBase.close();
 			}
 
