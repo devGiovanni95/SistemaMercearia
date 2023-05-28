@@ -19,7 +19,7 @@ public class CadastroProdutoFornecedorEstoqueController {
 			try {
 
 				String sql = "insert into tb_produto_fornecedor(codigo,cod_produto,cod_fornecedor,data_entrada,quantidade,preco_unitario,subtotal)"
-						+ " values(?,?,?,?,?,?,?)";
+						+ " values(?,?,?,CONVERT(datetime, ? , 103),?,?,?)";
 
 				dataBase.preparedStatement = dataBase.con.prepareStatement(sql);
 
