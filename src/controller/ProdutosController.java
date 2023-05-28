@@ -119,9 +119,6 @@ public class ProdutosController implements InterfaceProduto {
 			String sql = "UPDATE produto SET descricao = ?,  marca = ?, cod_subcategoria = ?, unidade_medida = ?,"
 					+ " quantidade = ?, data_fabricacao = CONVERT(datetime, ? , 103), data_validade = CONVERT(datetime, ? , 103), lote = ?, ipi = ?, icms = ?, margem_lucro = ?, preco_custo = ?, preco_final = ? WHERE codigo_barras = ?";
 
-			// SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy"); // Supondo que
-			// a data esteja nesse formato
-
 			dataBase.preparedStatement.setString(1, produto.getDescricao());
 			dataBase.preparedStatement.setString(2, produto.getMarca());
 			dataBase.preparedStatement.setInt(3, produto.getSubCategoria().getCodigo());
@@ -172,11 +169,13 @@ public class ProdutosController implements InterfaceProduto {
 			while (dataBase.resultSet.next()) {
 				Produto produto = new Produto();
 				SubCategoria subCategoria = new SubCategoria();
+				SubCategoriaController subcategoriaController = new SubCategoriaController();
 
 				produto.setCodigoDeBarras(dataBase.resultSet.getString("codigo_barras"));
 				produto.setDescricao(dataBase.resultSet.getString("descricao"));
 				produto.setMarca(dataBase.resultSet.getString("marca"));
-				subCategoria.setCodigo(dataBase.resultSet.getInt("cod_subcategoria"));
+				subCategoria = subcategoriaController
+						.consultarSubCategoriasPorId(dataBase.resultSet.getInt("cod_subcategoria"));
 				produto.setSubCategoria(subCategoria);
 				produto.setUnidadeDeMedida(dataBase.resultSet.getString("unidade_medida"));
 				produto.setQuantidade(dataBase.resultSet.getDouble("quantidade"));
@@ -278,6 +277,57 @@ public class ProdutosController implements InterfaceProduto {
 					produto.setCodigoDeBarras(dataBase.resultSet.getString("codigo_barras"));
 					produto.setUnidadeDeMedida(dataBase.resultSet.getString("unidade_medida"));
 					produto.setQuantidade(dataBase.resultSet.getDouble("quantidade"));
+					produto.setPrecoFinal(dataBase.resultSet.getDouble("preco_final"));
+				}
+
+			} catch (SQLException e) {
+				if (!exibiuErro) {
+					JOptionPane.showMessageDialog(null, "Erro ao listar produtos: " + e);
+					// return null;
+					exibiuErro = true;
+				}
+			} catch (NullPointerException e) {
+				dataBase.close();
+			} finally {
+				dataBase.close();
+			}
+		} else {
+			JOptionPane.showMessageDialog(null, "Falha na conexão");
+		}
+		return produto;
+	}
+
+	public Produto consultarProdutosPorCodigoBarrasCompleto(String codigoDeBarras) {
+		Produto produto = new Produto();
+		boolean exibiuErro = false;
+		if (dataBase.getConnection()) {
+			try {
+
+				String sql = "select * from tb_produto where codigo_barras = ?";
+
+				dataBase.preparedStatement = dataBase.con.prepareStatement(sql);
+				dataBase.preparedStatement.setString(1, codigoDeBarras);
+				dataBase.resultSet = dataBase.preparedStatement.executeQuery();
+				SubCategoria subCategoria = new SubCategoria();
+				// SubCategoria subCategoria = new SubCategoria();
+				SubCategoriaController subCategoriaController = new SubCategoriaController();
+
+				if (dataBase.resultSet.next()) {
+					produto.setDescricao(dataBase.resultSet.getString("descricao"));
+					produto.setCodigoDeBarras(dataBase.resultSet.getString("codigo_barras"));
+					produto.setMarca(dataBase.resultSet.getString("marca"));
+					subCategoria = subCategoriaController
+							.consultarSubCategoriasPorId(dataBase.resultSet.getInt("cod_subcategoria"));
+					produto.setSubCategoria(subCategoria);
+					produto.setUnidadeDeMedida(dataBase.resultSet.getString("unidade_medida"));
+					produto.setQuantidade(dataBase.resultSet.getDouble("quantidade"));
+					produto.setDataFabricacao(dataBase.resultSet.getString("data_fabricacao"));
+					produto.setDataValidade(dataBase.resultSet.getString("data_validade"));
+					produto.setLote(dataBase.resultSet.getString("lote"));
+					produto.setIpi(dataBase.resultSet.getDouble("ipi"));
+					produto.setIcms(dataBase.resultSet.getDouble("icms"));
+					produto.setMargemLucro(dataBase.resultSet.getDouble("margem_lucro"));
+					produto.setPrecoCusto(dataBase.resultSet.getDouble("preco_custo"));
 					produto.setPrecoFinal(dataBase.resultSet.getDouble("preco_final"));
 				}
 

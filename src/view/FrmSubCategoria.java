@@ -297,10 +297,8 @@ public class FrmSubCategoria extends JFrame {
 			public void ancestorAdded(AncestorEvent event) {
 				consultarCategorias();
 			}
-
 			public void ancestorMoved(AncestorEvent event) {
 			}
-
 			public void ancestorRemoved(AncestorEvent event) {
 			}
 		});

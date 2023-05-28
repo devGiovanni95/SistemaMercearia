@@ -150,6 +150,7 @@ public class FrmProdutos extends JFrame {
 	private void alterarProduto() {
 		Produto produto = new Produto();
 		SubCategoria subCategoria = new SubCategoria();
+		SubCategoriaController subCategoriaController = new SubCategoriaController();
 		ProdutosController produtosController = new ProdutosController();
 
 		// SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
@@ -157,10 +158,11 @@ public class FrmProdutos extends JFrame {
 		produto.setDescricao(tfDescricao.getText());
 		produto.setCodigoDeBarras(tfCodigoDeBarras.getText());
 		produto.setMarca(tfMarca.getText());
-		subCategoria = (SubCategoria) cbSubCategoria.getSelectedItem();
+		subCategoria = (SubCategoria) subCategoriaController.consultarSubCategoriaPorNome(tfSub.getText());
+
 		produto.setSubCategoria(subCategoria);
 		produto.setUnidadeDeMedida(cbUnidadeDeMedida.getSelectedItem().toString());
-		produto.setQuantidade(Integer.parseInt(tfQtdEstoque.getText()));
+		produto.setQuantidade(Double.parseDouble(tfQtdEstoque.getText()));
 		produto.setDataFabricacao(tfDataFabricacao.getText());
 		produto.setDataValidade(tfValidade.getText());
 		produto.setLote(tfLote.getText());
@@ -298,17 +300,34 @@ public class FrmProdutos extends JFrame {
 	private void preencherDadosProduto() {
 		abaPrincipal.setSelectedIndex(0);
 
-		// tfCodigo.setText(tabelaProdutos.getValueAt(tabelaProdutos.getSelectedRow(),
-		// 1).toString());
+		tfCodigo.setText(tabelaProdutos.getValueAt(tabelaProdutos.getSelectedRow(),
+				1).toString());
 		tfDescricao.setText(tabelaProdutos.getValueAt(tabelaProdutos.getSelectedRow(), 0).toString());
 		tfCodigoDeBarras.setText(tabelaProdutos.getValueAt(tabelaProdutos.getSelectedRow(), 1).toString());
 		tfMarca.setText(tabelaProdutos.getValueAt(tabelaProdutos.getSelectedRow(), 2).toString());
-		cbSubCategoria.setSelectedItem(tabelaProdutos.getValueAt(tabelaProdutos.getSelectedRow(), 3).toString());
+
+		// cbSubCategoria.setSelectedItem(tabelaProdutos.getValueAt(tabelaProdutos.getSelectedRow(),
+		// 3).toString());
+		Produto produto = new Produto();
+		ProdutosController controller = new ProdutosController();
+		produto = controller
+				.consultarProdutosPorCodigoBarrasCompleto(tabelaProdutos.getValueAt(tabelaProdutos.getSelectedRow(),
+						1).toString());
+		SubCategoria subCategoria = new SubCategoria();
+		SubCategoriaController subCategoriaController = new SubCategoriaController();
+
+		subCategoria = subCategoriaController.consultarSubCategoriasPorId(produto.getSubCategoria().getCodigo());
+
+		String subCategoriaSelecionada = tabelaProdutos.getValueAt(tabelaProdutos.getSelectedRow(), 3).toString();
+
+		cbSubCategoria.setSelectedItem(subCategoriaSelecionada);
+		tfSub.setText(subCategoria.getNome());
+
 		cbUnidadeDeMedida.setSelectedItem(tabelaProdutos.getValueAt(tabelaProdutos.getSelectedRow(), 4).toString());
 		tfQtdEstoque.setText(tabelaProdutos.getValueAt(tabelaProdutos.getSelectedRow(), 5).toString());
 		tfDataFabricacao
 				.setText(tabelaProdutos.getValueAt(tabelaProdutos.getSelectedRow(), 6)
-						.toString()/* .replace("/", "") */); // vai
+						.toString());
 		tfValidade.setText(tabelaProdutos.getValueAt(tabelaProdutos.getSelectedRow(), 7).toString());
 		tfLote.setText(tabelaProdutos.getValueAt(tabelaProdutos.getSelectedRow(), 8).toString());
 		tfIpi.setText(tabelaProdutos.getValueAt(tabelaProdutos.getSelectedRow(), 9).toString());
@@ -319,6 +338,7 @@ public class FrmProdutos extends JFrame {
 
 		cbFornecedor.setEnabled(false);
 		tfDataEntrada.setEnabled(false);
+		tfDataEntrada.setText("Não Aplicavel");
 	}
 
 	/**
@@ -474,22 +494,27 @@ public class FrmProdutos extends JFrame {
 			FornecedorController fornecedorController = new FornecedorController();
 			fornecedor = fornecedorController.consultarFornecedoresComboBox();
 
-			/*
-			 * DefaultComboBoxModel<Fornecedor> comboBoxModel = new
-			 * DefaultComboBoxModel<>(fornecedorr.toArray(new Fornecedor[0]));
-			 * cbFornecedor.setModel(comboBoxModel);
-			 */
-
 			cbFornecedor.setModel(new DefaultComboBoxModel<>(fornecedor));
-			/*
-			 * for(Fornecedor f: fornecedorr) {
-			 * cbFornecedor.addItem(f);
-			 * }
-			 */
 
 		} catch (Exception e) {
 			JOptionPane.showConfirmDialog(null, e.getMessage());
 
+		}
+	}
+
+	Vector<SubCategoria> subCategoria;
+	private JTextField tfSub;
+
+	public void consultarSubcategorias() {
+		try {
+			SubCategoriaController subCategoriaController = new SubCategoriaController();
+			subCategoria = subCategoriaController.consultarSubcategoriasComboBox();
+
+			cbSubCategoria.setModel(new DefaultComboBoxModel<>(subCategoria));
+			System.out.println(subCategoria);
+
+		} catch (Exception e) {
+			JOptionPane.showConfirmDialog(null, e.getMessage());
 		}
 	}
 
@@ -540,13 +565,14 @@ public class FrmProdutos extends JFrame {
 			@Override
 			public void windowActivated(WindowEvent e) {
 				consultarProdutos();
+				// consultarSubcategorias();
 			}
 		});
 
 		setBackground(new Color(202, 240, 248));
 		getContentPane().setBackground(new Color(202, 240, 248));
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 1360, 768);
+		setBounds(100, 100, 1360, 799);
 		this.setLocationRelativeTo(null);
 
 		abaPrincipal = new JTabbedPane(JTabbedPane.TOP);
@@ -682,7 +708,7 @@ public class FrmProdutos extends JFrame {
 		lblIpi.setFont(new Font("Arial", Font.BOLD, 14));
 
 		tfLote = new JTextField();
-		tfLote.setBounds(235, 327, 239, 23);
+		tfLote.setBounds(235, 327, 234, 23);
 		tfLote.setBackground(Color.WHITE);
 		tfLote.setFont(new Font("Arial", Font.BOLD, 14));
 		tfLote.setColumns(10);
@@ -701,7 +727,7 @@ public class FrmProdutos extends JFrame {
 
 		tfQtdEstoque = new JTextField();
 		tfQtdEstoque.setToolTipText("Campo disponivel para editar produto");
-		tfQtdEstoque.setBounds(235, 160, 199, 23);
+		tfQtdEstoque.setBounds(235, 160, 162, 23);
 		tfQtdEstoque.setBackground(Color.WHITE);
 		tfQtdEstoque.setFont(new Font("Arial", Font.BOLD, 14));
 		tfQtdEstoque.setColumns(10);
@@ -719,21 +745,10 @@ public class FrmProdutos extends JFrame {
 		}));
 
 		cbSubCategoria = new JComboBox<SubCategoria>();
-		cbSubCategoria.setBounds(235, 202, 568, 25);
+		cbSubCategoria.setEditable(true);
 		cbSubCategoria.addAncestorListener(new AncestorListener() {
 			public void ancestorAdded(AncestorEvent event) {
-
-				// listando subcategorias dentro do combobox
-				SubCategoriaController subCategoriaController = new SubCategoriaController();
-				List<SubCategoria> listaDeSubCategoria = subCategoriaController.consultarSubCategorias();
-
-				// removendo para limpar todos os campos
-				cbSubCategoria.removeAll();
-
-				// colocando dentro do combobox todos os dados
-				for (SubCategoria subCategoria : listaDeSubCategoria) {
-					cbSubCategoria.addItem(subCategoria);
-				}
+				consultarSubcategorias();
 			}
 
 			public void ancestorMoved(AncestorEvent event) {
@@ -742,32 +757,7 @@ public class FrmProdutos extends JFrame {
 			public void ancestorRemoved(AncestorEvent event) {
 			}
 		});
-		cbSubCategoria.setBackground(Color.WHITE);
-		cbSubCategoria.setFont(new Font("Arial", Font.BOLD, 14));
 
-		cbSubCategoria = new JComboBox<SubCategoria>();
-		cbSubCategoria.addAncestorListener(new AncestorListener() {
-			public void ancestorAdded(AncestorEvent event) {
-
-				// listando subcategorias dentro do combobox
-				SubCategoriaController subCategoriaController = new SubCategoriaController();
-				List<SubCategoria> listaDeSubCategoria = subCategoriaController.consultarSubCategorias();
-
-				// removendo para limpar todos os campos
-				cbSubCategoria.removeAll();
-
-				// colocando dentro do combobox todos os dados
-				for (SubCategoria subCategoria : listaDeSubCategoria) {
-					cbSubCategoria.addItem(subCategoria);
-				}
-			}
-
-			public void ancestorMoved(AncestorEvent event) {
-			}
-
-			public void ancestorRemoved(AncestorEvent event) {
-			}
-		});
 		cbSubCategoria.setBackground(Color.WHITE);
 		cbSubCategoria.setFont(new Font("Arial", Font.BOLD, 14));
 
@@ -842,7 +832,7 @@ public class FrmProdutos extends JFrame {
 		};
 
 		tfIpi = new JTextField();
-		tfIpi.setBounds(235, 413, 230, 23);
+		tfIpi.setBounds(235, 413, 234, 23);
 		tfIpi.setBackground(Color.WHITE);
 		tfIpi.setFont(new Font("Arial", Font.BOLD, 14));
 		tfIpi.setColumns(10);
@@ -874,11 +864,11 @@ public class FrmProdutos extends JFrame {
 		});
 
 		JLabel lblMargemLucro = new JLabel("Margem de Lucro %: ");
-		lblMargemLucro.setBounds(473, 371, 155, 17);
+		lblMargemLucro.setBounds(486, 376, 155, 17);
 		lblMargemLucro.setFont(new Font("Arial", Font.BOLD, 14));
 
 		tfMargem = new JTextField();
-		tfMargem.setBounds(639, 368, 164, 23);
+		tfMargem.setBounds(634, 373, 169, 23);
 		tfMargem.setBackground(Color.WHITE);
 		tfMargem.setFont(new Font("Arial", Font.BOLD, 14));
 		tfMargem.setColumns(10);
@@ -905,9 +895,6 @@ public class FrmProdutos extends JFrame {
 		tfDataFabricacao.setFont(new Font("Arial", Font.BOLD, 14));
 		tfDataFabricacao.setColumns(10);
 		tfDataFabricacao = new JFormattedTextField(new MaskFormatter("##/##/####"));
-		tfDataFabricacao.setBackground(Color.WHITE);
-		tfDataFabricacao.setFont(new Font("Arial", Font.BOLD, 14));
-		tfDataFabricacao.setColumns(10);
 
 		tfDataFabricacao.getDocument().addDocumentListener(new DocumentListener() {
 			public void changedUpdate(DocumentEvent e) {
@@ -932,10 +919,6 @@ public class FrmProdutos extends JFrame {
 		lblValidade.setFont(new Font("Arial", Font.BOLD, 14));
 
 		tfValidade = new JTextField();
-		tfValidade.setBounds(645, 286, 158, 23);
-		tfValidade.setBackground(Color.WHITE);
-		tfValidade.setFont(new Font("Arial", Font.BOLD, 14));
-		tfValidade.setColumns(10);
 		tfValidade = new JFormattedTextField(new MaskFormatter("##/##/####"));
 		tfValidade.setBackground(Color.WHITE);
 		tfValidade.setFont(new Font("Arial", Font.BOLD, 14));
@@ -956,7 +939,7 @@ public class FrmProdutos extends JFrame {
 		});
 
 		tfPrecoCusto = new JTextField();
-		tfPrecoCusto.setBounds(645, 327, 158, 23);
+		tfPrecoCusto.setBounds(634, 330, 169, 23);
 		tfPrecoCusto.setBackground(Color.WHITE);
 		tfPrecoCusto.setFont(new Font("Arial", Font.BOLD, 14));
 		tfPrecoCusto.setColumns(10);
@@ -985,11 +968,11 @@ public class FrmProdutos extends JFrame {
 		painelFotoProduto.setBorder(new LineBorder(new Color(0, 0, 0), 2));
 
 		JLabel lblPrecoFinal = new JLabel("Preço Final: ");
-		lblPrecoFinal.setBounds(505, 419, 87, 17);
+		lblPrecoFinal.setBounds(537, 419, 87, 17);
 		lblPrecoFinal.setFont(new Font("Arial", Font.BOLD, 14));
 
 		tfPrecoFinal = new JTextField();
-		tfPrecoFinal.setBounds(601, 416, 202, 23);
+		tfPrecoFinal.setBounds(634, 416, 169, 23);
 		tfPrecoFinal.setBackground(Color.WHITE);
 		tfPrecoFinal.setFont(new Font("Arial", Font.BOLD, 14));
 		tfPrecoFinal.setColumns(10);
@@ -1000,6 +983,7 @@ public class FrmProdutos extends JFrame {
 		lblCodigo.setFont(new Font("Arial", Font.BOLD, 14));
 
 		tfCodigo = new JTextField();
+		tfCodigo.setFont(new Font("Arial", Font.BOLD, 14));
 		tfCodigo.setBounds(235, 29, 302, 20);
 		tfCodigo.setEditable(false);
 		tfCodigo.setColumns(10);
@@ -1046,16 +1030,6 @@ public class FrmProdutos extends JFrame {
 		abaDadosProdutos.add(painelFotoProduto);
 		abaDadosProdutos.add(lblCodigo);
 
-		/*
-		 * //JComboBox<SubCategoria> cbFornecedor = new JComboBox<SubCategoria>();
-		 * cbFornecedor.setFont(new Font("Arial", Font.BOLD, 14));
-		 * cbFornecedor.setEnabled(false);
-		 * cbFornecedor.setEditable(true);
-		 * cbFornecedor.setBackground(Color.WHITE);
-		 * cbFornecedor.setBounds(235, 485, 568, 23);
-		 * abaDadosProdutos.add(cbFornecedor);
-		 */
-
 		JLabel lblFornecedor = new JLabel("Fornecedor:");
 		lblFornecedor.setFont(new Font("Arial", Font.BOLD, 14));
 		lblFornecedor.setBounds(144, 487, 96, 19);
@@ -1074,9 +1048,17 @@ public class FrmProdutos extends JFrame {
 		abaDadosProdutos.add(tfDataEntrada);
 
 		cbFornecedor = new JComboBox<Fornecedor>();
-		cbFornecedor.addAncestorListener(new AncestorListener() {
+		consultarFornecedores();
+
+		cbFornecedor.setFont(new Font("Arial", Font.BOLD, 14));
+		cbFornecedor.setBackground(Color.WHITE);
+		cbFornecedor.setBounds(235, 486, 568, 25);
+		abaDadosProdutos.add(cbFornecedor);
+
+		cbSubCategoria = new JComboBox<SubCategoria>();
+		cbSubCategoria.addAncestorListener(new AncestorListener() {
 			public void ancestorAdded(AncestorEvent event) {
-				consultarFornecedores();
+				consultarSubcategorias();
 			}
 
 			public void ancestorMoved(AncestorEvent event) {
@@ -1085,10 +1067,55 @@ public class FrmProdutos extends JFrame {
 			public void ancestorRemoved(AncestorEvent event) {
 			}
 		});
-		cbFornecedor.setFont(new Font("Arial", Font.BOLD, 14));
-		cbFornecedor.setBackground(Color.WHITE);
-		cbFornecedor.setBounds(235, 486, 568, 25);
-		abaDadosProdutos.add(cbFornecedor);
+		cbSubCategoria.setEditable(true);
+		cbSubCategoria.setFont(new Font("Arial", Font.BOLD, 14));
+		cbSubCategoria.setBackground(Color.WHITE);
+		cbSubCategoria.setBounds(235, 202, 177, 25);
+		abaDadosProdutos.add(cbSubCategoria);
+
+		tfValidade = new JTextField();
+		tfValidade.setFont(new Font("Arial", Font.BOLD, 14));
+		tfValidade.setColumns(10);
+		tfValidade.setBackground(Color.WHITE);
+		tfValidade.setBounds(634, 283, 169, 23);
+		abaDadosProdutos.add(tfValidade);
+
+		tfDataFabricacao = new JTextField();
+		tfDataFabricacao.setFont(new Font("Arial", Font.BOLD, 14));
+		tfDataFabricacao.setColumns(10);
+		tfDataFabricacao.setBackground(Color.WHITE);
+		tfDataFabricacao.setBounds(234, 283, 235, 23);
+		abaDadosProdutos.add(tfDataFabricacao);
+
+		tfSub = new JTextField();
+		tfSub.setEditable(false);
+		tfSub.setFont(new Font("Arial", Font.BOLD, 14));
+		tfSub.setBounds(649, 202, 152, 23);
+		abaDadosProdutos.add(tfSub);
+		tfSub.setColumns(10);
+
+		JLabel lblSubSelecionada = new JLabel("SubCategoria Selecionada: ");
+		lblSubSelecionada.setFont(new Font("Arial", Font.BOLD, 14));
+		lblSubSelecionada.setBounds(462, 206, 204, 17);
+		abaDadosProdutos.add(lblSubSelecionada);
+
+		JButton btnNewButton = new JButton("");
+		btnNewButton.setIcon(new ImageIcon(FrmProdutos.class.getResource("/assets/confirme.png")));
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				tfSub.setText(cbSubCategoria.getSelectedItem().toString());
+			}
+		});
+		btnNewButton.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyTyped(KeyEvent e) {
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					tfSub.setText(cbSubCategoria.getSelectedItem().toString());
+				}
+			}
+		});
+		btnNewButton.setBounds(422, 201, 30, 23);
+		abaDadosProdutos.add(btnNewButton);
 		abaCadastrarProduto.setLayout(gl_abaCadastrarProduto);
 
 		JLayeredPane abaConsultarProdutos = new JLayeredPane();
@@ -1112,7 +1139,12 @@ public class FrmProdutos extends JFrame {
 
 		btnPesquisar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				consultarProdutoPorNome();
+				try {
+					consultarProdutoPorNome();
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
 
@@ -1122,7 +1154,6 @@ public class FrmProdutos extends JFrame {
 			public void mouseClicked(MouseEvent e) {
 				preencherDadosProduto();
 			}
-
 		});
 
 		tabelaProdutos.setFont(new Font("Arial", Font.PLAIN, 14));
