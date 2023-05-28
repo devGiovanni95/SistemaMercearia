@@ -7,17 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.ParseException;
 import java.util.List;
-import javax.swing.GroupLayout;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JFormattedTextField;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JTabbedPane;
-import javax.swing.JTable;
-import javax.swing.JTextField;
+import javax.swing.*;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.EmptyBorder;
@@ -30,9 +20,10 @@ import java.awt.event.WindowEvent;
 import java.awt.GridLayout;
 import java.awt.Dimension;
 import util.LimparCampos;
+import util.TextFieldLimit;
+
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import javax.swing.ImageIcon;
 
 
 // TODO: Auto-generated Javadoc
@@ -119,13 +110,13 @@ public class FrmCliente extends JFrame {
 	 */
 	public void consultarClientes() {
 		try {
-		ClienteController clienteController = new ClienteController();
-		List<Cliente> lista = clienteController.consultarClientes();
-		DefaultTableModel dadosTabela = (DefaultTableModel) tabelaClientes.getModel();
-		dadosTabela.setNumRows(0);
-		dadosTabela.setColumnCount(15);
+			ClienteController clienteController = new ClienteController();
+			List<Cliente> lista = clienteController.consultarClientes();
+
+			DefaultTableModel dadosTabela = (DefaultTableModel) tabelaClientes.getModel();
+			dadosTabela.setNumRows(0);
+			dadosTabela.setColumnCount(15);
 		dadosTabela.addRow(new Object[]{"Nome","E-mail","CPF","RG","Endereço","Telefone","Celular","Numero","CEP","Data Nascimento", "Bairro","Cidade","UF","Complemento","Limite"});
-		
 
 		for(Cliente cliente : lista) {
 			dadosTabela.addRow(new Object[]{
@@ -143,13 +134,12 @@ public class FrmCliente extends JFrame {
 					cliente.getCidade(),
 					cliente.getUf(),
 					cliente.getComplemento(),
-					cliente.getLimite()		
-				});
-			}
-		}catch (Exception erro) {
-			JOptionPane.showMessageDialog(null,"Ops aconteceu o erro: " + erro);
+					cliente.getLimite()
+			});
 		}
-		
+		} catch (Exception erro) {
+			JOptionPane.showMessageDialog(null,"Erro ao consultar os clientes: " + erro);
+		}
 	}
 	
 	/**
@@ -157,14 +147,15 @@ public class FrmCliente extends JFrame {
 	* O texto pesquisado é obtido a partir do texto digitado pelo usuario.
 	*/
 	private void consultarClientesPorNome() {
-		
-		String nomePesquisado = "%" + tfPesquisar.getText() + "%";
-		
-		ClienteController clienteController = new ClienteController();
-		List<Cliente> lista = clienteController.consultarClientesPorNome(nomePesquisado);
-		DefaultTableModel dadosTabela = (DefaultTableModel) tabelaClientes.getModel();
-		dadosTabela.setNumRows(0);
-		dadosTabela.setColumnCount(15);
+		try {
+			String nomePesquisado = tfPesquisar.getText();
+
+			ClienteController clienteController = new ClienteController();
+			List<Cliente> lista = clienteController.consultarClientesPorNome(nomePesquisado);
+
+			DefaultTableModel dadosTabela = (DefaultTableModel) tabelaClientes.getModel();
+			dadosTabela.setNumRows(0);
+			dadosTabela.setColumnCount(15);
 		dadosTabela.addRow(new Object[]{"Nome","E-mail","CPF","RG","Endereço","Telefone","Celular","Numero","CEP","Data Nascimento", "Bairro","Cidade","UF","Complemento","Limite"});		
 
 		for(Cliente cliente : lista) {
@@ -183,11 +174,13 @@ public class FrmCliente extends JFrame {
 					cliente.getCidade(),
 					cliente.getUf(),
 					cliente.getComplemento(),
-					cliente.getLimite()		
-				});
-			}
+					cliente.getLimite()
+			});
+		}
+		} catch (Exception erro) {
+			JOptionPane.showMessageDialog(null, "Erro ao consultar os clientes por nome: " + erro);
+		}
 	}
-	
 
 	/**
 	 * Método utilizado para cadastrar um novo cliente com as informações preenchidas nos campos do formulário.
@@ -211,12 +204,15 @@ public class FrmCliente extends JFrame {
 		cliente.setComplemento(tfComplemento.getText());
 		cliente.setLimite(Double.parseDouble(tfLimite.getText()));
 		cliente.setCodigo(tfCodigo.getText());
-		
-		ClienteController clienteController = new ClienteController();	
-		
-		clienteController.cadastrarCliente(cliente);
-		
-		limparTela(abaDadosPessoais);
+
+		ClienteController clienteController = new ClienteController();
+		try {
+			clienteController.cadastrarCliente(cliente);
+			limparTela(abaDadosPessoais);
+			JOptionPane.showMessageDialog(null, "Cliente cadastrado com sucesso!");
+		} catch (Exception ex) {
+			JOptionPane.showMessageDialog(null, ex.getMessage());
+		}
 	}
 	
 	/**
@@ -240,7 +236,8 @@ public class FrmCliente extends JFrame {
 		tfCidade.setText(tabelaClientes.getValueAt(tabelaClientes.getSelectedRow(),11).toString());
 		cbUf.setSelectedItem(tabelaClientes.getValueAt(tabelaClientes.getSelectedRow(),12).toString());
 		tfComplemento.setText(tabelaClientes.getValueAt(tabelaClientes.getSelectedRow(),13).toString());
-		tfLimite.setText(tabelaClientes.getValueAt(tabelaClientes.getSelectedRow(),14).toString());
+		//tfLimite.setText(tabelaClientes.getValueAt(tabelaClientes.getSelectedRow(),14).toString());
+		tfLimite.setText(Integer.toString((int)Double.parseDouble(tabelaClientes.getValueAt(tabelaClientes.getSelectedRow(),14).toString())));
 		tfCodigo.setText(tabelaClientes.getValueAt(tabelaClientes.getSelectedRow(),2).toString());				
 	}
 	
@@ -251,31 +248,35 @@ public class FrmCliente extends JFrame {
 	Em seguida, os campos de texto na interface gráfica são limpos através do método Limpar() da classe LimparCampos.
 	*/
 	private void alterarCliente() {
-		Cliente cliente = new Cliente();
-		
-		cliente.setNome(tfNome.getText());
-		cliente.setEmail(tfEmail.getText());
-		cliente.setCpf(tfCpf.getText());
-		cliente.setRg(tfRg.getText());
-		cliente.setEndereco(tfEndereco.getText());
-		cliente.setTelefone(tfTelefone.getText());
-		cliente.setCelular(tfCelular.getText());
-		cliente.setNumero(Integer.parseInt(tfNumero.getText()));
-		cliente.setCep(tfCep.getText());
-		cliente.setDataNascimento(tfDataNascimento.getText());
-		cliente.setBairro(tfBairro.getText());
-		cliente.setCidade(tfCidade.getText());
-		cliente.setUf(cbUf.getSelectedItem().toString());
-		cliente.setComplemento(tfComplemento.getText());
-		cliente.setLimite(Double.parseDouble(tfLimite.getText()));				
-		cliente.setCpf(tfCpf.getText());
-		
-		ClienteController clienteController = new ClienteController();	
-		
-		clienteController.alterarCliente(cliente);
-		
-		limparTela(abaDadosPessoais);
-		
+		try {
+			Cliente cliente = new Cliente();
+
+			cliente.setNome(tfNome.getText());
+			cliente.setEmail(tfEmail.getText());
+			cliente.setCpf(tfCpf.getText());
+			cliente.setRg(tfRg.getText());
+			cliente.setEndereco(tfEndereco.getText());
+			cliente.setTelefone(tfTelefone.getText());
+			cliente.setCelular(tfCelular.getText());
+			cliente.setNumero(Integer.parseInt(tfNumero.getText()));
+			cliente.setCep(tfCep.getText());
+			cliente.setDataNascimento(tfDataNascimento.getText());
+			cliente.setBairro(tfBairro.getText());
+			cliente.setCidade(tfCidade.getText());
+			cliente.setUf(cbUf.getSelectedItem().toString());
+			cliente.setComplemento(tfComplemento.getText());
+			cliente.setLimite(Double.parseDouble(tfLimite.getText()));
+			cliente.setCpf(tfCpf.getText());
+
+			ClienteController clienteController = new ClienteController();
+			clienteController.alterarCliente(cliente);
+
+			limparTela(abaDadosPessoais);
+
+			JOptionPane.showMessageDialog(null, "Cliente alterado com sucesso!");
+		} catch (Exception ex) {
+			JOptionPane.showMessageDialog(null, ex.getMessage());
+		}
 	}
 	
 	
@@ -285,14 +286,22 @@ public class FrmCliente extends JFrame {
 	*Em seguida, os campos de texto na interface gráfica são limpos após a exclusão.
 	*/
 	private void excluirCliente() {
-		Cliente cliente = new Cliente();
-		ClienteController clienteController = new ClienteController();	
+		try {
+			Cliente cliente = new Cliente();
+			cliente.setCpf(tfCpf.getText());
 
-		cliente.setCpf(tfCpf.getText());
-		clienteController.excluirCliente(cliente);
-		
-		limparTela(abaDadosPessoais);
+			ClienteController clienteController = new ClienteController();
+			clienteController.excluirCliente(cliente);
+
+			limparTela(abaDadosPessoais);
+
+			JOptionPane.showMessageDialog(null, "Cliente excluído com sucesso!");
+		} catch (Exception ex) {
+			JOptionPane.showMessageDialog(null, ex.getMessage());
+		}
 	}
+
+
 	
 
 	
@@ -366,6 +375,7 @@ public class FrmCliente extends JFrame {
 		lblNome.setFont(new Font("Arial", Font.BOLD, 14));
 		
 		tfNome = new JTextField();
+		tfNome = new TextFieldLimit(70, new TextFieldLimit.ValidadorString());
 		tfNome.setFont(new Font("Arial", Font.BOLD, 14));
 		tfNome.setColumns(10);
 		
@@ -373,6 +383,7 @@ public class FrmCliente extends JFrame {
 		lblEmail.setFont(new Font("Arial", Font.BOLD, 14));
 		
 		tfEmail = new JTextField();
+		tfEmail = new TextFieldLimit(50, new TextFieldLimit.ValidadorString());
 		tfEmail.setFont(new Font("Arial", Font.BOLD, 14));
 		tfEmail.setColumns(10);
 		
@@ -380,6 +391,7 @@ public class FrmCliente extends JFrame {
 		lblEndereco.setFont(new Font("Arial", Font.BOLD, 14));
 		
 		tfEndereco = new JTextField();
+		tfEndereco = new TextFieldLimit(100, new TextFieldLimit.ValidadorString());
 		tfEndereco.setFont(new Font("Arial", Font.BOLD, 14));
 		tfEndereco.setColumns(10);
 		
@@ -387,6 +399,7 @@ public class FrmCliente extends JFrame {
 		lblNumero.setFont(new Font("Arial", Font.BOLD, 14));
 		
 		tfNumero = new JTextField();
+		tfNumero = new TextFieldLimit(8, new TextFieldLimit.ValidadorInteiro());
 		tfNumero.setFont(new Font("Arial", Font.BOLD, 14));
 		tfNumero.setColumns(10);
 		
@@ -397,6 +410,7 @@ public class FrmCliente extends JFrame {
 		lblBairro.setFont(new Font("Arial", Font.BOLD, 14));
 		
 		tfBairro = new JTextField();
+		tfBairro = new TextFieldLimit(50, new TextFieldLimit.ValidadorString());
 		tfBairro.setFont(new Font("Arial", Font.BOLD, 14));
 		tfBairro.setColumns(10);
 		
@@ -404,6 +418,7 @@ public class FrmCliente extends JFrame {
 		lblCidade.setFont(new Font("Arial", Font.BOLD, 14));
 		
 		tfCidade = new JTextField();
+		tfCidade = new TextFieldLimit(50, new TextFieldLimit.ValidadorString());
 		tfCidade.setFont(new Font("Arial", Font.BOLD, 14));
 		tfCidade.setColumns(10);
 		
@@ -412,7 +427,7 @@ public class FrmCliente extends JFrame {
 		
 		JLabel lblCelular = new JLabel("Celular:");
 		lblCelular.setFont(new Font("Arial", Font.BOLD, 14));
-		
+
 		tfCelular = new JFormattedTextField(new MaskFormatter("(##) # ####-####"));
 		tfCelular.setFont(new Font("Arial", Font.BOLD, 14));
 		tfCelular.setColumns(10);
@@ -433,7 +448,25 @@ public class FrmCliente extends JFrame {
 					tfCep.setFont(new Font("Arial", Font.BOLD, 14));
 					tfCep.setColumns(10);
 					
-						
+						tfCpf = new JFormattedTextField(new MaskFormatter("###.###.###-##"));
+						tfCpf.setFont(new Font("Arial", Font.BOLD, 14));
+						tfCpf.setColumns(10);
+
+						JLabel lblRg = new JLabel("RG:");
+						lblRg.setFont(new Font("Arial", Font.BOLD, 14));
+
+						tfRg = new JFormattedTextField(new MaskFormatter("##.###.###-#"));
+						tfRg.setFont(new Font("Arial", Font.BOLD, 14));
+						tfRg.setColumns(10);
+
+						JLabel lblNascimento = new JLabel("Data Nascimento:");
+						lblNascimento.setFont(new Font("Arial", Font.BOLD, 14));
+
+						tfDataNascimento = new JFormattedTextField(new MaskFormatter("##/##/####"));
+						tfDataNascimento.setFont(new Font("Arial", Font.BOLD, 14));
+						tfDataNascimento.setColumns(10);
+
+
 						cbUf = new JComboBox<String>();
 						cbUf.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] {"", "AC", "AL", "AP", "AM", "BA", "CE", "DF", "ES", "GO",
 								"MA", "MT", "MS", "MG", "PA", "PB", "PR", "PE", "PI", "RJ", "RN", "RS", "RO", "RR", "SC", "SP", "SE", "TO" }));
@@ -442,35 +475,20 @@ public class FrmCliente extends JFrame {
 						cbUf.setFont(new Font("Arial", Font.BOLD, 14));
 						JLabel lbUf = new JLabel("UF:");
 						lbUf.setFont(new Font("Arial", Font.BOLD, 14));
-						
+
 						JLabel lblLimite = new JLabel("Limite:");
 						lblLimite.setFont(new Font("Arial", Font.BOLD, 14));
-						
+
 						tfLimite = new JTextField();
+						tfLimite = new TextFieldLimit(7, new TextFieldLimit.ValidadorDecimal());
 						tfLimite.setFont(new Font("Arial", Font.BOLD, 14));
 						tfLimite.setColumns(10);
-						
+
 						tfComplemento = new JTextField();
+						tfComplemento = new TextFieldLimit(30, new TextFieldLimit.ValidadorString());
 						tfComplemento.setFont(new Font("Arial", Font.BOLD, 14));
 						tfComplemento.setColumns(10);
-						
-						tfCpf = new JFormattedTextField(new MaskFormatter("###.###.###-##"));
-						tfCpf.setFont(new Font("Arial", Font.BOLD, 14));
-						tfCpf.setColumns(10);
-						
-						JLabel lblRg = new JLabel("RG:");
-						lblRg.setFont(new Font("Arial", Font.BOLD, 14));
-						
-						tfRg = new JFormattedTextField(new MaskFormatter("##.###.###-#"));
-						tfRg.setFont(new Font("Arial", Font.BOLD, 14));
-						tfRg.setColumns(10);
-						
-						JLabel lblNascimento = new JLabel("Data Nascimento:");
-						lblNascimento.setFont(new Font("Arial", Font.BOLD, 14));
-						
-						tfDataNascimento = new JFormattedTextField(new MaskFormatter("##/##/####"));
-						tfDataNascimento.setFont(new Font("Arial", Font.BOLD, 14));
-						tfDataNascimento.setColumns(10);
+
 						GroupLayout gl_abaDadosPessoais = new GroupLayout(abaDadosPessoais);
 						gl_abaDadosPessoais.setHorizontalGroup(
 							gl_abaDadosPessoais.createParallelGroup(Alignment.LEADING)
@@ -730,10 +748,15 @@ public class FrmCliente extends JFrame {
 		lblNewLabel_1.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				// Fechar a janela atual
+				SwingUtilities.getWindowAncestor(lblNewLabel_1).dispose();
+
+				// Abrir a janela principal
 				FrmMenuPrincipal menu = new FrmMenuPrincipal();
-				menu.setVisible(true);				
+				menu.setVisible(true);
 			}
 		});
+
 		lblNewLabel_1.setForeground(Color.WHITE);
 		lblNewLabel_1.setFont(new Font("Arial", Font.BOLD, 18));
 		lblNewLabel_1.setIcon(new ImageIcon(FrmCliente.class.getResource("/assets/sair.png")));

@@ -209,6 +209,7 @@ public class FrmMenuPrincipal extends JFrame {
 				FrmFrenteCaixa frenteCaixa = new FrmFrenteCaixa();
 				frenteCaixa.setFuncionario(funcionario);
 				frenteCaixa.setVisible(true);
+				dispose();
 			}
 		});
 
@@ -226,8 +227,14 @@ public class FrmMenuPrincipal extends JFrame {
 		JMenuItem mnCadastrarProduto = new JMenuItem("Cadastrar Produto");
 		mnCadastrarProduto.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				FrmProdutos menu = new FrmProdutos();
+				FrmProdutos menu = null;
+				try {
+					menu = new FrmProdutos();
+				} catch (ParseException ex) {
+					throw new RuntimeException(ex);
+				}
 				menu.setVisible(true);
+				dispose();
 			}
 		});
 
@@ -238,9 +245,15 @@ public class FrmMenuPrincipal extends JFrame {
 		JMenuItem mnPesquisarProduto = new JMenuItem("Pesquisar Produto");
 		mnPesquisarProduto.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				FrmProdutos menu = new FrmProdutos();
+				FrmProdutos menu = null;
+				try {
+					menu = new FrmProdutos();
+				} catch (ParseException ex) {
+					throw new RuntimeException(ex);
+				}
 				menu.abaPrincipal.setSelectedIndex(1);
 				menu.setVisible(true);
+				dispose();
 			}
 		});
 	
@@ -291,27 +304,30 @@ public class FrmMenuPrincipal extends JFrame {
 		mnFornecedores.setBackground(new Color(202, 240, 248));
 		mnFornecedores.setIcon(new ImageIcon(FrmMenuPrincipal.class.getResource("/assets/fornecedor (3).png")));
 		menuBar.add(mnFornecedores);
-		
+
 		JMenuItem mnCadastrarFornecedor = new JMenuItem("Cadastrar Fornecedor");
+
+		// Para 'Cadastrar Fornecedor'
 		mnCadastrarFornecedor.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				FrmFornecedor menu;
 				try {
 					menu = new FrmFornecedor();
 					menu.setVisible(true);
+					dispose(); // Fecha a janela atual (FrmMenuPrincipal)
 				} catch (ParseException e1) {
 					e1.printStackTrace();
 				}
-	
-
 			}
 		});
 		
 		mnCadastrarFornecedor.setFont(new Font("Arial", Font.BOLD, 15));
 		mnCadastrarFornecedor.setIcon(new ImageIcon(getClass().getResource("/assets/entregador.png")));
 		mnFornecedores.add(mnCadastrarFornecedor);
-		
+
 		JMenuItem mnConsultarFornecedor = new JMenuItem("Consultar Fornecedor");
+
+		// Para 'Consultar Fornecedor'
 		mnConsultarFornecedor.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				FrmFornecedor menu;
@@ -319,6 +335,7 @@ public class FrmMenuPrincipal extends JFrame {
 					menu = new FrmFornecedor();
 					menu.abaPrincipal.setSelectedIndex(1);
 					menu.setVisible(true);
+					dispose(); // Fecha a janela atual (FrmMenuPrincipal)
 				} catch (ParseException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -343,6 +360,7 @@ public class FrmMenuPrincipal extends JFrame {
 				try {
 					menu = new FrmCliente();
 					menu.setVisible(true);
+					dispose();
 				} catch (ParseException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -362,6 +380,7 @@ public class FrmMenuPrincipal extends JFrame {
 					menu = new FrmCliente();
 					menu.abaPrincipal.setSelectedIndex(1);
 					menu.setVisible(true);
+					dispose();
 				} catch (ParseException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -385,6 +404,7 @@ public class FrmMenuPrincipal extends JFrame {
 				try {
 					menu = new FrmFuncionario();
 					menu.setVisible(true);
+					dispose();
 				} catch (ParseException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -403,6 +423,7 @@ public class FrmMenuPrincipal extends JFrame {
 					menu = new FrmFuncionario();
 					menu.abaPrincipal.setSelectedIndex(1);
 					menu.setVisible(true);
+					dispose();
 				} catch (ParseException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -434,8 +455,9 @@ public class FrmMenuPrincipal extends JFrame {
 		mnTrocarUsuario.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
-					FrmLogin menu = new FrmLogin();
-					menu.setVisible(true);
+				FrmLogin menu = new FrmLogin();
+				menu.setVisible(true);
+				dispose();
 
 			}
 		});

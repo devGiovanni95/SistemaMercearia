@@ -41,7 +41,7 @@ public class FuncionarioController implements InterfaceFuncionario {
 				
 			String sql = "insert into tb_funcionario (nome,email,cpf,rg,endereco,telefone,celular,numero,cep,data_nascimento,bairro,cidade,uf,complemento,limite,senha,cargo,nivel_acesso,"
 					+ "pis_pasep,salario,carteira_trabalho,estado_civil,jornada_trabalho,admissao,demissao,ativo) "
-					+ " values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+					+ " values(?,?,?,?,?,?,?,?,?,CONVERT(datetime, ? , 103),?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 			
 			
 			dataBase.preparedStatement  = dataBase.con.prepareStatement(sql);

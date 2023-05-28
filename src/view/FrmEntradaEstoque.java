@@ -16,19 +16,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
-import javax.swing.GroupLayout;
+import javax.swing.*;
 import javax.swing.GroupLayout.Alignment;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JLayeredPane;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JTabbedPane;
-import javax.swing.JTable;
-import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.LineBorder;
 import javax.swing.event.AncestorEvent;
@@ -126,37 +115,40 @@ public class FrmEntradaEstoque extends JFrame {
 	/**
 	 * Alterar produto.
 	 */
-	private void alterarProduto(){
-		Produto produto = new Produto();
-		SubCategoria subCategoria = new SubCategoria();
+		private void alterarProduto() {
+			Produto produto = new Produto();
+			SubCategoria subCategoria = new SubCategoria();
 
-		ProdutosController produtosController = new ProdutosController();
+			ProdutosController produtosController = new ProdutosController();
 
-		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+			SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
-		produto.setDescricao(tfDescricao.getText());
-		produto.setCodigoDeBarras(tfCodigoDeBarras.getText());
-		produto.setMarca(tfMarca.getText());
-		subCategoria = (SubCategoria)cbSubCategoria.getSelectedItem();
-		produto.setSubCategoria(subCategoria);
-		produto.setUnidadeDeMedida(cbUnidadeDeMedida.getSelectedItem().toString());
-		produto.setQuantidade(Integer.parseInt(tfQtdEstoque.getText()));
-		produto.setDataFabricacao(tfDataFabricacao.getText());
-		produto.setDataValidade(tfValidade.getText());
+			produto.setDescricao(tfDescricao.getText());
+			produto.setCodigoDeBarras(tfCodigoDeBarras.getText());
+			produto.setMarca(tfMarca.getText());
+			subCategoria = (SubCategoria)cbSubCategoria.getSelectedItem();
+			produto.setSubCategoria(subCategoria);
+			produto.setUnidadeDeMedida(cbUnidadeDeMedida.getSelectedItem().toString());
+			produto.setQuantidade(Integer.parseInt(tfQtdEstoque.getText()));
+			produto.setDataFabricacao(tfDataFabricacao.getText());
+			produto.setDataValidade(tfValidade.getText());
 
-		produto.setPrecoCusto(Double.parseDouble(tfPrecoUnitario.getText()));
-		//produto.setCodigo(Integer.parseInt(tfCodigo.getText()));
+			produto.setPrecoCusto(Double.parseDouble(tfPrecoUnitario.getText()));
+			//produto.setCodigo(Integer.parseInt(tfCodigo.getText()));
 
-		// Calcular o preço final com base na margem de lucro, IPI e ICMS
-		//atualizarPrecoFinal();
+			// Calcular o preço final com base na margem de lucro, IPI e ICMS
+			//atualizarPrecoFinal();
 
-		produto.setPrecoFinal(Double.parseDouble(tfSubTotal.getText().replaceAll(",",".")));
+			produto.setPrecoFinal(Double.parseDouble(tfSubTotal.getText().replaceAll(",",".")));
 
-		produtosController.alterarProduto(produto);
-
-		limparTela(abaDadosEstoque);
-		JOptionPane.showMessageDialog(null, "Produto alterado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
-	}
+			try {
+				produtosController.alterarProduto(produto);
+				limparTela(abaDadosEstoque);
+				JOptionPane.showMessageDialog(null, "Produto alterado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+			} catch (Exception e) {
+				JOptionPane.showMessageDialog(null, "Erro ao alterar o produto: " + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+			}
+		}
 
 
 
@@ -164,7 +156,7 @@ public class FrmEntradaEstoque extends JFrame {
 	/**
 	 * Cadastrar produto.
 	 */
-	private void cadastrarProduto(){
+	private void cadastrarProduto() {
 		Produto produto = new Produto();
 		SubCategoria subCategoria = new SubCategoria();
 
@@ -188,11 +180,15 @@ public class FrmEntradaEstoque extends JFrame {
 		// Calcular o preço final com base na margem de lucro, IPI e ICMS
 		//atualizarPrecoFinal();
 
-		produtosController.cadastrarProduto(produto);
-
-		limparTela(abaDadosEstoque);
-		JOptionPane.showMessageDialog(null, "Produto cadastrado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+		try{
+			produtosController.cadastrarProduto(produto);
+			limparTela(abaDadosEstoque);
+			JOptionPane.showMessageDialog(null, "Produto cadastrado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, "Erro ao cadastrar o produto: " + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+		}
 	}
+
 
 	/**
 	 * Método utilizado para efetuar a remoção.
@@ -200,13 +196,16 @@ public class FrmEntradaEstoque extends JFrame {
 	private void excluirProduto() {
 		Produto produtos = new Produto();
 		ProdutosController produtosController = new ProdutosController();
-		
+
 		produtos = produtosController.consultarProdutosPorCodigoBarras(tfCodigoDeBarras.getText());
 
-		produtosController.excluirProduto(produtos);
-
-		limparTela(abaDadosEstoque);
-		JOptionPane.showMessageDialog(null, "Produto excluído com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+		try {
+			produtosController.excluirProduto(produtos);
+			limparTela(abaDadosEstoque);
+			JOptionPane.showMessageDialog(null, "Produto excluído com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, "Erro ao excluir o produto: " + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+		}
 	}
 
 	/**
@@ -238,8 +237,13 @@ public class FrmEntradaEstoque extends JFrame {
 	private void consultarProdutoPorNome(){
 		String nomePesquisado = "%" + tfPesquisar.getText() + "%";
 		ProdutosController produtosController = new ProdutosController();
-		SubCategoriaController categoriaController = new SubCategoriaController();
-		List<Produto> lista = produtosController.consultarProdutosPorNome(nomePesquisado);
+		List<Produto> lista = null;
+		try {
+			lista = produtosController.consultarProdutosPorNome(nomePesquisado);
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, "Erro ao consultar produtos: " + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+			return;
+		}
 		DefaultTableModel dadosTabela = (DefaultTableModel) tabelaEstoque.getModel();
 		dadosTabela.setNumRows(0);
 		dadosTabela.setColumnCount(15);
@@ -248,7 +252,6 @@ public class FrmEntradaEstoque extends JFrame {
 
 		for(Produto produto : lista) {
 			dadosTabela.addRow(new Object[]{
-				//	produto.getCodigo(),
 					produto.getDescricao(),
 					produto.getCodigoDeBarras(),
 					produto.getMarca(),
@@ -268,6 +271,7 @@ public class FrmEntradaEstoque extends JFrame {
 	}
 
 
+
 	/**
 	 * Metodo utilizado para listar todos os produtos e adiciona-los na tabela.
 	 */
@@ -283,7 +287,6 @@ public class FrmEntradaEstoque extends JFrame {
 
 			for(Produto produto : lista) {
 				dadosTabela.addRow(new Object[]{
-						//produto.getCodigo(),
 						produto.getDescricao(),
 						produto.getCodigoDeBarras(),
 						produto.getMarca(),
@@ -301,9 +304,10 @@ public class FrmEntradaEstoque extends JFrame {
 				});
 			}
 		}catch (Exception erro) {
-			JOptionPane.showMessageDialog(null,"Ops aconteceu o erro: " + erro);
+			JOptionPane.showMessageDialog(null,"Erro ao consultar produtos: " + erro.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
 		}
 	}
+
 
 
 	/**
@@ -364,10 +368,15 @@ public class FrmEntradaEstoque extends JFrame {
 		lblVoltar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				// Fechar a janela atual
+				SwingUtilities.getWindowAncestor(lblVoltar).dispose();
+
+				// Abrir a janela principal
 				FrmMenuPrincipal menu = new FrmMenuPrincipal();
 				menu.setVisible(true);
 			}
 		});
+
 		lblVoltar.setIcon(new ImageIcon(FrmEntradaEstoque.class.getResource("/assets/sair.png")));
 		lblVoltar.setForeground(Color.WHITE);
 		lblVoltar.setFont(new Font("Arial", Font.BOLD, 18));

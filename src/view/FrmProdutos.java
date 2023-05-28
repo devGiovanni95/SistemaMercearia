@@ -12,7 +12,9 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Vector;
 
@@ -22,6 +24,7 @@ import javax.swing.GroupLayout.Alignment;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
@@ -30,6 +33,7 @@ import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.LineBorder;
 import javax.swing.event.AncestorEvent;
@@ -37,6 +41,7 @@ import javax.swing.event.AncestorListener;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.text.MaskFormatter;
 
 import controller.CadastroProdutoFornecedorEstoqueController;
 import controller.FornecedorController;
@@ -145,10 +150,9 @@ public class FrmProdutos extends JFrame {
 	private void alterarProduto() {
 		Produto produto = new Produto();
 		SubCategoria subCategoria = new SubCategoria();
-
 		ProdutosController produtosController = new ProdutosController();
 
-		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+		// SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
 		produto.setDescricao(tfDescricao.getText());
 		produto.setCodigoDeBarras(tfCodigoDeBarras.getText());
@@ -171,11 +175,15 @@ public class FrmProdutos extends JFrame {
 
 		produto.setPrecoFinal(Double.parseDouble(tfPrecoFinal.getText().replaceAll(",", ".")));
 
-		produtosController.alterarProduto(produto);
+		try {
+			produtosController.alterarProduto(produto);
+			JOptionPane.showMessageDialog(null, "Produto alterado com sucesso!", "Sucesso",
+					JOptionPane.INFORMATION_MESSAGE);
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+		}
 
 		limparTela(abaDadosProdutos);
-		JOptionPane.showMessageDialog(null, "Produto alterado com sucesso!", "Sucesso",
-				JOptionPane.INFORMATION_MESSAGE);
 	}
 
 	/**
@@ -187,7 +195,7 @@ public class FrmProdutos extends JFrame {
 
 		ProdutosController produtosController = new ProdutosController();
 
-		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+		// SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
 		produto.setDescricao(tfDescricao.getText());
 		produto.setCodigoDeBarras(tfCodigoDeBarras.getText());
@@ -209,9 +217,20 @@ public class FrmProdutos extends JFrame {
 		// Calcular o preço final com base na margem de lucro, IPI e ICMS
 		// atualizarPrecoFinal();
 
-		produtosController.cadastrarProduto(produto);
+		// tentativa de debugar o erro com subcategoria
+		// subCategoria = (SubCategoria)cbSubCategoria.getSelectedItem();
+		// System.out.println(subCategoria.getCodigo());
 
-		
+		System.out.println("SubCategoria: " + produto.getSubCategoria().getNome());
+
+		try {
+			produtosController.cadastrarProduto(produto);
+			JOptionPane.showMessageDialog(null, "Produto cadastrado com sucesso!", "Sucesso",
+					JOptionPane.INFORMATION_MESSAGE);
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+		}
+
 		JOptionPane.showMessageDialog(null, "Produto cadastrado com sucesso!", "Sucesso",
 				JOptionPane.INFORMATION_MESSAGE);
 		System.out.println(produto);
@@ -227,10 +246,8 @@ public class FrmProdutos extends JFrame {
 
 		Fornecedor fornecedor = new Fornecedor();
 		FornecedorController fornecedorController = new FornecedorController();
-		
-		
+
 		fornecedor = (Fornecedor) cbFornecedor.getSelectedItem();
-	
 
 		double precoUnitario = calcularPrecoCusto();
 		double subtotal = calcularPrecoCusto();
@@ -258,16 +275,18 @@ public class FrmProdutos extends JFrame {
 	 * Método utilizado para efetuar a remoção.
 	 */
 	private void excluirProduto() {
-		Produto produtos = new Produto();
+		Produto produto = new Produto();
 		ProdutosController produtosController = new ProdutosController();
 
-		produtos = produtosController.consultarProdutosPorCodigoBarras(tfCodigoDeBarras.getText());
-
-		produtosController.excluirProduto(produtos);
-
+		try {
+			produto = produtosController.consultarProdutosPorCodigoBarras(tfCodigoDeBarras.getText());
+			produtosController.excluirProduto(produto);
+			JOptionPane.showMessageDialog(null, "Produto excluído com sucesso!", "Sucesso",
+					JOptionPane.INFORMATION_MESSAGE);
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+		}
 		limparTela(abaDadosProdutos);
-		JOptionPane.showMessageDialog(null, "Produto excluído com sucesso!", "Sucesso",
-				JOptionPane.INFORMATION_MESSAGE);
 	}
 
 	/**
@@ -279,7 +298,8 @@ public class FrmProdutos extends JFrame {
 	private void preencherDadosProduto() {
 		abaPrincipal.setSelectedIndex(0);
 
-		tfCodigo.setText(tabelaProdutos.getValueAt(tabelaProdutos.getSelectedRow(), 1).toString());
+		// tfCodigo.setText(tabelaProdutos.getValueAt(tabelaProdutos.getSelectedRow(),
+		// 1).toString());
 		tfDescricao.setText(tabelaProdutos.getValueAt(tabelaProdutos.getSelectedRow(), 0).toString());
 		tfCodigoDeBarras.setText(tabelaProdutos.getValueAt(tabelaProdutos.getSelectedRow(), 1).toString());
 		tfMarca.setText(tabelaProdutos.getValueAt(tabelaProdutos.getSelectedRow(), 2).toString());
@@ -287,7 +307,8 @@ public class FrmProdutos extends JFrame {
 		cbUnidadeDeMedida.setSelectedItem(tabelaProdutos.getValueAt(tabelaProdutos.getSelectedRow(), 4).toString());
 		tfQtdEstoque.setText(tabelaProdutos.getValueAt(tabelaProdutos.getSelectedRow(), 5).toString());
 		tfDataFabricacao
-				.setText(tabelaProdutos.getValueAt(tabelaProdutos.getSelectedRow(), 6).toString()/*.replace("/", "")*/); // vai
+				.setText(tabelaProdutos.getValueAt(tabelaProdutos.getSelectedRow(), 6)
+						.toString()/* .replace("/", "") */); // vai
 		tfValidade.setText(tabelaProdutos.getValueAt(tabelaProdutos.getSelectedRow(), 7).toString());
 		tfLote.setText(tabelaProdutos.getValueAt(tabelaProdutos.getSelectedRow(), 8).toString());
 		tfIpi.setText(tabelaProdutos.getValueAt(tabelaProdutos.getSelectedRow(), 9).toString());
@@ -295,15 +316,18 @@ public class FrmProdutos extends JFrame {
 		tfMargem.setText(tabelaProdutos.getValueAt(tabelaProdutos.getSelectedRow(), 11).toString());
 		tfPrecoCusto.setText(tabelaProdutos.getValueAt(tabelaProdutos.getSelectedRow(), 12).toString());
 		tfPrecoFinal.setText(tabelaProdutos.getValueAt(tabelaProdutos.getSelectedRow(), 13).toString());
-		
+
 		cbFornecedor.setEnabled(false);
 		tfDataEntrada.setEnabled(false);
 	}
 
 	/**
 	 * Consultar produto por nome.
+	 * 
+	 * @throws Exception
 	 */
-	private void consultarProdutoPorNome() {
+
+	private void consultarProdutoPorNome() throws Exception {
 		String nomePesquisado = "%" + tfPesquisar.getText() + "%";
 		ProdutosController produtosController = new ProdutosController();
 		SubCategoriaController categoriaController = new SubCategoriaController();
@@ -338,6 +362,7 @@ public class FrmProdutos extends JFrame {
 	/**
 	 * Metodo utilizado para listar todos os produtos e adiciona-los na tabela.
 	 */
+
 	private void consultarProdutos() {
 		try {
 			ProdutosController produtosController = new ProdutosController();
@@ -367,8 +392,9 @@ public class FrmProdutos extends JFrame {
 						produto.getPrecoFinal()
 				});
 			}
-		} catch (Exception erro) {
-			JOptionPane.showMessageDialog(null, "Ops aconteceu o erro: " + erro);
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+
 		}
 	}
 
@@ -463,6 +489,28 @@ public class FrmProdutos extends JFrame {
 
 		} catch (Exception e) {
 			JOptionPane.showConfirmDialog(null, e.getMessage());
+
+		}
+	}
+
+	public void verificarData(JFormattedTextField tfData) {
+		if (tfData.getText() != null && tfData.getText().trim().length() == 10) { // Verifica se a data está inserida
+																					// por completo
+			try {
+				SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+				sdf.setLenient(false);
+				Calendar cal = Calendar.getInstance();
+				cal.setTime(sdf.parse(tfData.getText()));
+				int year = cal.get(Calendar.YEAR);
+
+				// Checa se o input do ano está dentro do intervalo permitido
+				if (year > 2100 || year < 2020) {
+					JOptionPane.showMessageDialog(null, "Insira uma data válida (antes do ano 2100 e depois de 2023).");
+					tfData.setText("");
+				}
+			} catch (ParseException ex) {
+				// Ignora, já que a data ainda não está completa
+			}
 		}
 	}
 
@@ -487,7 +535,7 @@ public class FrmProdutos extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public FrmProdutos() {
+	public FrmProdutos() throws ParseException {
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowActivated(WindowEvent e) {
@@ -521,6 +569,10 @@ public class FrmProdutos extends JFrame {
 		lblVoltar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				// Fechar a janela atual
+				SwingUtilities.getWindowAncestor(lblVoltar).dispose();
+
+				// Abrir a janela principal
 				FrmMenuPrincipal menu = new FrmMenuPrincipal();
 				menu.setVisible(true);
 			}
@@ -693,6 +745,32 @@ public class FrmProdutos extends JFrame {
 		cbSubCategoria.setBackground(Color.WHITE);
 		cbSubCategoria.setFont(new Font("Arial", Font.BOLD, 14));
 
+		cbSubCategoria = new JComboBox<SubCategoria>();
+		cbSubCategoria.addAncestorListener(new AncestorListener() {
+			public void ancestorAdded(AncestorEvent event) {
+
+				// listando subcategorias dentro do combobox
+				SubCategoriaController subCategoriaController = new SubCategoriaController();
+				List<SubCategoria> listaDeSubCategoria = subCategoriaController.consultarSubCategorias();
+
+				// removendo para limpar todos os campos
+				cbSubCategoria.removeAll();
+
+				// colocando dentro do combobox todos os dados
+				for (SubCategoria subCategoria : listaDeSubCategoria) {
+					cbSubCategoria.addItem(subCategoria);
+				}
+			}
+
+			public void ancestorMoved(AncestorEvent event) {
+			}
+
+			public void ancestorRemoved(AncestorEvent event) {
+			}
+		});
+		cbSubCategoria.setBackground(Color.WHITE);
+		cbSubCategoria.setFont(new Font("Arial", Font.BOLD, 14));
+
 		JButton btnNovo = new JButton("Novo");
 		btnNovo.setBackground(new Color(106, 76, 147));
 		btnNovo.setForeground(new Color(255, 255, 255));
@@ -826,6 +904,24 @@ public class FrmProdutos extends JFrame {
 		tfDataFabricacao.setBackground(Color.WHITE);
 		tfDataFabricacao.setFont(new Font("Arial", Font.BOLD, 14));
 		tfDataFabricacao.setColumns(10);
+		tfDataFabricacao = new JFormattedTextField(new MaskFormatter("##/##/####"));
+		tfDataFabricacao.setBackground(Color.WHITE);
+		tfDataFabricacao.setFont(new Font("Arial", Font.BOLD, 14));
+		tfDataFabricacao.setColumns(10);
+
+		tfDataFabricacao.getDocument().addDocumentListener(new DocumentListener() {
+			public void changedUpdate(DocumentEvent e) {
+				verificarData((JFormattedTextField) tfDataFabricacao);
+			}
+
+			public void removeUpdate(DocumentEvent e) {
+				verificarData((JFormattedTextField) tfDataFabricacao);
+			}
+
+			public void insertUpdate(DocumentEvent e) {
+				verificarData((JFormattedTextField) tfDataFabricacao);
+			}
+		});
 
 		JLabel lblPrecoCusto = new JLabel("Preço de Custo: ");
 		lblPrecoCusto.setBounds(514, 330, 127, 17);
@@ -840,6 +936,24 @@ public class FrmProdutos extends JFrame {
 		tfValidade.setBackground(Color.WHITE);
 		tfValidade.setFont(new Font("Arial", Font.BOLD, 14));
 		tfValidade.setColumns(10);
+		tfValidade = new JFormattedTextField(new MaskFormatter("##/##/####"));
+		tfValidade.setBackground(Color.WHITE);
+		tfValidade.setFont(new Font("Arial", Font.BOLD, 14));
+		tfValidade.setColumns(10);
+
+		tfValidade.getDocument().addDocumentListener(new DocumentListener() {
+			public void changedUpdate(DocumentEvent e) {
+				verificarData((JFormattedTextField) tfValidade);
+			}
+
+			public void removeUpdate(DocumentEvent e) {
+				verificarData((JFormattedTextField) tfValidade);
+			}
+
+			public void insertUpdate(DocumentEvent e) {
+				verificarData((JFormattedTextField) tfValidade);
+			}
+		});
 
 		tfPrecoCusto = new JTextField();
 		tfPrecoCusto.setBounds(645, 327, 158, 23);

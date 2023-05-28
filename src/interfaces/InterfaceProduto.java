@@ -6,11 +6,11 @@ import model.Produto;
 
 public interface InterfaceProduto{
 	
-	void cadastrarProduto(Produto produto);
-	void excluirProduto(Produto produto);
-	void alterarProduto(Produto produto);
-	List<Produto> consultarProdutos();
-	List<Produto>  consultarProdutosPorNome(String nome);
+	void cadastrarProduto(Produto produto) throws Exception;
+	void excluirProduto(Produto produto) throws Exception;
+	void alterarProduto(Produto produto) throws Exception;
+	List<Produto> consultarProdutos() throws Exception;
+	List<Produto>  consultarProdutosPorNome(String nome) throws Exception;
 	Produto consultarProdutosPorCodigoBarras(String codigoBarras);	
 	
 }
