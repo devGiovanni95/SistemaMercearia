@@ -1,23 +1,25 @@
 package model;
 
+import java.util.Objects;
+
 // TODO: Auto-generated Javadoc
 /**
  * The Class SubCategoria.
  */
 public class SubCategoria {
-	
+
 	/** The codigo. */
 	private int codigo;
-	
+
 	/** The categoria. */
 	private Categoria categoria;
-	
+
 	/** The sub categoria. */
 	private String nome;
-	
+
 	/** The Descricao. */
 	private String Descricao;
-	
+
 	/**
 	 * Gets the codigo.
 	 *
@@ -26,7 +28,7 @@ public class SubCategoria {
 	public int getCodigo() {
 		return codigo;
 	}
-	
+
 	/**
 	 * Sets the codigo.
 	 *
@@ -35,7 +37,7 @@ public class SubCategoria {
 	public void setCodigo(int codigo) {
 		this.codigo = codigo;
 	}
-	
+
 	/**
 	 * Gets the categoria.
 	 *
@@ -44,7 +46,7 @@ public class SubCategoria {
 	public Categoria getCategoria() {
 		return categoria;
 	}
-	
+
 	/**
 	 * Sets the categoria.
 	 *
@@ -53,7 +55,7 @@ public class SubCategoria {
 	public void setCategoria(Categoria categoria) {
 		this.categoria = categoria;
 	}
-	
+
 	/**
 	 * Gets the sub nome.
 	 *
@@ -62,7 +64,7 @@ public class SubCategoria {
 	public String getNome() {
 		return nome;
 	}
-	
+
 	/**
 	 * Sets the sub nome.
 	 *
@@ -71,7 +73,7 @@ public class SubCategoria {
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-	
+
 	/**
 	 * Gets the descricao.
 	 *
@@ -80,7 +82,7 @@ public class SubCategoria {
 	public String getDescricao() {
 		return Descricao;
 	}
-	
+
 	/**
 	 * Sets the descricao.
 	 *
@@ -89,7 +91,7 @@ public class SubCategoria {
 	public void setDescricao(String descricao) {
 		Descricao = descricao;
 	}
-	
+
 	/**
 	 * To string.
 	 *
@@ -97,9 +99,25 @@ public class SubCategoria {
 	 */
 	@Override
 	public String toString() {
-		return nome ;
+		return nome;
 	}
-	
-	
-	
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(Descricao, categoria, codigo, nome);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		SubCategoria other = (SubCategoria) obj;
+		return Objects.equals(Descricao, other.Descricao) && Objects.equals(categoria, other.categoria)
+				&& codigo == other.codigo && Objects.equals(nome, other.nome);
+	}
+
 }

@@ -1,0 +1,36 @@
+                     MERCEARIA                    
+        RUA SEM NOME, 1254 - VILA SÃO JOSÉ        
+	    	CEP: 13330-050 INDAIATUBA - SP          
+CNPJ:00.000.000/0000-00          					
+INCRIÇÃO ESTADUAL: 000.000000.0000				
+INCRIÇÃO MUNICIPAL: 0.000.000/000-0				
+--------------------------------------------------
+DATA: 27/05/2023 23:04:48
+CODIGO DA VENDA:348U59421445ZKf
+----------------CUPOM NÃO FISCAL------------------
+ITEM  CÓDIGO       DESCRIÇÃO           
+QUANTIDADE      VALOR UNITARIO      	VALOR ITEM	
+--------------------------------------------------
+1     7898377661756    agua tonica
+ 1.0  KG         54.0       54.0
+
+ 2     7898377661756    agua tonica
+ 1.0  KG         54.0       54.0
+
+ 3     7898377661756    agua tonica
+ 1.0  KG         54.0       54.0
+
+ 4     7898377661756    agua tonica
+ 1.0  KG         54.0       54.0
+
+ 5     7898377661756    agua tonica
+ 1.0  KG         54.0       54.0
+
+ 6     7898377661756    agua tonica
+ 1.0  KG         54.0       54.0
+ 
+ 7     7898377661756    agua tonica
+ 1.0  KG         54.0       54.0
+ --------------------------------------------------
+Total R$ 378.0Total R$ 378.0
+                  

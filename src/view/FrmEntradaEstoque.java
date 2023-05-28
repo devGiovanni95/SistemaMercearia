@@ -71,7 +71,7 @@ public class FrmEntradaEstoque extends JFrame {
 	private JTable tabelaEstoque;
 
 	/** The cb sub categoria. */
-	private JComboBox<SubCategoria> cbSubCategoria;
+	private JTextField tfSubCategoria;
 
 	/** The cb unidade de medida. */
 	private JComboBox<String> cbUnidadeDeMedida;
@@ -88,8 +88,6 @@ public class FrmEntradaEstoque extends JFrame {
 	/** The tf codigo. */
 	private JTextField tfCodigo;
 
-	/** Objeto da classe LimparCampos. */
-	private LimparCampos limparCampos;
 	private JTextField tfDataEntrada;
 	private JTextField tfQuantidadeComprada;
 
@@ -104,110 +102,6 @@ public class FrmEntradaEstoque extends JFrame {
 		limpar.Limpar(tela);
 	}
 	
-
-	/*
-	 * Método responsável por alterar os dados de um produto cadastrado.
-	 * Os dados são obtidos dos campos de texto na interface gráfica e armazenados em um objeto do tipo Produto,
-	Em seguida, os campos de texto na interface gráfica são limpos através do método Limpar() da classe LimparCampos.
-	 * O objeto Produto é passado como parâmetro para o método alterarProduto() da classe ProdutosController.
-	 */
-
-	/**
-	 * Alterar produto.
-	 */
-		private void alterarProduto() {
-			Produto produto = new Produto();
-			SubCategoria subCategoria = new SubCategoria();
-
-			ProdutosController produtosController = new ProdutosController();
-
-			SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-
-			produto.setDescricao(tfDescricao.getText());
-			produto.setCodigoDeBarras(tfCodigoDeBarras.getText());
-			produto.setMarca(tfMarca.getText());
-			subCategoria = (SubCategoria)cbSubCategoria.getSelectedItem();
-			produto.setSubCategoria(subCategoria);
-			produto.setUnidadeDeMedida(cbUnidadeDeMedida.getSelectedItem().toString());
-			produto.setQuantidade(Integer.parseInt(tfQtdEstoque.getText()));
-			produto.setDataFabricacao(tfDataFabricacao.getText());
-			produto.setDataValidade(tfValidade.getText());
-
-			produto.setPrecoCusto(Double.parseDouble(tfPrecoUnitario.getText()));
-			//produto.setCodigo(Integer.parseInt(tfCodigo.getText()));
-
-			// Calcular o preço final com base na margem de lucro, IPI e ICMS
-			//atualizarPrecoFinal();
-
-			produto.setPrecoFinal(Double.parseDouble(tfSubTotal.getText().replaceAll(",",".")));
-
-			try {
-				produtosController.alterarProduto(produto);
-				limparTela(abaDadosEstoque);
-				JOptionPane.showMessageDialog(null, "Produto alterado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
-			} catch (Exception e) {
-				JOptionPane.showMessageDialog(null, "Erro ao alterar o produto: " + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
-			}
-		}
-
-
-
-
-	/**
-	 * Cadastrar produto.
-	 */
-	private void cadastrarProduto() {
-		Produto produto = new Produto();
-		SubCategoria subCategoria = new SubCategoria();
-
-		ProdutosController produtosController = new ProdutosController();
-
-		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-
-		produto.setDescricao(tfDescricao.getText());
-		produto.setCodigoDeBarras(tfCodigoDeBarras.getText());
-		produto.setMarca(tfMarca.getText());
-		subCategoria = (SubCategoria)cbSubCategoria.getSelectedItem();
-		produto.setSubCategoria(subCategoria);
-		produto.setUnidadeDeMedida(cbUnidadeDeMedida.getSelectedItem().toString());
-		produto.setQuantidade(Integer.parseInt(tfQtdEstoque.getText()));
-		produto.setDataFabricacao(tfDataFabricacao.getText());
-		produto.setDataValidade(tfValidade.getText());
-
-		produto.setPrecoCusto(Double.parseDouble(tfPrecoUnitario.getText()));
-
-		produto.setPrecoFinal(Double.parseDouble(tfSubTotal.getText().replaceAll(",",".")));
-		// Calcular o preço final com base na margem de lucro, IPI e ICMS
-		//atualizarPrecoFinal();
-
-		try{
-			produtosController.cadastrarProduto(produto);
-			limparTela(abaDadosEstoque);
-			JOptionPane.showMessageDialog(null, "Produto cadastrado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
-		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null, "Erro ao cadastrar o produto: " + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
-		}
-	}
-
-
-	/**
-	 * Método utilizado para efetuar a remoção.
-	 */
-	private void excluirProduto() {
-		Produto produtos = new Produto();
-		ProdutosController produtosController = new ProdutosController();
-
-		produtos = produtosController.consultarProdutosPorCodigoBarras(tfCodigoDeBarras.getText());
-
-		try {
-			produtosController.excluirProduto(produtos);
-			limparTela(abaDadosEstoque);
-			JOptionPane.showMessageDialog(null, "Produto excluído com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
-		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null, "Erro ao excluir o produto: " + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
-		}
-	}
-
 	/**
 	 * Preencher dados produto.
 	 */
@@ -217,18 +111,16 @@ public class FrmEntradaEstoque extends JFrame {
 	private void preencherDadosProduto(){
 		abaPrincipal.setSelectedIndex(0);
 
-		//tfCodigo.setText(tabelaEstoque.getValueAt(tabelaEstoque.getSelectedRow(), 0).toString());
+		tfCodigo.setText(tabelaEstoque.getValueAt(tabelaEstoque.getSelectedRow(), 1).toString());
 		tfDescricao.setText(tabelaEstoque.getValueAt(tabelaEstoque.getSelectedRow(), 0).toString());
 		tfCodigoDeBarras.setText(tabelaEstoque.getValueAt(tabelaEstoque.getSelectedRow(), 1).toString());
 		tfMarca.setText(tabelaEstoque.getValueAt(tabelaEstoque.getSelectedRow(), 2).toString());
-		cbSubCategoria.setSelectedItem(tabelaEstoque.getValueAt(tabelaEstoque.getSelectedRow(), 3).toString());
+		tfSubCategoria.setText(tabelaEstoque.getValueAt(tabelaEstoque.getSelectedRow(), 3).toString());
 		cbUnidadeDeMedida.setSelectedItem(tabelaEstoque.getValueAt(tabelaEstoque.getSelectedRow(), 4).toString());
 		tfQtdEstoque.setText(tabelaEstoque.getValueAt(tabelaEstoque.getSelectedRow(), 5).toString());
 		tfDataFabricacao.setText(tabelaEstoque.getValueAt(tabelaEstoque.getSelectedRow(), 6).toString());
 		tfValidade.setText(tabelaEstoque.getValueAt(tabelaEstoque.getSelectedRow(), 7).toString());
 
-		tfPrecoUnitario.setText(tabelaEstoque.getValueAt(tabelaEstoque.getSelectedRow(), 13).toString());
-		tfSubTotal.setText(tabelaEstoque.getValueAt(tabelaEstoque.getSelectedRow(), 14).toString());
 	}
 
 	/**
@@ -270,8 +162,6 @@ public class FrmEntradaEstoque extends JFrame {
 		}
 	}
 
-
-
 	/**
 	 * Metodo utilizado para listar todos os produtos e adiciona-los na tabela.
 	 */
@@ -307,8 +197,6 @@ public class FrmEntradaEstoque extends JFrame {
 			JOptionPane.showMessageDialog(null,"Erro ao consultar produtos: " + erro.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
 		}
 	}
-
-
 
 	/**
 	 * Launch the application.
@@ -448,36 +336,44 @@ public class FrmEntradaEstoque extends JFrame {
 		abaDadosEstoque.setBackground(new Color(202, 240, 248));
 
 		JLabel lblSubcategoria = new JLabel("Subcategoria:");
+		lblSubcategoria.setBounds(156, 205, 97, 19);
 		lblSubcategoria.setFont(new Font("Arial", Font.BOLD, 14));
 
 		JLabel lblMarca = new JLabel("Marca: ");
+		lblMarca.setBounds(210, 248, 51, 17);
 		lblMarca.setFont(new Font("Arial", Font.BOLD, 14));
 
 		JLabel lblDataFabricacao = new JLabel("Data de Fabricação: ");
+		lblDataFabricacao.setBounds(119, 300, 142, 17);
 		lblDataFabricacao.setFont(new Font("Arial", Font.BOLD, 14));
 
 		tfCodigoDeBarras = new JTextField();
+		tfCodigoDeBarras.setBounds(271, 77, 551, 23);
 		tfCodigoDeBarras.setEnabled(false);
 		tfCodigoDeBarras.setBackground(Color.WHITE);
 		tfCodigoDeBarras.setFont(new Font("Arial", Font.BOLD, 14));
 		tfCodigoDeBarras.setColumns(10);
 
 		tfDescricao = new JTextField();
+		tfDescricao.setBounds(271, 118, 551, 23);
 		tfDescricao.setEnabled(false);
 		tfDescricao.setBackground(Color.WHITE);
 		tfDescricao.setFont(new Font("Arial", Font.BOLD, 14));
 		tfDescricao.setColumns(10);
 
 		tfQtdEstoque = new JTextField();
+		tfQtdEstoque.setBounds(271, 160, 166, 23);
 		tfQtdEstoque.setToolTipText("Campo disponivel para editar produto");
 		tfQtdEstoque.setBackground(Color.WHITE);
 		tfQtdEstoque.setFont(new Font("Arial", Font.BOLD, 14));
 		tfQtdEstoque.setColumns(10);
 
 		JLabel lblUnidadeDeMedida = new JLabel("Unidade de Medida: ");
+		lblUnidadeDeMedida.setBounds(483, 163, 165, 17);
 		lblUnidadeDeMedida.setFont(new Font("Arial", Font.BOLD, 14));
 
 		cbUnidadeDeMedida = new JComboBox<String>();
+		cbUnidadeDeMedida.setBounds(652, 159, 170, 25);
 		cbUnidadeDeMedida.setEnabled(false);
 		cbUnidadeDeMedida.setBackground(Color.WHITE);
 		cbUnidadeDeMedida.setFont(new Font("Arial", Font.BOLD, 14));
@@ -485,30 +381,12 @@ public class FrmEntradaEstoque extends JFrame {
 				"KG","UN", "CX"
 		}));
 
-		cbSubCategoria = new JComboBox<SubCategoria>();
-		cbSubCategoria.setEnabled(false);
-		cbSubCategoria.addAncestorListener(new AncestorListener() {
-			public void ancestorAdded(AncestorEvent event) {
-
-				//listando  subcategorias dentro do combobox
-				SubCategoriaController subCategoriaController = new SubCategoriaController();
-				List<SubCategoria> listaDeSubCategoria = subCategoriaController.consultarSubCategorias();
-
-				//removendo para limpar todos os campos
-				cbSubCategoria.removeAll();
-
-				//colocando dentro do combobox todos os dados
-				for(SubCategoria subCategoria : listaDeSubCategoria) {
-					cbSubCategoria.addItem(subCategoria);
-				}
-			}
-			public void ancestorMoved(AncestorEvent event) {
-			}
-			public void ancestorRemoved(AncestorEvent event) {
-			}
-		});
-		cbSubCategoria.setBackground(Color.WHITE);
-		cbSubCategoria.setFont(new Font("Arial", Font.BOLD, 14));
+		tfSubCategoria = new JTextField();
+		tfSubCategoria.setBounds(271, 202, 551, 23);
+		tfSubCategoria.setEditable(false);
+		tfSubCategoria.setEnabled(false);
+		tfSubCategoria.setBackground(Color.WHITE);
+		tfSubCategoria.setFont(new Font("Arial", Font.BOLD, 14));
 
 
 
@@ -571,28 +449,34 @@ public class FrmEntradaEstoque extends JFrame {
 
 
 		tfMarca = new JTextField();
+		tfMarca.setBounds(271, 243, 551, 23);
 		tfMarca.setEnabled(false);
 		tfMarca.setBackground(Color.WHITE);
 		tfMarca.setFont(new Font("Arial", Font.BOLD, 14));
 		tfMarca.setColumns(10);
 
 		tfDataFabricacao = new JTextField();
+		tfDataFabricacao.setBounds(271, 297, 236, 23);
 		tfDataFabricacao.setBackground(Color.WHITE);
 		tfDataFabricacao.setFont(new Font("Arial", Font.BOLD, 14));
 		tfDataFabricacao.setColumns(10);
 
 		JLabel lvlPrecoUnitario = new JLabel("Preço Unitario:");
+		lvlPrecoUnitario.setBounds(157, 338, 104, 17);
 		lvlPrecoUnitario.setFont(new Font("Arial", Font.BOLD, 14));
 
 		JLabel lblValidade = new JLabel("Data de Validade: ");
+		lblValidade.setBounds(536, 300, 125, 17);
 		lblValidade.setFont(new Font("Arial", Font.BOLD, 14));
 
 		tfValidade = new JTextField();
+		tfValidade.setBounds(662, 297, 160, 23);
 		tfValidade.setBackground(Color.WHITE);
 		tfValidade.setFont(new Font("Arial", Font.BOLD, 14));
 		tfValidade.setColumns(10);
 
 		tfPrecoUnitario = new JTextField();
+		tfPrecoUnitario.setBounds(271, 335, 151, 23);
 		tfPrecoUnitario.setBackground(Color.WHITE);
 		tfPrecoUnitario.setFont(new Font("Arial", Font.BOLD, 14));
 		tfPrecoUnitario.setColumns(10);
@@ -609,59 +493,75 @@ public class FrmEntradaEstoque extends JFrame {
 		});
 
 		JButton btnRemover = new JButton("Remover");
+		btnRemover.setBounds(965, 401, 283, 25);
 		btnRemover.setFont(new Font("Arial", Font.BOLD, 14));
 
 		JButton btnAdicionar = new JButton("Adicionar");
+		btnAdicionar.setBounds(965, 370, 283, 25);
 		btnAdicionar.setFont(new Font("Arial", Font.BOLD, 14));
 
 		JPanel painelFotoProduto = new JPanel();
+		painelFotoProduto.setBounds(965, 67, 283, 279);
 		painelFotoProduto.setBorder(new LineBorder(new Color(0, 0, 0), 2));
 
 		JLabel lblSubtotal = new JLabel("Preço Final: ");
+		lblSubtotal.setBounds(517, 377, 87, 17);
 		lblSubtotal.setFont(new Font("Arial", Font.BOLD, 14));
 
 		tfSubTotal = new JTextField();
+		tfSubTotal.setBounds(608, 374, 214, 23);
 		tfSubTotal.setBackground(Color.WHITE);
 		tfSubTotal.setFont(new Font("Arial", Font.BOLD, 14));
 		tfSubTotal.setColumns(10);
 		tfSubTotal.setEditable(false);
 
 		JLabel lblCodigo = new JLabel("Codigo:");
+		lblCodigo.setBounds(179, 30, 54, 17);
 		lblCodigo.setFont(new Font("Arial", Font.BOLD, 14));
 
 		tfCodigo = new JTextField();
+		tfCodigo.setBounds(271, 29, 86, 20);
 		tfCodigo.setEditable(false);
 		tfCodigo.setColumns(10);
 		
 				JLabel lblQtdEstoque = new JLabel("Quantidade em Estoque:");
+				lblQtdEstoque.setBounds(81, 160, 172, 23);
 				lblQtdEstoque.setFont(new Font("Arial", Font.BOLD, 14));
 		
 				JLabel lblDescricao = new JLabel("Descrição:");
+				lblDescricao.setBounds(179, 121, 74, 17);
 				lblDescricao.setFont(new Font("Arial", Font.BOLD, 14));
 		
 				JLabel lblCodigoDeBarras = new JLabel("Código de Barras:");
+				lblCodigoDeBarras.setBounds(127, 80, 126, 17);
 				lblCodigoDeBarras.setFont(new Font("Arial", Font.BOLD, 14));
 		
 		tfDataEntrada = new JTextField();
+		tfDataEntrada.setBounds(271, 374, 236, 23);
 		tfDataEntrada.setFont(new Font("Arial", Font.BOLD, 14));
 		tfDataEntrada.setColumns(10);
 		tfDataEntrada.setBackground(Color.WHITE);
 		
 		JLabel lblDataEntrada = new JLabel("Data de Entrada:");
+		lblDataEntrada.setBounds(144, 377, 115, 17);
 		lblDataEntrada.setFont(new Font("Arial", Font.BOLD, 14));
 		
 		JLabel lblQuantidadeComprada = new JLabel("Quantidade Comprada:");
+		lblQuantidadeComprada.setBounds(460, 338, 160, 17);
 		lblQuantidadeComprada.setFont(new Font("Arial", Font.BOLD, 14));
 		
 		tfQuantidadeComprada = new JTextField();
+		tfQuantidadeComprada.setBounds(627, 335, 195, 23);
 		tfQuantidadeComprada.setFont(new Font("Arial", Font.BOLD, 14));
 		tfQuantidadeComprada.setColumns(10);
 		tfQuantidadeComprada.setBackground(Color.WHITE);
 		
 		JLabel lblFornecedor = new JLabel("Fornecedor:");
+		lblFornecedor.setBounds(172, 415, 87, 19);
 		lblFornecedor.setFont(new Font("Arial", Font.BOLD, 14));
 		
 		JComboBox<SubCategoria> cbFornecedor = new JComboBox<SubCategoria>();
+		cbFornecedor.setBounds(271, 413, 551, 23);
 		cbFornecedor.setEditable(true);
 		cbFornecedor.setFont(new Font("Arial", Font.BOLD, 14));
 		cbFornecedor.setEnabled(false);
@@ -677,166 +577,38 @@ public class FrmEntradaEstoque extends JFrame {
 					.addComponent(abaDadosEstoque, GroupLayout.PREFERRED_SIZE, 531, GroupLayout.PREFERRED_SIZE)
 					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 		);
-		GroupLayout gl_abaDadosEstoque = new GroupLayout(abaDadosEstoque);
-		gl_abaDadosEstoque.setHorizontalGroup(
-			gl_abaDadosEstoque.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_abaDadosEstoque.createSequentialGroup()
-					.addGap(179)
-					.addComponent(lblCodigo)
-					.addGap(38)
-					.addComponent(tfCodigo, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-				.addGroup(gl_abaDadosEstoque.createSequentialGroup()
-					.addGap(81)
-					.addGroup(gl_abaDadosEstoque.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_abaDadosEstoque.createSequentialGroup()
-							.addGap(46)
-							.addComponent(lblCodigoDeBarras))
-						.addGroup(gl_abaDadosEstoque.createSequentialGroup()
-							.addGap(98)
-							.addComponent(lblDescricao))
-						.addComponent(lblQtdEstoque)
-						.addGroup(gl_abaDadosEstoque.createSequentialGroup()
-							.addGap(75)
-							.addComponent(lblSubcategoria))
-						.addGroup(gl_abaDadosEstoque.createSequentialGroup()
-							.addGap(129)
-							.addComponent(lblMarca))
-						.addGroup(gl_abaDadosEstoque.createSequentialGroup()
-							.addGap(38)
-							.addComponent(lblDataFabricacao))
-						.addGroup(gl_abaDadosEstoque.createSequentialGroup()
-							.addGap(76)
-							.addComponent(lvlPrecoUnitario)))
-					.addGap(10)
-					.addGroup(gl_abaDadosEstoque.createParallelGroup(Alignment.LEADING)
-						.addComponent(tfCodigoDeBarras, GroupLayout.PREFERRED_SIZE, 551, GroupLayout.PREFERRED_SIZE)
-						.addComponent(tfDescricao, GroupLayout.PREFERRED_SIZE, 551, GroupLayout.PREFERRED_SIZE)
-						.addGroup(gl_abaDadosEstoque.createSequentialGroup()
-							.addComponent(tfQtdEstoque, GroupLayout.PREFERRED_SIZE, 166, GroupLayout.PREFERRED_SIZE)
-							.addGap(46)
-							.addComponent(lblUnidadeDeMedida, GroupLayout.PREFERRED_SIZE, 165, GroupLayout.PREFERRED_SIZE)
-							.addGap(4)
-							.addComponent(cbUnidadeDeMedida, GroupLayout.PREFERRED_SIZE, 170, GroupLayout.PREFERRED_SIZE))
-						.addComponent(cbSubCategoria, GroupLayout.PREFERRED_SIZE, 551, GroupLayout.PREFERRED_SIZE)
-						.addComponent(tfMarca, GroupLayout.PREFERRED_SIZE, 551, GroupLayout.PREFERRED_SIZE)
-						.addGroup(gl_abaDadosEstoque.createSequentialGroup()
-							.addComponent(tfDataFabricacao, GroupLayout.PREFERRED_SIZE, 236, GroupLayout.PREFERRED_SIZE)
-							.addGap(35)
-							.addComponent(lblValidade)
-							.addGap(4)
-							.addComponent(tfValidade, GroupLayout.PREFERRED_SIZE, 151, GroupLayout.PREFERRED_SIZE))
-						.addGroup(gl_abaDadosEstoque.createSequentialGroup()
-							.addComponent(tfPrecoUnitario, GroupLayout.PREFERRED_SIZE, 151, GroupLayout.PREFERRED_SIZE)
-							.addGap(35)
-							.addComponent(lblQuantidadeComprada)
-							.addGap(10)
-							.addComponent(tfQuantidadeComprada, GroupLayout.PREFERRED_SIZE, 195, GroupLayout.PREFERRED_SIZE)))
-					.addGap(143)
-					.addComponent(painelFotoProduto, GroupLayout.PREFERRED_SIZE, 283, GroupLayout.PREFERRED_SIZE))
-				.addGroup(gl_abaDadosEstoque.createSequentialGroup()
-					.addGap(144)
-					.addComponent(lblDataEntrada)
-					.addGap(12)
-					.addComponent(tfDataEntrada, GroupLayout.PREFERRED_SIZE, 236, GroupLayout.PREFERRED_SIZE)
-					.addGap(10)
-					.addComponent(lblSubtotal)
-					.addGap(4)
-					.addComponent(tfSubTotal, GroupLayout.PREFERRED_SIZE, 214, GroupLayout.PREFERRED_SIZE)
-					.addGap(143)
-					.addComponent(btnAdicionar, GroupLayout.PREFERRED_SIZE, 283, GroupLayout.PREFERRED_SIZE))
-				.addGroup(gl_abaDadosEstoque.createSequentialGroup()
-					.addGap(172)
-					.addComponent(lblFornecedor)
-					.addGap(10)
-					.addComponent(cbFornecedor, GroupLayout.PREFERRED_SIZE, 551, GroupLayout.PREFERRED_SIZE)
-					.addGap(145)
-					.addComponent(btnRemover, GroupLayout.PREFERRED_SIZE, 283, GroupLayout.PREFERRED_SIZE))
-		);
-		gl_abaDadosEstoque.setVerticalGroup(
-			gl_abaDadosEstoque.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_abaDadosEstoque.createSequentialGroup()
-					.addGap(29)
-					.addGroup(gl_abaDadosEstoque.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_abaDadosEstoque.createSequentialGroup()
-							.addGap(1)
-							.addComponent(lblCodigo))
-						.addComponent(tfCodigo, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addGap(18)
-					.addGroup(gl_abaDadosEstoque.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_abaDadosEstoque.createSequentialGroup()
-							.addGap(13)
-							.addComponent(lblCodigoDeBarras)
-							.addGap(24)
-							.addComponent(lblDescricao)
-							.addGap(22)
-							.addComponent(lblQtdEstoque, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE)
-							.addGap(22)
-							.addComponent(lblSubcategoria, GroupLayout.PREFERRED_SIZE, 19, GroupLayout.PREFERRED_SIZE)
-							.addGap(24)
-							.addComponent(lblMarca)
-							.addGap(24)
-							.addComponent(lblDataFabricacao)
-							.addGap(29)
-							.addComponent(lvlPrecoUnitario))
-						.addGroup(gl_abaDadosEstoque.createSequentialGroup()
-							.addGap(10)
-							.addComponent(tfCodigoDeBarras, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-							.addGap(18)
-							.addComponent(tfDescricao, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-							.addGap(18)
-							.addGroup(gl_abaDadosEstoque.createParallelGroup(Alignment.LEADING)
-								.addGroup(gl_abaDadosEstoque.createSequentialGroup()
-									.addGap(1)
-									.addComponent(tfQtdEstoque, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-								.addGroup(gl_abaDadosEstoque.createSequentialGroup()
-									.addGap(4)
-									.addComponent(lblUnidadeDeMedida))
-								.addComponent(cbUnidadeDeMedida, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE))
-							.addGap(18)
-							.addComponent(cbSubCategoria, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-							.addGap(18)
-							.addComponent(tfMarca, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-							.addGap(18)
-							.addGroup(gl_abaDadosEstoque.createParallelGroup(Alignment.LEADING)
-								.addComponent(tfDataFabricacao, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-								.addGroup(gl_abaDadosEstoque.createSequentialGroup()
-									.addGap(3)
-									.addComponent(lblValidade))
-								.addComponent(tfValidade, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-							.addGap(23)
-							.addGroup(gl_abaDadosEstoque.createParallelGroup(Alignment.LEADING)
-								.addComponent(tfPrecoUnitario, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-								.addGroup(gl_abaDadosEstoque.createSequentialGroup()
-									.addGap(3)
-									.addComponent(lblQuantidadeComprada))
-								.addComponent(tfQuantidadeComprada, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
-						.addComponent(painelFotoProduto, GroupLayout.PREFERRED_SIZE, 279, GroupLayout.PREFERRED_SIZE))
-					.addGap(12)
-					.addGroup(gl_abaDadosEstoque.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_abaDadosEstoque.createSequentialGroup()
-							.addGap(7)
-							.addComponent(lblDataEntrada))
-						.addGroup(gl_abaDadosEstoque.createSequentialGroup()
-							.addGap(4)
-							.addComponent(tfDataEntrada, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-						.addGroup(gl_abaDadosEstoque.createSequentialGroup()
-							.addGap(7)
-							.addComponent(lblSubtotal))
-						.addGroup(gl_abaDadosEstoque.createSequentialGroup()
-							.addGap(4)
-							.addComponent(tfSubTotal, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-						.addComponent(btnAdicionar))
-					.addGap(4)
-					.addGroup(gl_abaDadosEstoque.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_abaDadosEstoque.createSequentialGroup()
-							.addGap(14)
-							.addComponent(lblFornecedor, GroupLayout.PREFERRED_SIZE, 19, GroupLayout.PREFERRED_SIZE))
-						.addGroup(gl_abaDadosEstoque.createSequentialGroup()
-							.addGap(11)
-							.addComponent(cbFornecedor, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-						.addComponent(btnRemover)))
-		);
-		abaDadosEstoque.setLayout(gl_abaDadosEstoque);
+		abaDadosEstoque.setLayout(null);
+		abaDadosEstoque.add(lblCodigo);
+		abaDadosEstoque.add(tfCodigo);
+		abaDadosEstoque.add(lblCodigoDeBarras);
+		abaDadosEstoque.add(lblDescricao);
+		abaDadosEstoque.add(lblQtdEstoque);
+		abaDadosEstoque.add(lblSubcategoria);
+		abaDadosEstoque.add(lblMarca);
+		abaDadosEstoque.add(lblDataFabricacao);
+		abaDadosEstoque.add(lvlPrecoUnitario);
+		abaDadosEstoque.add(tfCodigoDeBarras);
+		abaDadosEstoque.add(tfDescricao);
+		abaDadosEstoque.add(tfQtdEstoque);
+		abaDadosEstoque.add(lblUnidadeDeMedida);
+		abaDadosEstoque.add(cbUnidadeDeMedida);
+		abaDadosEstoque.add(tfSubCategoria);
+		abaDadosEstoque.add(tfMarca);
+		abaDadosEstoque.add(tfDataFabricacao);
+		abaDadosEstoque.add(lblValidade);
+		abaDadosEstoque.add(tfValidade);
+		abaDadosEstoque.add(tfPrecoUnitario);
+		abaDadosEstoque.add(lblQuantidadeComprada);
+		abaDadosEstoque.add(tfQuantidadeComprada);
+		abaDadosEstoque.add(painelFotoProduto);
+		abaDadosEstoque.add(lblDataEntrada);
+		abaDadosEstoque.add(tfDataEntrada);
+		abaDadosEstoque.add(lblSubtotal);
+		abaDadosEstoque.add(tfSubTotal);
+		abaDadosEstoque.add(btnAdicionar);
+		abaDadosEstoque.add(lblFornecedor);
+		abaDadosEstoque.add(cbFornecedor);
+		abaDadosEstoque.add(btnRemover);
 		abaCadastrarProduto.setLayout(gl_abaCadastrarProduto);
 
 		JLayeredPane abaConsultarEstoque = new JLayeredPane();
