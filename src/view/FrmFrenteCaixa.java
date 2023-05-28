@@ -487,6 +487,7 @@ public class FrmFrenteCaixa extends JFrame{
 			formaDePagamento.setVenda(venda);
 			formaDePagamento.setFrenteCaixa(this);
 			formaDePagamento.setListaItensCarinho(dadosTabela);
+			formaDePagamento.setListaItensCarinho(dadosTabela);
 			this.dispose();
 		}else {
 			JOptionPane.showMessageDialog(null, "Ops venda não pode ser finalizada pois não há nenhum lançamento");

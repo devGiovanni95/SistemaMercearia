@@ -137,13 +137,6 @@ create table tb_venda(
   valor_venda money
 );
 
-/*
-create table tb_item_venda(
-   codigo int primary key identity,
-   codigo_produto int not null references tb_produto,
-   codigo_pedido varchar(20) not null references tb_pedido,
-   quantidade_produto decimal(6,3) not null
-);*/
 
   create table tb_item_venda(
    codigo int primary key identity(1,1),

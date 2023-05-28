@@ -1,33 +1,32 @@
 package model;
 
+import java.io.PrintWriter;
+import java.util.List;
+
 // TODO: Auto-generated Javadoc
 /**
  * The Class ItensVenda.
  */
 public class ItemVenda {
-	
+
 	private String codigo;
-	
- 	/** The produto. */
- 	/* private int  codigo;*/
-	  private Produto produto;
-	  
-  	/** The pedido. */
-  	private Venda venda;
-	  
-  	/** The quantidade. */
-  	private double quantidade;
-  	
- 	/** The preco. */
-  	private double precoUnitario;
-	  
-  	/** The subtotal. */
-  	private double subtotal;
-	  
-	  
-  	
-	  
-	  
+
+	/** The produto. */
+	/* private int  codigo;*/
+	private Produto produto;
+
+	/** The pedido. */
+	private Venda venda;
+
+	/** The quantidade. */
+	private double quantidade;
+
+	/** The preco. */
+	private double precoUnitario;
+
+	/** The subtotal. */
+	private double subtotal;
+
 	public ItemVenda() {
 		super();
 	}
@@ -51,13 +50,50 @@ public class ItemVenda {
 		this.subtotal = subtotal;
 	}
 
-	
-	
-	
-	
+
+/*
+	public String gravar(List<ItemVenda> lista, Double total,String a ,String b,String c,String d  ) {
+		String operacao = "";
+		try {
+			//List<ItemVenda> lista;
+			int i;
+			PrintWriter pw = new PrintWriter("Cupom.txt");
+			pw.write("                     MERCEARIA                    \n");
+			pw.write("        RUA SEM NOME, 1254 - VILA SÃO JOSÉ        \n");
+			pw.write("	    	CEP: 13330-050 INDAIATUBA - SP          \n");
+			pw.write("CNPJ:00.000.000/0000-00          					\n");
+			pw.write("INCRIÇÃO ESTADUAL: 000.000000.0000				\n");
+			pw.write("INCRIÇÃO MUNICIPAL: 0.000.000/000-0				\n");
+			pw.write("--------------------------------------------------\n");
+			pw.write("DATA: "+venda.getDataVenda());
+			pw.write("CODIGO DA VENDA:"+venda.getCodigo());
+			pw.write("----------------CUPOM NÃO FISCAL------------------\n");
+			pw.write("ITEM  CÓDIGO       DESCRIÇÃO           \n");
+			pw.write("QUANTIDADE  VALOR UNITARIO       		VALOR ITEM	\n");
+			pw.write("--------------------------------------------------\n");
+			
+			while(lista != null) {
+				pw.write(a + " " + b + " " + c + " " + d + " \n" );
+				//pw.write(lista.get(4) + " " + lista.get(5) + " " + lista.get(6));
+			}
+			
+			pw.write("Total R$ "+total+"\n");
+			pw.write("                  \n");
+			pw.close();
+
+		} catch (Exception e) {
+			operacao = "Falha de gravação" + e;
+		}
+		return "Cupom gerado com sucesso";
+	}
+
+
+
+
+
 	public String getCodigo() {
 		return codigo;
-	}
+	}*/
 
 
 
@@ -75,7 +111,7 @@ public class ItemVenda {
 	public Produto getProduto() {
 		return produto;
 	}
-	
+
 	/**
 	 * Sets the produto.
 	 *
@@ -84,9 +120,9 @@ public class ItemVenda {
 	public void setProduto(Produto produto) {
 		this.produto = produto;
 	}
-	
-	
-	
+
+
+
 	/**
 	 * Gets the preco unitario.
 	 *
@@ -107,8 +143,6 @@ public class ItemVenda {
 		this.precoUnitario = precoUnitario;
 	}
 
-
-
 	/**
 	 * Gets the pedido.
 	 *
@@ -117,7 +151,7 @@ public class ItemVenda {
 	public Venda getVenda() {
 		return venda;
 	}
-	
+
 	/**
 	 * Sets the pedido.
 	 *
@@ -126,7 +160,7 @@ public class ItemVenda {
 	public void setVenda(Venda venda) {
 		this.venda = venda;
 	}
-	
+
 	/**
 	 * Gets the quantidade.
 	 *
@@ -135,7 +169,7 @@ public class ItemVenda {
 	public double getQuantidade() {
 		return quantidade;
 	}
-	
+
 	/**
 	 * Sets the quantidade.
 	 *
@@ -144,7 +178,7 @@ public class ItemVenda {
 	public void setQuantidade(double quantidade) {
 		this.quantidade = quantidade;
 	}
-	
+
 	/**
 	 * Gets the subtotal.
 	 *
@@ -153,7 +187,7 @@ public class ItemVenda {
 	public double getSubtotal() {
 		return subtotal;
 	}
-	
+
 	/**
 	 * Sets the subtotal.
 	 *
@@ -163,14 +197,10 @@ public class ItemVenda {
 		this.subtotal = subtotal;
 	}
 
-
-
 	@Override
 	public String toString() {
 		return "ItemPedido [produto=" + produto + ", pedido=" + venda + ", quantidade=" + quantidade
 				+ ", precoUnitario=" + precoUnitario + ", subtotal=" + subtotal + "]";
 	}
-	  
-	  
-	
+
 }

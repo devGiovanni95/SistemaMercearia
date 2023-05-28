@@ -469,7 +469,7 @@ public class FrmEntradaEstoque extends JFrame {
 		tfDescricao.setColumns(10);
 
 		tfQtdEstoque = new JTextField();
-		tfQtdEstoque.setEnabled(false);
+		tfQtdEstoque.setToolTipText("Campo disponivel para editar produto");
 		tfQtdEstoque.setBackground(Color.WHITE);
 		tfQtdEstoque.setFont(new Font("Arial", Font.BOLD, 14));
 		tfQtdEstoque.setColumns(10);
