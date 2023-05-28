@@ -147,5 +147,4 @@ data_entrada datetime,
 quantidade decimal(10,3),
 preco_unitario money,
 subtotal money
-)
-;
+);

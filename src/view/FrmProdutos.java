@@ -268,7 +268,7 @@ public class FrmProdutos extends JFrame {
 		limparTela(abaDadosProdutos);
 		JOptionPane.showMessageDialog(null, "Histórico cadastrado com sucesso!", "Sucesso",
 				JOptionPane.INFORMATION_MESSAGE);
-
+		
 		System.out.println(cadastroProdutoFornecedorEstoque);
 		limparTela(abaDadosProdutos);
 	}
