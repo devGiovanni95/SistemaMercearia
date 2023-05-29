@@ -51,6 +51,7 @@ import model.CadastroProdutoFornecedorEstoque;
 import model.Fornecedor;
 import model.Produto;
 import model.SubCategoria;
+import util.DataUtils;
 import util.LimparCampos;
 import util.TextFieldLimit;
 
@@ -607,6 +608,7 @@ public class FrmProdutos extends JFrame {
 		}
 	}
 
+	/*
 	public void verificarData(JFormattedTextField tfData) {
 		if (tfData.getText() != null && tfData.getText().trim().length() == 10) { // Verifica se a data está inserida
 			// por completo
@@ -627,6 +629,7 @@ public class FrmProdutos extends JFrame {
 			}
 		}
 	}
+	*/
 
 	/**
 	 * Launch the application.
@@ -657,6 +660,8 @@ public class FrmProdutos extends JFrame {
 				// consultarSubcategorias();
 			}
 		});
+
+		DataUtils dataUtils = new DataUtils();
 
 		setBackground(new Color(202, 240, 248));
 		getContentPane().setBackground(new Color(202, 240, 248));
@@ -1004,11 +1009,14 @@ public class FrmProdutos extends JFrame {
 
 		//tfDataFabricacao = new JTextField();
 		tfDataFabricacao = new JFormattedTextField(new MaskFormatter("##/##/####"));
+		int currentYear = Calendar.getInstance().get(Calendar.YEAR);
+		dataUtils.addDateVerifier((JFormattedTextField) tfDataFabricacao, 2000, currentYear+10);
 		tfDataFabricacao.setBounds(235, 286, 239, 23);
 		tfDataFabricacao.setBackground(Color.WHITE);
 		tfDataFabricacao.setFont(new Font("Arial", Font.BOLD, 14));
 		tfDataFabricacao.setColumns(10);
 
+		/*
 		tfDataFabricacao.getDocument().addDocumentListener(new DocumentListener() {
 			public void changedUpdate(DocumentEvent e) {
 				verificarData((JFormattedTextField) tfDataFabricacao);
@@ -1022,6 +1030,7 @@ public class FrmProdutos extends JFrame {
 				verificarData((JFormattedTextField) tfDataFabricacao);
 			}
 		});
+			*/
 
 		JLabel lblPrecoCusto = new JLabel("Preço de Custo: ");
 		lblPrecoCusto.setBounds(514, 330, 127, 17);
@@ -1033,12 +1042,14 @@ public class FrmProdutos extends JFrame {
 
 		//tfValidade = new JTextField();
 		tfValidade = new JFormattedTextField(new MaskFormatter("##/##/####"));
+		dataUtils.addDateVerifier((JFormattedTextField) tfDataFabricacao, currentYear - 20, currentYear + 100);
 		tfValidade.setBounds(634, 286, 169, 23);
 		tfValidade.setBackground(Color.WHITE);
 		tfValidade.setFont(new Font("Arial", Font.BOLD, 14));
 		tfValidade.setColumns(10);
 
 
+		/*
 		tfValidade.getDocument().addDocumentListener(new DocumentListener() {
 			public void changedUpdate(DocumentEvent e) {
 				verificarData((JFormattedTextField) tfValidade);
@@ -1052,7 +1063,7 @@ public class FrmProdutos extends JFrame {
 				verificarData((JFormattedTextField) tfValidade);
 			}
 		});
-
+*/
 
 
 		tfPrecoCusto = new JTextField();
@@ -1061,9 +1072,9 @@ public class FrmProdutos extends JFrame {
 		tfPrecoCusto.setBackground(Color.WHITE);
 		tfPrecoCusto.setFont(new Font("Arial", Font.BOLD, 14));
 		tfPrecoCusto.setColumns(10);
-		tfPrecoCusto.getDocument().addDocumentListener(documentListener);
 
 		/*
+		tfPrecoCusto.getDocument().addDocumentListener(documentListener);
 		tfPrecoCusto.addKeyListener(new KeyAdapter() {
 			// Metodo confere se o valor digitado é numerico se não é impede de ser digitado
 			@Override
@@ -1164,12 +1175,14 @@ public class FrmProdutos extends JFrame {
 
 		//tfDataEntrada = new JTextField();
 		tfDataEntrada = new JFormattedTextField(new MaskFormatter("##/##/####"));
+		dataUtils.addDateVerifier((JFormattedTextField) tfDataEntrada, currentYear-100, currentYear+100);
 		tfDataEntrada.setFont(new Font("Arial", Font.BOLD, 14));
 		tfDataEntrada.setColumns(10);
 		tfDataEntrada.setBackground(Color.WHITE);
 		tfDataEntrada.setBounds(235, 447, 232, 23);
 		abaDadosProdutos.add(tfDataEntrada);
 
+		/*
 		tfDataEntrada.getDocument().addDocumentListener(new DocumentListener() {
 			public void changedUpdate(DocumentEvent e) {
 				verificarData((JFormattedTextField) tfDataEntrada);
@@ -1183,6 +1196,7 @@ public class FrmProdutos extends JFrame {
 				verificarData((JFormattedTextField) tfDataEntrada);
 			}
 		});
+		 */
 
 		cbFornecedor = new JComboBox<Fornecedor>();
 		consultarFornecedores();
