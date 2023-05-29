@@ -52,6 +52,7 @@ import model.Fornecedor;
 import model.Produto;
 import model.SubCategoria;
 import util.LimparCampos;
+import util.TextFieldLimit;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -222,8 +223,7 @@ public class FrmProdutos extends JFrame {
 		// tentativa de debugar o erro com subcategoria
 		// subCategoria = (SubCategoria)cbSubCategoria.getSelectedItem();
 		// System.out.println(subCategoria.getCodigo());
-
-		System.out.println("SubCategoria: " + produto.getSubCategoria().getNome());
+		//System.out.println("SubCategoria: " + produto.getSubCategoria().getNome());
 
 		try {
 			produtosController.cadastrarProduto(produto);
@@ -233,9 +233,7 @@ public class FrmProdutos extends JFrame {
 			JOptionPane.showMessageDialog(null, e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
 		}
 
-		JOptionPane.showMessageDialog(null, "Produto cadastrado com sucesso!", "Sucesso",
-				JOptionPane.INFORMATION_MESSAGE);
-		System.out.println(produto);
+		limparTela(abaDadosProdutos);
 	}
 
 	private void cadastrarProdutoFornecedorEstoque() {
@@ -269,7 +267,7 @@ public class FrmProdutos extends JFrame {
 		JOptionPane.showMessageDialog(null, "Histórico cadastrado com sucesso!", "Sucesso",
 				JOptionPane.INFORMATION_MESSAGE);
 
-		System.out.println(cadastroProdutoFornecedorEstoque);
+		//System.out.println(cadastroProdutoFornecedorEstoque);
 		limparTela(abaDadosProdutos);
 	}
 
@@ -297,6 +295,56 @@ public class FrmProdutos extends JFrame {
 	/*
 	 * Método utilizado para preencher os dados do produto na tela.
 	 */
+
+	private void preencherDadosProduto() {
+		abaPrincipal.setSelectedIndex(0);
+
+		tfCodigo.setText(tabelaProdutos.getValueAt(tabelaProdutos.getSelectedRow(), 1).toString());
+		tfDescricao.setText(tabelaProdutos.getValueAt(tabelaProdutos.getSelectedRow(), 0).toString());
+		tfCodigoDeBarras.setText(tabelaProdutos.getValueAt(tabelaProdutos.getSelectedRow(), 1).toString());
+		tfMarca.setText(tabelaProdutos.getValueAt(tabelaProdutos.getSelectedRow(), 2).toString());
+
+		Produto produto = new Produto();
+		ProdutosController controller = new ProdutosController();
+		produto = controller.consultarProdutosPorCodigoBarrasCompleto(tabelaProdutos.getValueAt(tabelaProdutos.getSelectedRow(), 1).toString());
+
+		SubCategoria subCategoria = new SubCategoria();
+		SubCategoriaController subCategoriaController = new SubCategoriaController();
+		subCategoria = subCategoriaController.consultarSubCategoriasPorId(produto.getSubCategoria().getCodigo());
+
+		String subCategoriaSelecionada = tabelaProdutos.getValueAt(tabelaProdutos.getSelectedRow(), 3).toString();
+		cbSubCategoria.setSelectedItem(subCategoriaSelecionada);
+		tfSub.setText(subCategoria.getNome());
+
+		cbUnidadeDeMedida.setSelectedItem(tabelaProdutos.getValueAt(tabelaProdutos.getSelectedRow(), 4).toString());
+
+		tfDataFabricacao.setText(tabelaProdutos.getValueAt(tabelaProdutos.getSelectedRow(), 6).toString());
+		tfValidade.setText(tabelaProdutos.getValueAt(tabelaProdutos.getSelectedRow(), 7).toString());
+		tfLote.setText(tabelaProdutos.getValueAt(tabelaProdutos.getSelectedRow(), 8).toString());
+
+		tfPrecoFinal.setText(tabelaProdutos.getValueAt(tabelaProdutos.getSelectedRow(), 13).toString());
+
+		// Tratamento para campos numéricos
+		JTextField[] numericFields = {tfQtdEstoque, tfIpi, tfIcms, tfMargem, tfPrecoCusto};
+		int[] numericColumns = {5, 9, 10, 11, 12};
+
+		for (int i = 0; i < numericFields.length; i++) {
+			try {
+				numericFields[i].setText(Integer.toString((int) Double
+						.parseDouble(tabelaProdutos.getValueAt(tabelaProdutos.getSelectedRow(), numericColumns[i]).toString())));
+			} catch (NumberFormatException e) {
+				numericFields[i].setText("0");  // Valor padrão em caso de erro
+				JOptionPane.showMessageDialog(null, "Erro ao converter valor numérico do campo " + numericFields[i].getName() + "!", "Erro", JOptionPane.ERROR_MESSAGE);
+			}
+		}
+
+		cbFornecedor.setEnabled(false);
+		tfDataEntrada.setEnabled(false);
+		// tfDataEntrada.setText("Não Aplicavel");
+	}
+
+
+	/*
 	private void preencherDadosProduto() {
 		abaPrincipal.setSelectedIndex(0);
 
@@ -338,12 +386,15 @@ public class FrmProdutos extends JFrame {
 
 		cbFornecedor.setEnabled(false);
 		tfDataEntrada.setEnabled(false);
-		tfDataEntrada.setText("Não Aplicavel");
+		//tfDataEntrada.setText("Não Aplicavel");
 	}
+
+	*/
+
 
 	/**
 	 * Consultar produto por nome.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -452,11 +503,49 @@ public class FrmProdutos extends JFrame {
 		}
 	}
 
+
 	private double calcularPrecoCusto() {
 		double ipi;
 		double icms;
 		double precoCusto = 0;
 		double precoFinal = 0;
+
+		try {
+			if (tfIpi.getText().equals("")) {
+				ipi = 0;
+			} else {
+				ipi = Double.parseDouble(tfIpi.getText());
+			}
+
+			if (tfIcms.getText().equals("")) {
+				icms = 0;
+			} else {
+				icms = Double.parseDouble(tfIcms.getText());
+			}
+
+			if (tfPrecoCusto.getText().equals("")) {
+				precoCusto = 0;
+			} else {
+				precoCusto = Double.parseDouble(tfPrecoCusto.getText());
+			}
+
+			precoFinal = precoCusto * (1 + (ipi + icms) / 100);
+
+		} catch (NumberFormatException e) {
+			JOptionPane.showMessageDialog(null, "Ops! Verifique os campos preenchidos");
+		}
+
+		return precoFinal;
+	}
+
+
+	/*
+	private double calcularPrecoCusto() {
+		double ipi;
+		double icms;
+		double precoCusto = 0;
+		double precoFinal = 0;
+
 
 		try {
 
@@ -486,6 +575,8 @@ public class FrmProdutos extends JFrame {
 		}
 		return precoFinal;
 	}
+	*/
+
 
 	Vector<Fornecedor> fornecedor;
 
@@ -511,7 +602,7 @@ public class FrmProdutos extends JFrame {
 			subCategoria = subCategoriaController.consultarSubcategoriasComboBox();
 
 			cbSubCategoria.setModel(new DefaultComboBoxModel<>(subCategoria));
-			System.out.println(subCategoria);
+			//System.out.println(subCategoria);
 
 		} catch (Exception e) {
 			JOptionPane.showConfirmDialog(null, e.getMessage());
@@ -520,7 +611,7 @@ public class FrmProdutos extends JFrame {
 
 	public void verificarData(JFormattedTextField tfData) {
 		if (tfData.getText() != null && tfData.getText().trim().length() == 10) { // Verifica se a data está inserida
-																					// por completo
+			// por completo
 			try {
 				SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 				sdf.setLenient(false);
@@ -699,33 +790,38 @@ public class FrmProdutos extends JFrame {
 		lblLote.setBounds(197, 333, 67, 17);
 		lblLote.setFont(new Font("Arial", Font.BOLD, 14));
 
-		JLabel lblIcms = new JLabel("ICMS: ");
-		lblIcms.setBounds(192, 376, 61, 17);
+		JLabel lblIcms = new JLabel("ICMS %:");
+		lblIcms.setBounds(173, 373, 61, 17);
 		lblIcms.setFont(new Font("Arial", Font.BOLD, 14));
 
-		JLabel lblIpi = new JLabel("IPI:");
-		lblIpi.setBounds(211, 419, 42, 17);
+		JLabel lblIpi = new JLabel("IPI %:");
+		lblIpi.setBounds(187, 413, 42, 17);
 		lblIpi.setFont(new Font("Arial", Font.BOLD, 14));
 
+
 		tfLote = new JTextField();
+		tfLote = new TextFieldLimit(30, new TextFieldLimit.ValidadorString());
 		tfLote.setBounds(235, 327, 234, 23);
 		tfLote.setBackground(Color.WHITE);
 		tfLote.setFont(new Font("Arial", Font.BOLD, 14));
 		tfLote.setColumns(10);
 
 		tfCodigoDeBarras = new JTextField();
+		tfCodigoDeBarras = new TextFieldLimit(13, new TextFieldLimit.ValidadorString());
 		tfCodigoDeBarras.setBounds(235, 77, 568, 23);
 		tfCodigoDeBarras.setBackground(Color.WHITE);
 		tfCodigoDeBarras.setFont(new Font("Arial", Font.BOLD, 14));
 		tfCodigoDeBarras.setColumns(10);
 
 		tfDescricao = new JTextField();
+		tfDescricao = new TextFieldLimit(255, new TextFieldLimit.ValidadorString());
 		tfDescricao.setBounds(235, 118, 568, 23);
 		tfDescricao.setBackground(Color.WHITE);
 		tfDescricao.setFont(new Font("Arial", Font.BOLD, 14));
 		tfDescricao.setColumns(10);
 
 		tfQtdEstoque = new JTextField();
+		tfQtdEstoque = new TextFieldLimit(9, new TextFieldLimit.ValidadorDecimal());
 		tfQtdEstoque.setToolTipText("Campo disponivel para editar produto");
 		tfQtdEstoque.setBounds(235, 160, 162, 23);
 		tfQtdEstoque.setBackground(Color.WHITE);
@@ -770,6 +866,7 @@ public class FrmProdutos extends JFrame {
 				limparTela(abaDadosProdutos);
 				cbFornecedor.setEnabled(true);
 				tfDataEntrada.setEnabled(true);
+
 			}
 		});
 		panelInferior_2.add(btnNovo);
@@ -831,12 +928,16 @@ public class FrmProdutos extends JFrame {
 			}
 		};
 
-		tfIpi = new JTextField();
+
+		//tfIpi = new JTextField();
+		tfIpi = new TextFieldLimit(7, new TextFieldLimit.ValidadorPorcentagem());
 		tfIpi.setBounds(235, 413, 234, 23);
 		tfIpi.setBackground(Color.WHITE);
 		tfIpi.setFont(new Font("Arial", Font.BOLD, 14));
 		tfIpi.setColumns(10);
 		tfIpi.getDocument().addDocumentListener(documentListener);
+
+		/*
 		tfIpi.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyTyped(KeyEvent e) {
@@ -846,13 +947,18 @@ public class FrmProdutos extends JFrame {
 				}
 			}
 		});
+		*/
 
-		tfIcms = new JTextField();
+
+		//tfIcms = new JTextField();
+		tfIcms = new TextFieldLimit(7, new TextFieldLimit.ValidadorPorcentagem());
 		tfIcms.setBounds(235, 370, 234, 23);
 		tfIcms.setBackground(Color.WHITE);
 		tfIcms.setFont(new Font("Arial", Font.BOLD, 14));
 		tfIcms.setColumns(10);
 		tfIcms.getDocument().addDocumentListener(documentListener);
+
+		/*
 		tfIcms.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyTyped(KeyEvent e) {
@@ -862,17 +968,22 @@ public class FrmProdutos extends JFrame {
 				}
 			}
 		});
+		*/
+
 
 		JLabel lblMargemLucro = new JLabel("Margem de Lucro %: ");
 		lblMargemLucro.setBounds(486, 376, 155, 17);
 		lblMargemLucro.setFont(new Font("Arial", Font.BOLD, 14));
 
-		tfMargem = new JTextField();
+		//tfMargem = new JTextField();
+		tfMargem = new TextFieldLimit(7, new TextFieldLimit.ValidadorPorcentagem());
 		tfMargem.setBounds(634, 373, 169, 23);
 		tfMargem.setBackground(Color.WHITE);
 		tfMargem.setFont(new Font("Arial", Font.BOLD, 14));
 		tfMargem.setColumns(10);
 		tfMargem.getDocument().addDocumentListener(documentListener);
+
+		/*
 		tfMargem.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyTyped(KeyEvent e) {
@@ -882,19 +993,22 @@ public class FrmProdutos extends JFrame {
 				}
 			}
 		});
+		*/
+
 
 		tfMarca = new JTextField();
+		tfMarca = new TextFieldLimit(30, new TextFieldLimit.ValidadorString());
 		tfMarca.setBounds(235, 245, 568, 23);
 		tfMarca.setBackground(Color.WHITE);
 		tfMarca.setFont(new Font("Arial", Font.BOLD, 14));
 		tfMarca.setColumns(10);
 
-		tfDataFabricacao = new JTextField();
+		//tfDataFabricacao = new JTextField();
+		tfDataFabricacao = new JFormattedTextField(new MaskFormatter("##/##/####"));
 		tfDataFabricacao.setBounds(235, 286, 239, 23);
 		tfDataFabricacao.setBackground(Color.WHITE);
 		tfDataFabricacao.setFont(new Font("Arial", Font.BOLD, 14));
 		tfDataFabricacao.setColumns(10);
-		tfDataFabricacao = new JFormattedTextField(new MaskFormatter("##/##/####"));
 
 		tfDataFabricacao.getDocument().addDocumentListener(new DocumentListener() {
 			public void changedUpdate(DocumentEvent e) {
@@ -918,11 +1032,13 @@ public class FrmProdutos extends JFrame {
 		lblValidade.setBounds(505, 289, 136, 17);
 		lblValidade.setFont(new Font("Arial", Font.BOLD, 14));
 
-		tfValidade = new JTextField();
+		//tfValidade = new JTextField();
 		tfValidade = new JFormattedTextField(new MaskFormatter("##/##/####"));
+		tfValidade.setBounds(634, 286, 169, 23);
 		tfValidade.setBackground(Color.WHITE);
 		tfValidade.setFont(new Font("Arial", Font.BOLD, 14));
 		tfValidade.setColumns(10);
+
 
 		tfValidade.getDocument().addDocumentListener(new DocumentListener() {
 			public void changedUpdate(DocumentEvent e) {
@@ -938,12 +1054,17 @@ public class FrmProdutos extends JFrame {
 			}
 		});
 
+
+
 		tfPrecoCusto = new JTextField();
+		tfPrecoCusto = new TextFieldLimit(7, new TextFieldLimit.ValidadorDecimal());
 		tfPrecoCusto.setBounds(634, 330, 169, 23);
 		tfPrecoCusto.setBackground(Color.WHITE);
 		tfPrecoCusto.setFont(new Font("Arial", Font.BOLD, 14));
 		tfPrecoCusto.setColumns(10);
 		tfPrecoCusto.getDocument().addDocumentListener(documentListener);
+
+		/*
 		tfPrecoCusto.addKeyListener(new KeyAdapter() {
 			// Metodo confere se o valor digitado é numerico se não é impede de ser digitado
 			@Override
@@ -954,6 +1075,8 @@ public class FrmProdutos extends JFrame {
 				}
 			}
 		});
+		*/
+
 
 		JButton btnRemover = new JButton("Remover");
 		btnRemover.setBounds(946, 409, 302, 25);
@@ -1040,12 +1163,27 @@ public class FrmProdutos extends JFrame {
 		lblDataEntrada.setBounds(116, 450, 115, 17);
 		abaDadosProdutos.add(lblDataEntrada);
 
-		tfDataEntrada = new JTextField();
+		//tfDataEntrada = new JTextField();
+		tfDataEntrada = new JFormattedTextField(new MaskFormatter("##/##/####"));
 		tfDataEntrada.setFont(new Font("Arial", Font.BOLD, 14));
 		tfDataEntrada.setColumns(10);
 		tfDataEntrada.setBackground(Color.WHITE);
 		tfDataEntrada.setBounds(235, 447, 232, 23);
 		abaDadosProdutos.add(tfDataEntrada);
+
+		tfDataEntrada.getDocument().addDocumentListener(new DocumentListener() {
+			public void changedUpdate(DocumentEvent e) {
+				verificarData((JFormattedTextField) tfDataEntrada);
+			}
+
+			public void removeUpdate(DocumentEvent e) {
+				verificarData((JFormattedTextField) tfDataEntrada);
+			}
+
+			public void insertUpdate(DocumentEvent e) {
+				verificarData((JFormattedTextField) tfDataEntrada);
+			}
+		});
 
 		cbFornecedor = new JComboBox<Fornecedor>();
 		consultarFornecedores();
@@ -1073,6 +1211,7 @@ public class FrmProdutos extends JFrame {
 		cbSubCategoria.setBounds(235, 202, 177, 25);
 		abaDadosProdutos.add(cbSubCategoria);
 
+		/*
 		tfValidade = new JTextField();
 		tfValidade.setFont(new Font("Arial", Font.BOLD, 14));
 		tfValidade.setColumns(10);
@@ -1086,6 +1225,8 @@ public class FrmProdutos extends JFrame {
 		tfDataFabricacao.setBackground(Color.WHITE);
 		tfDataFabricacao.setBounds(234, 283, 235, 23);
 		abaDadosProdutos.add(tfDataFabricacao);
+		*/
+
 
 		tfSub = new JTextField();
 		tfSub.setEditable(false);

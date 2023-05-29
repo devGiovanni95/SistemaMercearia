@@ -133,4 +133,17 @@ public class TextFieldLimit extends JTextField {
         }
     }
 
+    /**
+     * Classe ValidadorPorcentagem.
+     * Implementa a interface Validador.
+     * Verifica se uma string é um número decimal válido sem o símbolo de porcentagem.
+     */
+    public static class ValidadorPorcentagem implements Validador {
+        @Override
+        public boolean isValido(String str) {
+            return str.matches("^[0-9]*\\.?[0-9]{0,2}$");
+        }
+    }
+
+
 }
