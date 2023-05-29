@@ -275,8 +275,8 @@ public class FrmFuncionario extends JFrame {
 		funcionario.setAtivo(cbAtivo.getSelectedItem().toString());		
 											
 		funcionarioController.cadastrarFuncionario(funcionario);
-		System.out.println(cbEstadoCivil);
-		System.out.println(cbNivelAcesso);
+		System.out.println(cbEstadoCivil.toString());
+		System.out.println(cbNivelAcesso.toString());
 		
 		limparTela(abaDadosPessoais);
 	}

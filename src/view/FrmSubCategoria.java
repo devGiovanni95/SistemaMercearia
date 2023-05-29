@@ -356,9 +356,9 @@ public class FrmSubCategoria extends JFrame {
 			}
 		});
 		btnNewButton.setBounds(831, 171, 151, 25);
-		btnNewButton.setForeground(Color.WHITE);
+		btnNewButton.setForeground(Color.BLACK);
 		btnNewButton.setBackground(new Color(128, 255, 0));
-		btnNewButton.setFont(new Font("Arial", Font.BOLD, 14));
+		btnNewButton.setFont(new Font("Arial", Font.BOLD, 16));
 		abaDadosSubCategorias.setLayout(null);
 		abaDadosSubCategorias.add(lblDescricao);
 		abaDadosSubCategorias.add(lblNomeSubCategoria);
