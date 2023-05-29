@@ -184,15 +184,3 @@ VALUES ('45.678.901/0001-04', 'Fornecedor D', 'Ana Costa', 'ana@fornecedora.com'
 INSERT INTO tb_fornecedor (cnpj, razao_social, nome, email, endereco, numero, bairro, cidade, uf, telefone, celular, cep, complemento, inscricao_estadual)
 VALUES ('56.789.012/0001-05', 'Fornecedor E', 'Ricardo Santos', 'ricardo@fornecedora.com', 'Alameda das Lojas', 500, 'Shopping', 'Curitiba', 'PR', '(41) 5678-9012', '(41) 98765-4321', '56789-012', 'Loja 10', '345678901234525');
 
-
-
-
-
-
-
-SELECT * FROM tb_abertura_fechamento;
-
-
-insert into tb_abertura_fechamento (dataAbertura, funcionario, trocoInicial) values('2023/05/12 08:05:50','123.456.789-01',200);
-
-select max(codigo) codigo from tb_abertura_fechamento
