@@ -40,6 +40,7 @@ import model.ItemVenda;
 import model.Produto;
 import model.Venda;
 import util.GeradorDeCodigo;
+import util.Imprimir;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -396,14 +397,19 @@ public class FrmFormaDePagamento extends JFrame {
 				pw.write("    " + item.getProduto().getDescricao());
 				pw.write("\n " + item.getQuantidade());
 				pw.write("  " + item.getProduto().getUnidadeDeMedida());
-				pw.write("         " + item.getPrecoUnitario());
-				pw.write("       " + item.getSubtotal() + "\n");
+				pw.write("             " + item.getPrecoUnitario());
+				pw.write("                  " + item.getSubtotal() + "\n");
 				a++;
 			}
 			pw.write("--------------------------------------------------\n");
-			pw.write("Total R$ " + getTotalCompra() + "\n");
+			pw.write("Total     R$                        " + getTotalCompra() + "\n");
 			pw.write("                  \n");
+			pw.write("                  \n");
+			pw.write("                  \n");
+			pw.write("                  \n");
+			
 			pw.close();
+			
 
 		} catch (Exception e) {
 			operacao = "Falha de gravação" + e;
@@ -595,6 +601,7 @@ public class FrmFormaDePagamento extends JFrame {
 						cadastrarVenda();
 						cadastrarItensPedido();
 						JOptionPane.showMessageDialog(null, "" + imprimir());
+						Imprimir.imprimir("D:\\Analise e Desenvolvimento de Software Fatec\\ProjetoIntegrador3Semestre\\SistemaMercearia\\Cupom.txt");
 						novaVenda();
 						// System.out.println(pedido);
 					} else {

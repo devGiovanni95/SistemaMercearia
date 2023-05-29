@@ -175,11 +175,10 @@ public class FrmCategoria extends JFrame {
 		Categoria categoria = new Categoria();
 		CategoriaController categoriaController = new CategoriaController();	
 
-		categoria.setCodigo(Integer.parseInt(tfCodigo.getText()));
-		
-		categoriaController.cadastrarCategoria(categoria);
-		
+		categoria.setCodigo(Integer.parseInt(tfCodigo.getText()));	
+		categoriaController.excluirCategoria(categoria);
 		limparTela(abaDadosCategoria);
+	
 	}
 	
 	
@@ -241,65 +240,39 @@ public class FrmCategoria extends JFrame {
 		abaPrincipal.addTab("Dados de Categoria", null, abaDadosCategoria, null);
 		
 		JLabel lbCodigo = new JLabel("Código: ");
+		lbCodigo.setBounds(394, 129, 58, 17);
 		lbCodigo.setFont(new Font("Arial", Font.BOLD, 14));
 		
 		tfCodigo = new JTextField();
+		tfCodigo.setBounds(462, 126, 190, 22);
 		tfCodigo.setEditable(false);
 		tfCodigo.setFont(new Font("Arial", Font.BOLD, 14));
 		tfCodigo.setColumns(10);
 		
 		JLabel lblNomeCategoria = new JLabel("Categoria:");
+		lblNomeCategoria.setBounds(380, 169, 72, 17);
 		lblNomeCategoria.setFont(new Font("Arial", Font.BOLD, 14));
 		
 		tfCategoria = new JTextField();
+		tfCategoria.setBounds(462, 166, 509, 22);
 		tfCategoria.setFont(new Font("Arial", Font.BOLD, 14));
 		tfCategoria.setColumns(10);
 		
 		JLabel lblDescricao = new JLabel("Descrição: ");
+		lblDescricao.setBounds(380, 209, 78, 17);
 		lblDescricao.setFont(new Font("Arial", Font.BOLD, 14));
 		
 		tfDescricao = new JTextField();
+		tfDescricao.setBounds(462, 206, 509, 22);
 		tfDescricao.setFont(new Font("Arial", Font.BOLD, 14));
 		tfDescricao.setColumns(10);
-		GroupLayout gl_abaDadosCategoria = new GroupLayout(abaDadosCategoria);
-		gl_abaDadosCategoria.setHorizontalGroup(
-			gl_abaDadosCategoria.createParallelGroup(Alignment.LEADING)
-				.addGroup(Alignment.TRAILING, gl_abaDadosCategoria.createSequentialGroup()
-					.addContainerGap(380, Short.MAX_VALUE)
-					.addGroup(gl_abaDadosCategoria.createParallelGroup(Alignment.LEADING)
-						.addComponent(lblDescricao)
-						.addGroup(gl_abaDadosCategoria.createParallelGroup(Alignment.TRAILING)
-							.addComponent(lbCodigo)
-							.addComponent(lblNomeCategoria)))
-					.addGroup(gl_abaDadosCategoria.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_abaDadosCategoria.createSequentialGroup()
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(tfDescricao, GroupLayout.PREFERRED_SIZE, 509, GroupLayout.PREFERRED_SIZE))
-						.addGroup(gl_abaDadosCategoria.createSequentialGroup()
-							.addGap(4)
-							.addGroup(gl_abaDadosCategoria.createParallelGroup(Alignment.LEADING)
-								.addComponent(tfCodigo, GroupLayout.PREFERRED_SIZE, 190, GroupLayout.PREFERRED_SIZE)
-								.addComponent(tfCategoria, GroupLayout.PREFERRED_SIZE, 509, GroupLayout.PREFERRED_SIZE))))
-					.addGap(368))
-		);
-		gl_abaDadosCategoria.setVerticalGroup(
-			gl_abaDadosCategoria.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_abaDadosCategoria.createSequentialGroup()
-					.addGap(126)
-					.addGroup(gl_abaDadosCategoria.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lbCodigo)
-						.addComponent(tfCodigo, GroupLayout.PREFERRED_SIZE, 22, GroupLayout.PREFERRED_SIZE))
-					.addGap(18)
-					.addGroup(gl_abaDadosCategoria.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblNomeCategoria)
-						.addComponent(tfCategoria, GroupLayout.PREFERRED_SIZE, 22, GroupLayout.PREFERRED_SIZE))
-					.addGap(18)
-					.addGroup(gl_abaDadosCategoria.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblDescricao)
-						.addComponent(tfDescricao, GroupLayout.PREFERRED_SIZE, 22, GroupLayout.PREFERRED_SIZE))
-					.addContainerGap(248, Short.MAX_VALUE))
-		);
-		abaDadosCategoria.setLayout(gl_abaDadosCategoria);
+		abaDadosCategoria.setLayout(null);
+		abaDadosCategoria.add(lblDescricao);
+		abaDadosCategoria.add(lbCodigo);
+		abaDadosCategoria.add(lblNomeCategoria);
+		abaDadosCategoria.add(tfDescricao);
+		abaDadosCategoria.add(tfCodigo);
+		abaDadosCategoria.add(tfCategoria);
 		
 		JPanel abaConsultaCategoria = new JPanel();
 		abaConsultaCategoria.setBackground(new Color(202, 240, 248));
