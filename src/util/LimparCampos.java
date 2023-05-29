@@ -19,6 +19,26 @@ public class LimparCampos {
 	 * Metodo que efetua a limpeza de todos os componentes do tipo JTextField e do tipo JComboBox.
 	 * @param tela - objeto do tipo JPanel que indica a classe pai da tela para efetuar a limpeza dos componentes. 
 	 */
+
+	public void Limpar(JPanel tela) {
+		Component components[] = tela.getComponents();
+		for(Component component : components) {
+			if(component instanceof JTextField) {
+				((JTextField) component).setText(null);
+			}
+		}
+		for(Component component : components) {
+			if(component instanceof JComboBox) {
+				JComboBox comboBox = (JComboBox) component;
+				if (comboBox.getItemCount() > 0) {
+					comboBox.setSelectedIndex(0);
+				}
+			}
+		}
+	}
+
+
+	/*
 	public void Limpar(JPanel tela) {
 		Component components[] = tela.getComponents();
 		for(Component component : components) {
@@ -32,6 +52,7 @@ public class LimparCampos {
 			}
 		}
 	}
+	*/
 	
 	/**
 	 * Metodo que efetua a limpeza de todos os componentes do tipo JTextField e do tipo JComboBox.

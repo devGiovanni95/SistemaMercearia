@@ -36,43 +36,38 @@ public class ProdutosController implements InterfaceProduto {
 	 * @param produto - um objeto do tipo Produtos com os atributos correspondentes
 	 */
 
-	public void cadastrarProduto(Produto produto) {
-		if (dataBase.getConnection()) {
-			try {
-				String sql = "insert into tb_produto (descricao, codigo_barras, marca, cod_subcategoria, unidade_medida, quantidade, data_fabricacao, data_validade, "
-						+ "lote, ipi, icms, margem_lucro, preco_custo, preco_final) "
-						+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+	public void cadastrarProduto(Produto produto) throws Exception {
+		if (!dataBase.getConnection()) {
+			throw new Exception("Falha na conexão com o banco de dados.");
+		}
 
-				SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy"); // Supondo que a data esteja nesse formato
+		String sql = "insert into tb_produto (descricao, codigo_barras, marca, cod_subcategoria, unidade_medida, quantidade, data_fabricacao, data_validade, lote, ipi, icms, margem_lucro, preco_custo, preco_final) VALUES (?, ?, ?, ?, ?, ?, CONVERT(datetime, ? , 103), CONVERT(datetime, ? , 103), ?, ?, ?, ?, ?, ?)";
 
-				dataBase.preparedStatement.setString(1, produto.getDescricao());
-				dataBase.preparedStatement.setString(2, produto.getCodigoDeBarras());
-				dataBase.preparedStatement.setString(3, produto.getMarca());
-				dataBase.preparedStatement.setInt(4, produto.getSubCategoria().getCodigo());
-				dataBase.preparedStatement.setString(5, produto.getUnidadeDeMedida());
-				dataBase.preparedStatement.setDouble(6, produto.getQuantidade());
-				dataBase.preparedStatement.setDate(7,
-						new java.sql.Date(format.parse(produto.getDataFabricacao()).getTime()));
-				dataBase.preparedStatement.setDate(8,
-						new java.sql.Date(format.parse(produto.getDataValidade()).getTime()));
-				dataBase.preparedStatement.setString(9, produto.getLote());
-				dataBase.preparedStatement.setDouble(10, produto.getIpi());
-				dataBase.preparedStatement.setDouble(11, produto.getIcms());
-				dataBase.preparedStatement.setDouble(12, produto.getMargemLucro());
-				dataBase.preparedStatement.setDouble(13, produto.getPrecoCusto());
-				dataBase.preparedStatement.setDouble(14, produto.getPrecoFinal());
+		try {
+			dataBase.preparedStatement = dataBase.con.prepareStatement(sql);
+			dataBase.preparedStatement.setString(1, produto.getDescricao());
+			dataBase.preparedStatement.setString(2, produto.getCodigoDeBarras());
+			dataBase.preparedStatement.setString(3, produto.getMarca());
+			dataBase.preparedStatement.setInt(4, produto.getSubCategoria().getCodigo());
+			dataBase.preparedStatement.setString(5, produto.getUnidadeDeMedida());
+			dataBase.preparedStatement.setDouble(6, produto.getQuantidade());
+			dataBase.preparedStatement.setString(7, produto.getDataFabricacao());
+			dataBase.preparedStatement.setString(8, produto.getDataValidade());
+			//dataBase.preparedStatement.setDate(7, new java.sql.Date(format.parse(produto.getDataFabricacao()).getTime()));
+			//dataBase.preparedStatement.setDate(8, new java.sql.Date(format.parse(produto.getDataValidade()).getTime()));
+			dataBase.preparedStatement.setString(9, produto.getLote());
+			dataBase.preparedStatement.setDouble(10, produto.getIpi());
+			dataBase.preparedStatement.setDouble(11, produto.getIcms());
+			dataBase.preparedStatement.setDouble(12, produto.getMargemLucro());
+			dataBase.preparedStatement.setDouble(13, produto.getPrecoCusto());
+			dataBase.preparedStatement.setDouble(14, produto.getPrecoFinal());
 
-				dataBase.preparedStatement.execute();
+			dataBase.preparedStatement.execute();
 
-				JOptionPane.showMessageDialog(null, "Produto cadastrado com sucesso");
-
-			} catch (SQLException | NumberFormatException | ParseException erro) {
-				JOptionPane.showMessageDialog(null, "Erro: " + erro);
-			} finally {
-				dataBase.close();
-			}
-		} else {
-			JOptionPane.showMessageDialog(null, "Falha na conexão");
+		} catch (SQLException | NumberFormatException erro) {
+			throw new Exception("Erro ao cadastrar o produto: " + erro);
+		} finally {
+			dataBase.close();
 		}
 	}
 
@@ -116,10 +111,11 @@ public class ProdutosController implements InterfaceProduto {
 		}
 
 		try {
-			String sql = "UPDATE produto SET descricao = ?,  marca = ?, cod_subcategoria = ?, unidade_medida = ?,"
+			String sql = "UPDATE tb_produto SET descricao = ?,  marca = ?, cod_subcategoria = ?, unidade_medida = ?,"
 					+ " quantidade = ?, data_fabricacao = CONVERT(datetime, ? , 103), data_validade = CONVERT(datetime, ? , 103), lote = ?, ipi = ?, icms = ?, margem_lucro = ?, preco_custo = ?, preco_final = ? WHERE codigo_barras = ?";
 
 
+			dataBase.preparedStatement = dataBase.con.prepareStatement(sql);
 			dataBase.preparedStatement.setString(1, produto.getDescricao());
 			dataBase.preparedStatement.setString(2, produto.getMarca());
 			dataBase.preparedStatement.setInt(3, produto.getSubCategoria().getCodigo());
@@ -137,7 +133,7 @@ public class ProdutosController implements InterfaceProduto {
 
 			dataBase.preparedStatement.execute();
 
-			JOptionPane.showMessageDialog(null, "Produto alterado com sucesso");
+			//JOptionPane.showMessageDialog(null, "Produto alterado com sucesso");
 
 		} catch (SQLException e) {
 			throw new Exception("Erro ao alterar o produto: " + e);
