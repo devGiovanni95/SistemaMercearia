@@ -63,7 +63,7 @@ public class CategoriaController {
 		if (dataBase.getConnection()) {
 			try {
 
-				String sql = "delete from tb_categoria where cpf=?";
+				String sql = "delete from tb_categoria where codigo=?";
 
 				dataBase.preparedStatement = dataBase.con.prepareStatement(sql);
 				dataBase.preparedStatement.setInt(1, categoria.getCodigo());

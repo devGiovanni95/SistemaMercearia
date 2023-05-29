@@ -101,6 +101,30 @@ public class FrmSubCategoria extends JFrame {
 		}
 
 	}
+	
+	/**
+	 * Método responsável por efetuar o cadatro da subcategoria,
+	 * a partir de um objeto do tipo SubCategoria.
+	 */
+	public void cadastrarSubCategoria() {
+		SubCategoria subCategoria = new SubCategoria();
+		Categoria categoria = new Categoria();
+
+		subCategoria.setNome(tfNomeSubCategoria.getText());
+		subCategoria.setDescricao(tfDescricao.getText());
+
+		// transformando o item do combo box em objeto de categoria
+		categoria = (Categoria) cbCategoria.getSelectedItem();
+		// salvando o objeto fornecedor
+		subCategoria.setCategoria(categoria);
+		System.out.println(categoria.getCodigo());
+
+		SubCategoriaController subCategoriaController = new SubCategoriaController();
+
+		subCategoriaController.cadastrarSubCategoria(subCategoria);
+
+		new LimparCampos().Limpar(abaDadosSubCategorias);
+	}
 
 	/**
 	 * Método utilizado para consultar subCategoria pelo nome ou parte do nome para
@@ -118,7 +142,7 @@ public class FrmSubCategoria extends JFrame {
 		dadosTabela.setColumnCount(4);
 		dadosTabela.addRow(new Object[] { "Código", "SubCategoria", "Categoria", "Descrição" });
 
-		for (SubCategoria subCategoria : lista) {
+		for (SubCategoria subCategoria : lista){
 			dadosTabela.addRow(new Object[] {
 					subCategoria.getCodigo(),
 					subCategoria.getNome(),
@@ -138,7 +162,7 @@ public class FrmSubCategoria extends JFrame {
 		abaPrincipal.setSelectedIndex(0);
 
 		tfCodigo.setText(tabelaSubCategorias.getValueAt(tabelaSubCategorias.getSelectedRow(), 0).toString());
-		cbCategoria.setSelectedItem(tabelaSubCategorias.getValueAt(tabelaSubCategorias.getSelectedRow(), 1).toString());
+		tfCategoriaSelecionada.setText(tabelaSubCategorias.getValueAt(tabelaSubCategorias.getSelectedRow(), 1).toString());
 		tfNomeSubCategoria.setText(tabelaSubCategorias.getValueAt(tabelaSubCategorias.getSelectedRow(), 2).toString());
 		// Nao esta atualizando no combobox
 		try {
@@ -192,6 +216,7 @@ public class FrmSubCategoria extends JFrame {
 	}
 
 	Vector<Categoria> idCategoria;
+	private JTextField tfCategoriaSelecionada;
 
 	public void consultarCategorias() {
 		try {
@@ -260,27 +285,35 @@ public class FrmSubCategoria extends JFrame {
 		abaPrincipal.addTab("Dados de SubCategoria", null, abaDadosSubCategorias, null);
 
 		JLabel lbCodigo = new JLabel("Código: ");
+		lbCodigo.setBounds(405, 134, 58, 17);
 		lbCodigo.setFont(new Font("Arial", Font.BOLD, 14));
 
 		tfCodigo = new JTextField();
+		tfCodigo.setEditable(false);
+		tfCodigo.setBounds(473, 131, 190, 22);
 		tfCodigo.setFont(new Font("Arial", Font.BOLD, 14));
 		tfCodigo.setColumns(10);
 
 		JLabel lblNomeSubCategoria = new JLabel("SubCategoria:");
+		lblNomeSubCategoria.setBounds(364, 261, 99, 17);
 		lblNomeSubCategoria.setFont(new Font("Arial", Font.BOLD, 14));
 
 		tfNomeSubCategoria = new JTextField();
+		tfNomeSubCategoria.setBounds(473, 258, 509, 22);
 		tfNomeSubCategoria.setFont(new Font("Arial", Font.BOLD, 14));
 		tfNomeSubCategoria.setColumns(10);
 
 		JLabel lblDescricao = new JLabel("Descrição: ");
+		lblDescricao.setBounds(385, 301, 78, 17);
 		lblDescricao.setFont(new Font("Arial", Font.BOLD, 14));
 
 		tfDescricao = new JTextField();
+		tfDescricao.setBounds(473, 298, 509, 22);
 		tfDescricao.setFont(new Font("Arial", Font.BOLD, 14));
 		tfDescricao.setColumns(10);
 
 		JLabel lblCategoria = new JLabel("Categoria:");
+		lblCategoria.setBounds(391, 174, 72, 17);
 
 		lblCategoria.setFont(new Font("Arial", Font.BOLD, 14));
 
@@ -288,6 +321,7 @@ public class FrmSubCategoria extends JFrame {
 
 		// categoria
 		cbCategoria = new JComboBox<Categoria>();
+		cbCategoria.setBounds(473, 171, 348, 22);
 		cbCategoria.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
 
@@ -304,64 +338,39 @@ public class FrmSubCategoria extends JFrame {
 		});
 
 		cbCategoria.setFont(new Font("Arial", Font.BOLD, 14));
-		GroupLayout gl_abaDadosSubCategorias = new GroupLayout(abaDadosSubCategorias);
-		gl_abaDadosSubCategorias.setHorizontalGroup(
-				gl_abaDadosSubCategorias.createParallelGroup(Alignment.TRAILING)
-						.addGroup(gl_abaDadosSubCategorias.createSequentialGroup()
-								.addContainerGap(364, Short.MAX_VALUE)
-								.addGroup(gl_abaDadosSubCategorias.createParallelGroup(Alignment.TRAILING)
-										.addGroup(gl_abaDadosSubCategorias.createSequentialGroup()
-												.addGroup(
-														gl_abaDadosSubCategorias.createParallelGroup(Alignment.TRAILING)
-																.addComponent(lblDescricao)
-																.addComponent(lblNomeSubCategoria))
-												.addPreferredGap(ComponentPlacement.UNRELATED)
-												.addGroup(gl_abaDadosSubCategorias
-														.createParallelGroup(Alignment.LEADING)
-														.addComponent(tfDescricao, GroupLayout.PREFERRED_SIZE, 509,
-																GroupLayout.PREFERRED_SIZE)
-														.addComponent(tfNomeSubCategoria, GroupLayout.PREFERRED_SIZE,
-																509, GroupLayout.PREFERRED_SIZE)))
-										.addGroup(gl_abaDadosSubCategorias.createSequentialGroup()
-												.addGroup(
-														gl_abaDadosSubCategorias.createParallelGroup(Alignment.TRAILING)
-																.addComponent(lbCodigo)
-																.addComponent(lblCategoria, GroupLayout.PREFERRED_SIZE,
-																		72, GroupLayout.PREFERRED_SIZE))
-												.addPreferredGap(ComponentPlacement.UNRELATED)
-												.addGroup(
-														gl_abaDadosSubCategorias.createParallelGroup(Alignment.LEADING)
-																.addComponent(tfCodigo, GroupLayout.PREFERRED_SIZE, 190,
-																		GroupLayout.PREFERRED_SIZE)
-																.addComponent(cbCategoria, GroupLayout.PREFERRED_SIZE,
-																		509, GroupLayout.PREFERRED_SIZE))))
-								.addGap(357)));
-		gl_abaDadosSubCategorias.setVerticalGroup(
-				gl_abaDadosSubCategorias.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_abaDadosSubCategorias.createSequentialGroup()
-								.addGap(131)
-								.addGroup(gl_abaDadosSubCategorias.createParallelGroup(Alignment.BASELINE)
-										.addComponent(tfCodigo, GroupLayout.PREFERRED_SIZE, 22,
-												GroupLayout.PREFERRED_SIZE)
-										.addComponent(lbCodigo))
-								.addGap(18)
-								.addGroup(gl_abaDadosSubCategorias.createParallelGroup(Alignment.BASELINE)
-										.addComponent(lblCategoria, GroupLayout.PREFERRED_SIZE, 17,
-												GroupLayout.PREFERRED_SIZE)
-										.addComponent(cbCategoria, GroupLayout.PREFERRED_SIZE, 22,
-												GroupLayout.PREFERRED_SIZE))
-								.addGap(18)
-								.addGroup(gl_abaDadosSubCategorias.createParallelGroup(Alignment.BASELINE)
-										.addComponent(tfNomeSubCategoria, GroupLayout.PREFERRED_SIZE, 22,
-												GroupLayout.PREFERRED_SIZE)
-										.addComponent(lblNomeSubCategoria))
-								.addGap(18)
-								.addGroup(gl_abaDadosSubCategorias.createParallelGroup(Alignment.BASELINE)
-										.addComponent(lblDescricao)
-										.addComponent(tfDescricao, GroupLayout.PREFERRED_SIZE, 22,
-												GroupLayout.PREFERRED_SIZE))
-								.addContainerGap(203, Short.MAX_VALUE)));
-		abaDadosSubCategorias.setLayout(gl_abaDadosSubCategorias);
+		
+		JLabel lblCategoriaSelecionada = new JLabel("Categoria Selecionada:");
+		lblCategoriaSelecionada.setBounds(301, 221, 162, 17);
+		lblCategoriaSelecionada.setFont(new Font("Arial", Font.BOLD, 14));
+		
+		tfCategoriaSelecionada = new JTextField();
+		tfCategoriaSelecionada.setEditable(false);
+		tfCategoriaSelecionada.setBounds(473, 218, 509, 22);
+		tfCategoriaSelecionada.setFont(new Font("Arial", Font.BOLD, 14));
+		tfCategoriaSelecionada.setColumns(10);
+		
+		JButton btnNewButton = new JButton("Selecionar");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				tfCategoriaSelecionada.setText(cbCategoria.getSelectedItem().toString());
+			}
+		});
+		btnNewButton.setBounds(831, 171, 151, 25);
+		btnNewButton.setForeground(Color.WHITE);
+		btnNewButton.setBackground(new Color(128, 255, 0));
+		btnNewButton.setFont(new Font("Arial", Font.BOLD, 14));
+		abaDadosSubCategorias.setLayout(null);
+		abaDadosSubCategorias.add(lblDescricao);
+		abaDadosSubCategorias.add(lblNomeSubCategoria);
+		abaDadosSubCategorias.add(tfDescricao);
+		abaDadosSubCategorias.add(tfNomeSubCategoria);
+		abaDadosSubCategorias.add(lbCodigo);
+		abaDadosSubCategorias.add(lblCategoria);
+		abaDadosSubCategorias.add(tfCodigo);
+		abaDadosSubCategorias.add(cbCategoria);
+		abaDadosSubCategorias.add(lblCategoriaSelecionada);
+		abaDadosSubCategorias.add(tfCategoriaSelecionada);
+		abaDadosSubCategorias.add(btnNewButton);
 
 		JPanel abaConsultaSubCategorias = new JPanel();
 		abaConsultaSubCategorias.setBackground(new Color(202, 240, 248));
@@ -506,25 +515,8 @@ public class FrmSubCategoria extends JFrame {
 		btnSalvar.setForeground(Color.WHITE);
 		btnSalvar.setBackground(new Color(138, 201, 38));
 		btnSalvar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-
-				SubCategoria subCategoria = new SubCategoria();
-				Categoria categoria = new Categoria();
-
-				subCategoria.setCodigo(Integer.parseInt(tfCodigo.getText()));
-				subCategoria.setNome(tfNomeSubCategoria.getText());
-				subCategoria.setDescricao(tfDescricao.getText());
-
-				// transformando o item do combo box em objeto de categoria
-				categoria = (Categoria) cbCategoria.getSelectedItem();
-				// salvando o objeto fornecedor
-				subCategoria.setCategoria(categoria);
-
-				SubCategoriaController subCategoriaController = new SubCategoriaController();
-
-				subCategoriaController.cadastrarSubCategoria(subCategoria);
-
-				new LimparCampos().Limpar(abaDadosSubCategorias);
+			public void actionPerformed(ActionEvent e) {				
+				cadastrarSubCategoria();	
 			}
 		});
 		btnSalvar.setFont(new Font("Arial", Font.BOLD, 24));

@@ -5,22 +5,18 @@ CNPJ:00.000.000/0000-00
 INCRIÇÃO ESTADUAL: 000.000000.0000				
 INCRIÇÃO MUNICIPAL: 0.000.000/000-0				
 --------------------------------------------------
-DATA: 28/05/2023 16:00:32
-CODIGO DA VENDA:730k2Q0354317ZB
+DATA: 28/05/2023 21:06:50
+CODIGO DA VENDA:845zp053996941B
 ----------------CUPOM NÃO FISCAL------------------
 ITEM  CÓDIGO       DESCRIÇÃO           
 QUANTIDADE      VALOR UNITARIO      	VALOR ITEM	
 --------------------------------------------------
-1     1234567890123    Arroz parboilizado
- 1.0  pct         3.0       3.0
-2     1234567890123    Arroz parboilizado
- 1.0  pct         3.0       3.0
-3     1234567890123    Arroz parboilizado
- 1.0  pct         3.0       3.0
-4     1234567890123    Arroz parboilizado
- 1.0  pct         3.0       3.0
-5     1234567890123    Arroz parboilizado
- 1.0  pct         3.0       3.0
+1     7894900012613    Cerveja Heineken
+ 1.0  UN         5.0       5.0
+2     7894900012613    Cerveja Heineken
+ 1.0  UN         5.0       5.0
+3     7894900012613    Cerveja Heineken
+ 1.0  UN         5.0       5.0
 --------------------------------------------------
 Total R$ 15.0
                   

@@ -35,15 +35,14 @@ public class SubCategoriaController {
 		if (dataBase.getConnection()) {
 			try {
 
-				String sql = "insert into tb_subcategoria(codigo,cod_categoria,nome,descricao) "
-						+ " values(?,?,?,?)";
+				String sql = "insert into tb_subcategoria(cod_categoria,nome,descricao) "
+						+ " values(?,?,?)";
 
 				dataBase.preparedStatement = dataBase.con.prepareStatement(sql);
-				dataBase.preparedStatement.setInt(1, subCategoria.getCodigo());
-				dataBase.preparedStatement.setInt(2, subCategoria.getCategoria().getCodigo());// pegando o codigo do
+				dataBase.preparedStatement.setInt(1, subCategoria.getCategoria().getCodigo());// pegando o codigo do
 																								// objeto categoria
-				dataBase.preparedStatement.setString(3, subCategoria.getNome());
-				dataBase.preparedStatement.setString(4, subCategoria.getDescricao());
+				dataBase.preparedStatement.setString(2, subCategoria.getNome());
+				dataBase.preparedStatement.setString(3, subCategoria.getDescricao());
 
 				dataBase.preparedStatement.execute();
 				dataBase.preparedStatement.close();

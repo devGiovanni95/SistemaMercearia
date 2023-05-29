@@ -275,6 +275,8 @@ public class FrmFuncionario extends JFrame {
 		funcionario.setAtivo(cbAtivo.getSelectedItem().toString());		
 											
 		funcionarioController.cadastrarFuncionario(funcionario);
+		System.out.println(cbEstadoCivil);
+		System.out.println(cbNivelAcesso);
 		
 		limparTela(abaDadosPessoais);
 	}
@@ -328,8 +330,7 @@ public class FrmFuncionario extends JFrame {
 		tfJornadaTrabalho.setText(tabelaFuncionarios.getValueAt(tabelaFuncionarios.getSelectedRow(),22).toString());
 		tfAdmissao.setText(tabelaFuncionarios.getValueAt(tabelaFuncionarios.getSelectedRow(),23).toString());
 		tfDemissao.setText(tabelaFuncionarios.getValueAt(tabelaFuncionarios.getSelectedRow(),24).toString());
-		cbAtivo.setSelectedItem(tabelaFuncionarios.getValueAt(tabelaFuncionarios.getSelectedRow(),25).toString());
-	
+		cbAtivo.setSelectedItem(tabelaFuncionarios.getValueAt(tabelaFuncionarios.getSelectedRow(),25).toString());	
 	}
 	
 	
@@ -585,7 +586,7 @@ public class FrmFuncionario extends JFrame {
 				JLabel lblCtps_1 = new JLabel("Estado Civil:");
 				lblCtps_1.setFont(new Font("Arial", Font.BOLD, 14));
 				
-				JComboBox<String> cbEstadoCivil = new JComboBox<String>();
+				cbEstadoCivil = new JComboBox<String>();
 				cbEstadoCivil.setFont(new Font("Arial", Font.BOLD, 14));
 				cbEstadoCivil.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] {"","Solteiro(a)","Casado(a)","Divorciado(a)"}));
 				

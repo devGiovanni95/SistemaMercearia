@@ -768,8 +768,8 @@ public class FrmProdutos extends JFrame {
 		btnNovo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				limparTela(abaDadosProdutos);
-				cbFornecedor.setEnabled(true);
-				tfDataEntrada.setEnabled(true);
+				cbFornecedor.setEditable(true);
+				tfDataEntrada.setEditable(true);
 			}
 		});
 		panelInferior_2.add(btnNovo);
