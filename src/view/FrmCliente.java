@@ -6,6 +6,7 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.ParseException;
+import java.util.Calendar;
 import java.util.List;
 import javax.swing.*;
 import javax.swing.GroupLayout.Alignment;
@@ -19,6 +20,8 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.GridLayout;
 import java.awt.Dimension;
+
+import util.DataUtils;
 import util.LimparCampos;
 import util.TextFieldLimit;
 
@@ -349,7 +352,8 @@ public class FrmCliente extends JFrame {
 		contentPane.setBorder(new EmptyBorder(2, 2, 2, 2));
 		this.setLocationRelativeTo(null);
 		setContentPane(contentPane);
-		 
+
+		DataUtils dataUtils = new DataUtils();
 		 
 		JPanel panel = new JPanel();
 		panel.setBorder(null);
@@ -463,9 +467,10 @@ public class FrmCliente extends JFrame {
 						lblNascimento.setFont(new Font("Arial", Font.BOLD, 14));
 
 						tfDataNascimento = new JFormattedTextField(new MaskFormatter("##/##/####"));
+						int currentYear = Calendar.getInstance().get(Calendar.YEAR);
+						dataUtils.addDateVerifier((JFormattedTextField) tfDataNascimento, 1850, currentYear);
 						tfDataNascimento.setFont(new Font("Arial", Font.BOLD, 14));
 						tfDataNascimento.setColumns(10);
-
 
 						cbUf = new JComboBox<String>();
 						cbUf.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] {"", "AC", "AL", "AP", "AM", "BA", "CE", "DF", "ES", "GO",
