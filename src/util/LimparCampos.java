@@ -48,7 +48,7 @@ public class LimparCampos {
 		}
 		for(Component component : components) {
 			if(component instanceof JComboBox) {
-				((JComboBox) component).setSelectedIndex(0);
+				((JComboBox) component).setSelectedIndex(1);
 			}
 		}
 	}

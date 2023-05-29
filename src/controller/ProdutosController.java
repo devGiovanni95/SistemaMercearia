@@ -114,6 +114,7 @@ public class ProdutosController implements InterfaceProduto {
 			String sql = "UPDATE tb_produto SET descricao = ?,  marca = ?, cod_subcategoria = ?, unidade_medida = ?,"
 					+ " quantidade = ?, data_fabricacao = CONVERT(datetime, ? , 103), data_validade = CONVERT(datetime, ? , 103), lote = ?, ipi = ?, icms = ?, margem_lucro = ?, preco_custo = ?, preco_final = ? WHERE codigo_barras = ?";
 
+
 			dataBase.preparedStatement = dataBase.con.prepareStatement(sql);
 			dataBase.preparedStatement.setString(1, produto.getDescricao());
 			dataBase.preparedStatement.setString(2, produto.getMarca());

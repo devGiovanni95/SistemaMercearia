@@ -68,7 +68,7 @@ public class FrmMenuPrincipal extends JFrame {
 	
 	private String cpfFuncionario;
 	
-	AberturaEFechamentoCaixa aberturaEFechamentoCaixa = new AberturaEFechamentoCaixa();
+	private AberturaEFechamentoCaixa aberturaEFechamentoCaixa = new AberturaEFechamentoCaixa();
 	
 
 	public AberturaEFechamentoCaixa getAberturaEFechamentoCaixa() {
@@ -218,6 +218,19 @@ public class FrmMenuPrincipal extends JFrame {
 		mnIrPdv.setSize(35,35);
 		mnVendas.add(mnIrPdv);
 		
+		JMenuItem mnRelatoriosVendas = new JMenuItem("Consultar Vendas");
+		mnRelatoriosVendas.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				FrmConsultarVenda menu = null;
+				dispose();
+				menu = new FrmConsultarVenda();
+				menu.setVisible(true);
+			}
+		});
+		mnRelatoriosVendas.setFont(new Font("Arial", Font.BOLD, 15));
+		mnRelatoriosVendas.setIcon(new ImageIcon(FrmMenuPrincipal.class.getResource("/assets/crescimento.png")));
+		mnVendas.add(mnRelatoriosVendas);
+		
 		mnEstoque = new JMenu("Estoque");
 		mnEstoque.setFont(new Font("Arial", Font.BOLD, 15));
 		mnEstoque.setBackground(new Color(202, 240, 248));
@@ -229,12 +242,12 @@ public class FrmMenuPrincipal extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				FrmProdutos menu = null;
 				try {
+					dispose();
 					menu = new FrmProdutos();
 				} catch (ParseException ex) {
 					throw new RuntimeException(ex);
 				}
 				menu.setVisible(true);
-				dispose();
 			}
 		});
 
@@ -257,13 +270,21 @@ public class FrmMenuPrincipal extends JFrame {
 			}
 		});
 	
-		mnPesquisarProduto.setIcon(new ImageIcon(FrmMenuPrincipal.class.getResource("/assets/lista-de-controle.png")));
+		mnPesquisarProduto.setIcon(new ImageIcon(FrmMenuPrincipal.class.getResource("/assets/pesquisa-de-produto.png")));
 		mnPesquisarProduto.setFont(new Font("Arial", Font.BOLD, 15));
 		mnEstoque.add(mnPesquisarProduto);
 		
-		JMenuItem mnDevolucao = new JMenuItem("Devolução");
+		JMenuItem mnDevolucao = new JMenuItem("Entrada no Estoque");
+		mnDevolucao.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				FrmEntradaEstoque menu = null;
+				menu = new FrmEntradaEstoque();
+				menu.setVisible(true);
+				dispose();
+			}
+		});
 		mnDevolucao.setFont(new Font("Arial", Font.BOLD, 15));
-		mnDevolucao.setIcon(new ImageIcon(getClass().getResource("/assets/fornecedor.png")));
+		mnDevolucao.setIcon(new ImageIcon(FrmMenuPrincipal.class.getResource("/assets/lista-de-controle.png")));
 		mnEstoque.add(mnDevolucao);
 		
 		mnCategoria = new JMenu("Categorias");
@@ -276,9 +297,9 @@ public class FrmMenuPrincipal extends JFrame {
 		mnCadastrarCategoria.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
+					dispose();
 					FrmCategoria frmCategoria = new FrmCategoria();
 					frmCategoria.setVisible(true);
-					dispose();
 				} catch (ParseException e1) {
 					e1.printStackTrace();
 				}
@@ -288,14 +309,53 @@ public class FrmMenuPrincipal extends JFrame {
 		mnCategoria.add(mnCadastrarCategoria);
 		
 		JMenuItem mnCadastrarSubcategoria = new JMenuItem("Cadastrar SubCategoria");
+		mnCadastrarSubcategoria.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					dispose();
+					FrmSubCategoria frmSubCategoria = new FrmSubCategoria();
+					frmSubCategoria.setVisible(true);
+				} catch (ParseException e1) {
+					e1.printStackTrace();
+				}
+				
+				
+			}
+		});
 		mnCadastrarSubcategoria.setIcon(new ImageIcon(FrmMenuPrincipal.class.getResource("/assets/categoria.png")));
 		mnCategoria.add(mnCadastrarSubcategoria);
 		
 		JMenuItem mnConsultarCategoria = new JMenuItem("Consultar Categoria");
+		mnConsultarCategoria.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					dispose();
+					FrmCategoria frmCategoria = new FrmCategoria();
+					frmCategoria.setVisible(true);
+					frmCategoria.abaPrincipal.setSelectedIndex(1);
+				} catch (ParseException e1) {
+					e1.printStackTrace();
+				}
+			}
+		});
 		mnConsultarCategoria.setIcon(new ImageIcon(FrmMenuPrincipal.class.getResource("/assets/pesquisaCategoria.png")));
 		mnCategoria.add(mnConsultarCategoria);
 		
 		JMenuItem mnConsultarSubcategoria = new JMenuItem("Consultar SubCategorias");
+		mnConsultarSubcategoria.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				FrmSubCategoria frmSubCategoria;
+				try {
+					dispose();
+					frmSubCategoria = new FrmSubCategoria();
+					frmSubCategoria.setVisible(true);
+					frmSubCategoria.abaPrincipal.setSelectedIndex(1);
+				} catch (ParseException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
 		mnConsultarSubcategoria.setIcon(new ImageIcon(FrmMenuPrincipal.class.getResource("/assets/pesquisa-de-produto.png")));
 		mnCategoria.add(mnConsultarSubcategoria);
 		
@@ -311,10 +371,10 @@ public class FrmMenuPrincipal extends JFrame {
 		mnCadastrarFornecedor.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				FrmFornecedor menu;
+				dispose(); // Fecha a janela atual (FrmMenuPrincipal)
 				try {
 					menu = new FrmFornecedor();
 					menu.setVisible(true);
-					dispose(); // Fecha a janela atual (FrmMenuPrincipal)
 				} catch (ParseException e1) {
 					e1.printStackTrace();
 				}
@@ -332,10 +392,10 @@ public class FrmMenuPrincipal extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				FrmFornecedor menu;
 				try {
+					dispose(); // Fecha a janela atual (FrmMenuPrincipal)
 					menu = new FrmFornecedor();
 					menu.abaPrincipal.setSelectedIndex(1);
 					menu.setVisible(true);
-					dispose(); // Fecha a janela atual (FrmMenuPrincipal)
 				} catch (ParseException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -358,9 +418,9 @@ public class FrmMenuPrincipal extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				FrmCliente menu;
 				try {
+					dispose();
 					menu = new FrmCliente();
 					menu.setVisible(true);
-					dispose();
 				} catch (ParseException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -377,10 +437,10 @@ public class FrmMenuPrincipal extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				FrmCliente menu;
 				try {
+					dispose();
 					menu = new FrmCliente();
 					menu.abaPrincipal.setSelectedIndex(1);
 					menu.setVisible(true);
-					dispose();
 				} catch (ParseException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -402,9 +462,9 @@ public class FrmMenuPrincipal extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				FrmFuncionario menu;
 				try {
+					dispose();
 					menu = new FrmFuncionario();
 					menu.setVisible(true);
-					dispose();
 				} catch (ParseException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -420,10 +480,10 @@ public class FrmMenuPrincipal extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				FrmFuncionario menu;
 				try {
+					dispose();
 					menu = new FrmFuncionario();
 					menu.abaPrincipal.setSelectedIndex(1);
 					menu.setVisible(true);
-					dispose();
 				} catch (ParseException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -455,9 +515,9 @@ public class FrmMenuPrincipal extends JFrame {
 		mnTrocarUsuario.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
+				dispose();
 				FrmLogin menu = new FrmLogin();
 				menu.setVisible(true);
-				dispose();
 
 			}
 		});

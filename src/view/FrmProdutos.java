@@ -267,8 +267,6 @@ public class FrmProdutos extends JFrame {
 		limparTela(abaDadosProdutos);
 		JOptionPane.showMessageDialog(null, "Histórico cadastrado com sucesso!", "Sucesso",
 				JOptionPane.INFORMATION_MESSAGE);
-
-		//System.out.println(cadastroProdutoFornecedorEstoque);
 		limparTela(abaDadosProdutos);
 	}
 
@@ -871,7 +869,8 @@ public class FrmProdutos extends JFrame {
 				limparTela(abaDadosProdutos);
 				cbFornecedor.setEnabled(true);
 				tfDataEntrada.setEnabled(true);
-
+				cbFornecedor.setEditable(true);
+				tfDataEntrada.setEditable(true);
 			}
 		});
 		panelInferior_2.add(btnNovo);

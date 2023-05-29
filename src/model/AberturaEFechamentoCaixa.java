@@ -24,6 +24,7 @@ public class AberturaEFechamentoCaixa {
 	private double trocoInicial;
 	
 	private boolean situacaoCaixa;
+	
 
 	/**
 	 * Gets the codigo.
