@@ -48,4 +48,18 @@ public class DataUtils {
 
         tfData.getDocument().addDocumentListener(dl);
     }
+
+    // Método para verificar se a data inserida é válida
+    public static boolean isDateValid(String date) {
+        SimpleDateFormat sdf = new SimpleDateFormat("##/##/####");
+        sdf.setLenient(false); // Isso fará com que o SimpleDateFormat não aceite datas inválidas
+
+        try {
+            sdf.parse(date); // Tente converter a string em uma data
+        } catch (ParseException e) {
+            return false; // Se a conversão falhar, retorne false
+        }
+
+        return true; // Se a conversão for bem-sucedida, retorne true
+    }
 }
