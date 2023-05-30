@@ -40,8 +40,6 @@ public class AberturaEFechamentoCaixaController {
 				
 						
 				dataBase.preparedStatement.execute();
-				
-				JOptionPane.showMessageDialog(null, "Caixa aberto");
 							
 			} catch (SQLException erro) {
 				JOptionPane.showMessageDialog(null, "Erro: " + erro);

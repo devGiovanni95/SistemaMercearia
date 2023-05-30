@@ -6,6 +6,7 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.Menu;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -126,7 +127,8 @@ public class FrmLogin extends JFrame {
 		panel_1.setBackground(new Color(1.0f,1.0f,1.0f,0f));
 		panel_1.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		
-		JLabel lblMercadoSilva = new JLabel("Mercado do Mineiro");
+		JLabel lblMercadoSilva = new JLabel("Mercado"
+				+ "Tech");
 		lblMercadoSilva.setForeground(new Color(3, 71, 72));
 		lblMercadoSilva.setFont(new Font("Arial", Font.BOLD, 44));
 		panel_1.add(lblMercadoSilva);
@@ -287,12 +289,18 @@ public class FrmLogin extends JFrame {
 		lblNewLabel_1.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				
+				
 				// Fechar a janela atual
 				SwingUtilities.getWindowAncestor(lblNewLabel_1).dispose();
 
 				// Abrir a janela principal
 				FrmMenuPrincipal menu = new FrmMenuPrincipal();
-				menu.setVisible(true);
+				if(menu.getFuncionario() == null) {
+					System.exit(1);				
+				}else {
+					menu.setVisible(true);			
+				}
 			}
 		});
 

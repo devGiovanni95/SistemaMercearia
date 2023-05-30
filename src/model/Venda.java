@@ -120,7 +120,7 @@ public class Venda {
 	 *
 	 * @return the valor venda
 	 */
-	public double getValorVenda() {
+	public double getValorVenda(){
 		return valorVenda;
 	}
 	

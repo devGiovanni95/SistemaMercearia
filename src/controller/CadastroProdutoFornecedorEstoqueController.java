@@ -34,7 +34,6 @@ public class CadastroProdutoFornecedorEstoqueController {
 
 				dataBase.preparedStatement.execute();
 
-				JOptionPane.showMessageDialog(null, "Cadastrado com sucesso");
 
 			} catch (SQLException erro) {
 				JOptionPane.showMessageDialog(null, "Erro: " + erro);
@@ -48,7 +47,7 @@ public class CadastroProdutoFornecedorEstoqueController {
 		}
 	}
 
-	public void cadastrarProdutoFornecedor(CadastroProdutoFornecedorEstoque cadastroProdutoFornecedorEstoque) {
+	public void cadastrarProdutoFornecedor(CadastroProdutoFornecedorEstoque cadastroProdutoFornecedorEstoque){
 		if (dataBase.getConnection()) {
 			try {
 				String sql = "insert into tb_produto_fornecedor (cod_produto, cod_fornecedor, data_entrada, quantidade, preco_unitario, subtotal) "
@@ -63,7 +62,6 @@ public class CadastroProdutoFornecedorEstoqueController {
 				dataBase.preparedStatement.setDouble(6, cadastroProdutoFornecedorEstoque.getSubTotal());
 				dataBase.preparedStatement.execute();
 
-				JOptionPane.showMessageDialog(null, "Produto cadastrado com sucesso");
 
 			} catch (SQLException | NumberFormatException erro) {
 				JOptionPane.showMessageDialog(null, "Erro: " + erro);
