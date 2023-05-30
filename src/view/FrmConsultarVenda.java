@@ -17,10 +17,8 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.table.DefaultTableModel;
 
 import controller.ItemVendaController;
-import controller.ProdutosController;
 import controller.VendaController;
 import model.ItemVenda;
-import model.Produto;
 import model.Venda;
 import util.LimparCampos;
 

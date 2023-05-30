@@ -35,7 +35,6 @@ import javax.swing.table.DefaultTableModel;
 
 import controller.AberturaEFechamentoCaixaController;
 import controller.ClienteController;
-import controller.FuncionarioController;
 import controller.ProdutosController;
 import model.AberturaEFechamentoCaixa;
 import model.Cliente;
@@ -528,7 +527,7 @@ public class FrmFrenteCaixa extends JFrame{
 		private void adicionarItens() {
 			Produto produto = new Produto();
 			Venda venda = new Venda();
-			ProdutosController produtosController = new ProdutosController();		
+			ProdutosController produtosController = new ProdutosController();
 			
 			produto = produtosController.consultarProdutosPorCodigoBarras(tfCodigoDeBarras.getText());
 			if(produto.equals(null)) {
