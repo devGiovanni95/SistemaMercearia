@@ -47,7 +47,8 @@ public class FormaPagamentoController  {
 			dataBase.preparedStatement.setDouble(7, formaPagamento.getPix());
 			dataBase.preparedStatement.setDouble(8, formaPagamento.getTroco());
 			dataBase.preparedStatement.setDouble(9, formaPagamento.getTotalCompra());
-			dataBase.preparedStatement.execute();			
+			dataBase.preparedStatement.execute();		
+			
 			JOptionPane.showMessageDialog(null, "Pagamento efetuado com sucesso");
 					
 			} catch (SQLException erro) {

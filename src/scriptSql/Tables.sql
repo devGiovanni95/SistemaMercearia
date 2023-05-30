@@ -141,8 +141,8 @@ create table tb_venda(
 
 create table tb_produto_fornecedor(
 codigo int primary key identity,
-cod_produto varchar (13),
-cod_fornecedor char(20),
+cod_produto varchar (13) references tb_produto,
+cod_fornecedor varchar(18) references tb_fornecedor,
 data_entrada datetime,
 quantidade decimal(10,3),
 preco_unitario money,

@@ -308,11 +308,9 @@ public class FrmFormaDePagamento extends JFrame {
 		if (pago > falta) {
 			// troco = getTotalCompra() - calcularTotalPago();
 			troco = calcularTotalPago() - getTotalCompra();
-			System.out.println("troco" + troco);
+
 			return troco;
 		} else {
-
-			System.out.println("troco else" + troco);
 			return troco;
 		}
 	}
@@ -378,7 +376,7 @@ public class FrmFormaDePagamento extends JFrame {
 			PrintWriter pw = new PrintWriter("Cupom.txt");
 			pw.write("                     MERCEARIA                    \n");
 			pw.write("        RUA SEM NOME, 1254 - VILA SÃO JOSÉ        \n");
-			pw.write("	    	CEP: 13330-050 INDAIATUBA - SP          \n");
+			pw.write("	    	 CEP: 13330-050 INDAIATUBA - SP         \n");
 			pw.write("CNPJ:00.000.000/0000-00          					\n");
 			pw.write("INCRIÇÃO ESTADUAL: 000.000000.0000				\n");
 			pw.write("INCRIÇÃO MUNICIPAL: 0.000.000/000-0				\n");
@@ -439,8 +437,7 @@ public class FrmFormaDePagamento extends JFrame {
 		geradorDeCodigo = new GeradorDeCodigo();
 
 		setCodigoDePagamentoGeradoAutomatico(geradorDeCodigo.geraCodigo());
-		// System.out.println(getCodigoDePagamentoGeradoAutomatico());
-
+	
 		formaPagamento.setCodigo(getCodigoDePagamentoGeradoAutomatico());
 		formaPagamento.setDinheiro(Double.parseDouble(tfDinheiro.getText()));
 		formaPagamento.setCartaoCredito(Double.parseDouble(tfCartaoCredito.getText()));
@@ -477,7 +474,6 @@ public class FrmFormaDePagamento extends JFrame {
 			public void run() {
 				try {
 					FrmFormaDePagamento frame = new FrmFormaDePagamento();
-
 					frame.setVisible(true);
 					frame.tfDinheiro.requestFocus();
 				} catch (Exception e) {
@@ -606,7 +602,7 @@ public class FrmFormaDePagamento extends JFrame {
 						// System.out.println(pedido);
 					} else {
 						JOptionPane.showMessageDialog(null,
-								"Falta receber ainda R$ " + tfValorAReceber.getText() + " Reais");
+								"Ainda alta receber R$ " + tfValorAReceber.getText() + " Reais");
 					}
 				}
 			}
@@ -614,7 +610,6 @@ public class FrmFormaDePagamento extends JFrame {
 		btnFinalizarVenda.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (validarPagamento()) {
-					// System.out.println(validarPagamento());
 					cadastrarPagamento();
 					cadastrarVenda();
 					cadastrarItensPedido();
