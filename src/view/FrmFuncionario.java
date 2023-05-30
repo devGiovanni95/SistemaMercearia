@@ -137,6 +137,92 @@ public class FrmFuncionario extends JFrame {
 		limpar.Limpar(tela);
 	}
 
+	/**
+	 * Método utilizado para cadastrar um novo funcionario com as informações preenchidas nos campos do formulário.
+	 */
+	private void cadastrarFuncionario() {
+		Funcionario funcionario = new Funcionario();
+		FuncionarioController funcionarioController = new FuncionarioController();
+
+		funcionario.setNome(tfNome.getText());
+		funcionario.setEmail(tfEmail.getText());
+		funcionario.setCpf(tfCpf.getText());
+		funcionario.setRg(tfRg.getText());
+		funcionario.setEndereco(tfEndereco.getText());
+		funcionario.setTelefone(tfTelefone.getText());
+		funcionario.setCelular(tfCelular.getText());
+		funcionario.setNumero(Integer.parseInt(tfNumero.getText()));
+		funcionario.setCep(tfCep.getText());
+		funcionario.setDataNascimento(tfDataNascimento.getText());
+		funcionario.setBairro(tfBairro.getText());
+		funcionario.setCidade(tfCidade.getText());
+		funcionario.setUf(cbUf.getSelectedItem().toString());
+		funcionario.setComplemento(tfComplemento.getText());
+		funcionario.setLimite(Double.parseDouble(tfLimite.getText()));
+		//funcionario.setCodigo(tfCpf.getText());
+		funcionario.setSenha(tfSenha.getText());
+		funcionario.setCargo(tfCargo.getText());
+		funcionario.setNivelAcesso(cbNivelAcesso.getSelectedItem().toString());
+		funcionario.setPisPasep(tfPisPasep.getText());
+		funcionario.setSalario(Double.parseDouble(tfSalario.getText()));
+		funcionario.setCarteiraTrabalho(tfCarteiraTrabalho.getText());
+		funcionario.setEstadoCivil(cbEstadoCivil.getSelectedItem().toString());
+		funcionario.setJornadaTrabalho(tfJornadaTrabalho.getText());
+		funcionario.setAdmissao(tfAdmissao.getText());
+		funcionario.setDemissao(tfDemissao.getText());
+		funcionario.setAtivo(cbAtivo.getSelectedItem().toString());
+
+		funcionarioController.cadastrarFuncionario(funcionario);
+		System.out.println(cbEstadoCivil.toString());
+		System.out.println(cbNivelAcesso.toString());
+
+		limparTela(abaDadosPessoais);
+	}
+
+	/**
+	 Método responsável por alterar os dados de um funcionário cadastrado.
+	 Os dados são obtidos dos campos de texto na interface gráfica e armazenados em um objeto do tipo Funcionario,
+	 Em seguida, os campos de texto na interface gráfica são limpos através do método Limpar() da classe LimparCampos.
+	 */
+	private void alterarFuncionario() {
+		Funcionario funcionario = new Funcionario();
+		FuncionarioController funcionarioController = new FuncionarioController();
+
+		funcionario.setNome(tfNome.getText());
+		funcionario.setEmail(tfEmail.getText());
+		funcionario.setCpf(tfCpf.getText());
+		funcionario.setRg(tfRg.getText());
+		funcionario.setEndereco(tfEndereco.getText());
+		funcionario.setTelefone(tfTelefone.getText());
+		funcionario.setCelular(tfCelular.getText());
+		funcionario.setNumero(Integer.parseInt(tfNumero.getText()));
+		funcionario.setCep(tfCep.getText());
+		funcionario.setDataNascimento(tfDataNascimento.getText());
+		funcionario.setBairro(tfBairro.getText());
+		funcionario.setCidade(tfCidade.getText());
+		funcionario.setUf(cbUf.getSelectedItem().toString());
+		funcionario.setComplemento(tfComplemento.getText());
+		funcionario.setLimite(Double.parseDouble(tfLimite.getText()));
+		funcionario.setSenha(tfSenha.getText());
+		funcionario.setCargo(tfCargo.getText());
+		funcionario.setNivelAcesso(cbNivelAcesso.getSelectedItem().toString());
+		funcionario.setPisPasep(tfPisPasep.getText());
+		funcionario.setSalario(Double.parseDouble(tfSalario.getText()));
+		funcionario.setCarteiraTrabalho(tfCarteiraTrabalho.getText());
+		funcionario.setEstadoCivil(cbEstadoCivil.getSelectedItem().toString());
+		funcionario.setJornadaTrabalho(tfJornadaTrabalho.getText());
+		funcionario.setAdmissao(tfAdmissao.getText());
+		funcionario.setDemissao(tfDemissao.getText());
+		funcionario.setAtivo(cbAtivo.getSelectedItem().toString());
+
+		funcionario.setCpf(tfCpf.getText());
+
+
+		funcionarioController.alterarFuncionario(funcionario);
+
+		limparTela(abaDadosPessoais);
+
+	}
 	
 	/**
 	 * Metodo utilizado para listar todos os funcionários e adiciona-los na tabela.
@@ -239,48 +325,7 @@ public class FrmFuncionario extends JFrame {
 	
 	
 
-	/**
-	 * Método utilizado para cadastrar um novo funcionario com as informações preenchidas nos campos do formulário.
-	 */
-	private void cadastrarFuncionario() {
-		Funcionario funcionario = new Funcionario();
-		FuncionarioController funcionarioController = new FuncionarioController();	
-		
-		funcionario.setNome(tfNome.getText());
-		funcionario.setEmail(tfEmail.getText());
-		funcionario.setCpf(tfCpf.getText());
-		funcionario.setRg(tfRg.getText());
-		funcionario.setEndereco(tfEndereco.getText());
-		funcionario.setTelefone(tfTelefone.getText());
-		funcionario.setCelular(tfCelular.getText());
-		funcionario.setNumero(Integer.parseInt(tfNumero.getText()));
-		funcionario.setCep(tfCep.getText());
-		funcionario.setDataNascimento(tfDataNascimento.getText());
-		funcionario.setBairro(tfBairro.getText());
-		funcionario.setCidade(tfCidade.getText());
-		funcionario.setUf(cbUf.getSelectedItem().toString());
-		funcionario.setComplemento(tfComplemento.getText());
-		funcionario.setLimite(Double.parseDouble(tfLimite.getText()));		
-		//funcionario.setCodigo(tfCpf.getText());				
-		funcionario.setSenha(tfSenha.getText());
-		funcionario.setCargo(tfCargo.getText());
-		funcionario.setNivelAcesso(cbNivelAcesso.getSelectedItem().toString());
-		funcionario.setPisPasep(tfPisPasep.getText());
-		funcionario.setSalario(Double.parseDouble(tfSalario.getText()));
-		funcionario.setCarteiraTrabalho(tfCarteiraTrabalho.getText());
-		funcionario.setEstadoCivil(cbEstadoCivil.getSelectedItem().toString());
-		funcionario.setJornadaTrabalho(tfJornadaTrabalho.getText());
-		funcionario.setAdmissao(tfAdmissao.getText());
-		funcionario.setDemissao(tfDemissao.getText());
-		funcionario.setAtivo(cbAtivo.getSelectedItem().toString());		
-											
-		funcionarioController.cadastrarFuncionario(funcionario);
-		System.out.println(cbEstadoCivil.toString());
-		System.out.println(cbNivelAcesso.toString());
-		
-		limparTela(abaDadosPessoais);
-	}
-	
+
 	
 	/**
 	*Exclui o funcionário selecionado na tabela de funcionários.
@@ -335,50 +380,7 @@ public class FrmFuncionario extends JFrame {
 	
 	
 	
-	/**
-	Método responsável por alterar os dados de um funcionário cadastrado.
-	Os dados são obtidos dos campos de texto na interface gráfica e armazenados em um objeto do tipo Funcionario,
-	Em seguida, os campos de texto na interface gráfica são limpos através do método Limpar() da classe LimparCampos.
-	*/
-	private void alterarFuncionario() {
-		Funcionario funcionario = new Funcionario();
-		FuncionarioController funcionarioController = new FuncionarioController();
-		
-		funcionario.setNome(tfNome.getText());
-		funcionario.setEmail(tfEmail.getText());
-		funcionario.setCpf(tfCpf.getText());
-		funcionario.setRg(tfRg.getText());
-		funcionario.setEndereco(tfEndereco.getText());
-		funcionario.setTelefone(tfTelefone.getText());
-		funcionario.setCelular(tfCelular.getText());
-		funcionario.setNumero(Integer.parseInt(tfNumero.getText()));
-		funcionario.setCep(tfCep.getText());
-		funcionario.setDataNascimento(tfDataNascimento.getText());
-		funcionario.setBairro(tfBairro.getText());
-		funcionario.setCidade(tfCidade.getText());
-		funcionario.setUf(cbUf.getSelectedItem().toString());
-		funcionario.setComplemento(tfComplemento.getText());
-		funcionario.setLimite(Double.parseDouble(tfLimite.getText()));	
-		funcionario.setSenha(tfSenha.getText());
-		funcionario.setCargo(tfCargo.getText());
-		funcionario.setNivelAcesso(cbNivelAcesso.getSelectedItem().toString());
-		funcionario.setPisPasep(tfPisPasep.getText());
-		funcionario.setSalario(Double.parseDouble(tfSalario.getText()));
-		funcionario.setCarteiraTrabalho(tfCarteiraTrabalho.getText());
-		funcionario.setEstadoCivil(cbEstadoCivil.getSelectedItem().toString());
-		funcionario.setJornadaTrabalho(tfJornadaTrabalho.getText());
-		funcionario.setAdmissao(tfAdmissao.getText());
-		funcionario.setDemissao(tfDemissao.getText());
-		funcionario.setAtivo(cbAtivo.getSelectedItem().toString());		
-		
-		funcionario.setCpf(tfCpf.getText());
-		
-		
-		funcionarioController.alterarFuncionario(funcionario);
-		
-		limparTela(abaDadosPessoais);
-		
-	}
+
 	
 	/**
 	 * Launch the application.

@@ -125,6 +125,9 @@ public class FrmProdutos extends JFrame {
 	private LimparCampos limparCampos;
 	private JTextField tfDataEntrada;
 	private JComboBox<Fornecedor> cbFornecedor;
+	private ProdutosController produtosController = new ProdutosController(); // Criado o controlador como um atributo da classe, para poder reutilizá-lo.
+	private SubCategoriaController subCategoriaController = new SubCategoriaController(); // Criado o controlador como um atributo da classe, para poder reutilizá-lo.
+	private DefaultTableModel dadosTabela; // Objeto da classe DefaultTableModel, que será utilizado para preencher a tabela de produtos.
 
 	/**
 	 * Limpar tela.
@@ -149,66 +152,124 @@ public class FrmProdutos extends JFrame {
 	/**
 	 * Alterar produto.
 	 */
+
 	private void alterarProduto() {
-		Produto produto = new Produto();
-		SubCategoria subCategoria = new SubCategoria();
-		SubCategoriaController subCategoriaController = new SubCategoriaController();
-		ProdutosController produtosController = new ProdutosController();
-
-		// SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-
-		produto.setDescricao(tfDescricao.getText());
-		produto.setCodigoDeBarras(tfCodigoDeBarras.getText());
-		produto.setMarca(tfMarca.getText());
-		subCategoria = (SubCategoria) subCategoriaController.consultarSubCategoriaPorNome(tfSub.getText());
-
-		produto.setSubCategoria(subCategoria);
-		produto.setUnidadeDeMedida(cbUnidadeDeMedida.getSelectedItem().toString());
-		produto.setQuantidade(Double.parseDouble(tfQtdEstoque.getText()));
-		produto.setDataFabricacao(tfDataFabricacao.getText());
-		produto.setDataValidade(tfValidade.getText());
-		produto.setLote(tfLote.getText());
-		produto.setIpi(Double.parseDouble(tfIpi.getText()));
-		produto.setIcms(Double.parseDouble(tfIcms.getText()));
-		produto.setMargemLucro(Double.parseDouble(tfMargem.getText()));
-		produto.setPrecoCusto(Double.parseDouble(tfPrecoCusto.getText()));
-		// produto.setCodigo(Integer.parseInt(tfCodigo.getText()));
-
-		// Calcular o preço final com base na margem de lucro, IPI e ICMS
-		// atualizarPrecoFinal();
-
-		produto.setPrecoFinal(Double.parseDouble(tfPrecoFinal.getText().replaceAll(",", ".")));
-
 		try {
+			Produto produto = criarProduto(false);
+
 			produtosController.alterarProduto(produto);
-			JOptionPane.showMessageDialog(null, "Produto alterado com sucesso!", "Sucesso",
-					JOptionPane.INFORMATION_MESSAGE);
+
+			limparTela(abaDadosProdutos);
+
+			JOptionPane.showMessageDialog(null, "Produto alterado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
 		}
+	}
 
-		limparTela(abaDadosProdutos);
+
+
+	/**
+	 * Cadastrar produto: Método responsável por cadastrar um novo produto.
+	 * Os dados são obtidos dos campos de texto na interface gráfica e armazenados
+	 * em um objeto do tipo Produto, que é passado como parâmetro para o método cadastrarProduto() da classe ProdutosController.
+	 * Em seguida, os campos de texto na interface gráfica são limpos através do método Limpar() da classe LimparCampos.
+	 */
+
+
+	private void cadastrarProduto() {
+		try {
+			Produto produto = criarProduto(true);
+			produtosController.cadastrarProduto(produto);
+
+			limparTela(abaDadosProdutos);
+
+			JOptionPane.showMessageDialog(null, "Produto cadastrado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+		}
 	}
 
 	/**
-	 * Cadastrar produto.
+	 * Criar produto: Método responsável por criar um objeto do tipo Produto.
+	 * Os dados são obtidos dos campos de texto na interface gráfica e armazenados em um objeto do tipo Produto.
+	 * @param novoProduto the novo produto
+	 * @return the produto
+	 * @throws Exception the exception
 	 */
-	private void cadastrarProduto() {
+
+	private Produto criarProduto(boolean novoProduto) throws Exception {
 		Produto produto = new Produto();
-		SubCategoria subCategoria = new SubCategoria();
+		SubCategoria subCategoria = (SubCategoria) cbSubCategoria.getSelectedItem();
 
-		ProdutosController produtosController = new ProdutosController();
+		// Validar campos obrigatórios
+		if(tfDescricao.getText().trim().isEmpty()){
+			throw new Exception("A descrição do produto é obrigatória.");
+		}
+		if(tfCodigoDeBarras.getText().trim().isEmpty()){
+			throw new Exception("O código de barras é obrigatório.");
+		}
+		if(tfMarca.getText().trim().isEmpty()){
+			throw new Exception("A marca do produto é obrigatória.");
+		}
+		if(subCategoria == null){
+			throw new Exception("A subcategoria é obrigatória.");
+		}
+		if(cbUnidadeDeMedida.getSelectedItem() == null){
+			throw new Exception("A unidade de medida é obrigatória.");
+		}
+		if(tfDataFabricacao.getText().trim().isEmpty()){
+			throw new Exception("A data de fabricação é obrigatória.");
+		}
+		if(tfValidade.getText().trim().isEmpty()){
+			throw new Exception("A data de validade é obrigatória.");
+		}
+		if(tfLote.getText().trim().isEmpty()){
+			throw new Exception("O lote do produto é obrigatório.");
+		}
+		if(tfMargem.getText().trim().isEmpty()){
+			throw new Exception("A margem de lucro é obrigatória.");
+		}
+		if(tfPrecoCusto.getText().trim().isEmpty()){
+			throw new Exception("O preço de custo é obrigatório.");
+		}
+		if(tfPrecoFinal.getText().trim().isEmpty()){
+			throw new Exception("O preço final é obrigatório.");
+		}
 
-		// SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+		// Validações de conversão de dados numéricos (Double)
+		try {
+			Double.parseDouble(tfIpi.getText());
+		} catch (NumberFormatException e) {
+			throw new Exception("IPI inválido.");
+		}
+		try {
+			Double.parseDouble(tfIcms.getText());
+		} catch (NumberFormatException e) {
+			throw new Exception("ICMS inválido.");
+		}
+		try {
+			Double.parseDouble(tfMargem.getText());
+		} catch (NumberFormatException e) {
+			throw new Exception("Margem de lucro inválida.");
+		}
+		try {
+			Double.parseDouble(tfPrecoCusto.getText());
+		} catch (NumberFormatException e) {
+			throw new Exception("Preço de custo inválido.");
+		}
+		try {
+			Double.parseDouble(tfPrecoFinal.getText().replaceAll(",", "."));
+		} catch (NumberFormatException e) {
+			throw new Exception("Preço final inválido.");
+		}
 
 		produto.setDescricao(tfDescricao.getText());
 		produto.setCodigoDeBarras(tfCodigoDeBarras.getText());
 		produto.setMarca(tfMarca.getText());
-		subCategoria = (SubCategoria) cbSubCategoria.getSelectedItem();
 		produto.setSubCategoria(subCategoria);
 		produto.setUnidadeDeMedida(cbUnidadeDeMedida.getSelectedItem().toString());
-		// produto.setQuantidade(Integer.parseInt(tfQtdEstoque.getText()));
-		produto.setQuantidade(0);
+		//produto.setQuantidade(0);
 		produto.setDataFabricacao(tfDataFabricacao.getText());
 		produto.setDataValidade(tfValidade.getText());
 		produto.setLote(tfLote.getText());
@@ -216,26 +277,25 @@ public class FrmProdutos extends JFrame {
 		produto.setIcms(Double.parseDouble(tfIcms.getText()));
 		produto.setMargemLucro(Double.parseDouble(tfMargem.getText()));
 		produto.setPrecoCusto(Double.parseDouble(tfPrecoCusto.getText()));
-
 		produto.setPrecoFinal(Double.parseDouble(tfPrecoFinal.getText().replaceAll(",", ".")));
-		// Calcular o preço final com base na margem de lucro, IPI e ICMS
-		// atualizarPrecoFinal();
 
-		// tentativa de debugar o erro com subcategoria
-		// subCategoria = (SubCategoria)cbSubCategoria.getSelectedItem();
-		// System.out.println(subCategoria.getCodigo());
-		//System.out.println("SubCategoria: " + produto.getSubCategoria().getNome());
-
-		try {
-			produtosController.cadastrarProduto(produto);
-			JOptionPane.showMessageDialog(null, "Produto cadastrado com sucesso!", "Sucesso",
-					JOptionPane.INFORMATION_MESSAGE);
-		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null, e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+		if(novoProduto){
+			produto.setQuantidade(0);
+		} else {
+			if(tfQtdEstoque.getText().trim().isEmpty()){
+				throw new Exception("A quantidade em estoque é obrigatória para a atualização do produto.");
+			}
+			try {
+				Double.parseDouble(tfQtdEstoque.getText());
+			} catch (NumberFormatException e) {
+				throw new Exception("Quantidade em estoque inválida.");
+			}
+			produto.setQuantidade(Double.parseDouble(tfQtdEstoque.getText()));
 		}
 
-		limparTela(abaDadosProdutos);
+		return produto;
 	}
+
 
 	private void cadastrarProdutoFornecedorEstoque() {
 		CadastroProdutoFornecedorEstoque cadastroProdutoFornecedorEstoque = new CadastroProdutoFornecedorEstoque();
@@ -316,11 +376,9 @@ public class FrmProdutos extends JFrame {
 		tfSub.setText(subCategoria.getNome());
 
 		cbUnidadeDeMedida.setSelectedItem(tabelaProdutos.getValueAt(tabelaProdutos.getSelectedRow(), 4).toString());
-
 		tfDataFabricacao.setText(tabelaProdutos.getValueAt(tabelaProdutos.getSelectedRow(), 6).toString());
 		tfValidade.setText(tabelaProdutos.getValueAt(tabelaProdutos.getSelectedRow(), 7).toString());
 		tfLote.setText(tabelaProdutos.getValueAt(tabelaProdutos.getSelectedRow(), 8).toString());
-
 		tfPrecoFinal.setText(tabelaProdutos.getValueAt(tabelaProdutos.getSelectedRow(), 13).toString());
 
 		// Tratamento para campos numéricos
@@ -343,54 +401,6 @@ public class FrmProdutos extends JFrame {
 	}
 
 
-	/*
-	private void preencherDadosProduto() {
-		abaPrincipal.setSelectedIndex(0);
-
-		tfCodigo.setText(tabelaProdutos.getValueAt(tabelaProdutos.getSelectedRow(),
-				1).toString());
-		tfDescricao.setText(tabelaProdutos.getValueAt(tabelaProdutos.getSelectedRow(), 0).toString());
-		tfCodigoDeBarras.setText(tabelaProdutos.getValueAt(tabelaProdutos.getSelectedRow(), 1).toString());
-		tfMarca.setText(tabelaProdutos.getValueAt(tabelaProdutos.getSelectedRow(), 2).toString());
-
-		// cbSubCategoria.setSelectedItem(tabelaProdutos.getValueAt(tabelaProdutos.getSelectedRow(),
-		// 3).toString());
-		Produto produto = new Produto();
-		ProdutosController controller = new ProdutosController();
-		produto = controller
-				.consultarProdutosPorCodigoBarrasCompleto(tabelaProdutos.getValueAt(tabelaProdutos.getSelectedRow(),
-						1).toString());
-		SubCategoria subCategoria = new SubCategoria();
-		SubCategoriaController subCategoriaController = new SubCategoriaController();
-
-		subCategoria = subCategoriaController.consultarSubCategoriasPorId(produto.getSubCategoria().getCodigo());
-
-		String subCategoriaSelecionada = tabelaProdutos.getValueAt(tabelaProdutos.getSelectedRow(), 3).toString();
-
-		cbSubCategoria.setSelectedItem(subCategoriaSelecionada);
-		tfSub.setText(subCategoria.getNome());
-
-		cbUnidadeDeMedida.setSelectedItem(tabelaProdutos.getValueAt(tabelaProdutos.getSelectedRow(), 4).toString());
-		tfQtdEstoque.setText(tabelaProdutos.getValueAt(tabelaProdutos.getSelectedRow(), 5).toString());
-		tfDataFabricacao
-				.setText(tabelaProdutos.getValueAt(tabelaProdutos.getSelectedRow(), 6)
-						.toString());
-		tfValidade.setText(tabelaProdutos.getValueAt(tabelaProdutos.getSelectedRow(), 7).toString());
-		tfLote.setText(tabelaProdutos.getValueAt(tabelaProdutos.getSelectedRow(), 8).toString());
-		tfIpi.setText(tabelaProdutos.getValueAt(tabelaProdutos.getSelectedRow(), 9).toString());
-		tfIcms.setText(tabelaProdutos.getValueAt(tabelaProdutos.getSelectedRow(), 10).toString());
-		tfMargem.setText(tabelaProdutos.getValueAt(tabelaProdutos.getSelectedRow(), 11).toString());
-		tfPrecoCusto.setText(tabelaProdutos.getValueAt(tabelaProdutos.getSelectedRow(), 12).toString());
-		tfPrecoFinal.setText(tabelaProdutos.getValueAt(tabelaProdutos.getSelectedRow(), 13).toString());
-
-		cbFornecedor.setEnabled(false);
-		tfDataEntrada.setEnabled(false);
-		//tfDataEntrada.setText("Não Aplicavel");
-	}
-
-	*/
-
-
 	/**
 	 * Consultar produto por nome.
 	 *
@@ -399,74 +409,68 @@ public class FrmProdutos extends JFrame {
 
 	private void consultarProdutoPorNome() throws Exception {
 		String nomePesquisado = "%" + tfPesquisar.getText() + "%";
-		ProdutosController produtosController = new ProdutosController();
-		SubCategoriaController categoriaController = new SubCategoriaController();
 		List<Produto> lista = produtosController.consultarProdutosPorNome(nomePesquisado);
-		DefaultTableModel dadosTabela = (DefaultTableModel) tabelaProdutos.getModel();
-		dadosTabela.setNumRows(0);
-		dadosTabela.setColumnCount(15);
-		dadosTabela.addRow(new Object[] { "Descrição", "Codigo de Barras", "Marca", "SubCategoria", "Unidade de Medida",
-				"Quantidade",
-				" Fabricação", " Validade", "Lote", "IPI", "ICMS", "Margem Lucro", "Preco Custo", "Preço Final" });
+		configurarTabela();
 
 		for (Produto produto : lista) {
-			dadosTabela.addRow(new Object[] {
-					produto.getDescricao(),
-					produto.getCodigoDeBarras(),
-					produto.getMarca(),
-					produto.getSubCategoria().getNome(),
-					produto.getUnidadeDeMedida(),
-					produto.getQuantidade(),
-					produto.getDataFabricacao(),
-					produto.getDataValidade(),
-					produto.getLote(),
-					produto.getIpi(),
-					produto.getIcms(),
-					produto.getMargemLucro(),
-					produto.getPrecoCusto(),
-					produto.getPrecoFinal()
-			});
+			adicionarProdutoNaTabela(produto);
 		}
 	}
 
 	/**
-	 * Metodo utilizado para listar todos os produtos e adiciona-los na tabela.
+	 * Consultar produtos: método utilizado para consultar todos os produtos cadastrados.
+	 *
 	 */
 
 	private void consultarProdutos() {
 		try {
-			ProdutosController produtosController = new ProdutosController();
 			List<Produto> lista = produtosController.consultarProdutos();
-			DefaultTableModel dadosTabela = (DefaultTableModel) tabelaProdutos.getModel();
-			dadosTabela.setNumRows(0);
-			dadosTabela.setColumnCount(15);
-			dadosTabela.addRow(new Object[] { "Descrição", "Codigo de Barras", "Marca", "SubCategoria",
-					"Unidade de Medida", "Quantidade",
-					" Fabricação", " Validade", "Lote", "IPI", "ICMS", "Margem Lucro", "Preco Custo", "Preço Final" });
+			configurarTabela();
 
 			for (Produto produto : lista) {
-				dadosTabela.addRow(new Object[] {
-						produto.getDescricao(),
-						produto.getCodigoDeBarras(),
-						produto.getMarca(),
-						produto.getSubCategoria().getNome(),
-						produto.getUnidadeDeMedida(),
-						produto.getQuantidade(),
-						produto.getDataFabricacao(),
-						produto.getDataValidade(),
-						produto.getLote(),
-						produto.getIpi(),
-						produto.getIcms(),
-						produto.getMargemLucro(),
-						produto.getPrecoCusto(),
-						produto.getPrecoFinal()
-				});
+				adicionarProdutoNaTabela(produto);
 			}
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
-
 		}
 	}
+
+	/**
+	 * Método utilizado para configurar a tabela de produtos.
+	 */
+
+	private void configurarTabela() {
+		dadosTabela = (DefaultTableModel) tabelaProdutos.getModel();
+		dadosTabela.setNumRows(0);
+		dadosTabela.setColumnCount(15);
+		dadosTabela.addRow(new Object[]{"Descrição", "Codigo de Barras", "Marca", "SubCategoria", "Unidade de Medida",
+				"Quantidade", "Fabricação", "Validade", "Lote", "IPI", "ICMS", "Margem Lucro", "Preco Custo", "Preço Final"});
+	}
+
+	/**
+	 * Adicionar produto na tabela: método utilizado para adicionar um produto na tabela.
+	 * @param produto objeto do tipo produto: produto a ser adicionado na tabela.
+	 */
+
+	private void adicionarProdutoNaTabela(Produto produto) {
+		dadosTabela.addRow(new Object[]{
+				produto.getDescricao(),
+				produto.getCodigoDeBarras(),
+				produto.getMarca(),
+				produto.getSubCategoria().getNome(),
+				produto.getUnidadeDeMedida(),
+				produto.getQuantidade(),
+				produto.getDataFabricacao(),
+				produto.getDataValidade(),
+				produto.getLote(),
+				produto.getIpi(),
+				produto.getIcms(),
+				produto.getMargemLucro(),
+				produto.getPrecoCusto(),
+				produto.getPrecoFinal()
+		});
+	}
+
 
 	/**
 	 * Atualiza o campo Preço Final com base nos campos de Margem de Lucro, IPI e
@@ -538,45 +542,6 @@ public class FrmProdutos extends JFrame {
 	}
 
 
-	/*
-	private double calcularPrecoCusto() {
-		double ipi;
-		double icms;
-		double precoCusto = 0;
-		double precoFinal = 0;
-
-
-		try {
-
-			if (tfIpi.getText().equals("")) {
-				ipi = 0;
-			} else {
-				ipi = Double.parseDouble(tfIpi.getText());
-			}
-
-			if (tfIcms.getText().equals("")) {
-				icms = 0;
-			} else {
-				icms = Double.parseDouble(tfIcms.getText());
-			}
-
-			if (tfPrecoCusto.getText().equals("")) {
-				icms = 0;
-			} else {
-				icms = Double.parseDouble(tfIcms.getText());
-			}
-
-			precoFinal = precoCusto * (1 + (ipi + icms) / 100);
-
-		} catch (NumberFormatException e) {
-			JOptionPane.showMessageDialog(null, "Ops Verifique os campos preenchidos");
-
-		}
-		return precoFinal;
-	}
-	*/
-
-
 	Vector<Fornecedor> fornecedor;
 
 	public void consultarFornecedores() {
@@ -607,29 +572,6 @@ public class FrmProdutos extends JFrame {
 			JOptionPane.showConfirmDialog(null, e.getMessage());
 		}
 	}
-
-	/*
-	public void verificarData(JFormattedTextField tfData) {
-		if (tfData.getText() != null && tfData.getText().trim().length() == 10) { // Verifica se a data está inserida
-			// por completo
-			try {
-				SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-				sdf.setLenient(false);
-				Calendar cal = Calendar.getInstance();
-				cal.setTime(sdf.parse(tfData.getText()));
-				int year = cal.get(Calendar.YEAR);
-
-				// Checa se o input do ano está dentro do intervalo permitido
-				if (year > 2100 || year < 2020) {
-					JOptionPane.showMessageDialog(null, "Insira uma data válida (antes do ano 2100 e depois de 2023).");
-					tfData.setText("");
-				}
-			} catch (ParseException ex) {
-				// Ignora, já que a data ainda não está completa
-			}
-		}
-	}
-	*/
 
 	/**
 	 * Launch the application.
@@ -941,18 +883,6 @@ public class FrmProdutos extends JFrame {
 		tfIpi.setColumns(10);
 		tfIpi.getDocument().addDocumentListener(documentListener);
 
-		/*
-		tfIpi.addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyTyped(KeyEvent e) {
-				char c = e.getKeyChar();
-				if (!(Character.isDigit(c) || c == '.')) {
-					e.consume();
-				}
-			}
-		});
-		*/
-
 
 		//tfIcms = new JTextField();
 		tfIcms = new TextFieldLimit(7, new TextFieldLimit.ValidadorPorcentagem());
@@ -962,17 +892,6 @@ public class FrmProdutos extends JFrame {
 		tfIcms.setColumns(10);
 		tfIcms.getDocument().addDocumentListener(documentListener);
 
-		/*
-		tfIcms.addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyTyped(KeyEvent e) {
-				char c = e.getKeyChar();
-				if (!(Character.isDigit(c) || c == '.')) {
-					e.consume();
-				}
-			}
-		});
-		*/
 
 
 		JLabel lblMargemLucro = new JLabel("Margem de Lucro %: ");
@@ -986,18 +905,6 @@ public class FrmProdutos extends JFrame {
 		tfMargem.setFont(new Font("Arial", Font.BOLD, 14));
 		tfMargem.setColumns(10);
 		tfMargem.getDocument().addDocumentListener(documentListener);
-
-		/*
-		tfMargem.addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyTyped(KeyEvent e) {
-				char c = e.getKeyChar();
-				if (!(Character.isDigit(c) || c == '.')) {
-					e.consume();
-				}
-			}
-		});
-		*/
 
 
 		tfMarca = new JTextField();
@@ -1016,22 +923,6 @@ public class FrmProdutos extends JFrame {
 		tfDataFabricacao.setFont(new Font("Arial", Font.BOLD, 14));
 		tfDataFabricacao.setColumns(10);
 
-		/*
-		tfDataFabricacao.getDocument().addDocumentListener(new DocumentListener() {
-			public void changedUpdate(DocumentEvent e) {
-				verificarData((JFormattedTextField) tfDataFabricacao);
-			}
-
-			public void removeUpdate(DocumentEvent e) {
-				verificarData((JFormattedTextField) tfDataFabricacao);
-			}
-
-			public void insertUpdate(DocumentEvent e) {
-				verificarData((JFormattedTextField) tfDataFabricacao);
-			}
-		});
-			*/
-
 		JLabel lblPrecoCusto = new JLabel("Preço de Custo: ");
 		lblPrecoCusto.setBounds(514, 330, 127, 17);
 		lblPrecoCusto.setFont(new Font("Arial", Font.BOLD, 14));
@@ -1042,29 +933,11 @@ public class FrmProdutos extends JFrame {
 
 		//tfValidade = new JTextField();
 		tfValidade = new JFormattedTextField(new MaskFormatter("##/##/####"));
-		dataUtils.addDateVerifier((JFormattedTextField) tfDataFabricacao, currentYear - 20, currentYear + 100);
+		dataUtils.addDateVerifier((JFormattedTextField) tfValidade, currentYear - 20, currentYear + 100);
 		tfValidade.setBounds(634, 286, 169, 23);
 		tfValidade.setBackground(Color.WHITE);
 		tfValidade.setFont(new Font("Arial", Font.BOLD, 14));
 		tfValidade.setColumns(10);
-
-
-		/*
-		tfValidade.getDocument().addDocumentListener(new DocumentListener() {
-			public void changedUpdate(DocumentEvent e) {
-				verificarData((JFormattedTextField) tfValidade);
-			}
-
-			public void removeUpdate(DocumentEvent e) {
-				verificarData((JFormattedTextField) tfValidade);
-			}
-
-			public void insertUpdate(DocumentEvent e) {
-				verificarData((JFormattedTextField) tfValidade);
-			}
-		});
-*/
-
 
 		tfPrecoCusto = new JTextField();
 		tfPrecoCusto = new TextFieldLimit(7, new TextFieldLimit.ValidadorDecimal());
@@ -1072,21 +945,6 @@ public class FrmProdutos extends JFrame {
 		tfPrecoCusto.setBackground(Color.WHITE);
 		tfPrecoCusto.setFont(new Font("Arial", Font.BOLD, 14));
 		tfPrecoCusto.setColumns(10);
-
-		/*
-		tfPrecoCusto.getDocument().addDocumentListener(documentListener);
-		tfPrecoCusto.addKeyListener(new KeyAdapter() {
-			// Metodo confere se o valor digitado é numerico se não é impede de ser digitado
-			@Override
-			public void keyTyped(KeyEvent e) {
-				char c = e.getKeyChar();
-				if (!(Character.isDigit(c) || c == '.')) {
-					e.consume();
-				}
-			}
-		});
-		*/
-
 
 		JButton btnRemover = new JButton("Remover");
 		btnRemover.setBounds(946, 409, 302, 25);
@@ -1182,22 +1040,6 @@ public class FrmProdutos extends JFrame {
 		tfDataEntrada.setBounds(235, 447, 232, 23);
 		abaDadosProdutos.add(tfDataEntrada);
 
-		/*
-		tfDataEntrada.getDocument().addDocumentListener(new DocumentListener() {
-			public void changedUpdate(DocumentEvent e) {
-				verificarData((JFormattedTextField) tfDataEntrada);
-			}
-
-			public void removeUpdate(DocumentEvent e) {
-				verificarData((JFormattedTextField) tfDataEntrada);
-			}
-
-			public void insertUpdate(DocumentEvent e) {
-				verificarData((JFormattedTextField) tfDataEntrada);
-			}
-		});
-		 */
-
 		cbFornecedor = new JComboBox<Fornecedor>();
 		consultarFornecedores();
 
@@ -1223,23 +1065,6 @@ public class FrmProdutos extends JFrame {
 		cbSubCategoria.setBackground(Color.WHITE);
 		cbSubCategoria.setBounds(235, 202, 177, 25);
 		abaDadosProdutos.add(cbSubCategoria);
-
-		/*
-		tfValidade = new JTextField();
-		tfValidade.setFont(new Font("Arial", Font.BOLD, 14));
-		tfValidade.setColumns(10);
-		tfValidade.setBackground(Color.WHITE);
-		tfValidade.setBounds(634, 283, 169, 23);
-		abaDadosProdutos.add(tfValidade);
-
-		tfDataFabricacao = new JTextField();
-		tfDataFabricacao.setFont(new Font("Arial", Font.BOLD, 14));
-		tfDataFabricacao.setColumns(10);
-		tfDataFabricacao.setBackground(Color.WHITE);
-		tfDataFabricacao.setBounds(234, 283, 235, 23);
-		abaDadosProdutos.add(tfDataFabricacao);
-		*/
-
 
 		tfSub = new JTextField();
 		tfSub.setEditable(false);

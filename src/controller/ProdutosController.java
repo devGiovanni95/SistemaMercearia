@@ -4,13 +4,13 @@ import interfaces.InterfaceProduto;
 import jdbc.ConnectionDataBase;
 import model.Produto;
 import model.SubCategoria;
+
+import javax.swing.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.JOptionPane;
-import model.CadastroProdutoFornecedorEstoque;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -19,10 +19,18 @@ import model.CadastroProdutoFornecedorEstoque;
 public class ProdutosController implements InterfaceProduto {
 
 	/** The sub categoria controller. */
-	private SubCategoriaController subCategoriaController;
+	private SubCategoriaController subCategoriaController = new SubCategoriaController();
 
 	/** The data base. */
-	ConnectionDataBase dataBase = new ConnectionDataBase();
+	private ConnectionDataBase dataBase;
+	//private ConnectionDataBase dataBase = new ConnectionDataBase();
+
+	private final String INSERT_SQL = "insert into tb_produto (descricao, codigo_barras, marca, cod_subcategoria, unidade_medida, quantidade, data_fabricacao, data_validade, lote, ipi, icms, margem_lucro, preco_custo, preco_final) VALUES (?, ?, ?, ?, ?, ?, CONVERT(datetime, ? , 103), CONVERT(datetime, ? , 103), ?, ?, ?, ?, ?, ?)";
+	private final String UPDATE_SQL = "UPDATE tb_produto SET descricao = ?, codigo_barras = ?, marca = ?, cod_subcategoria = ?, unidade_medida = ?, quantidade = ?, data_fabricacao = CONVERT(datetime, ? , 103), data_validade = CONVERT(datetime, ? , 103), lote = ?, ipi = ?, icms = ?, margem_lucro = ?, preco_custo = ?, preco_final = ? WHERE codigo_barras = ?";
+	public ProdutosController() {
+		this.dataBase = new ConnectionDataBase();
+	}
+
 
 	/*
 	 * public SubCategoria buscarSubCategoriaPorId(int id) { return
@@ -37,11 +45,57 @@ public class ProdutosController implements InterfaceProduto {
 	 */
 
 	public void cadastrarProduto(Produto produto) throws Exception {
+		executarQueryProduto(produto, INSERT_SQL);
+	}
+
+	public void alterarProduto(Produto produto) throws Exception {
+		executarQueryProduto(produto, UPDATE_SQL);
+	}
+
+	private void executarQueryProduto(Produto produto, String sql) throws Exception {
+		if (!dataBase.getConnection()) {
+			throw new Exception("Falha na conexão com o banco de dados.");
+		}
+
+		try (PreparedStatement stmt = dataBase.con.prepareStatement(sql)) {
+			preencherPreparedStatement(produto, stmt, sql);
+			stmt.execute();
+		} catch (SQLException | NumberFormatException erro) {
+			throw new Exception("Erro ao executar operação no produto: " + erro);
+		} finally {
+			dataBase.close();
+		}
+	}
+
+
+	private void preencherPreparedStatement(Produto produto, PreparedStatement stmt, String sql) throws SQLException {
+		stmt.setString(1, produto.getDescricao());
+		stmt.setString(2, produto.getCodigoDeBarras());
+		stmt.setString(3, produto.getMarca());
+		stmt.setInt(4, produto.getSubCategoria().getCodigo());
+		stmt.setString(5, produto.getUnidadeDeMedida());
+		stmt.setDouble(6, produto.getQuantidade());
+		stmt.setString(7, produto.getDataFabricacao());
+		stmt.setString(8, produto.getDataValidade());
+		stmt.setString(9, produto.getLote());
+		stmt.setDouble(10, produto.getIpi());
+		stmt.setDouble(11, produto.getIcms());
+		stmt.setDouble(12, produto.getMargemLucro());
+		stmt.setDouble(13, produto.getPrecoCusto());
+		stmt.setDouble(14, produto.getPrecoFinal());
+		if (sql.equals(UPDATE_SQL)) {
+			stmt.setString(15, produto.getCodigoDeBarras());
+		}
+	}
+
+	/*
+	public void cadastrarProduto(Produto produto) throws Exception {
 		if (!dataBase.getConnection()) {
 			throw new Exception("Falha na conexão com o banco de dados.");
 		}
 
 		String sql = "insert into tb_produto (descricao, codigo_barras, marca, cod_subcategoria, unidade_medida, quantidade, data_fabricacao, data_validade, lote, ipi, icms, margem_lucro, preco_custo, preco_final) VALUES (?, ?, ?, ?, ?, ?, CONVERT(datetime, ? , 103), CONVERT(datetime, ? , 103), ?, ?, ?, ?, ?, ?)";
+
 
 		try {
 			dataBase.preparedStatement = dataBase.con.prepareStatement(sql);
@@ -70,33 +124,7 @@ public class ProdutosController implements InterfaceProduto {
 			dataBase.close();
 		}
 	}
-
-	/**
-	 * Método que a partir do código passado, executa o comando SQL para a exclusão
-	 * do produto no banco de dados.
-	 *
-	 * @param produto - objeto do tipo Produtos que identifica o produto a ser
-	 *                excluido no banco de dados.
-	 */
-
-	public void excluirProduto(Produto produto) throws Exception {
-		if (!dataBase.getConnection()) {
-			throw new Exception("Falha na conexão com o banco de dados.");
-		}
-
-		String sql = "DELETE FROM tb_produto WHERE codigo_barras = ?";
-
-		try {
-			dataBase.preparedStatement = dataBase.con.prepareStatement(sql);
-			dataBase.preparedStatement.setString(1, produto.getCodigoDeBarras());
-			dataBase.preparedStatement.execute();
-
-		} catch (SQLException e) {
-			throw new Exception("Erro ao excluir o produto: " + e);
-		} finally {
-			dataBase.close();
-		}
-	}
+	*/
 
 	/**
 	 * Método que efetua a alteração de um produto já cadastrado no banco de dados.A
@@ -105,6 +133,8 @@ public class ProdutosController implements InterfaceProduto {
 	 * @param produto - objeto do tipo Produtos que identifica o produto a ser
 	 *                alterado no banco de dados.
 	 */
+
+	/*
 	public void alterarProduto(Produto produto) throws Exception {
 		if (!dataBase.getConnection()) {
 			throw new Exception("Falha na conexão com o banco de dados.");
@@ -141,6 +171,36 @@ public class ProdutosController implements InterfaceProduto {
 			dataBase.close();
 		}
 	}
+	*/
+
+	/**
+	 * Método que a partir do código passado, executa o comando SQL para a exclusão
+	 * do produto no banco de dados.
+	 *
+	 * @param produto - objeto do tipo Produtos que identifica o produto a ser
+	 *                excluido no banco de dados.
+	 */
+
+	public void excluirProduto(Produto produto) throws Exception {
+		if (!dataBase.getConnection()) {
+			throw new Exception("Falha na conexão com o banco de dados.");
+		}
+
+		String sql = "DELETE FROM tb_produto WHERE codigo_barras = ?";
+
+		try {
+			dataBase.preparedStatement = dataBase.con.prepareStatement(sql);
+			dataBase.preparedStatement.setString(1, produto.getCodigoDeBarras());
+			dataBase.preparedStatement.execute();
+
+		} catch (SQLException e) {
+			throw new Exception("Erro ao excluir o produto: " + e);
+		} finally {
+			dataBase.close();
+		}
+	}
+
+
 
 	/**
 	 * Método que cria um ArrayList do tipo Produtos para listar todos os produtos
@@ -148,47 +208,23 @@ public class ProdutosController implements InterfaceProduto {
 	 *
 	 * @return - retorna uma lista com todos os produtos.
 	 */
-
 	public List<Produto> consultarProdutos() throws Exception {
 		if (!dataBase.getConnection()) {
 			throw new Exception("Falha na conexão com o banco de dados.");
 		}
 
-		SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy"); // Cria um objeto formatador
 		List<Produto> lista = new ArrayList<>();
-		String sql = "select codigo_barras, descricao, marca, cod_subcategoria, unidade_medida, quantidade,"
-				+ " FORMAT(data_fabricacao, 'dd/MM/yyyy')as data_fabricacao, FORMAT(data_validade, 'dd/MM/yyyy')as data_validade, lote, ipi, icms, margem_lucro, preco_custo, preco_final from tb_produto";
+		String sql = "select codigo_barras, descricao, marca, cod_subcategoria, unidade_medida, quantidade," +
+				" FORMAT(data_fabricacao, 'dd/MM/yyyy')as data_fabricacao, FORMAT(data_validade, 'dd/MM/yyyy')as data_validade, lote, ipi, icms, margem_lucro, preco_custo, preco_final from tb_produto";
 
 		try {
-			dataBase.preparedStatement = dataBase.con.prepareStatement(sql);
-			dataBase.resultSet = dataBase.preparedStatement.executeQuery();
+			PreparedStatement preparedStatement = dataBase.con.prepareStatement(sql);
+			ResultSet resultSet = preparedStatement.executeQuery();
 
-			while (dataBase.resultSet.next()) {
-				Produto produto = new Produto();
-				SubCategoria subCategoria = new SubCategoria();
-				SubCategoriaController subcategoriaController = new SubCategoriaController();
-
-				produto.setCodigoDeBarras(dataBase.resultSet.getString("codigo_barras"));
-				produto.setDescricao(dataBase.resultSet.getString("descricao"));
-				produto.setMarca(dataBase.resultSet.getString("marca"));
-				subCategoria = subcategoriaController
-						.consultarSubCategoriasPorId(dataBase.resultSet.getInt("cod_subcategoria"));
-				produto.setSubCategoria(subCategoria);
-				produto.setUnidadeDeMedida(dataBase.resultSet.getString("unidade_medida"));
-				produto.setQuantidade(dataBase.resultSet.getDouble("quantidade"));
-				produto.setDataFabricacao(dataBase.resultSet.getString("data_fabricacao"));
-				produto.setDataValidade(dataBase.resultSet.getString("data_validade"));
-				produto.setLote(dataBase.resultSet.getString("lote"));
-				produto.setIpi(dataBase.resultSet.getDouble("ipi"));
-				produto.setIcms(dataBase.resultSet.getDouble("icms"));
-				produto.setMargemLucro(dataBase.resultSet.getDouble("margem_lucro"));
-				produto.setPrecoCusto(dataBase.resultSet.getDouble("preco_custo"));
-				produto.setPrecoFinal(dataBase.resultSet.getDouble("preco_final"));
-
-				lista.add(produto);
+			while (resultSet.next()) {
+				lista.add(criarProdutoDoResultSet(resultSet));
 			}
 			return lista;
-
 		} catch (SQLException e) {
 			throw new Exception("Erro ao listar produtos: " + e);
 		} finally {
@@ -204,6 +240,7 @@ public class ProdutosController implements InterfaceProduto {
 	 * @return - retorna uma lista com os resultados encontrados.
 	 * @throws Exception
 	 */
+
 	public List<Produto> consultarProdutosPorNome(String nome) throws Exception {
 		if (!dataBase.getConnection()) {
 			throw new Exception("Falha na conexão com o banco de dados.");
@@ -214,30 +251,12 @@ public class ProdutosController implements InterfaceProduto {
 				" FORMAT(data_fabricacao, 'dd/MM/yyyy')as data_fabricacao, FORMAT(data_validade, 'dd/MM/yyyy')as data_validade, lote, ipi, icms, margem_lucro, preco_custo, preco_final from tb_produto where descricao like ?";
 
 		try {
-			dataBase.preparedStatement = dataBase.con.prepareStatement(sql);
-			dataBase.preparedStatement.setString(1, "%" + nome + "%");
-			dataBase.resultSet = dataBase.preparedStatement.executeQuery();
+			PreparedStatement preparedStatement = dataBase.con.prepareStatement(sql);
+			preparedStatement.setString(1, "%" + nome + "%");
+			ResultSet resultSet = preparedStatement.executeQuery();
 
-			while (dataBase.resultSet.next()) {
-				Produto produto = new Produto();
-				SubCategoria subCategoria = new SubCategoria();
-				produto.setDescricao(dataBase.resultSet.getString("descricao"));
-				produto.setCodigoDeBarras(dataBase.resultSet.getString("codigo_barras"));
-				produto.setMarca(dataBase.resultSet.getString("marca"));
-				subCategoria.setCodigo(dataBase.resultSet.getInt("cod_subcategoria"));
-				produto.setSubCategoria(subCategoria);
-				produto.setUnidadeDeMedida(dataBase.resultSet.getString("unidade_medida"));
-				produto.setQuantidade(dataBase.resultSet.getDouble("quantidade"));
-				produto.setDataFabricacao(dataBase.resultSet.getString("data_fabricacao"));
-				produto.setDataValidade(dataBase.resultSet.getString("data_validade"));
-				produto.setLote(dataBase.resultSet.getString("lote"));
-				produto.setIpi(dataBase.resultSet.getDouble("ipi"));
-				produto.setIcms(dataBase.resultSet.getDouble("icms"));
-				produto.setMargemLucro(dataBase.resultSet.getDouble("margem_lucro"));
-				produto.setPrecoCusto(dataBase.resultSet.getDouble("preco_custo"));
-				produto.setPrecoFinal(dataBase.resultSet.getDouble("preco_final"));
-
-				lista.add(produto);
+			while (resultSet.next()) {
+				lista.add(criarProdutoDoResultSet(resultSet));
 			}
 			return lista;
 		} catch (SQLException e) {
@@ -246,6 +265,30 @@ public class ProdutosController implements InterfaceProduto {
 			dataBase.close();
 		}
 	}
+
+	private Produto criarProdutoDoResultSet(ResultSet resultSet) throws SQLException, Exception {
+		Produto produto = new Produto();
+		SubCategoria subCategoria = subCategoriaController.consultarSubCategoriasPorId(resultSet.getInt("cod_subcategoria"));
+
+		produto.setCodigoDeBarras(resultSet.getString("codigo_barras"));
+		produto.setDescricao(resultSet.getString("descricao"));
+		produto.setMarca(resultSet.getString("marca"));
+		produto.setSubCategoria(subCategoria);
+		produto.setUnidadeDeMedida(resultSet.getString("unidade_medida"));
+		produto.setQuantidade(resultSet.getDouble("quantidade"));
+		produto.setDataFabricacao(resultSet.getString("data_fabricacao"));
+		produto.setDataValidade(resultSet.getString("data_validade"));
+		produto.setLote(resultSet.getString("lote"));
+		produto.setIpi(resultSet.getDouble("ipi"));
+		produto.setIcms(resultSet.getDouble("icms"));
+		produto.setMargemLucro(resultSet.getDouble("margem_lucro"));
+		produto.setPrecoCusto(resultSet.getDouble("preco_custo"));
+		produto.setPrecoFinal(resultSet.getDouble("preco_final"));
+
+		return produto;
+	}
+
+
 
 	/**
 	 * Consultar produtos por codigo barras.
