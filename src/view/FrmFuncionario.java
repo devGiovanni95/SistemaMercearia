@@ -125,6 +125,10 @@ public class FrmFuncionario extends JFrame {
 	
 	/** The tf data nascimento. */
 	private JFormattedTextField tfDataNascimento;
+
+	private DefaultTableModel dadosTabela;
+
+	private FuncionarioController funcionarioController = new FuncionarioController();
 	
 	
 	/**
@@ -141,43 +145,18 @@ public class FrmFuncionario extends JFrame {
 	 * Método utilizado para cadastrar um novo funcionario com as informações preenchidas nos campos do formulário.
 	 */
 	private void cadastrarFuncionario() {
-		Funcionario funcionario = new Funcionario();
-		FuncionarioController funcionarioController = new FuncionarioController();
+		try {
+			Funcionario funcionario = criarFuncionario(true);
+			funcionarioController.cadastrarFuncionario(funcionario);
 
-		funcionario.setNome(tfNome.getText());
-		funcionario.setEmail(tfEmail.getText());
-		funcionario.setCpf(tfCpf.getText());
-		funcionario.setRg(tfRg.getText());
-		funcionario.setEndereco(tfEndereco.getText());
-		funcionario.setTelefone(tfTelefone.getText());
-		funcionario.setCelular(tfCelular.getText());
-		funcionario.setNumero(Integer.parseInt(tfNumero.getText()));
-		funcionario.setCep(tfCep.getText());
-		funcionario.setDataNascimento(tfDataNascimento.getText());
-		funcionario.setBairro(tfBairro.getText());
-		funcionario.setCidade(tfCidade.getText());
-		funcionario.setUf(cbUf.getSelectedItem().toString());
-		funcionario.setComplemento(tfComplemento.getText());
-		funcionario.setLimite(Double.parseDouble(tfLimite.getText()));
-		//funcionario.setCodigo(tfCpf.getText());
-		funcionario.setSenha(tfSenha.getText());
-		funcionario.setCargo(tfCargo.getText());
-		funcionario.setNivelAcesso(cbNivelAcesso.getSelectedItem().toString());
-		funcionario.setPisPasep(tfPisPasep.getText());
-		funcionario.setSalario(Double.parseDouble(tfSalario.getText()));
-		funcionario.setCarteiraTrabalho(tfCarteiraTrabalho.getText());
-		funcionario.setEstadoCivil(cbEstadoCivil.getSelectedItem().toString());
-		funcionario.setJornadaTrabalho(tfJornadaTrabalho.getText());
-		funcionario.setAdmissao(tfAdmissao.getText());
-		funcionario.setDemissao(tfDemissao.getText());
-		funcionario.setAtivo(cbAtivo.getSelectedItem().toString());
+			limparTela(abaDadosPessoais);
 
-		funcionarioController.cadastrarFuncionario(funcionario);
-		System.out.println(cbEstadoCivil.toString());
-		System.out.println(cbNivelAcesso.toString());
-
-		limparTela(abaDadosPessoais);
+			JOptionPane.showMessageDialog(null, "Funcionário cadastrado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+		}
 	}
+
 
 	/**
 	 Método responsável por alterar os dados de um funcionário cadastrado.
@@ -185,8 +164,32 @@ public class FrmFuncionario extends JFrame {
 	 Em seguida, os campos de texto na interface gráfica são limpos através do método Limpar() da classe LimparCampos.
 	 */
 	private void alterarFuncionario() {
+		try {
+			Funcionario funcionario = criarFuncionario(false);
+			funcionarioController.alterarFuncionario(funcionario);
+
+			limparTela(abaDadosPessoais);
+
+			JOptionPane.showMessageDialog(null, "Funcionário alterado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+		}
+	}
+
+	private Funcionario criarFuncionario(boolean novoFuncionario) throws Exception {
 		Funcionario funcionario = new Funcionario();
-		FuncionarioController funcionarioController = new FuncionarioController();
+
+		// Validação dos campos de entrada.
+		if(tfNome.getText().trim().isEmpty()){
+			throw new Exception("O nome do funcionário é obrigatório.");
+		}
+		if(tfEmail.getText().trim().isEmpty()){
+			throw new Exception("O e-mail do funcionário é obrigatório.");
+		}
+		if(tfCpf.getText().trim().isEmpty()){
+			throw new Exception("O CPF do funcionário é obrigatório.");
+		}
+
 
 		funcionario.setNome(tfNome.getText());
 		funcionario.setEmail(tfEmail.getText());
@@ -215,63 +218,23 @@ public class FrmFuncionario extends JFrame {
 		funcionario.setDemissao(tfDemissao.getText());
 		funcionario.setAtivo(cbAtivo.getSelectedItem().toString());
 
-		funcionario.setCpf(tfCpf.getText());
-
-
-		funcionarioController.alterarFuncionario(funcionario);
-
-		limparTela(abaDadosPessoais);
-
+		return funcionario;
 	}
 	
 	/**
 	 * Metodo utilizado para listar todos os funcionários e adiciona-los na tabela.
 	 */
-	public void consultarFuncionarios() {
+	private void consultarFuncionarios() {
 		try {
-		FuncionarioController funcionarioController = new FuncionarioController();
-		List<Funcionario> lista = funcionarioController.consultarFuncionarios();
-		DefaultTableModel dadosTabela = (DefaultTableModel) tabelaFuncionarios.getModel();
-		dadosTabela.setNumRows(0);
-		dadosTabela.setColumnCount(26);
-		dadosTabela.addRow(new Object[]{"Nome","E-mail","CPF","RG","Endereço","Telefone","Celular","Numero","CEP","Data Nascimento", "Bairro",
-				"Cidade","UF","Complemento","Limite","Senha","Cargo","Nivel Acesso","Pis Pasep","Salário","Carteira de Trabalho","Estado Civil","Jornada Trabalho","Admissão","Demissão","Ativo"});
-		
+			List<Funcionario> lista = funcionarioController.consultarFuncionarios();
+			configurarTabelaFuncionarios();
 
-		for(Funcionario funcionario: lista) {
-			dadosTabela.addRow(new Object[]{
-					funcionario.getNome(),
-					funcionario.getEmail(),
-					funcionario.getCpf(),
-					funcionario.getRg(),
-					funcionario.getEndereco(),
-					funcionario.getTelefone(),
-					funcionario.getCelular(),
-					funcionario.getNumero(),
-					funcionario.getCep(),
-					funcionario.getDataNascimento(),
-					funcionario.getBairro(),
-					funcionario.getCidade(),
-					funcionario.getUf(),
-					funcionario.getComplemento(),
-					funcionario.getLimite(),
-					funcionario.getSenha(),
-					funcionario.getCargo(),
-					funcionario.getNivelAcesso(),
-					funcionario.getPisPasep(),
-					funcionario.getSalario(),
-					funcionario.getCarteiraTrabalho(),
-					funcionario.getEstadoCivil(),
-					funcionario.getJornadaTrabalho(),
-					funcionario.getAdmissao(),
-					funcionario.getDemissao(),
-					funcionario.getAtivo()
-					
-				});
+			for (Funcionario funcionario : lista) {
+				adicionarFuncionarioNaTabela(funcionario);
 			}
-		}catch (Exception erro) {
-			JOptionPane.showMessageDialog(null,"Ops aconteceu o erro: " + erro);
-		}	
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+		}
 	}
 		
 	
@@ -280,65 +243,82 @@ public class FrmFuncionario extends JFrame {
 	* O texto pesquisado é obtido a partir do texto digitado pelo usuário.
 	*/
 	private void consultarFuncionariosPorNome() {
-		
-		String nomePesquisado = "%" + tfNomePesquisa.getText() + "%";
-		
-		FuncionarioController funcionarioController = new FuncionarioController();
-		List<Funcionario> lista = funcionarioController.consultarFuncionariosPorNome(nomePesquisado);
-		DefaultTableModel dadosTabela = (DefaultTableModel) tabelaFuncionarios.getModel();
+		try {
+			String nomePesquisado = "%" + tfNomePesquisa.getText() + "%";
+			List<Funcionario> lista = funcionarioController.consultarFuncionariosPorNome(nomePesquisado);
+			configurarTabelaFuncionarios();
+
+			for (Funcionario funcionario : lista) {
+				adicionarFuncionarioNaTabela(funcionario);
+			}
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+		}
+	}
+
+	/**
+	 * Método utilizado para configurar a tabela de funcionários.
+	 */
+	private void configurarTabelaFuncionarios() {
+		dadosTabela = (DefaultTableModel) tabelaFuncionarios.getModel();
 		dadosTabela.setNumRows(0);
-		dadosTabela.setColumnCount(15);
+		dadosTabela.setColumnCount(26);
 		dadosTabela.addRow(new Object[]{"Nome","E-mail","CPF","RG","Endereço","Telefone","Celular","Numero","CEP","Data Nascimento", "Bairro",
 				"Cidade","UF","Complemento","Limite","Senha","Cargo","Nivel Acesso","Pis Pasep","Salário","Carteira de Trabalho","Estado Civil","Jornada Trabalho","Admissão","Demissão","Ativo"});
-		
-		for(Funcionario funcionario : lista) {
-			dadosTabela.addRow(new Object[]{
-					funcionario.getNome(),
-					funcionario.getEmail(),
-					funcionario.getCpf(),
-					funcionario.getRg(),
-					funcionario.getEndereco(),
-					funcionario.getTelefone(),
-					funcionario.getCelular(),
-					funcionario.getNumero(),
-					funcionario.getCep(),
-					funcionario.getDataNascimento(),
-					funcionario.getBairro(),
-					funcionario.getCidade(),
-					funcionario.getUf(),
-					funcionario.getComplemento(),
-					funcionario.getLimite(),
-					funcionario.getSenha(),
-					funcionario.getCargo(),
-					funcionario.getNivelAcesso(),
-					funcionario.getPisPasep(),
-					funcionario.getSalario(),
-					funcionario.getCarteiraTrabalho(),
-					funcionario.getEstadoCivil(),
-					funcionario.getJornadaTrabalho(),
-					funcionario.getAdmissao(),
-					funcionario.getDemissao(),
-					funcionario.getAtivo()
-				});
-			}
 	}
-	
-	
 
 
-	
 	/**
-	*Exclui o funcionário selecionado na tabela de funcionários.
-	*Obtém o CPF do funcionário a partir do campo de texto correspondente na tela.
-	*Em seguida, os campos de texto na interface gráfica são limpos após a exclusão.
-	*/
+	 * Adicionar funcionário na tabela: método utilizado para adicionar um funcionário na tabela.
+	 * @param funcionario objeto do tipo Funcionario: funcionário a ser adicionado na tabela.
+	 */
+	private void adicionarFuncionarioNaTabela(Funcionario funcionario) {
+		dadosTabela.addRow(new Object[]{
+				funcionario.getNome(),
+				funcionario.getEmail(),
+				funcionario.getCpf(),
+				funcionario.getRg(),
+				funcionario.getEndereco(),
+				funcionario.getTelefone(),
+				funcionario.getCelular(),
+				funcionario.getNumero(),
+				funcionario.getCep(),
+				funcionario.getDataNascimento(),
+				funcionario.getBairro(),
+				funcionario.getCidade(),
+				funcionario.getUf(),
+				funcionario.getComplemento(),
+				funcionario.getLimite(),
+				funcionario.getSenha(),
+				funcionario.getCargo(),
+				funcionario.getNivelAcesso(),
+				funcionario.getPisPasep(),
+				funcionario.getSalario(),
+				funcionario.getCarteiraTrabalho(),
+				funcionario.getEstadoCivil(),
+				funcionario.getJornadaTrabalho(),
+				funcionario.getAdmissao(),
+				funcionario.getDemissao(),
+				funcionario.getAtivo()
+		});
+	}
+
+	/**
+	 *Exclui o funcionário selecionado na tabela de funcionários.
+	 *Obtém o CPF do funcionário a partir do campo de texto correspondente na tela.
+	 *Em seguida, os campos de texto na interface gráfica são limpos após a exclusão.
+	 */
 	private void excluirFuncionario() {
 		Funcionario funcionario = new Funcionario();
-		FuncionarioController funcionarioController = new FuncionarioController();	
 
-		funcionario.setCpf(tfCpf.getText());
-		funcionarioController.excluirFuncionario(funcionario);
-		
+		try {
+			funcionario = funcionarioController.consultarFuncionariosPorCpf(tfCpf.getText());
+			funcionarioController.excluirFuncionario(funcionario);
+			JOptionPane.showMessageDialog(null, "Funcionário excluído com sucesso!", "Sucesso",
+					JOptionPane.INFORMATION_MESSAGE);
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+		}
 		limparTela(abaDadosPessoais);
 	}
 	
@@ -377,9 +357,6 @@ public class FrmFuncionario extends JFrame {
 		tfDemissao.setText(tabelaFuncionarios.getValueAt(tabelaFuncionarios.getSelectedRow(),24).toString());
 		cbAtivo.setSelectedItem(tabelaFuncionarios.getValueAt(tabelaFuncionarios.getSelectedRow(),25).toString());	
 	}
-	
-	
-	
 
 	
 	/**
