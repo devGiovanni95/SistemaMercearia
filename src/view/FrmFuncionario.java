@@ -6,6 +6,8 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.ParseException;
+import java.util.Arrays;
+import java.util.Calendar;
 import java.util.List;
 import javax.swing.*;
 import javax.swing.GroupLayout.Alignment;
@@ -15,13 +17,18 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.text.MaskFormatter;
 import controller.FuncionarioController;
 import model.Funcionario;
+import util.LengthRestrictedDocument;
 import util.LimparCampos;
+import util.TextFieldLimit;
+import util.DataUtils;
+
 import java.awt.GridLayout;
 import javax.swing.border.LineBorder;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+
 
 // TODO: Auto-generated Javadoc
 /**
@@ -108,9 +115,6 @@ public class FrmFuncionario extends JFrame {
 	/** The tf endereco. */
 	private JTextField tfEndereco;
 	
-	/** The tf demissao. */
-	private JTextField tfDemissao;
-	
 	/** The cb nivel acesso 1. */
 	private JComboBox<String> cbNivelAcesso;
 	
@@ -129,6 +133,12 @@ public class FrmFuncionario extends JFrame {
 	private DefaultTableModel dadosTabela;
 
 	private FuncionarioController funcionarioController = new FuncionarioController();
+
+	private JFormattedTextField tfDemissao;
+
+	private static int currentYear;
+
+	private DataUtils dataUtils;
 	
 	
 	/**
@@ -189,7 +199,9 @@ public class FrmFuncionario extends JFrame {
 		if(tfCpf.getText().trim().isEmpty()){
 			throw new Exception("O CPF do funcionário é obrigatório.");
 		}
-
+		if(novoFuncionario && tfSenha.getText().trim().isEmpty()){
+			throw new Exception("A senha é obrigatória para um novo funcionário.");
+		}
 
 		funcionario.setNome(tfNome.getText());
 		funcionario.setEmail(tfEmail.getText());
@@ -262,9 +274,12 @@ public class FrmFuncionario extends JFrame {
 	private void configurarTabelaFuncionarios() {
 		dadosTabela = (DefaultTableModel) tabelaFuncionarios.getModel();
 		dadosTabela.setNumRows(0);
-		dadosTabela.setColumnCount(26);
+		dadosTabela.setColumnCount(25);
+		//dadosTabela.addRow(new Object[]{"Nome","E-mail","CPF","RG","Endereço","Telefone","Celular","Numero","CEP","Data Nascimento", "Bairro",
+		//		"Cidade","UF","Complemento","Limite","Senha","Cargo","Nivel Acesso","Pis Pasep","Salário","Carteira de Trabalho","Estado Civil","Jornada Trabalho","Admissão","Demissão","Ativo"});
+
 		dadosTabela.addRow(new Object[]{"Nome","E-mail","CPF","RG","Endereço","Telefone","Celular","Numero","CEP","Data Nascimento", "Bairro",
-				"Cidade","UF","Complemento","Limite","Senha","Cargo","Nivel Acesso","Pis Pasep","Salário","Carteira de Trabalho","Estado Civil","Jornada Trabalho","Admissão","Demissão","Ativo"});
+				"Cidade","UF","Complemento","Limite","Cargo","Nivel Acesso","Pis Pasep","Salário","Carteira de Trabalho","Estado Civil","Jornada Trabalho","Admissão","Demissão","Ativo"});
 	}
 
 
@@ -289,7 +304,7 @@ public class FrmFuncionario extends JFrame {
 				funcionario.getUf(),
 				funcionario.getComplemento(),
 				funcionario.getLimite(),
-				funcionario.getSenha(),
+				//funcionario.getSenha(),
 				funcionario.getCargo(),
 				funcionario.getNivelAcesso(),
 				funcionario.getPisPasep(),
@@ -328,7 +343,8 @@ public class FrmFuncionario extends JFrame {
 	 */
 	private void preencherDadosFuncionario() {
 		abaPrincipal.setSelectedIndex(0);
-		
+
+		/*
 		tfNome.setText(tabelaFuncionarios.getValueAt(tabelaFuncionarios.getSelectedRow(),0).toString());
 		tfEmail.setText(tabelaFuncionarios.getValueAt(tabelaFuncionarios.getSelectedRow(),1).toString());
 		tfCpf.setText(tabelaFuncionarios.getValueAt(tabelaFuncionarios.getSelectedRow(),2).toString());
@@ -343,21 +359,88 @@ public class FrmFuncionario extends JFrame {
 		tfCidade.setText(tabelaFuncionarios.getValueAt(tabelaFuncionarios.getSelectedRow(),11).toString());
 		cbUf.setSelectedItem(tabelaFuncionarios.getValueAt(tabelaFuncionarios.getSelectedRow(),12).toString());
 		tfComplemento.setText(tabelaFuncionarios.getValueAt(tabelaFuncionarios.getSelectedRow(),13).toString());
-		tfLimite.setText(tabelaFuncionarios.getValueAt(tabelaFuncionarios.getSelectedRow(),14).toString());
+		// tfLimite.setText(tabelaFuncionarios.getValueAt(tabelaFuncionarios.getSelectedRow(),14).toString());
 		tfCodigo.setText(tabelaFuncionarios.getValueAt(tabelaFuncionarios.getSelectedRow(),2).toString());
-		tfSenha.setText(tabelaFuncionarios.getValueAt(tabelaFuncionarios.getSelectedRow(),15).toString());
+		//tfSenha.setText(tabelaFuncionarios.getValueAt(tabelaFuncionarios.getSelectedRow(),15).toString());
 		tfCargo.setText(tabelaFuncionarios.getValueAt(tabelaFuncionarios.getSelectedRow(),16).toString());
 		cbNivelAcesso.setSelectedItem(tabelaFuncionarios.getValueAt(tabelaFuncionarios.getSelectedRow(),17).toString());
 		tfPisPasep.setText(tabelaFuncionarios.getValueAt(tabelaFuncionarios.getSelectedRow(),18).toString());
-		tfSalario.setText(tabelaFuncionarios.getValueAt(tabelaFuncionarios.getSelectedRow(),19).toString());
+		// tfSalario.setText(tabelaFuncionarios.getValueAt(tabelaFuncionarios.getSelectedRow(),19).toString());
 		tfCarteiraTrabalho.setText(tabelaFuncionarios.getValueAt(tabelaFuncionarios.getSelectedRow(),20).toString());
 		cbEstadoCivil.setSelectedItem(tabelaFuncionarios.getValueAt(tabelaFuncionarios.getSelectedRow(),21).toString());
 		tfJornadaTrabalho.setText(tabelaFuncionarios.getValueAt(tabelaFuncionarios.getSelectedRow(),22).toString());
 		tfAdmissao.setText(tabelaFuncionarios.getValueAt(tabelaFuncionarios.getSelectedRow(),23).toString());
 		tfDemissao.setText(tabelaFuncionarios.getValueAt(tabelaFuncionarios.getSelectedRow(),24).toString());
-		cbAtivo.setSelectedItem(tabelaFuncionarios.getValueAt(tabelaFuncionarios.getSelectedRow(),25).toString());	
+		cbAtivo.setSelectedItem(tabelaFuncionarios.getValueAt(tabelaFuncionarios.getSelectedRow(),25).toString());
+		*/
+		tfNome.setText(tabelaFuncionarios.getValueAt(tabelaFuncionarios.getSelectedRow(),0).toString());
+		tfEmail.setText(tabelaFuncionarios.getValueAt(tabelaFuncionarios.getSelectedRow(),1).toString());
+		tfCpf.setText(tabelaFuncionarios.getValueAt(tabelaFuncionarios.getSelectedRow(),2).toString());
+		tfCodigo.setText(tabelaFuncionarios.getValueAt(tabelaFuncionarios.getSelectedRow(),2).toString());
+		tfRg.setText(tabelaFuncionarios.getValueAt(tabelaFuncionarios.getSelectedRow(),3).toString());
+		tfEndereco.setText(tabelaFuncionarios.getValueAt(tabelaFuncionarios.getSelectedRow(),4).toString());
+		tfTelefone.setText(tabelaFuncionarios.getValueAt(tabelaFuncionarios.getSelectedRow(),5).toString());
+		tfCelular.setText(tabelaFuncionarios.getValueAt(tabelaFuncionarios.getSelectedRow(),6).toString());
+		tfNumero.setText(tabelaFuncionarios.getValueAt(tabelaFuncionarios.getSelectedRow(),7).toString());
+		tfCep.setText(tabelaFuncionarios.getValueAt(tabelaFuncionarios.getSelectedRow(),8).toString());
+		tfDataNascimento.setText(tabelaFuncionarios.getValueAt(tabelaFuncionarios.getSelectedRow(),9).toString());
+		tfBairro.setText(tabelaFuncionarios.getValueAt(tabelaFuncionarios.getSelectedRow(),10).toString());
+		tfCidade.setText(tabelaFuncionarios.getValueAt(tabelaFuncionarios.getSelectedRow(),11).toString());
+		cbUf.setSelectedItem(tabelaFuncionarios.getValueAt(tabelaFuncionarios.getSelectedRow(),12).toString());
+		tfComplemento.setText(tabelaFuncionarios.getValueAt(tabelaFuncionarios.getSelectedRow(),13).toString());
+		// tfLimite.setText(tabelaFuncionarios.getValueAt(tabelaFuncionarios.getSelectedRow(),14).toString());
+		//tfSenha.setText(tabelaFuncionarios.getValueAt(tabelaFuncionarios.getSelectedRow(),15).toString());
+		tfCargo.setText(tabelaFuncionarios.getValueAt(tabelaFuncionarios.getSelectedRow(),15).toString());
+		cbNivelAcesso.setSelectedItem(tabelaFuncionarios.getValueAt(tabelaFuncionarios.getSelectedRow(),16).toString());
+		tfPisPasep.setText(tabelaFuncionarios.getValueAt(tabelaFuncionarios.getSelectedRow(),17).toString());
+		// tfSalario.setText(tabelaFuncionarios.getValueAt(tabelaFuncionarios.getSelectedRow(),19).toString());
+		tfCarteiraTrabalho.setText(tabelaFuncionarios.getValueAt(tabelaFuncionarios.getSelectedRow(),19).toString());
+		cbEstadoCivil.setSelectedItem(tabelaFuncionarios.getValueAt(tabelaFuncionarios.getSelectedRow(),20).toString());
+		tfJornadaTrabalho.setText(tabelaFuncionarios.getValueAt(tabelaFuncionarios.getSelectedRow(),21).toString());
+		tfAdmissao.setText(tabelaFuncionarios.getValueAt(tabelaFuncionarios.getSelectedRow(),22).toString());
+		tfDemissao.setText(tabelaFuncionarios.getValueAt(tabelaFuncionarios.getSelectedRow(),23).toString());
+		cbAtivo.setSelectedItem(tabelaFuncionarios.getValueAt(tabelaFuncionarios.getSelectedRow(),24).toString());
+
+
+		JTextField[] numericFields = {tfLimite, tfSalario};
+		int[] numericColumns = {14, 18};
+
+		for (int i = 0; i < numericFields.length; i++) {
+			try {
+				numericFields[i].setText(Integer.toString((int) Double
+						.parseDouble(tabelaFuncionarios.getValueAt(tabelaFuncionarios.getSelectedRow(), numericColumns[i]).toString())));
+			} catch (NumberFormatException e) {
+				numericFields[i].setText("0");  // Valor padrão em caso de erro
+				JOptionPane.showMessageDialog(null, "Erro ao converter valor numérico do campo " + numericFields[i].getName() + "!", "Erro", JOptionPane.ERROR_MESSAGE);
+			}
+		}
+
+
 	}
 
+	public void setupDemissaoField() throws ParseException {
+
+		MaskFormatter maskFormatter = new MaskFormatter("##/##/####");
+		maskFormatter.setAllowsInvalid(true);
+
+		tfDemissao = new JFormattedTextField(maskFormatter);
+		tfDemissao.setFont(new Font("Arial", Font.BOLD, 14));
+		tfDemissao.setColumns(10);
+
+		dataUtils.addDateVerifier(tfDemissao, currentYear - 100, currentYear + 100);
+	}
+
+
+	public void saveData() {
+
+		String demissaoDate = tfDemissao.getText().trim();
+
+		// Agora estamos usando o método isDateValid da classe DateUtils
+		if (!demissaoDate.isEmpty() && !dataUtils.isDateValid(demissaoDate)) {
+			JOptionPane.showMessageDialog(null, "A data de demissão inserida não é válida.", "Erro", JOptionPane.ERROR_MESSAGE);
+			return; // Interrompe a operação de salvamento
+		}
+	}
 	
 	/**
 	 * Launch the application.
@@ -375,6 +458,10 @@ public class FrmFuncionario extends JFrame {
 				}
 			}
 		});
+	}
+
+	static {
+		currentYear = Calendar.getInstance().get(Calendar.YEAR);
 	}
 	
 	/** The aba principal. */
@@ -411,20 +498,25 @@ public class FrmFuncionario extends JFrame {
 		abaDadosPessoais = new JPanel();
 		abaDadosPessoais.setBackground(new Color(202, 240, 248));
 		abaPrincipal.addTab("Dados Pessoais", null, abaDadosPessoais, null);
-	
-		
+
+
+		dataUtils = new DataUtils();
+
+
 		JLabel lbCodigo = new JLabel("Código: ");
 		lbCodigo.setFont(new Font("Arial", Font.BOLD, 14));
-		
+
+
 		tfCodigo = new JTextField();
 		tfCodigo.setEditable(false);
 		tfCodigo.setFont(new Font("Arial", Font.BOLD, 14));
 		tfCodigo.setColumns(10);
-		
+
 		JLabel lblNome = new JLabel("Nome:");
 		lblNome.setFont(new Font("Arial", Font.BOLD, 14));
-		
+
 		tfNome = new JTextField();
+		tfNome = new TextFieldLimit(70, new TextFieldLimit.ValidadorString());
 		tfNome.setFont(new Font("Arial", Font.BOLD, 14));
 		tfNome.setColumns(10);
 		
@@ -432,6 +524,7 @@ public class FrmFuncionario extends JFrame {
 		lblEmail.setFont(new Font("Arial", Font.BOLD, 14));
 		
 		tfEmail = new JTextField();
+		tfEmail = new TextFieldLimit(50, new TextFieldLimit.ValidadorString());
 		tfEmail.setFont(new Font("Arial", Font.BOLD, 14));
 		tfEmail.setColumns(10);
 		
@@ -442,6 +535,7 @@ public class FrmFuncionario extends JFrame {
 		lblNumero.setFont(new Font("Arial", Font.BOLD, 14));
 		
 		tfNumero = new JTextField();
+		tfNumero = new TextFieldLimit(9, new TextFieldLimit.ValidadorInteiro());
 		tfNumero.setFont(new Font("Arial", Font.BOLD, 14));
 		tfNumero.setColumns(10);
 		
@@ -452,6 +546,7 @@ public class FrmFuncionario extends JFrame {
 		lblBairro.setFont(new Font("Arial", Font.BOLD, 14));
 		
 		tfBairro = new JTextField();
+		tfBairro = new TextFieldLimit(50, new TextFieldLimit.ValidadorString());
 		tfBairro.setFont(new Font("Arial", Font.BOLD, 14));
 		tfBairro.setColumns(10);
 		
@@ -459,6 +554,7 @@ public class FrmFuncionario extends JFrame {
 		lblCidade.setFont(new Font("Arial", Font.BOLD, 14));
 		
 		tfCidade = new JTextField();
+		tfCidade = new TextFieldLimit(50, new TextFieldLimit.ValidadorString());
 		tfCidade.setFont(new Font("Arial", Font.BOLD, 14));
 		tfCidade.setColumns(10);
 		
@@ -502,10 +598,12 @@ public class FrmFuncionario extends JFrame {
 		lblLimite.setFont(new Font("Arial", Font.BOLD, 14));
 		
 		tfLimite = new JTextField();
+		tfLimite = new TextFieldLimit(7, new TextFieldLimit.ValidadorDecimal());
 		tfLimite.setFont(new Font("Arial", Font.BOLD, 14));
 		tfLimite.setColumns(10);
 		
 		tfComplemento = new JTextField();
+		tfComplemento = new TextFieldLimit(30, new TextFieldLimit.ValidadorString());
 		tfComplemento.setFont(new Font("Arial", Font.BOLD, 14));
 		tfComplemento.setColumns(10);
 		
@@ -519,25 +617,29 @@ public class FrmFuncionario extends JFrame {
 		tfRg = new JFormattedTextField(new MaskFormatter("##.###.###-#"));
 		tfRg.setFont(new Font("Arial", Font.BOLD, 14));
 		tfRg.setColumns(10);
-		
+
 		JLabel lblSenha = new JLabel("Senha:");
 		lblSenha.setFont(new Font("Arial", Font.BOLD, 14));
 		
-		tfSenha = new JTextField();
+		//tfSenha = new JTextField();
+		//tfSenha = new TextFieldLimit(30, new TextFieldLimit.ValidadorString());
+		//tfSenha.setColumns(10);
+		//JPasswordField tfSenha = new JPasswordField();
+		tfSenha = new JPasswordField();
 		tfSenha.setFont(new Font("Arial", Font.BOLD, 14));
-		tfSenha.setColumns(10);
-		
+		tfSenha.setDocument(new LengthRestrictedDocument(30));
+
 		JLabel lblNivelDeAcesso = new JLabel("Nível de Acesso:");
 		lblNivelDeAcesso.setFont(new Font("Arial", Font.BOLD, 14));
 		cbNivelAcesso = new JComboBox<String>();
 		cbNivelAcesso.setFont(new Font("Arial", Font.PLAIN, 14));
 		cbNivelAcesso.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] {"","Gerente","Estoquista","Caixa"}));
-		
-				
+
 				JLabel lblCargo = new JLabel("Cargo:");
 				lblCargo.setFont(new Font("Arial", Font.BOLD, 14));
 				
 				tfCargo = new JTextField();
+				tfCargo = new TextFieldLimit(30, new TextFieldLimit.ValidadorString());
 				tfCargo.setFont(new Font("Arial", Font.BOLD, 14));
 				tfCargo.setColumns(10);
 				
@@ -545,10 +647,13 @@ public class FrmFuncionario extends JFrame {
 				lblPisPasep.setFont(new Font("Arial", Font.BOLD, 14));
 				
 				tfPisPasep = new JTextField();
+				//tfPisPasep = new TextFieldLimit(11, new TextFieldLimit.ValidadorString());
+				tfPisPasep = new JFormattedTextField(new MaskFormatter("###.#####.##-#"));
 				tfPisPasep.setFont(new Font("Arial", Font.BOLD, 14));
 				tfPisPasep.setColumns(10);
 				
 				tfSalario = new JTextField();
+				tfSalario = new TextFieldLimit(7, new TextFieldLimit.ValidadorDecimal());
 				tfSalario.setFont(new Font("Arial", Font.BOLD, 14));
 				tfSalario.setColumns(10);
 				
@@ -573,6 +678,7 @@ public class FrmFuncionario extends JFrame {
 				lblJornada.setFont(new Font("Arial", Font.BOLD, 14));
 				
 				tfJornadaTrabalho = new JTextField();
+				tfJornadaTrabalho = new TextFieldLimit(40, new TextFieldLimit.ValidadorString());
 				tfJornadaTrabalho.setFont(new Font("Arial", Font.BOLD, 14));
 				tfJornadaTrabalho.setColumns(10);
 				
@@ -580,6 +686,7 @@ public class FrmFuncionario extends JFrame {
 				lblAdmissao.setFont(new Font("Arial", Font.BOLD, 14));
 				
 				tfAdmissao = new JFormattedTextField(new MaskFormatter("##/##/####"));
+				dataUtils.addDateVerifier((JFormattedTextField) tfAdmissao, currentYear - 100, currentYear + 5);
 				tfAdmissao.setFont(new Font("Arial", Font.BOLD, 14));
 				tfAdmissao.setColumns(10);
 				
@@ -591,20 +698,34 @@ public class FrmFuncionario extends JFrame {
 				
 				
 				tfEndereco = new JTextField();
+				tfEndereco = new TextFieldLimit(60, new TextFieldLimit.ValidadorString());
 				tfEndereco.setFont(new Font("Arial", Font.BOLD, 14));
 				tfEndereco.setColumns(10);
 				
 				JLabel lblDemisso = new JLabel("Demissão:");
 				lblDemisso.setFont(new Font("Arial", Font.BOLD, 14));
-				
+
+				/*
 				tfDemissao = new JFormattedTextField(new MaskFormatter("##/##/####"));
+				dataUtils.addDateVerifier((JFormattedTextField) tfDemissao, currentYear - 100, currentYear + 100);
 				tfDemissao.setFont(new Font("Arial", Font.BOLD, 14));
 				tfDemissao.setColumns(10);
+				*/
+
+				try {
+					setupDemissaoField(); // Configura o campo tfDemissao
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}
 				
 				JLabel lblDataNascimento = new JLabel("Data Nascimento: ");
 				lblDataNascimento.setFont(new Font("Arial", Font.BOLD, 14));
 				
 				tfDataNascimento = new JFormattedTextField(new MaskFormatter("##/##/####"));
+				dataUtils.addDateVerifier((JFormattedTextField) tfDataNascimento, currentYear - 150, currentYear);
+				tfDataNascimento.setFont(new Font("Arial", Font.BOLD, 14));
+				tfDataNascimento.setColumns(10);
+
 				GroupLayout gl_abaDadosPessoais = new GroupLayout(abaDadosPessoais);
 				gl_abaDadosPessoais.setHorizontalGroup(
 					gl_abaDadosPessoais.createParallelGroup(Alignment.LEADING)
@@ -898,6 +1019,7 @@ public class FrmFuncionario extends JFrame {
 		abaPrincipal.addTab("Consulta Funcionário", null, abaConsultaCliente, null);
 		
 		tfNomePesquisa = new JTextField();
+		tfNomePesquisa = new TextFieldLimit(100, new TextFieldLimit.ValidadorString());
 		tfNomePesquisa.setColumns(10);
 		
 		JLabel lbCodigo_1 = new JLabel("Código: ");

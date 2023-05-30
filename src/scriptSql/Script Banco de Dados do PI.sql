@@ -95,7 +95,7 @@ create table tb_funcionario(
    senha varchar(30) not null,
    cargo varchar(30) not null,
    nivel_acesso varchar (20) not null,
-   pis_pasep varchar (11) not null,
+   pis_pasep varchar (14) not null,  --mudado recentemente
    salario decimal not null,
    carteira_trabalho varchar (13) not null,
    estado_civil varchar (15) not null,

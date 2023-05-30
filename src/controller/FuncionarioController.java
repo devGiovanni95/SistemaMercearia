@@ -78,7 +78,7 @@ public final class FuncionarioController implements InterfaceFuncionario {
 		stmt.setString(13, funcionario.getUf());
 		stmt.setString(14, funcionario.getComplemento());
 		stmt.setDouble(15, funcionario.getLimite());
-		stmt.setString(16, funcionario.getSenha());
+		//stmt.setString(16, funcionario.getSenha());
 		stmt.setString(17, funcionario.getCargo());
 		stmt.setString(18, funcionario.getNivelAcesso());
 		stmt.setString(19, funcionario.getPisPasep());
@@ -92,7 +92,39 @@ public final class FuncionarioController implements InterfaceFuncionario {
 		if (sql.contains("where cpf=?")) {
 			stmt.setString(27, funcionario.getCpf());
 		}
+
+		if(!funcionario.getSenha().isEmpty()) {
+			stmt.setString(16, funcionario.getSenha());
+		} else {
+			stmt.setString(16, getCurrentPassword(funcionario.getCpf()));
+		}
+
 	}
+
+	/*
+	 * Método que retorna a senha atual do funcionário no banco de dados.
+	 * @param cpf - cpf do funcionário que identifica o funcionário no banco de dados.
+	 * @return - retorna a senha atual do funcionário no banco de dados.
+	 */
+	private String getCurrentPassword(String cpf) {
+		String password = "";
+		try {
+			checkDatabaseConnection();
+			String sql = "SELECT senha FROM tb_funcionario WHERE cpf = ?";
+			PreparedStatement stmt = dataBase.con.prepareStatement(sql);
+			stmt.setString(1, cpf);
+			ResultSet rs = stmt.executeQuery();
+			if(rs.next()) {
+				password = rs.getString("senha");
+			}
+		} catch (Exception e) {
+			// Tratar erro
+		} finally {
+			dataBase.close();
+		}
+		return password;
+	}
+
 
 	/**
 	 * Método que a partir do código passado, executa o comando SQL para a exclusão do funcionário no banco de dados.
@@ -187,7 +219,7 @@ public final class FuncionarioController implements InterfaceFuncionario {
 		funcionario.setUf(resultSet.getString("uf"));
 		funcionario.setComplemento(resultSet.getString("complemento"));
 		funcionario.setLimite(resultSet.getDouble("limite"));
-		funcionario.setSenha(resultSet.getString("senha"));
+		//funcionario.setSenha(resultSet.getString("senha"));
 		funcionario.setCargo(resultSet.getString("cargo"));
 		funcionario.setNivelAcesso(resultSet.getString("nivel_acesso"));
 		funcionario.setPisPasep(resultSet.getString("pis_pasep"));
