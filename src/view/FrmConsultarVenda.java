@@ -60,47 +60,14 @@ public class FrmConsultarVenda extends JFrame {
 	 *
 	 * @param tela the tela
 	 */
-	private void limparTela(JPanel tela) {
-		LimparCampos limpar = new LimparCampos();
-		limpar.Limpar(tela);
-	}
-
-	/**
-	 * Limpar tela.
-	 *
-	 * @param tela the tela
-	 */
 	private void limparTabela(JTable table) {
 		LimparCampos limpar = new LimparCampos();
 		limpar.resetarTabela(table);
 	}
 
 	/**
-	 * Consultar venda por nome.
-	 *//*
-		 * private void consultarProdutoPorNome(){ String nomePesquisado = "%" +
-		 * tfPesquisar.getText() + "%"; ProdutosController produtosController = new
-		 * ProdutosController(); SubCategoriaController categoriaController = new
-		 * SubCategoriaController(); List<Produto> lista =
-		 * produtosController.consultarProdutoPorNome(nomePesquisado); DefaultTableModel
-		 * dadosTabela = (DefaultTableModel) tabelaVendas.getModel();
-		 * dadosTabela.setNumRows(0); dadosTabela.setColumnCount(15);
-		 * dadosTabela.addRow(new Object[]{"Codigo","Descrição", "Codigo de Barras",
-		 * "Marca", "SubCategoria", "Unidade de Medida", "Quantidade",
-		 * " Fabricação"," Validade","Lote", "IPI","ICMS","Margem Lucro","Preco Custo",
-		 * "Preço Final"});
-		 * 
-		 * for(Produto produto : lista) { dadosTabela.addRow(new Object[]{
-		 * produto.getCodigo(), produto.getDescricao(), produto.getCodigoDeBarras(),
-		 * produto.getMarca(), produto.getSubCategoria().getNome(),
-		 * produto.getUnidadeDeMedida(), produto.getQuantidade(),
-		 * produto.getDataFabricacao(), produto.getDataValidade(), produto.getLote(),
-		 * produto.getIpi(), produto.getIcms(), produto.getMargemLucro(),
-		 * produto.getPrecoCusto(), produto.getPrecoFinal() }); } }
-		 */
-
-	/**
 	 * Metodo utilizado para listar todas as vendas e adiciona-los na tabela.
+	 * Caso de Uso (USC-005)
 	 */
 	public void consultarVendas() {
 		try {
@@ -120,9 +87,10 @@ public class FrmConsultarVenda extends JFrame {
 				} else {
 					aux = venda.getCliente().getNome();
 				}
-				
+
 				dadosTabela.addRow(new Object[] { venda.getCodigo(), aux, venda.getFuncionario().getNome(),
-						venda.getFormaPagamento().getCodigo(), venda.getDataVenda().replace("-", "/"), venda.getValorVenda()});
+						venda.getFormaPagamento().getCodigo(), venda.getDataVenda().replace("-", "/"),
+						venda.getValorVenda() });
 			}
 		} catch (Exception erro) {
 			JOptionPane.showMessageDialog(null, "Ops aconteceu o erro: " + erro);
@@ -131,6 +99,7 @@ public class FrmConsultarVenda extends JFrame {
 
 	/**
 	 * Metodo utilizado para listar todas as vendas e adiciona-los na tabela.
+	 * Caso de Uso (USC-005)
 	 */
 	public void consultarItens() {
 		try {
@@ -157,6 +126,7 @@ public class FrmConsultarVenda extends JFrame {
 	/*
 	 * Metodo para preencher os campos da tela com os dados da venda selecionada na
 	 * tabela.
+	 * Caso de Uso (USC-005)
 	 */
 	private void preencherDadosVendas() {
 		abaPrincipal.setSelectedIndex(1);
@@ -255,34 +225,31 @@ public class FrmConsultarVenda extends JFrame {
 								.addComponent(lblVoltar, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE))));
 		panelSuperior.setLayout(gl_panelSuperior);
 		GroupLayout groupLayout = new GroupLayout(getContentPane());
-		groupLayout.setHorizontalGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-				.addComponent(panelSuperior, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-				.addComponent(abaPrincipal, GroupLayout.PREFERRED_SIZE, 1344, Short.MAX_VALUE)
-				.addComponent(panelInferior, GroupLayout.DEFAULT_SIZE, 1344, Short.MAX_VALUE));
-		groupLayout.setVerticalGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(groupLayout.createSequentialGroup()
-						.addComponent(panelSuperior, GroupLayout.PREFERRED_SIZE, 79, GroupLayout.PREFERRED_SIZE)
-						.addPreferredGap(ComponentPlacement.UNRELATED)
-						.addComponent(abaPrincipal, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
-								GroupLayout.PREFERRED_SIZE)
-						.addPreferredGap(ComponentPlacement.RELATED, 57, Short.MAX_VALUE)
-						.addComponent(panelInferior, GroupLayout.PREFERRED_SIZE, 71, GroupLayout.PREFERRED_SIZE)
-						.addContainerGap()));
-
-		JPanel panelInferior_2 = new JPanel();
-		panelInferior_2.setBackground(new Color(202, 240, 248));
+		groupLayout.setHorizontalGroup(
+				groupLayout.createParallelGroup(Alignment.LEADING)
+						.addComponent(panelSuperior, GroupLayout.DEFAULT_SIZE, 1370, Short.MAX_VALUE)
+						.addComponent(abaPrincipal, GroupLayout.PREFERRED_SIZE, 1370, Short.MAX_VALUE)
+						.addGroup(groupLayout.createSequentialGroup()
+								.addGap(108)
+								.addComponent(panelInferior, GroupLayout.DEFAULT_SIZE, 1252, Short.MAX_VALUE)
+								.addContainerGap()));
+		groupLayout.setVerticalGroup(
+				groupLayout.createParallelGroup(Alignment.LEADING)
+						.addGroup(groupLayout.createSequentialGroup()
+								.addComponent(panelSuperior, GroupLayout.PREFERRED_SIZE, 79, GroupLayout.PREFERRED_SIZE)
+								.addPreferredGap(ComponentPlacement.UNRELATED)
+								.addComponent(abaPrincipal, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+										GroupLayout.PREFERRED_SIZE)
+								.addPreferredGap(ComponentPlacement.RELATED, 49, Short.MAX_VALUE)
+								.addComponent(panelInferior, GroupLayout.PREFERRED_SIZE, 28, GroupLayout.PREFERRED_SIZE)
+								.addContainerGap()));
 		GroupLayout gl_panelInferior = new GroupLayout(panelInferior);
-		gl_panelInferior.setHorizontalGroup(gl_panelInferior.createParallelGroup(Alignment.TRAILING)
-				.addComponent(panelInferior_2, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 1275, Short.MAX_VALUE));
-		gl_panelInferior.setVerticalGroup(gl_panelInferior.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panelInferior.createSequentialGroup().addContainerGap()
-						.addComponent(panelInferior_2, GroupLayout.PREFERRED_SIZE, 49, GroupLayout.PREFERRED_SIZE)
-						.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
-		panelInferior_2.setLayout(new GridLayout(0, 6, 10, 0));
-
-		JPanel espacoEsquerdo = new JPanel();
-		espacoEsquerdo.setBackground(new Color(202, 240, 248));
-		panelInferior_2.add(espacoEsquerdo);
+		gl_panelInferior.setHorizontalGroup(
+				gl_panelInferior.createParallelGroup(Alignment.TRAILING)
+						.addGap(0, 1370, Short.MAX_VALUE));
+		gl_panelInferior.setVerticalGroup(
+				gl_panelInferior.createParallelGroup(Alignment.LEADING)
+						.addGap(0, 71, Short.MAX_VALUE));
 		panelInferior.setLayout(gl_panelInferior);
 
 		JLayeredPane abaConsultarVenda = new JLayeredPane();
@@ -327,7 +294,7 @@ public class FrmConsultarVenda extends JFrame {
 		tabelaVendas.setFillsViewportHeight(true);
 		tabelaVendas.setColumnSelectionAllowed(true);
 		tabelaVendas.setCellSelectionEnabled(true);
-		tabelaVendas.setBounds(0, 63, 1378, 478);
+		tabelaVendas.setBounds(0, 63, 1378, 530);
 		abaConsultarVenda.add(tabelaVendas);
 
 		abaConsultarItens = new JLayeredPane();
@@ -339,56 +306,6 @@ public class FrmConsultarVenda extends JFrame {
 		abaDadosItens.setForeground(new Color(0, 0, 0));
 		abaDadosItens.setBorder(null);
 		abaDadosItens.setBackground(new Color(202, 240, 248));
-
-		JButton btnNovo = new JButton("Novo");
-		btnNovo.setBackground(new Color(106, 76, 147));
-		btnNovo.setForeground(new Color(255, 255, 255));
-		btnNovo.setFont(new Font("Arial", Font.BOLD, 24));
-		btnNovo.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				limparTela(abaDadosItens);
-			}
-		});
-		panelInferior_2.add(btnNovo);
-
-		JButton btnAlterar = new JButton("Editar");
-		btnAlterar.setBackground(new Color(255, 202, 58));
-		btnAlterar.setForeground(new Color(255, 255, 255));
-		btnAlterar.setFont(new Font("Arial", Font.BOLD, 24));
-
-		btnAlterar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				// alterarProduto();
-			}
-		});
-
-		panelInferior_2.add(btnAlterar);
-
-		JButton btnSalvar = new JButton("Salvar");
-		btnSalvar.setForeground(Color.WHITE);
-		btnSalvar.setBackground(new Color(138, 201, 38));
-		btnSalvar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				// cadastrarProduto();
-			}
-		});
-		btnSalvar.setFont(new Font("Arial", Font.BOLD, 24));
-		panelInferior_2.add(btnSalvar);
-
-		JButton btnExcluir = new JButton("Excluir");
-		btnExcluir.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				// excluirProduto();
-			}
-		});
-		btnExcluir.setBackground(new Color(255, 89, 94));
-		btnExcluir.setForeground(new Color(255, 255, 255));
-		btnExcluir.setFont(new Font("Arial", Font.BOLD, 24));
-		panelInferior_2.add(btnExcluir);
-
-		JPanel espacoDireito = new JPanel();
-		espacoDireito.setBackground(new Color(202, 240, 248));
-		panelInferior_2.add(espacoDireito);
 		GroupLayout gl_abaConsultarItens = new GroupLayout(abaConsultarItens);
 		gl_abaConsultarItens.setHorizontalGroup(gl_abaConsultarItens.createParallelGroup(Alignment.LEADING)
 				.addComponent(abaDadosItens, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE));

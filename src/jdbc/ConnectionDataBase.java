@@ -6,8 +6,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.PreparedStatement;
 
-
-
 // TODO: Auto-generated Javadoc
 /**
  * A factory for creating Connection objects.
@@ -15,29 +13,29 @@ import java.sql.PreparedStatement;
 public class ConnectionDataBase {
 
 	/** The prepared statement. */
-	public PreparedStatement preparedStatement; 	
-	
+	public PreparedStatement preparedStatement;
+
 	/** The result set. */
-	public ResultSet resultSet; 
-	
+	public ResultSet resultSet;
+
 	/** The con. */
 	public Connection con;
-	
+
 	/** The driver. */
 	private final String DRIVER = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
-	
+
 	/** The databasename. */
 	private final String DATABASENAME = "mercearia";
-	
+
 	/** The url. */
 	private final String URL = "jdbc:sqlserver://localhost:1433;databasename=" + DATABASENAME;
-	
+
 	/** The login. */
-	private final String LOGIN = "sa";
-	
+	private final String LOGIN = "giovanni";
+
 	/** The senha. */
 	private final String SENHA = "123456";
-	
+
 	/**
 	 * Gets the connection.
 	 *
@@ -45,9 +43,9 @@ public class ConnectionDataBase {
 	 */
 	public boolean getConnection() {
 		try {
-			//Carregar o driver durante a execução
+			// Carregar o driver durante a execução
 			Class.forName(DRIVER);
-			con = DriverManager.getConnection(URL,LOGIN,SENHA);
+			con = DriverManager.getConnection(URL, LOGIN, SENHA);
 			System.out.println("Conectou...");
 			return true;
 		} catch (ClassNotFoundException erro) {
@@ -57,27 +55,32 @@ public class ConnectionDataBase {
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Close.
 	 */
 	public void close() {
 		try {
-			if(resultSet!=null) resultSet.close();
-		} catch (SQLException erro) {}
-		
+			if (resultSet != null)
+				resultSet.close();
+		} catch (SQLException erro) {
+		}
+
 		try {
-			if(preparedStatement!=null) preparedStatement.close();
-		} catch (SQLException erro) {}
-		
+			if (preparedStatement != null)
+				preparedStatement.close();
+		} catch (SQLException erro) {
+		}
+
 		try {
-			if(con!=null) { 
+			if (con != null) {
 				con.close();
 				System.out.println("Desconectou...");
 			}
-		} catch (SQLException erro) {}
-}
-	
+		} catch (SQLException erro) {
+		}
+	}
+
 	/**
 	 * The main method.
 	 *

@@ -1,24 +1,28 @@
                      MERCEARIA                    
-        RUA SEM NOME, 1254 - VILA S√ÉO JOS√â        
+        RUA SEM NOME, 1254 - VILA S√O JOS…        
 	    	 CEP: 13330-050 INDAIATUBA - SP         
 CNPJ:00.000.000/0000-00          					
-INCRI√á√ÉO ESTADUAL: 000.000000.0000				
-INCRI√á√ÉO MUNICIPAL: 0.000.000/000-0				
+INCRI«√O ESTADUAL: 000.000000.0000				
+INCRI«√O MUNICIPAL: 0.000.000/000-0				
 --------------------------------------------------
-DATA: 30/05/2023 00:12:18
-CODIGO DA VENDA:8283Rn031940zTJ
-----------------CUPOM N√ÉO FISCAL------------------
-ITEM  C√ìDIGO       DESCRI√á√ÉO           
+DATA: 30/05/2023 20:40:06
+CODIGO DA VENDA:2277iD296712noO
+----------------CUPOM N√O FISCAL------------------
+ITEM  C”DIGO       DESCRI«√O           
 QUANTIDADE      VALOR UNITARIO      	VALOR ITEM	
 --------------------------------------------------
-1     1234567890123    Arroz parboilizado
- 58.0  pct             3.0                  174.0
-2     1234567890123    Arroz parboilizado
- 0.0  pct             3.0                  0.0
-3     1234567890123    Arroz parboilizado
- 0.0  pct             3.0                  0.0
+1     7894900012613    Cerveja Heineken
+ 1.0  UN             5.0                  5.0
+2     7894900012613    Cerveja Heineken
+ 1.0  UN             5.0                  5.0
+3     7894900012613    Cerveja Heineken
+ 1.0  UN             5.0                  5.0
+4     7894900012613    Cerveja Heineken
+ 1.0  UN             5.0                  5.0
+5     7894900012613    Cerveja Heineken
+ 0.0  UN             5.0                  0.0
 --------------------------------------------------
-Total     R$                        174.0
+Total     R$                        20.0
                   
                   
                   

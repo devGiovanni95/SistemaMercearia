@@ -239,7 +239,9 @@ public class FrmFormaDePagamento extends JFrame {
 	}
 
 	/**
-	 * Setar valores.
+	 * Método utilizado para efetuar um pré-preenchimento dos dados nos campos do
+	 * formulario das formas de pagamento aceitas
+	 * Caso de Uso (USC-010)
 	 */
 	public void setarValores() {
 		tfCartaoCredito.setText("0");
@@ -251,9 +253,10 @@ public class FrmFormaDePagamento extends JFrame {
 	}
 
 	/**
-	 * Calcular saldo devedor.
-	 *
-	 * @return the double
+	 * Método utilizado para efetuar o calculo do saldo devedor.
+	 * 
+	 * @return saldoFaltante - Retorna o valor que falta para finalizar a venda.
+	 *         Caso de Uso (USC-010);
 	 */
 	public double calcularSaldoDevedor() {
 
@@ -277,9 +280,10 @@ public class FrmFormaDePagamento extends JFrame {
 	}
 
 	/**
-	 * Calcular total pago.
-	 *
-	 * @return the double
+	 * Método responsável por calcular o valor total pago. *
+	 * 
+	 * @return totalPago - Retorna o valor total que já foi pago.
+	 *         Caso de Uso (USC-010)
 	 */
 	public double calcularTotalPago() {
 		dinheiro = Double.parseDouble(tfDinheiro.getText());
@@ -296,9 +300,11 @@ public class FrmFormaDePagamento extends JFrame {
 	}
 
 	/**
-	 * Calcular troco.
-	 *
-	 * @return the double
+	 * Método responsável por realizar o calculo do troco,
+	 * quando necessário.
+	 * 
+	 * @return troco - Retorna o valor disponível de troco ao cliente.
+	 *         Caso de Uso (USC-010);
 	 */
 	public double calcularTroco() {
 		double troco = 0;
@@ -316,7 +322,9 @@ public class FrmFormaDePagamento extends JFrame {
 	}
 
 	/**
-	 * Atualizar componente.
+	 * Método responsável por atualizar os textFields,
+	 * dos campos com os valores recebidos depois dos calculos correspondentes.
+	 * Caso de Uso (USC-010)
 	 */
 	public void atualizarComponente() {
 		tfPago.setText(String.valueOf(calcularTotalPago()));
@@ -326,8 +334,10 @@ public class FrmFormaDePagamento extends JFrame {
 
 	/**
 	 * Validar pagamento.
-	 *
-	 * @return true, if successful
+	 * 
+	 * @return true or false - Retorna uma condição de verdadeiro ou falso
+	 *         para validar se o pagamento foi efetuato na sua totalidade.
+	 *         Caso de Uso (USC-010)
 	 */
 	public boolean validarPagamento() {
 
@@ -340,7 +350,9 @@ public class FrmFormaDePagamento extends JFrame {
 	}
 
 	/**
-	 * Cadastrar itens pedido.
+	 * Método responsável por cadastrar os itens contidos pedido.
+	 * Caso de Uso (USC-005)
+	 * Caso de Uso (USC-010)
 	 */
 	public void cadastrarItensPedido() {
 		ItemVendaController itemVendaController = new ItemVendaController();
@@ -366,6 +378,14 @@ public class FrmFormaDePagamento extends JFrame {
 		}
 	}
 
+	/**
+	 * Método responsável por realizar a impressão do cupom não fiscal,
+	 * com todas as informações da venda.
+	 * Caso de Uso (USC-006) *
+	 * 
+	 * @return mensagem - Retorna um mensagem de confirmação se a geração da nota
+	 *         foi efetivada ou não
+	 */
 	public String imprimir() {
 		ItemVendaController itemVendaController = new ItemVendaController();
 		List<ItemVenda> lista = itemVendaController.consultarItensVendaPorCodigo(getVenda().getCodigo());
@@ -405,9 +425,8 @@ public class FrmFormaDePagamento extends JFrame {
 			pw.write("                  \n");
 			pw.write("                  \n");
 			pw.write("                  \n");
-			
+
 			pw.close();
-			
 
 		} catch (Exception e) {
 			operacao = "Falha de gravação" + e;
@@ -416,7 +435,8 @@ public class FrmFormaDePagamento extends JFrame {
 	}
 
 	/**
-	 * Cadastrar pedido.
+	 * Método responsável por realizar o cadastrar da venda.
+	 * Caso de Uso (USC-005)
 	 */
 	public void cadastrarVenda() {
 
@@ -429,7 +449,8 @@ public class FrmFormaDePagamento extends JFrame {
 	}
 
 	/**
-	 * Cadastrar pagamento.
+	 * Método responsável por cadastrar a forma do pagamento efetuado pelo cliente.
+	 * Caso de Uso (USC-005) e (USC-010)
 	 */
 	public void cadastrarPagamento() {
 		formaPagamento = new FormaPagamento();
@@ -437,7 +458,7 @@ public class FrmFormaDePagamento extends JFrame {
 		geradorDeCodigo = new GeradorDeCodigo();
 
 		setCodigoDePagamentoGeradoAutomatico(geradorDeCodigo.geraCodigo());
-	
+
 		formaPagamento.setCodigo(getCodigoDePagamentoGeradoAutomatico());
 		formaPagamento.setDinheiro(Double.parseDouble(tfDinheiro.getText()));
 		formaPagamento.setCartaoCredito(Double.parseDouble(tfCartaoCredito.getText()));
@@ -454,7 +475,8 @@ public class FrmFormaDePagamento extends JFrame {
 	}
 
 	/**
-	 * Nova venda.
+	 * Método responsável efetuar a criação de uma nova venda.
+	 * Caso de Uso (USC-005)
 	 */
 	public void novaVenda() {
 		FrmFrenteCaixa frmFrenteCaixa = new FrmFrenteCaixa();
@@ -597,7 +619,8 @@ public class FrmFormaDePagamento extends JFrame {
 						cadastrarVenda();
 						cadastrarItensPedido();
 						JOptionPane.showMessageDialog(null, "" + imprimir());
-						Imprimir.imprimir("D:\\Analise e Desenvolvimento de Software Fatec\\ProjetoIntegrador3Semestre\\SistemaMercearia\\Cupom.txt");
+						Imprimir.imprimir(
+								"D:\\Analise e Desenvolvimento de Software Fatec\\ProjetoIntegrador3Semestre\\SistemaMercearia\\Cupom.txt");
 						novaVenda();
 						// System.out.println(pedido);
 					} else {

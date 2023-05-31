@@ -125,9 +125,13 @@ public class FrmProdutos extends JFrame {
 	private LimparCampos limparCampos;
 	private JTextField tfDataEntrada;
 	private JComboBox<Fornecedor> cbFornecedor;
-	private ProdutosController produtosController = new ProdutosController(); // Criado o controlador como um atributo da classe, para poder reutilizá-lo.
-	private SubCategoriaController subCategoriaController = new SubCategoriaController(); // Criado o controlador como um atributo da classe, para poder reutilizá-lo.
-	private DefaultTableModel dadosTabela; // Objeto da classe DefaultTableModel, que será utilizado para preencher a tabela de produtos.
+	private ProdutosController produtosController = new ProdutosController(); // Criado o controlador como um atributo
+																				// da classe, para poder reutilizá-lo.
+	private SubCategoriaController subCategoriaController = new SubCategoriaController(); // Criado o controlador como
+																							// um atributo da classe,
+																							// para poder reutilizá-lo.
+	private DefaultTableModel dadosTabela; // Objeto da classe DefaultTableModel, que será utilizado para preencher a
+											// tabela de produtos.
 
 	/**
 	 * Limpar tela.
@@ -147,12 +151,8 @@ public class FrmProdutos extends JFrame {
 	 * método Limpar() da classe LimparCampos.
 	 * O objeto Produto é passado como parâmetro para o método alterarProduto() da
 	 * classe ProdutosController.
+	 * Caso de Uso (USC-002)
 	 */
-
-	/**
-	 * Alterar produto.
-	 */
-
 	private void alterarProduto() {
 		try {
 			Produto produto = criarProduto(false);
@@ -161,22 +161,22 @@ public class FrmProdutos extends JFrame {
 
 			limparTela(abaDadosProdutos);
 
-			JOptionPane.showMessageDialog(null, "Produto alterado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Produto alterado com sucesso!", "Sucesso",
+					JOptionPane.INFORMATION_MESSAGE);
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 
-
-
 	/**
 	 * Cadastrar produto: Método responsável por cadastrar um novo produto.
 	 * Os dados são obtidos dos campos de texto na interface gráfica e armazenados
-	 * em um objeto do tipo Produto, que é passado como parâmetro para o método cadastrarProduto() da classe ProdutosController.
-	 * Em seguida, os campos de texto na interface gráfica são limpos através do método Limpar() da classe LimparCampos.
+	 * em um objeto do tipo Produto, que é passado como parâmetro para o método
+	 * cadastrarProduto() da classe ProdutosController.
+	 * Em seguida, os campos de texto na interface gráfica são limpos através do
+	 * método Limpar() da classe LimparCampos.
+	 * Caso de Uso (USC-002)
 	 */
-
-
 	private void cadastrarProduto() {
 		try {
 			Produto produto = criarProduto(true);
@@ -184,7 +184,8 @@ public class FrmProdutos extends JFrame {
 
 			limparTela(abaDadosProdutos);
 
-			JOptionPane.showMessageDialog(null, "Produto cadastrado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Produto cadastrado com sucesso!", "Sucesso",
+					JOptionPane.INFORMATION_MESSAGE);
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
 		}
@@ -192,10 +193,15 @@ public class FrmProdutos extends JFrame {
 
 	/**
 	 * Criar produto: Método responsável por criar um objeto do tipo Produto.
-	 * Os dados são obtidos dos campos de texto na interface gráfica e armazenados em um objeto do tipo Produto.
-	 * @param novoProduto the novo produto
-	 * @return the produto
-	 * @throws Exception the exception
+	 * Os dados são obtidos dos campos de texto na interface gráfica e armazenados
+	 * em um objeto do tipo Produto.
+	 * 
+	 * @param novoProduto tipo booleano para confirmação se está sendo criado um
+	 *                    novo produto, fazendo as validaçoes necessárias.
+	 * @return produto - Retorna um objeto do tipo produto instanciado.
+	 * @throws Exception - Lança uma excessão caso algum campo que foi digitado não
+	 *                   seja válido.
+	 *                   Caso de Uso (USC-002)
 	 */
 
 	private Produto criarProduto(boolean novoProduto) throws Exception {
@@ -203,37 +209,37 @@ public class FrmProdutos extends JFrame {
 		SubCategoria subCategoria = (SubCategoria) cbSubCategoria.getSelectedItem();
 
 		// Validar campos obrigatórios
-		if(tfDescricao.getText().trim().isEmpty()){
+		if (tfDescricao.getText().trim().isEmpty()) {
 			throw new Exception("A descrição do produto é obrigatória.");
 		}
-		if(tfCodigoDeBarras.getText().trim().isEmpty()){
+		if (tfCodigoDeBarras.getText().trim().isEmpty()) {
 			throw new Exception("O código de barras é obrigatório.");
 		}
-		if(tfMarca.getText().trim().isEmpty()){
+		if (tfMarca.getText().trim().isEmpty()) {
 			throw new Exception("A marca do produto é obrigatória.");
 		}
-		if(subCategoria == null){
+		if (subCategoria == null) {
 			throw new Exception("A subcategoria é obrigatória.");
 		}
-		if(cbUnidadeDeMedida.getSelectedItem() == null){
+		if (cbUnidadeDeMedida.getSelectedItem() == null) {
 			throw new Exception("A unidade de medida é obrigatória.");
 		}
-		if(tfDataFabricacao.getText().trim().isEmpty()){
+		if (tfDataFabricacao.getText().trim().isEmpty()) {
 			throw new Exception("A data de fabricação é obrigatória.");
 		}
-		if(tfValidade.getText().trim().isEmpty()){
+		if (tfValidade.getText().trim().isEmpty()) {
 			throw new Exception("A data de validade é obrigatória.");
 		}
-		if(tfLote.getText().trim().isEmpty()){
+		if (tfLote.getText().trim().isEmpty()) {
 			throw new Exception("O lote do produto é obrigatório.");
 		}
-		if(tfMargem.getText().trim().isEmpty()){
+		if (tfMargem.getText().trim().isEmpty()) {
 			throw new Exception("A margem de lucro é obrigatória.");
 		}
-		if(tfPrecoCusto.getText().trim().isEmpty()){
+		if (tfPrecoCusto.getText().trim().isEmpty()) {
 			throw new Exception("O preço de custo é obrigatório.");
 		}
-		if(tfPrecoFinal.getText().trim().isEmpty()){
+		if (tfPrecoFinal.getText().trim().isEmpty()) {
 			throw new Exception("O preço final é obrigatório.");
 		}
 
@@ -269,7 +275,7 @@ public class FrmProdutos extends JFrame {
 		produto.setMarca(tfMarca.getText());
 		produto.setSubCategoria(subCategoria);
 		produto.setUnidadeDeMedida(cbUnidadeDeMedida.getSelectedItem().toString());
-		//produto.setQuantidade(0);
+		// produto.setQuantidade(0);
 		produto.setDataFabricacao(tfDataFabricacao.getText());
 		produto.setDataValidade(tfValidade.getText());
 		produto.setLote(tfLote.getText());
@@ -279,10 +285,10 @@ public class FrmProdutos extends JFrame {
 		produto.setPrecoCusto(Double.parseDouble(tfPrecoCusto.getText()));
 		produto.setPrecoFinal(Double.parseDouble(tfPrecoFinal.getText().replaceAll(",", ".")));
 
-		if(novoProduto){
+		if (novoProduto) {
 			produto.setQuantidade(0);
 		} else {
-			if(tfQtdEstoque.getText().trim().isEmpty()){
+			if (tfQtdEstoque.getText().trim().isEmpty()) {
 				throw new Exception("A quantidade em estoque é obrigatória para a atualização do produto.");
 			}
 			try {
@@ -296,7 +302,11 @@ public class FrmProdutos extends JFrame {
 		return produto;
 	}
 
-
+	/**
+	 * Método responsável por efetuar o cadastro do histórico do produto com
+	 * fornecedor.
+	 * Caso de Uso (USC-002)(USC-003)
+	 */
 	private void cadastrarProdutoFornecedorEstoque() {
 		CadastroProdutoFornecedorEstoque cadastroProdutoFornecedorEstoque = new CadastroProdutoFornecedorEstoque();
 		CadastroProdutoFornecedorEstoqueController cadastroProdutoFornecedorEstoqueController = new CadastroProdutoFornecedorEstoqueController();
@@ -331,7 +341,8 @@ public class FrmProdutos extends JFrame {
 	}
 
 	/**
-	 * Método utilizado para efetuar a remoção.
+	 * Método utilizado para efetuar a exclusão de um produto
+	 * Caso de Uso (USC-002)
 	 */
 	private void excluirProduto() {
 		Produto produto = new Produto();
@@ -348,11 +359,9 @@ public class FrmProdutos extends JFrame {
 		limparTela(abaDadosProdutos);
 	}
 
-	/**
-	 * Preencher dados produto.
-	 */
 	/*
 	 * Método utilizado para preencher os dados do produto na tela.
+	 * Caso de Uso (USC-002)
 	 */
 
 	private void preencherDadosProduto() {
@@ -365,7 +374,8 @@ public class FrmProdutos extends JFrame {
 
 		Produto produto = new Produto();
 		ProdutosController controller = new ProdutosController();
-		produto = controller.consultarProdutosPorCodigoBarrasCompleto(tabelaProdutos.getValueAt(tabelaProdutos.getSelectedRow(), 1).toString());
+		produto = controller.consultarProdutosPorCodigoBarrasCompleto(
+				tabelaProdutos.getValueAt(tabelaProdutos.getSelectedRow(), 1).toString());
 
 		SubCategoria subCategoria = new SubCategoria();
 		SubCategoriaController subCategoriaController = new SubCategoriaController();
@@ -382,16 +392,19 @@ public class FrmProdutos extends JFrame {
 		tfPrecoFinal.setText(tabelaProdutos.getValueAt(tabelaProdutos.getSelectedRow(), 13).toString());
 
 		// Tratamento para campos numéricos
-		JTextField[] numericFields = {tfQtdEstoque, tfIpi, tfIcms, tfMargem, tfPrecoCusto};
-		int[] numericColumns = {5, 9, 10, 11, 12};
+		JTextField[] numericFields = { tfQtdEstoque, tfIpi, tfIcms, tfMargem, tfPrecoCusto };
+		int[] numericColumns = { 5, 9, 10, 11, 12 };
 
 		for (int i = 0; i < numericFields.length; i++) {
 			try {
 				numericFields[i].setText(Integer.toString((int) Double
-						.parseDouble(tabelaProdutos.getValueAt(tabelaProdutos.getSelectedRow(), numericColumns[i]).toString())));
+						.parseDouble(tabelaProdutos.getValueAt(tabelaProdutos.getSelectedRow(), numericColumns[i])
+								.toString())));
 			} catch (NumberFormatException e) {
-				numericFields[i].setText("0");  // Valor padrão em caso de erro
-				JOptionPane.showMessageDialog(null, "Erro ao converter valor numérico do campo " + numericFields[i].getName() + "!", "Erro", JOptionPane.ERROR_MESSAGE);
+				numericFields[i].setText("0"); // Valor padrão em caso de erro
+				JOptionPane.showMessageDialog(null,
+						"Erro ao converter valor numérico do campo " + numericFields[i].getName() + "!", "Erro",
+						JOptionPane.ERROR_MESSAGE);
 			}
 		}
 
@@ -400,11 +413,11 @@ public class FrmProdutos extends JFrame {
 		// tfDataEntrada.setText("Não Aplicavel");
 	}
 
-
 	/**
-	 * Consultar produto por nome.
-	 *
-	 * @throws Exception
+	 * Método responsável por consultar produto por nome. *
+	 * 
+	 * @throws Exception gera uma excessão caso de algum erro no nome digitado
+	 *                   Caso de Uso (USC-002)
 	 */
 
 	private void consultarProdutoPorNome() throws Exception {
@@ -418,8 +431,9 @@ public class FrmProdutos extends JFrame {
 	}
 
 	/**
-	 * Consultar produtos: método utilizado para consultar todos os produtos cadastrados.
-	 *
+	 * Consultar produtos: método utilizado para consultar todos os produtos
+	 * cadastrados.
+	 * Caso de Uso (USC-002)
 	 */
 
 	private void consultarProdutos() {
@@ -437,23 +451,28 @@ public class FrmProdutos extends JFrame {
 
 	/**
 	 * Método utilizado para configurar a tabela de produtos.
+	 * Caso de Uso (USC-002)
 	 */
 
 	private void configurarTabela() {
 		dadosTabela = (DefaultTableModel) tabelaProdutos.getModel();
 		dadosTabela.setNumRows(0);
 		dadosTabela.setColumnCount(15);
-		dadosTabela.addRow(new Object[]{"Descrição", "Codigo de Barras", "Marca", "SubCategoria", "Unidade de Medida",
-				"Quantidade", "Fabricação", "Validade", "Lote", "IPI", "ICMS", "Margem Lucro", "Preco Custo", "Preço Final"});
+		dadosTabela.addRow(new Object[] { "Descrição", "Codigo de Barras", "Marca", "SubCategoria", "Unidade de Medida",
+				"Quantidade", "Fabricação", "Validade", "Lote", "IPI", "ICMS", "Margem Lucro", "Preco Custo",
+				"Preço Final" });
 	}
 
 	/**
-	 * Adicionar produto na tabela: método utilizado para adicionar um produto na tabela.
+	 * Adicionar produto na tabela: método utilizado para adicionar um produto na
+	 * tabela.
+	 * 
 	 * @param produto objeto do tipo produto: produto a ser adicionado na tabela.
+	 *                Caso de Uso (USC-002)
 	 */
 
 	private void adicionarProdutoNaTabela(Produto produto) {
-		dadosTabela.addRow(new Object[]{
+		dadosTabela.addRow(new Object[] {
 				produto.getDescricao(),
 				produto.getCodigoDeBarras(),
 				produto.getMarca(),
@@ -471,12 +490,12 @@ public class FrmProdutos extends JFrame {
 		});
 	}
 
-
 	/**
 	 * Atualiza o campo Preço Final com base nos campos de Margem de Lucro, IPI e
 	 * ICMS.
 	 * Caso algum campo não possua um valor numérico válido, não atualiza o Preço
 	 * Final.
+	 * Caso de Uso (USC-002)
 	 */
 	private void atualizarPrecoFinal() {
 		try {
@@ -506,7 +525,13 @@ public class FrmProdutos extends JFrame {
 		}
 	}
 
-
+	/**
+	 * Método responsável por calcular o preco total do produto,ou mostra uma
+	 * mensagem caso o valor digitado esteje errado.
+	 * 
+	 * @return preco - Retorna o preco final atualizado.
+	 *         Caso de Uso (USC-002)
+	 */
 	private double calcularPrecoCusto() {
 		double ipi;
 		double icms;
@@ -541,9 +566,12 @@ public class FrmProdutos extends JFrame {
 		return precoFinal;
 	}
 
-
 	Vector<Fornecedor> fornecedor;
 
+	/**
+	 * Método responsável por listar os fornecedores no comboBox
+	 * Caso de Uso (USC-002) (USC-003)
+	 */
 	public void consultarFornecedores() {
 		try {
 			FornecedorController fornecedorController = new FornecedorController();
@@ -560,13 +588,17 @@ public class FrmProdutos extends JFrame {
 	Vector<SubCategoria> subCategoria;
 	private JTextField tfSub;
 
+	/**
+	 * Método responsável por listar as SubCategorias no comboBox
+	 * Caso de Uso (USC-002) (USC-009)
+	 */
 	public void consultarSubcategorias() {
 		try {
 			SubCategoriaController subCategoriaController = new SubCategoriaController();
 			subCategoria = subCategoriaController.consultarSubcategoriasComboBox();
 
 			cbSubCategoria.setModel(new DefaultComboBoxModel<>(subCategoria));
-			//System.out.println(subCategoria);
+			// System.out.println(subCategoria);
 
 		} catch (Exception e) {
 			JOptionPane.showConfirmDialog(null, e.getMessage());
@@ -743,7 +775,6 @@ public class FrmProdutos extends JFrame {
 		lblIpi.setBounds(187, 413, 42, 17);
 		lblIpi.setFont(new Font("Arial", Font.BOLD, 14));
 
-
 		tfLote = new JTextField();
 		tfLote = new TextFieldLimit(30, new TextFieldLimit.ValidadorString());
 		tfLote.setBounds(235, 327, 234, 23);
@@ -782,7 +813,7 @@ public class FrmProdutos extends JFrame {
 		cbUnidadeDeMedida.setBackground(Color.WHITE);
 		cbUnidadeDeMedida.setFont(new Font("Arial", Font.BOLD, 14));
 		cbUnidadeDeMedida.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] {
-				"KG", "UN", "CX"
+				"KG", "UN", "CX", "LT"
 		}));
 
 		cbSubCategoria = new JComboBox<SubCategoria>();
@@ -874,8 +905,7 @@ public class FrmProdutos extends JFrame {
 			}
 		};
 
-
-		//tfIpi = new JTextField();
+		// tfIpi = new JTextField();
 		tfIpi = new TextFieldLimit(7, new TextFieldLimit.ValidadorPorcentagem());
 		tfIpi.setBounds(235, 413, 234, 23);
 		tfIpi.setBackground(Color.WHITE);
@@ -883,8 +913,7 @@ public class FrmProdutos extends JFrame {
 		tfIpi.setColumns(10);
 		tfIpi.getDocument().addDocumentListener(documentListener);
 
-
-		//tfIcms = new JTextField();
+		// tfIcms = new JTextField();
 		tfIcms = new TextFieldLimit(7, new TextFieldLimit.ValidadorPorcentagem());
 		tfIcms.setBounds(235, 370, 234, 23);
 		tfIcms.setBackground(Color.WHITE);
@@ -892,20 +921,17 @@ public class FrmProdutos extends JFrame {
 		tfIcms.setColumns(10);
 		tfIcms.getDocument().addDocumentListener(documentListener);
 
-
-
 		JLabel lblMargemLucro = new JLabel("Margem de Lucro %: ");
 		lblMargemLucro.setBounds(486, 376, 155, 17);
 		lblMargemLucro.setFont(new Font("Arial", Font.BOLD, 14));
 
-		//tfMargem = new JTextField();
+		// tfMargem = new JTextField();
 		tfMargem = new TextFieldLimit(7, new TextFieldLimit.ValidadorPorcentagem());
 		tfMargem.setBounds(634, 373, 169, 23);
 		tfMargem.setBackground(Color.WHITE);
 		tfMargem.setFont(new Font("Arial", Font.BOLD, 14));
 		tfMargem.setColumns(10);
 		tfMargem.getDocument().addDocumentListener(documentListener);
-
 
 		tfMarca = new JTextField();
 		tfMarca = new TextFieldLimit(30, new TextFieldLimit.ValidadorString());
@@ -914,10 +940,10 @@ public class FrmProdutos extends JFrame {
 		tfMarca.setFont(new Font("Arial", Font.BOLD, 14));
 		tfMarca.setColumns(10);
 
-		//tfDataFabricacao = new JTextField();
+		// tfDataFabricacao = new JTextField();
 		tfDataFabricacao = new JFormattedTextField(new MaskFormatter("##/##/####"));
 		int currentYear = Calendar.getInstance().get(Calendar.YEAR);
-		dataUtils.addDateVerifier((JFormattedTextField) tfDataFabricacao, 2000, currentYear+10);
+		dataUtils.addDateVerifier((JFormattedTextField) tfDataFabricacao, 2000, currentYear + 10);
 		tfDataFabricacao.setBounds(235, 286, 239, 23);
 		tfDataFabricacao.setBackground(Color.WHITE);
 		tfDataFabricacao.setFont(new Font("Arial", Font.BOLD, 14));
@@ -931,7 +957,7 @@ public class FrmProdutos extends JFrame {
 		lblValidade.setBounds(505, 289, 136, 17);
 		lblValidade.setFont(new Font("Arial", Font.BOLD, 14));
 
-		//tfValidade = new JTextField();
+		// tfValidade = new JTextField();
 		tfValidade = new JFormattedTextField(new MaskFormatter("##/##/####"));
 		dataUtils.addDateVerifier((JFormattedTextField) tfValidade, currentYear - 20, currentYear + 100);
 		tfValidade.setBounds(634, 286, 169, 23);
@@ -1031,9 +1057,9 @@ public class FrmProdutos extends JFrame {
 		lblDataEntrada.setBounds(116, 450, 115, 17);
 		abaDadosProdutos.add(lblDataEntrada);
 
-		//tfDataEntrada = new JTextField();
+		// tfDataEntrada = new JTextField();
 		tfDataEntrada = new JFormattedTextField(new MaskFormatter("##/##/####"));
-		dataUtils.addDateVerifier((JFormattedTextField) tfDataEntrada, currentYear-100, currentYear+100);
+		dataUtils.addDateVerifier((JFormattedTextField) tfDataEntrada, currentYear - 100, currentYear + 100);
 		tfDataEntrada.setFont(new Font("Arial", Font.BOLD, 14));
 		tfDataEntrada.setColumns(10);
 		tfDataEntrada.setBackground(Color.WHITE);

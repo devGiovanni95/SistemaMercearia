@@ -45,8 +45,6 @@ import model.Fornecedor;
 import model.Produto;
 import util.LimparCampos;
 
-
-
 // TODO: Auto-generated Javadoc
 /**
  * The Class FrmProdutos.
@@ -96,7 +94,7 @@ public class FrmEntradaEstoque extends JFrame {
 	private JPanel abaDadosEstoque;
 
 	/** The aba principal. */
-	public JTabbedPane abaPrincipal ;
+	public JTabbedPane abaPrincipal;
 
 	/** The tf codigo. */
 	private JTextField tfCodigo;
@@ -104,7 +102,6 @@ public class FrmEntradaEstoque extends JFrame {
 	private JTextField tfDataEntrada;
 	private JTextField tfQuantidadeComprada;
 	private JComboBox<Fornecedor> cbFornecedor;
-
 
 	/**
 	 * Limpar tela.
@@ -115,8 +112,7 @@ public class FrmEntradaEstoque extends JFrame {
 		LimparCampos limpar = new LimparCampos();
 		limpar.Limpar(tela);
 	}
-	
-	
+
 	private void cadastrarProdutoEstoque() {
 		CadastroProdutoFornecedorEstoque cadastroProdutoFornecedorEstoque = new CadastroProdutoFornecedorEstoque();
 		CadastroProdutoFornecedorEstoqueController cadastroProdutoFornecedorEstoqueController = new CadastroProdutoFornecedorEstoqueController();
@@ -140,31 +136,32 @@ public class FrmEntradaEstoque extends JFrame {
 		cadastroProdutoFornecedorEstoque.setDataEntrada(tfDataEntrada.getText());
 		cadastroProdutoFornecedorEstoque.setQuantidade(Double.parseDouble(tfQuantidadeComprada.getText()));
 		cadastroProdutoFornecedorEstoque.setPrecoUnitario(Double.parseDouble(tfPrecoUnitario.getText()));
-		subtotal = (Double.parseDouble(tfQuantidadeComprada.getText())) * (Double.parseDouble(tfPrecoUnitario.getText()));
+		subtotal = (Double.parseDouble(tfQuantidadeComprada.getText()))
+				* (Double.parseDouble(tfPrecoUnitario.getText()));
 		cadastroProdutoFornecedorEstoque.setSubTotal(subtotal);
 
 		cadastroProdutoFornecedorEstoqueController.cadastrarProdutoFornecedor(cadastroProdutoFornecedorEstoque);
 		limparTela(abaDadosEstoque);
 		JOptionPane.showMessageDialog(null, "Histórico cadastrado com sucesso!", "Sucesso",
 				JOptionPane.INFORMATION_MESSAGE);
-		
+
 		System.out.println(cadastroProdutoFornecedorEstoque);
 		limparTela(abaDadosEstoque);
-		
+
 	}
-	
+
 	private void preencherHora() {
-		   LocalDateTime dataHoraAtual = LocalDateTime.now();
-	        DateTimeFormatter formatada = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
-	        String dataHoraFormatada = dataHoraAtual.format(formatada);
-	        tfDataEntrada.setText(dataHoraFormatada);
+		LocalDateTime dataHoraAtual = LocalDateTime.now();
+		DateTimeFormatter formatada = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+		String dataHoraFormatada = dataHoraAtual.format(formatada);
+		tfDataEntrada.setText(dataHoraFormatada);
 	}
-	
-	
+
 	/*
 	 * Método utilizado para preencher os dados do produto na tela.
+	 * Caso de Uso (USC-002)
 	 */
-	private void preencherDadosProduto(){
+	private void preencherDadosProduto() {
 		abaPrincipal.setSelectedIndex(0);
 
 		tfCodigo.setText(tabelaEstoque.getValueAt(tabelaEstoque.getSelectedRow(), 1).toString());
@@ -181,25 +178,28 @@ public class FrmEntradaEstoque extends JFrame {
 
 	/**
 	 * Consultar produto por nome.
+	 * Caso de Uso (USC-002)
 	 */
-	private void consultarProdutoPorNome(){
+	private void consultarProdutoPorNome() {
 		String nomePesquisado = "%" + tfPesquisar.getText() + "%";
 		ProdutosController produtosController = new ProdutosController();
 		List<Produto> lista = null;
 		try {
 			lista = produtosController.consultarProdutosPorNome(nomePesquisado);
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null, "Erro ao consultar produtos: " + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Erro ao consultar produtos: " + e.getMessage(), "Erro",
+					JOptionPane.ERROR_MESSAGE);
 			return;
 		}
 		DefaultTableModel dadosTabela = (DefaultTableModel) tabelaEstoque.getModel();
 		dadosTabela.setNumRows(0);
 		dadosTabela.setColumnCount(15);
-		dadosTabela.addRow(new Object[]{"Descrição", "Codigo de Barras", "Marca", "SubCategoria", "Unidade de Medida", "Quantidade",
-				" Fabricação"," Validade","Lote", "IPI","ICMS","Margem Lucro","Preco Custo", "Preço Final"});
+		dadosTabela.addRow(new Object[] { "Descrição", "Codigo de Barras", "Marca", "SubCategoria", "Unidade de Medida",
+				"Quantidade",
+				" Fabricação", " Validade", "Lote", "IPI", "ICMS", "Margem Lucro", "Preco Custo", "Preço Final" });
 
-		for(Produto produto : lista) {
-			dadosTabela.addRow(new Object[]{
+		for (Produto produto : lista) {
+			dadosTabela.addRow(new Object[] {
 					produto.getDescricao(),
 					produto.getCodigoDeBarras(),
 					produto.getMarca(),
@@ -220,6 +220,7 @@ public class FrmEntradaEstoque extends JFrame {
 
 	/**
 	 * Metodo utilizado para listar todos os produtos e adiciona-los na tabela.
+	 * Caso de Uso (USC-002)
 	 */
 	private void consultarProdutos() {
 		try {
@@ -228,11 +229,12 @@ public class FrmEntradaEstoque extends JFrame {
 			DefaultTableModel dadosTabela = (DefaultTableModel) tabelaEstoque.getModel();
 			dadosTabela.setNumRows(0);
 			dadosTabela.setColumnCount(15);
-			dadosTabela.addRow(new Object[]{"Descrição", "Codigo de Barras", "Marca", "SubCategoria", "Unidade de Medida", "Quantidade",
-					" Fabricação"," Validade","Lote", "IPI","ICMS","Margem Lucro","Preco Custo", "Preço Final"});
+			dadosTabela.addRow(new Object[] { "Descrição", "Codigo de Barras", "Marca", "SubCategoria",
+					"Unidade de Medida", "Quantidade",
+					" Fabricação", " Validade", "Lote", "IPI", "ICMS", "Margem Lucro", "Preco Custo", "Preço Final" });
 
-			for(Produto produto : lista) {
-				dadosTabela.addRow(new Object[]{
+			for (Produto produto : lista) {
+				dadosTabela.addRow(new Object[] {
 						produto.getDescricao(),
 						produto.getCodigoDeBarras(),
 						produto.getMarca(),
@@ -249,24 +251,38 @@ public class FrmEntradaEstoque extends JFrame {
 						produto.getPrecoFinal()
 				});
 			}
-		}catch (Exception erro) {
-			JOptionPane.showMessageDialog(null,"Erro ao consultar produtos: " + erro.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+		} catch (Exception erro) {
+			JOptionPane.showMessageDialog(null, "Erro ao consultar produtos: " + erro.getMessage(), "Erro",
+					JOptionPane.ERROR_MESSAGE);
 		}
 	}
-	
+
+	/**
+	 * Método responsável por realizar o cálculo do preço final do produto,
+	 * com base na quantidade de produtos comprado e o valor final
+	 * 
+	 * @return subTotal - retorna o valor total da compra efetuada,
+	 *         depois da multiplicação da quantidade e do preço.
+	 */
 	public double calcularPrecoFinal() {
-		double quantidade = Double.parseDouble(tfQuantidadeComprada.getText()); 
-		double precoUnitario = Double.parseDouble(tfPrecoUnitario.getText()); 
+		double quantidade = Double.parseDouble(tfQuantidadeComprada.getText());
+		double precoUnitario = Double.parseDouble(tfPrecoUnitario.getText());
 		double subtotal = 0;
-		
-		if(quantidade > 0 && precoUnitario > 0) {
+
+		if (quantidade > 0 && precoUnitario > 0) {
 			subtotal = quantidade * precoUnitario;
-			tfSubTotal.setText(subtotal+"");
-		} 
+			tfSubTotal.setText(subtotal + "");
+		}
 		return subtotal;
 	}
 
 	Vector<Fornecedor> fornecedor;
+
+	/**
+	 * Método responsável por efetuar a consulta e listar todos os fornecedores na
+	 * tabela.
+	 * Caso de Uso (USC-002) e (USC-003)
+	 */
 	public void consultarFornecedores() {
 		try {
 			FornecedorController fornecedorController = new FornecedorController();
@@ -279,7 +295,7 @@ public class FrmEntradaEstoque extends JFrame {
 
 		}
 	}
-	
+
 	/**
 	 * Launch the application.
 	 *
@@ -298,7 +314,6 @@ public class FrmEntradaEstoque extends JFrame {
 		});
 	}
 
-
 	/**
 	 * Create the frame.
 	 */
@@ -316,11 +331,9 @@ public class FrmEntradaEstoque extends JFrame {
 		setBounds(100, 100, 1360, 768);
 		this.setLocationRelativeTo(null);
 
-
 		abaPrincipal = new JTabbedPane(JTabbedPane.TOP);
 		abaPrincipal.setBorder(null);
 		abaPrincipal.setBackground(new Color(202, 240, 248));
-
 
 		JPanel panelInferior = new JPanel();
 		panelInferior.setBorder(null);
@@ -352,56 +365,53 @@ public class FrmEntradaEstoque extends JFrame {
 		lblVoltar.setFont(new Font("Arial", Font.BOLD, 18));
 		GroupLayout gl_panelSuperior = new GroupLayout(panelSuperior);
 		gl_panelSuperior.setHorizontalGroup(
-			gl_panelSuperior.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panelSuperior.createSequentialGroup()
-					.addComponent(lblProdutos)
-					.addPreferredGap(ComponentPlacement.RELATED, 1003, Short.MAX_VALUE)
-					.addComponent(lblVoltar, GroupLayout.PREFERRED_SIZE, 88, GroupLayout.PREFERRED_SIZE)
-					.addGap(46))
-		);
+				gl_panelSuperior.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_panelSuperior.createSequentialGroup()
+								.addComponent(lblProdutos)
+								.addPreferredGap(ComponentPlacement.RELATED, 1003, Short.MAX_VALUE)
+								.addComponent(lblVoltar, GroupLayout.PREFERRED_SIZE, 88, GroupLayout.PREFERRED_SIZE)
+								.addGap(46)));
 		gl_panelSuperior.setVerticalGroup(
-			gl_panelSuperior.createParallelGroup(Alignment.TRAILING)
-				.addGroup(gl_panelSuperior.createSequentialGroup()
-					.addContainerGap(22, Short.MAX_VALUE)
-					.addGroup(gl_panelSuperior.createParallelGroup(Alignment.LEADING)
-						.addComponent(lblProdutos)
-						.addComponent(lblVoltar, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE)))
-		);
+				gl_panelSuperior.createParallelGroup(Alignment.TRAILING)
+						.addGroup(gl_panelSuperior.createSequentialGroup()
+								.addContainerGap(22, Short.MAX_VALUE)
+								.addGroup(gl_panelSuperior.createParallelGroup(Alignment.LEADING)
+										.addComponent(lblProdutos)
+										.addComponent(lblVoltar, GroupLayout.PREFERRED_SIZE, 32,
+												GroupLayout.PREFERRED_SIZE))));
 		panelSuperior.setLayout(gl_panelSuperior);
 		GroupLayout groupLayout = new GroupLayout(getContentPane());
 		groupLayout.setHorizontalGroup(
-			groupLayout.createParallelGroup(Alignment.LEADING)
-				.addComponent(panelSuperior, GroupLayout.DEFAULT_SIZE, 1344, Short.MAX_VALUE)
-				.addComponent(panelInferior, GroupLayout.DEFAULT_SIZE, 1344, Short.MAX_VALUE)
-				.addComponent(abaPrincipal, GroupLayout.PREFERRED_SIZE, 1344, Short.MAX_VALUE)
-		);
+				groupLayout.createParallelGroup(Alignment.LEADING)
+						.addComponent(panelSuperior, GroupLayout.DEFAULT_SIZE, 1344, Short.MAX_VALUE)
+						.addComponent(panelInferior, GroupLayout.DEFAULT_SIZE, 1344, Short.MAX_VALUE)
+						.addComponent(abaPrincipal, GroupLayout.PREFERRED_SIZE, 1344, Short.MAX_VALUE));
 		groupLayout.setVerticalGroup(
-			groupLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(groupLayout.createSequentialGroup()
-					.addComponent(panelSuperior, GroupLayout.PREFERRED_SIZE, 79, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addComponent(abaPrincipal, GroupLayout.PREFERRED_SIZE, 531, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED, 45, Short.MAX_VALUE)
-					.addComponent(panelInferior, GroupLayout.PREFERRED_SIZE, 109, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap())
-		);
+				groupLayout.createParallelGroup(Alignment.LEADING)
+						.addGroup(groupLayout.createSequentialGroup()
+								.addComponent(panelSuperior, GroupLayout.PREFERRED_SIZE, 79, GroupLayout.PREFERRED_SIZE)
+								.addPreferredGap(ComponentPlacement.UNRELATED)
+								.addComponent(abaPrincipal, GroupLayout.PREFERRED_SIZE, 531, GroupLayout.PREFERRED_SIZE)
+								.addPreferredGap(ComponentPlacement.RELATED, 45, Short.MAX_VALUE)
+								.addComponent(panelInferior, GroupLayout.PREFERRED_SIZE, 109,
+										GroupLayout.PREFERRED_SIZE)
+								.addContainerGap()));
 
 		JPanel panelInferior_2 = new JPanel();
 		panelInferior_2.setBackground(new Color(202, 240, 248));
 		GroupLayout gl_panelInferior = new GroupLayout(panelInferior);
 		gl_panelInferior.setHorizontalGroup(
-			gl_panelInferior.createParallelGroup(Alignment.TRAILING)
-				.addGroup(Alignment.LEADING, gl_panelInferior.createSequentialGroup()
-					.addComponent(panelInferior_2, GroupLayout.DEFAULT_SIZE, 1344, Short.MAX_VALUE)
-					.addGap(20))
-		);
+				gl_panelInferior.createParallelGroup(Alignment.TRAILING)
+						.addGroup(Alignment.LEADING, gl_panelInferior.createSequentialGroup()
+								.addComponent(panelInferior_2, GroupLayout.DEFAULT_SIZE, 1344, Short.MAX_VALUE)
+								.addGap(20)));
 		gl_panelInferior.setVerticalGroup(
-			gl_panelInferior.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panelInferior.createSequentialGroup()
-					.addGap(26)
-					.addComponent(panelInferior_2, GroupLayout.PREFERRED_SIZE, 49, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(34, Short.MAX_VALUE))
-		);
+				gl_panelInferior.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_panelInferior.createSequentialGroup()
+								.addGap(26)
+								.addComponent(panelInferior_2, GroupLayout.PREFERRED_SIZE, 49,
+										GroupLayout.PREFERRED_SIZE)
+								.addContainerGap(34, Short.MAX_VALUE)));
 		panelInferior_2.setLayout(new GridLayout(0, 6, 10, 0));
 
 		JPanel espacoEsquerdo = new JPanel();
@@ -463,7 +473,7 @@ public class FrmEntradaEstoque extends JFrame {
 		cbUnidadeDeMedida.setBackground(Color.WHITE);
 		cbUnidadeDeMedida.setFont(new Font("Arial", Font.BOLD, 14));
 		cbUnidadeDeMedida.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] {
-				"KG","UN", "CX"
+				"KG", "UN", "CX"
 		}));
 
 		tfSubCategoria = new JTextField();
@@ -472,8 +482,6 @@ public class FrmEntradaEstoque extends JFrame {
 		tfSubCategoria.setEnabled(false);
 		tfSubCategoria.setBackground(Color.WHITE);
 		tfSubCategoria.setFont(new Font("Arial", Font.BOLD, 14));
-
-
 
 		JButton btnNovo = new JButton("Novo");
 		btnNovo.setBackground(new Color(106, 76, 147));
@@ -493,12 +501,11 @@ public class FrmEntradaEstoque extends JFrame {
 
 		btnAlterar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//alterarProduto();
+				// alterarProduto();
 			}
 		});
 
 		panelInferior_2.add(btnAlterar);
-
 
 		JButton btnSalvar = new JButton("Salvar");
 		btnSalvar.setForeground(Color.WHITE);
@@ -508,17 +515,14 @@ public class FrmEntradaEstoque extends JFrame {
 				cadastrarProdutoEstoque();
 			}
 
-		
 		});
 		btnSalvar.setFont(new Font("Arial", Font.BOLD, 24));
 		panelInferior_2.add(btnSalvar);
 
-
-
 		JButton btnExcluir = new JButton("Excluir");
 		btnExcluir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//excluirProduto();
+
 			}
 		});
 		btnExcluir.setBackground(new Color(255, 89, 94));
@@ -526,14 +530,9 @@ public class FrmEntradaEstoque extends JFrame {
 		btnExcluir.setFont(new Font("Arial", Font.BOLD, 24));
 		panelInferior_2.add(btnExcluir);
 
-
-
 		JPanel espacoDireito = new JPanel();
 		espacoDireito.setBackground(new Color(202, 240, 248));
 		panelInferior_2.add(espacoDireito);
-
-
-
 
 		tfMarca = new JTextField();
 		tfMarca.setBounds(271, 243, 551, 23);
@@ -571,14 +570,15 @@ public class FrmEntradaEstoque extends JFrame {
 		tfPrecoUnitario.setFont(new Font("Arial", Font.BOLD, 14));
 		tfPrecoUnitario.setColumns(10);
 		tfPrecoUnitario.addKeyListener(new KeyAdapter() {
-			//Metodo confere se o valor digitado é numerico se nçao é impede de ser digitado
-		    @Override
-		    public void keyTyped(KeyEvent e) {
-		        char c = e.getKeyChar();
-		        if (!(Character.isDigit(c) || c == '.')) {
-		            e.consume();
-		        }
-		    }
+			// Metodo confere se o valor digitado é numerico se nçao é impede de ser
+			// digitado
+			@Override
+			public void keyTyped(KeyEvent e) {
+				char c = e.getKeyChar();
+				if (!(Character.isDigit(c) || c == '.')) {
+					e.consume();
+				}
+			}
 		});
 
 		JButton btnRemover = new JButton("Remover");
@@ -613,45 +613,45 @@ public class FrmEntradaEstoque extends JFrame {
 		tfCodigo.setBounds(271, 29, 214, 20);
 		tfCodigo.setEditable(false);
 		tfCodigo.setColumns(10);
-		
-				JLabel lblQtdEstoque = new JLabel("Quantidade em Estoque:");
-				lblQtdEstoque.setBounds(81, 160, 172, 23);
-				lblQtdEstoque.setFont(new Font("Arial", Font.BOLD, 14));
-		
-				JLabel lblDescricao = new JLabel("Descrição:");
-				lblDescricao.setBounds(179, 121, 74, 17);
-				lblDescricao.setFont(new Font("Arial", Font.BOLD, 14));
-		
-				JLabel lblCodigoDeBarras = new JLabel("Código de Barras:");
-				lblCodigoDeBarras.setBounds(127, 80, 126, 17);
-				lblCodigoDeBarras.setFont(new Font("Arial", Font.BOLD, 14));
-		
+
+		JLabel lblQtdEstoque = new JLabel("Quantidade em Estoque:");
+		lblQtdEstoque.setBounds(81, 160, 172, 23);
+		lblQtdEstoque.setFont(new Font("Arial", Font.BOLD, 14));
+
+		JLabel lblDescricao = new JLabel("Descrição:");
+		lblDescricao.setBounds(179, 121, 74, 17);
+		lblDescricao.setFont(new Font("Arial", Font.BOLD, 14));
+
+		JLabel lblCodigoDeBarras = new JLabel("Código de Barras:");
+		lblCodigoDeBarras.setBounds(127, 80, 126, 17);
+		lblCodigoDeBarras.setFont(new Font("Arial", Font.BOLD, 14));
+
 		tfDataEntrada = new JTextField();
 		tfDataEntrada.setEditable(false);
 		tfDataEntrada.setBounds(271, 364, 236, 23);
 		tfDataEntrada.setFont(new Font("Arial", Font.BOLD, 14));
 		tfDataEntrada.setColumns(10);
 		tfDataEntrada.setBackground(Color.WHITE);
-		
+
 		JLabel lblDataEntrada = new JLabel("Data de Entrada:");
 		lblDataEntrada.setBounds(144, 367, 115, 17);
 		lblDataEntrada.setFont(new Font("Arial", Font.BOLD, 14));
-		
+
 		JLabel lblQuantidadeComprada = new JLabel("Quantidade Comprada:");
 		lblQuantidadeComprada.setBounds(460, 328, 160, 17);
 		lblQuantidadeComprada.setFont(new Font("Arial", Font.BOLD, 14));
-		
+
 		tfQuantidadeComprada = new JTextField();
 		tfQuantidadeComprada.setEditable(false);
 		tfQuantidadeComprada.setBounds(627, 325, 195, 23);
 		tfQuantidadeComprada.setFont(new Font("Arial", Font.BOLD, 14));
 		tfQuantidadeComprada.setColumns(10);
 		tfQuantidadeComprada.setBackground(Color.WHITE);
-		
+
 		JLabel lblFornecedor = new JLabel("Fornecedor:");
 		lblFornecedor.setBounds(172, 405, 87, 19);
 		lblFornecedor.setFont(new Font("Arial", Font.BOLD, 14));
-		
+
 		cbFornecedor = new JComboBox<Fornecedor>();
 		cbFornecedor.setBounds(271, 403, 551, 23);
 		cbFornecedor.setEditable(true);
@@ -659,19 +659,17 @@ public class FrmEntradaEstoque extends JFrame {
 		cbFornecedor.setEnabled(true);
 		cbFornecedor.setBackground(Color.WHITE);
 		consultarFornecedores();
-		
-		
+
 		GroupLayout gl_abaCadastrarProduto = new GroupLayout(abaCadastrarProduto);
 		gl_abaCadastrarProduto.setHorizontalGroup(
-			gl_abaCadastrarProduto.createParallelGroup(Alignment.LEADING)
-				.addComponent(abaDadosEstoque, GroupLayout.DEFAULT_SIZE, 1339, Short.MAX_VALUE)
-		);
+				gl_abaCadastrarProduto.createParallelGroup(Alignment.LEADING)
+						.addComponent(abaDadosEstoque, GroupLayout.DEFAULT_SIZE, 1339, Short.MAX_VALUE));
 		gl_abaCadastrarProduto.setVerticalGroup(
-			gl_abaCadastrarProduto.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_abaCadastrarProduto.createSequentialGroup()
-					.addComponent(abaDadosEstoque, GroupLayout.PREFERRED_SIZE, 505, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(37, Short.MAX_VALUE))
-		);
+				gl_abaCadastrarProduto.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_abaCadastrarProduto.createSequentialGroup()
+								.addComponent(abaDadosEstoque, GroupLayout.PREFERRED_SIZE, 505,
+										GroupLayout.PREFERRED_SIZE)
+								.addContainerGap(37, Short.MAX_VALUE)));
 		abaDadosEstoque.setLayout(null);
 		abaDadosEstoque.add(lblCodigo);
 		abaDadosEstoque.add(tfCodigo);
@@ -738,7 +736,7 @@ public class FrmEntradaEstoque extends JFrame {
 				preencherDadosProduto();
 				tfQuantidadeComprada.setEditable(true);
 				tfPrecoUnitario.setEditable(true);
-				//tfDataEntrada.setEditable(true);
+				// tfDataEntrada.setEditable(true);
 				preencherHora();
 			}
 

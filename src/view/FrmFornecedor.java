@@ -79,7 +79,7 @@ public class FrmFornecedor extends JFrame {
 	/** The text field razao social. */
 	private JTextField tfRazaoSocial;
 
-	/**  the combo box uf. */
+	/** the combo box uf. */
 	private JComboBox<String> cbUf;
 
 	/** The aba dados pessoais. */
@@ -89,9 +89,10 @@ public class FrmFornecedor extends JFrame {
 	private LimparCampos limparCampos;
 
 	/**
-	 * Método responsavel por limpar a tela referenciada.
-	 *
+	 * Método responsavel por limpar a tela referenciada. *
+	 * 
 	 * @param tela the tela
+	 *             Uso de Caso (USC-003)
 	 */
 	private void limparTela(JPanel tela) {
 		LimparCampos limpar = new LimparCampos();
@@ -99,7 +100,8 @@ public class FrmFornecedor extends JFrame {
 	}
 
 	/**
-	 * Metodo responsavel por alterar um fornecedor.
+	 * Método responsável por alterar os dados do fornecedor.
+	 * Uso de Caso (USC-003)
 	 */
 	private void alterarFornecedor() {
 		Fornecedor fornecedor = new Fornecedor();
@@ -129,11 +131,9 @@ public class FrmFornecedor extends JFrame {
 		}
 	}
 
-	/**
-	 * Cadastrar fornecedor.
-	 */
 	/*
-	 * Metodo para cadastrar fornecedores no banco de dados.
+	 * Metodo para cadastrar novos fornecedores.
+	 * Uso de Caso (USC-003)
 	 */
 	private void cadastrarFornecedor() {
 		Fornecedor fornecedor = new Fornecedor();
@@ -163,11 +163,9 @@ public class FrmFornecedor extends JFrame {
 		}
 	}
 
-	/**
-	 * Excluir fornecedor.
-	 */
 	/*
-	 * Metodo para excluir um fornecedor do banco de dados.
+	 * Método responsável por realizar a exclusão de um fornecedor.
+	 * Uso de Caso (USC-003)
 	 */
 	private void excluirFornecedor() {
 		Fornecedor fornecedor = new Fornecedor();
@@ -185,14 +183,10 @@ public class FrmFornecedor extends JFrame {
 		}
 	}
 
-
-
-	/**
-	 * Preencher dados fornecedor.
-	 */
 	/*
-	 * Metodo para preencher os campos da tela com os dados do fornecedor
+	 * Método para preencher os campos da tela com os dados do fornecedor
 	 * selecionado na tabela.
+	 * Uso de Caso (USC-003)
 	 */
 	private void preencherDadosFornecedor() {
 		abaPrincipal.setSelectedIndex(0);
@@ -218,6 +212,7 @@ public class FrmFornecedor extends JFrame {
 	 * Método utilizado para consultar fornecedores pelo nome ou parte do nome para
 	 * exibir na tabela. O texto pesquisado é obtido a partir do texto digitado pelo
 	 * usuario.
+	 * Uso de Caso (USC-003)
 	 */
 	public void consultarFornecedoresPorNome() {
 		try {
@@ -243,7 +238,9 @@ public class FrmFornecedor extends JFrame {
 	}
 
 	/**
-	 * Consultar fornecedores.
+	 * Método utilizado para consultar fornecedores para
+	 * exibir na tabela.
+	 * Uso de Caso (USC-003)
 	 */
 	private void consultarFornecedores() {
 		try {
@@ -266,7 +263,6 @@ public class FrmFornecedor extends JFrame {
 			JOptionPane.showMessageDialog(null, "Ops, aconteceu o erro: " + erro);
 		}
 	}
-
 
 	/**
 	 * Launch the application.
@@ -416,14 +412,12 @@ public class FrmFornecedor extends JFrame {
 		tfComplemento = new TextFieldLimit(50, new TextFieldLimit.ValidadorString());
 		tfComplemento.setColumns(10);
 
-
 		JLabel lblRazaoSocial = new JLabel("Razão Social:");
 		lblRazaoSocial.setFont(new Font("Arial", Font.BOLD, 14));
 
 		tfRazaoSocial = new JTextField();
 		tfRazaoSocial = new TextFieldLimit(100, new TextFieldLimit.ValidadorString());
 		tfRazaoSocial.setColumns(10);
-
 
 		GroupLayout gl_abaCadastrarFornecedor = new GroupLayout(abaCadastrarFornecedor);
 		gl_abaCadastrarFornecedor.setHorizontalGroup(gl_abaCadastrarFornecedor.createParallelGroup(Alignment.LEADING)
@@ -670,7 +664,6 @@ public class FrmFornecedor extends JFrame {
 		lblFornecedores.setForeground(Color.WHITE);
 		lblFornecedores.setFont(new Font("Arial Black", Font.BOLD, 40));
 
-
 		JLabel lblVoltar = new JLabel("Voltar");
 		lblVoltar.addMouseListener(new MouseAdapter() {
 			@Override
@@ -698,7 +691,6 @@ public class FrmFornecedor extends JFrame {
 								.addComponent(lblVoltar, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE)
 								.addComponent(lblFornecedores))));
 		panelSuperior.setLayout(gl_panelSuperior);
-
 
 		JPanel panelInferior = new JPanel();
 		panelInferior.setBackground(new Color(202, 240, 248));

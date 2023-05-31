@@ -67,6 +67,7 @@ public class FrmSubCategoria extends JFrame {
 
 	/**
 	 * Método responsavel por limpar a tela referenciada.
+	 * Caso de Uso (USC-009)
 	 *
 	 * @param tela the tela
 	 */
@@ -77,6 +78,7 @@ public class FrmSubCategoria extends JFrame {
 
 	/**
 	 * Metodo utilizado para listar todos os clientes e adiciona-los na tabela.
+	 * Caso de Uso (USC-009)
 	 */
 	public void consultarSubCategorias() {
 		try {
@@ -101,10 +103,11 @@ public class FrmSubCategoria extends JFrame {
 		}
 
 	}
-	
+
 	/**
 	 * Método responsável por efetuar o cadatro da subcategoria,
 	 * a partir de um objeto do tipo SubCategoria.
+	 * Caso de Uso (USC-009)
 	 */
 	public void cadastrarSubCategoria() {
 		SubCategoria subCategoria = new SubCategoria();
@@ -130,6 +133,7 @@ public class FrmSubCategoria extends JFrame {
 	 * Método utilizado para consultar subCategoria pelo nome ou parte do nome para
 	 * exibir na tabela.
 	 * O texto pesquisado é obtido a partir do texto digitado pelo usuario.
+	 * Caso de Uso (USC-009)
 	 */
 	private void consultarSubCategoriaPorNome() {
 		String nomePesquisado = "%" + tfPesquisar.getText() + "%";
@@ -142,7 +146,7 @@ public class FrmSubCategoria extends JFrame {
 		dadosTabela.setColumnCount(4);
 		dadosTabela.addRow(new Object[] { "Código", "SubCategoria", "Categoria", "Descrição" });
 
-		for (SubCategoria subCategoria : lista){
+		for (SubCategoria subCategoria : lista) {
 			dadosTabela.addRow(new Object[] {
 					subCategoria.getCodigo(),
 					subCategoria.getNome(),
@@ -157,12 +161,14 @@ public class FrmSubCategoria extends JFrame {
 	 * Método responsável por preencher os campos da tela principal com os dados da
 	 * subCategoria selecionado na tabela para que possam ser alterados.
 	 * A partir da linha selecionada na tabela.
+	 * Caso de Uso (USC-009)
 	 */
 	private void preencherDadosSubCategoria() {
 		abaPrincipal.setSelectedIndex(0);
 
 		tfCodigo.setText(tabelaSubCategorias.getValueAt(tabelaSubCategorias.getSelectedRow(), 0).toString());
-		tfCategoriaSelecionada.setText(tabelaSubCategorias.getValueAt(tabelaSubCategorias.getSelectedRow(), 1).toString());
+		tfCategoriaSelecionada
+				.setText(tabelaSubCategorias.getValueAt(tabelaSubCategorias.getSelectedRow(), 1).toString());
 		tfNomeSubCategoria.setText(tabelaSubCategorias.getValueAt(tabelaSubCategorias.getSelectedRow(), 2).toString());
 		// Nao esta atualizando no combobox
 		try {
@@ -178,6 +184,7 @@ public class FrmSubCategoria extends JFrame {
 	 * em um objeto do tipo SubCategoria,
 	 * Em seguida, os campos de texto na interface gráfica são limpos através do
 	 * método limparTela da classe LimparCampos.
+	 * Caso de Uso (USC-009)
 	 */
 	private void alterarSubCategoria() {
 		SubCategoria subCategoria = new SubCategoria();
@@ -194,7 +201,7 @@ public class FrmSubCategoria extends JFrame {
 		subCategoria.setCategoria(categoria);
 
 		subCategoriaController.alterarSubCategoria(subCategoria);
- 
+
 		limparTela(abaDadosSubCategorias);
 	}
 
@@ -204,6 +211,7 @@ public class FrmSubCategoria extends JFrame {
 	 * tela.
 	 * Em seguida, os campos de texto na interface gráfica são limpos após a
 	 * exclusão.
+	 * Caso de Uso (USC-009)
 	 */
 	private void excluirSubCategoria() {
 
@@ -331,24 +339,26 @@ public class FrmSubCategoria extends JFrame {
 			public void ancestorAdded(AncestorEvent event) {
 				consultarCategorias();
 			}
+
 			public void ancestorMoved(AncestorEvent event) {
 			}
+
 			public void ancestorRemoved(AncestorEvent event) {
 			}
 		});
 
 		cbCategoria.setFont(new Font("Arial", Font.BOLD, 14));
-		
+
 		JLabel lblCategoriaSelecionada = new JLabel("Categoria Selecionada:");
 		lblCategoriaSelecionada.setBounds(301, 221, 162, 17);
 		lblCategoriaSelecionada.setFont(new Font("Arial", Font.BOLD, 14));
-		
+
 		tfCategoriaSelecionada = new JTextField();
 		tfCategoriaSelecionada.setEditable(false);
 		tfCategoriaSelecionada.setBounds(473, 218, 509, 22);
 		tfCategoriaSelecionada.setFont(new Font("Arial", Font.BOLD, 14));
 		tfCategoriaSelecionada.setColumns(10);
-		
+
 		JButton btnNewButton = new JButton("Selecionar");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -515,8 +525,8 @@ public class FrmSubCategoria extends JFrame {
 		btnSalvar.setForeground(Color.WHITE);
 		btnSalvar.setBackground(new Color(138, 201, 38));
 		btnSalvar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {				
-				cadastrarSubCategoria();	
+			public void actionPerformed(ActionEvent e) {
+				cadastrarSubCategoria();
 			}
 		});
 		btnSalvar.setFont(new Font("Arial", Font.BOLD, 24));
