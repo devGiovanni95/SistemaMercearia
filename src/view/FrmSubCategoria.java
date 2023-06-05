@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -37,6 +38,11 @@ import java.awt.event.ItemEvent;
  * The Class FrmSubCategoria.
  */
 public class FrmSubCategoria extends JFrame {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	/** The content pane. */
 	private JPanel contentPane;
@@ -269,6 +275,7 @@ public class FrmSubCategoria extends JFrame {
 				consultarSubCategorias();
 			}
 		});
+		setIconImage(Toolkit.getDefaultToolkit().getImage(FrmCategoria.class.getResource("/assets/produto.png")));
 		setForeground(new Color(24, 52, 70));
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setAutoRequestFocus(false);
@@ -460,11 +467,14 @@ public class FrmSubCategoria extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				// Fechar a janela atual
-				SwingUtilities.getWindowAncestor(lblNewLabel_1).dispose();
+				// SwingUtilities.getWindowAncestor(lblNewLabel_1).dispose();
 
 				// Abrir a janela principal
-				FrmMenuPrincipal menu = new FrmMenuPrincipal();
-				menu.setVisible(true);
+				/*
+				 * FrmMenuPrincipal menu = new FrmMenuPrincipal();
+				 * menu.setVisible(true);
+				 */
+				dispose();
 			}
 		});
 

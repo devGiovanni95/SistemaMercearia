@@ -83,8 +83,7 @@ public class AberturaEFechamentoCaixaController {
 	}
 
 	/**
-	 * Excluir abertura S.
-	 *
+	 * Excluir abertura
 	 * @param caixa the caixa
 	 */
 	public void excluirAbertura(AberturaEFechamentoCaixa caixa) {

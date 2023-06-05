@@ -3,7 +3,7 @@ package view;
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
-import java.awt.GridLayout;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -11,16 +11,25 @@ import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.List;
-import javax.swing.*;
+
+import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JLayeredPane;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.table.DefaultTableModel;
 
 import controller.ItemVendaController;
-import controller.ProdutosController;
 import controller.VendaController;
 import model.ItemVenda;
-import model.Produto;
 import model.Venda;
 import util.LimparCampos;
 
@@ -29,6 +38,11 @@ import util.LimparCampos;
  * The Class FrmProdutos.
  */
 public class FrmConsultarVenda extends JFrame {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	/** The tf nome. */
 	private JTextField tfPesquisar;
@@ -45,8 +59,6 @@ public class FrmConsultarVenda extends JFrame {
 	/** The aba principal. */
 	public JTabbedPane abaPrincipal;
 
-	/** Objeto da classe LimparCampos. */
-	private LimparCampos limparCampos;
 	private JTextField tfCodigo;
 	private JTextField tfCliente;
 	private JTextField tfFuncionario;
@@ -174,7 +186,7 @@ public class FrmConsultarVenda extends JFrame {
 				consultarVendas();
 			}
 		});
-
+		setIconImage(Toolkit.getDefaultToolkit().getImage(FrmCategoria.class.getResource("/assets/produto.png")));
 		setBackground(new Color(202, 240, 248));
 		getContentPane().setBackground(new Color(202, 240, 248));
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -202,11 +214,14 @@ public class FrmConsultarVenda extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				// Fechar a janela atual
-				SwingUtilities.getWindowAncestor(lblVoltar).dispose();
+				// SwingUtilities.getWindowAncestor(lblVoltar).dispose();
 
 				// Abrir a janela principal
-				FrmMenuPrincipal menu = new FrmMenuPrincipal();
-				menu.setVisible(true);
+				/*
+				 * FrmMenuPrincipal menu = new FrmMenuPrincipal();
+				 * menu.setVisible(true);
+				 */
+				dispose();
 			}
 		});
 

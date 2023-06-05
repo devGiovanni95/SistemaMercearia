@@ -3,6 +3,7 @@ package view;
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
@@ -13,18 +14,14 @@ import java.io.PrintWriter;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.AncestorEvent;
 import javax.swing.event.AncestorListener;
@@ -41,12 +38,20 @@ import model.Produto;
 import model.Venda;
 import util.GeradorDeCodigo;
 import util.Imprimir;
+import javax.swing.ImageIcon;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 // TODO: Auto-generated Javadoc
 /**
  * The Class FrmFormaDePagamento.
  */
 public class FrmFormaDePagamento extends JFrame {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	/** The cliente. */
 	Cliente cliente;
@@ -390,10 +395,10 @@ public class FrmFormaDePagamento extends JFrame {
 		ItemVendaController itemVendaController = new ItemVendaController();
 		List<ItemVenda> lista = itemVendaController.consultarItensVendaPorCodigo(getVenda().getCodigo());
 
-		String operacao = "";
+		String operacao = " ";
 		try {
 			int a = 1;
-			PrintWriter pw = new PrintWriter("Cupom.txt");
+			PrintWriter pw = new PrintWriter("C:\\Users\\Public\\Documents\\CupomFiscal\\Cupom"+getVenda().getCodigo()+".txt");
 			pw.write("                     MERCEARIA                    \n");
 			pw.write("        RUA SEM NOME, 1254 - VILA SÃO JOSÉ        \n");
 			pw.write("	    	 CEP: 13330-050 INDAIATUBA - SP         \n");
@@ -519,6 +524,7 @@ public class FrmFormaDePagamento extends JFrame {
 
 			}
 		});
+		setIconImage(Toolkit.getDefaultToolkit().getImage(FrmCategoria.class.getResource("/assets/produto.png")));
 		setBounds(100, 100, 719, 665);
 		contentPane = new JPanel();
 		contentPane.addAncestorListener(new AncestorListener() {
@@ -814,5 +820,18 @@ public class FrmFormaDePagamento extends JFrame {
 		contentPane.add(tfValorAReceber);
 		contentPane.add(tfPago);
 		contentPane.add(btnFinalizarVenda);
+		
+		JLabel lblVoltar = new JLabel("Voltar");
+		lblVoltar.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				dispose();
+			}
+		});
+		lblVoltar.setIcon(new ImageIcon(FrmFormaDePagamento.class.getResource("/assets/sair.png")));
+		lblVoltar.setForeground(Color.WHITE);
+		lblVoltar.setFont(new Font("Arial", Font.BOLD, 18));
+		lblVoltar.setBounds(605, 11, 88, 32);
+		contentPane.add(lblVoltar);
 	}
 }

@@ -5,6 +5,7 @@ import java.awt.EventQueue;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Label;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
@@ -35,14 +36,13 @@ import javax.swing.table.DefaultTableModel;
 
 import controller.AberturaEFechamentoCaixaController;
 import controller.ClienteController;
-import controller.FuncionarioController;
 import controller.ProdutosController;
 import model.AberturaEFechamentoCaixa;
 import model.Cliente;
 import model.Funcionario;
 import model.ItemVenda;
-import model.Venda;
 import model.Produto;
+import model.Venda;
 import util.GeradorDeCodigo;
 
 // TODO: Auto-generated Javadoc
@@ -50,6 +50,11 @@ import util.GeradorDeCodigo;
  * The Class FrmFrenteCaixa.
  */
 public class FrmFrenteCaixa extends JFrame {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	/** The tf cpf. */
 	private JTextField tfCpf;
@@ -73,7 +78,7 @@ public class FrmFrenteCaixa extends JFrame {
 	private String descricao, item, codigoBarras;
 
 	/** The preco. */
-	private double total = 0, quantidade, preco;
+	private double  quantidade;
 
 	/** The lbl situacao caixa. */
 	private JLabel lblSituacaoCaixa;
@@ -107,9 +112,6 @@ public class FrmFrenteCaixa extends JFrame {
 
 	/** The conferir situacao caixa. */
 	private boolean conferirSituacaoCaixa;
-
-	/** The quantidade produto. */
-	private double quantidadeProduto;
 
 	/** The lbl total compra. */
 	private JLabel lblTotalCompra;
@@ -366,8 +368,11 @@ public class FrmFrenteCaixa extends JFrame {
 		aberturaEFechamentoCaixa.setSituacaoCaixa(true);
 		aberturaEFechamentoCaixaController.cadastrarAbertura(aberturaEFechamentoCaixa);
 		dispose();
+
 		FrmFrenteCaixa frmFrenteCaixa = new FrmFrenteCaixa();
 		frmFrenteCaixa.setVisible(true);
+		frmFrenteCaixa.setFuncionario(funcionario);
+
 	}
 
 	/**
@@ -416,7 +421,7 @@ public class FrmFrenteCaixa extends JFrame {
 	public void conferirTroco() {
 
 		if (getAberturaEFechamentoCaixa().isSituacaoCaixa() == false) {
-			FrmMenuPrincipal frmMenuPrincipal = new FrmMenuPrincipal();
+			//FrmMenuPrincipal frmMenuPrincipal = new FrmMenuPrincipal();
 			try {
 				trocoInicial = Double.parseDouble(JOptionPane.showInputDialog("Digite no Troco Inicial"));
 				if (trocoInicial >= 0) {
@@ -481,7 +486,7 @@ public class FrmFrenteCaixa extends JFrame {
 			formaDePagamento.setFrenteCaixa(this);
 			formaDePagamento.setListaItensCarinho(dadosTabela);
 			formaDePagamento.setListaItensCarinho(dadosTabela);
-			this.dispose();
+			
 		} else {
 			JOptionPane.showMessageDialog(null, "Venda não pode ser finalizada pois não há nenhum lançamento");
 		}
@@ -520,7 +525,7 @@ public class FrmFrenteCaixa extends JFrame {
 	 */
 	private void adicionarItens() {
 		Produto produto = new Produto();
-		Venda venda = new Venda();
+		//Venda venda = new Venda();
 		ProdutosController produtosController = new ProdutosController();
 
 		produto = produtosController.consultarProdutosPorCodigoBarras(tfCodigoDeBarras.getText());
@@ -583,8 +588,9 @@ public class FrmFrenteCaixa extends JFrame {
 	 * Caso de Uso (USC-005)
 	 */
 	public void voltarParaMenu() {
-		FrmMenuPrincipal frmMenuPrincipal = new FrmMenuPrincipal();
-		frmMenuPrincipal.setVisible(true);
+		// FrmMenuPrincipal frmMenuPrincipal = new FrmMenuPrincipal();
+		// frmMenuPrincipal.setVisible(true);
+
 		this.dispose();
 	}
 
@@ -617,7 +623,7 @@ public class FrmFrenteCaixa extends JFrame {
 			}
 		});
 		setFocusable(true);
-
+		setIconImage(Toolkit.getDefaultToolkit().getImage(FrmCategoria.class.getResource("/assets/produto.png")));
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowActivated(WindowEvent e) {
@@ -918,10 +924,11 @@ public class FrmFrenteCaixa extends JFrame {
 
 				String valor = (listaProdutos.getValueAt(listaProdutos.getSelectedRow(), 5).toString());
 				double removido = Double.parseDouble(valor);
-				// dadosTabela.removeRow(listaProdutos.getSelectedRow());
+			
 
 				listaProdutos.setValueAt("0", listaProdutos.getSelectedRow(), 5);
 				listaProdutos.setValueAt("0", listaProdutos.getSelectedRow(), 2);
+				
 
 				double aux = Double.parseDouble(lblTotalCompra.getText());
 				lblTotalCompra.setText("" + (aux - removido));
@@ -1056,6 +1063,7 @@ public class FrmFrenteCaixa extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				JOptionPane.showMessageDialog(null, "Venda Cancelada com sucesso!");
 				FrmFrenteCaixa caixa = new FrmFrenteCaixa();
+				caixa.setFuncionario(funcionario);
 				dispose();
 				caixa.setVisible(true);
 			}

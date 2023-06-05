@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
@@ -12,7 +13,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.text.SimpleDateFormat;
+//import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -33,7 +34,6 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
-import javax.swing.SwingUtilities;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 
@@ -50,6 +50,11 @@ import util.LimparCampos;
  * The Class FrmProdutos.
  */
 public class FrmEntradaEstoque extends JFrame {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	/** The tf codigo de barras. */
 	private JTextField tfCodigoDeBarras;
@@ -122,14 +127,15 @@ public class FrmEntradaEstoque extends JFrame {
 		produto = produtosController.consultarProdutosPorCodigoBarras(tfCodigoDeBarras.getText());
 
 		Fornecedor fornecedor = new Fornecedor();
-		FornecedorController fornecedorController = new FornecedorController();
+		//FornecedorController fornecedorController = new FornecedorController();
 
 		fornecedor = (Fornecedor) cbFornecedor.getSelectedItem();
 
-		double precoUnitario = 0;
+		//conferir aki
+		//double precoUnitario = 0;
 		double subtotal = 0;
 
-		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+		//SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
 		cadastroProdutoFornecedorEstoque.setProduto(produto);
 		cadastroProdutoFornecedorEstoque.setFornecedor(fornecedor);
@@ -324,7 +330,7 @@ public class FrmEntradaEstoque extends JFrame {
 				consultarProdutos();
 			}
 		});
-
+		setIconImage(Toolkit.getDefaultToolkit().getImage(FrmCategoria.class.getResource("/assets/produto.png")));
 		setBackground(new Color(202, 240, 248));
 		getContentPane().setBackground(new Color(202, 240, 248));
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -352,11 +358,14 @@ public class FrmEntradaEstoque extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				// Fechar a janela atual
-				SwingUtilities.getWindowAncestor(lblVoltar).dispose();
+				// SwingUtilities.getWindowAncestor(lblVoltar).dispose();
 
 				// Abrir a janela principal
-				FrmMenuPrincipal menu = new FrmMenuPrincipal();
-				menu.setVisible(true);
+				/*
+				 * FrmMenuPrincipal menu = new FrmMenuPrincipal();
+				 * menu.setVisible(true);
+				 */
+				dispose();
 			}
 		});
 

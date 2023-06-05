@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
@@ -121,8 +122,6 @@ public class FrmProdutos extends JFrame {
 	/** The tf codigo. */
 	private JTextField tfCodigo;
 
-	/** Objeto da classe LimparCampos. */
-	private LimparCampos limparCampos;
 	private JTextField tfDataEntrada;
 	private JComboBox<Fornecedor> cbFornecedor;
 	private ProdutosController produtosController = new ProdutosController(); // Criado o controlador como um atributo
@@ -181,9 +180,6 @@ public class FrmProdutos extends JFrame {
 		try {
 			Produto produto = criarProduto(true);
 			produtosController.cadastrarProduto(produto);
-
-			limparTela(abaDadosProdutos);
-
 			JOptionPane.showMessageDialog(null, "Produto cadastrado com sucesso!", "Sucesso",
 					JOptionPane.INFORMATION_MESSAGE);
 		} catch (Exception e) {
@@ -636,7 +632,7 @@ public class FrmProdutos extends JFrame {
 		});
 
 		DataUtils dataUtils = new DataUtils();
-
+		setIconImage(Toolkit.getDefaultToolkit().getImage(FrmCategoria.class.getResource("/assets/produto.png")));
 		setBackground(new Color(202, 240, 248));
 		getContentPane().setBackground(new Color(202, 240, 248));
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -663,12 +659,7 @@ public class FrmProdutos extends JFrame {
 		lblVoltar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				// Fechar a janela atual
-				SwingUtilities.getWindowAncestor(lblVoltar).dispose();
-
-				// Abrir a janela principal
-				FrmMenuPrincipal menu = new FrmMenuPrincipal();
-				menu.setVisible(true);
+				dispose();
 			}
 		});
 		lblVoltar.setIcon(new ImageIcon(FrmProdutos.class.getResource("/assets/sair.png")));

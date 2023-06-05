@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -30,6 +31,11 @@ import util.TextFieldLimit;
  * The Class FrmFornecedor.
  */
 public class FrmFornecedor extends JFrame {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	/** The content pane. */
 	private JPanel contentPane;
@@ -85,14 +91,11 @@ public class FrmFornecedor extends JFrame {
 	/** The aba dados pessoais. */
 	private JPanel abaCadastrarFornecedor;
 
-	/** Objeto da classe LimparCampos. */
-	private LimparCampos limparCampos;
-
 	/**
 	 * Método responsavel por limpar a tela referenciada. *
 	 * 
 	 * @param tela the tela
-	 *             Uso de Caso (USC-003)
+	 *             Caso de Uso (USC-003)
 	 */
 	private void limparTela(JPanel tela) {
 		LimparCampos limpar = new LimparCampos();
@@ -101,7 +104,7 @@ public class FrmFornecedor extends JFrame {
 
 	/**
 	 * Método responsável por alterar os dados do fornecedor.
-	 * Uso de Caso (USC-003)
+	 * Caso de Uso (USC-003)
 	 */
 	private void alterarFornecedor() {
 		Fornecedor fornecedor = new Fornecedor();
@@ -133,7 +136,7 @@ public class FrmFornecedor extends JFrame {
 
 	/*
 	 * Metodo para cadastrar novos fornecedores.
-	 * Uso de Caso (USC-003)
+	 * Caso de Uso (USC-003)
 	 */
 	private void cadastrarFornecedor() {
 		Fornecedor fornecedor = new Fornecedor();
@@ -165,7 +168,7 @@ public class FrmFornecedor extends JFrame {
 
 	/*
 	 * Método responsável por realizar a exclusão de um fornecedor.
-	 * Uso de Caso (USC-003)
+	 * Caso de Uso (USC-003)
 	 */
 	private void excluirFornecedor() {
 		Fornecedor fornecedor = new Fornecedor();
@@ -186,7 +189,7 @@ public class FrmFornecedor extends JFrame {
 	/*
 	 * Método para preencher os campos da tela com os dados do fornecedor
 	 * selecionado na tabela.
-	 * Uso de Caso (USC-003)
+	 * Caso de Uso (USC-003)
 	 */
 	private void preencherDadosFornecedor() {
 		abaPrincipal.setSelectedIndex(0);
@@ -212,7 +215,7 @@ public class FrmFornecedor extends JFrame {
 	 * Método utilizado para consultar fornecedores pelo nome ou parte do nome para
 	 * exibir na tabela. O texto pesquisado é obtido a partir do texto digitado pelo
 	 * usuario.
-	 * Uso de Caso (USC-003)
+	 * Caso de Uso (USC-003)
 	 */
 	public void consultarFornecedoresPorNome() {
 		try {
@@ -240,7 +243,7 @@ public class FrmFornecedor extends JFrame {
 	/**
 	 * Método utilizado para consultar fornecedores para
 	 * exibir na tabela.
-	 * Uso de Caso (USC-003)
+	 * Caso de Uso (USC-003)
 	 */
 	private void consultarFornecedores() {
 		try {
@@ -300,7 +303,7 @@ public class FrmFornecedor extends JFrame {
 				consultarFornecedores();
 			}
 		});
-
+		setIconImage(Toolkit.getDefaultToolkit().getImage(FrmCategoria.class.getResource("/assets/produto.png")));
 		setBackground(new Color(202, 240, 248));
 		setForeground(new Color(24, 52, 70));
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -397,7 +400,7 @@ public class FrmFornecedor extends JFrame {
 		tfCnpj = new JFormattedTextField(new MaskFormatter("##.###.###/####-##"));
 		tfCnpj.setColumns(10);
 
-		cbUf = new JComboBox();
+		cbUf = new JComboBox<String>();
 		cbUf.setModel(new javax.swing.DefaultComboBoxModel<>(
 				new String[] { "", "AC", "AL", "AP", "AM", "BA", "CE", "DF", "ES", "GO", "MA", "MT", "MS", "MG", "PA",
 						"PB", "PR", "PE", "PI", "RJ", "RN", "RS", "RO", "RR", "SC", "SP", "SE", "TO" }));
@@ -669,11 +672,14 @@ public class FrmFornecedor extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				// Fechar a janela atual
-				SwingUtilities.getWindowAncestor(lblVoltar).dispose();
+				// SwingUtilities.getWindowAncestor(lblVoltar).dispose();
 
 				// Abrir a janela principal
-				FrmMenuPrincipal menu = new FrmMenuPrincipal();
-				menu.setVisible(true);
+				/*
+				 * FrmMenuPrincipal menu = new FrmMenuPrincipal();
+				 * menu.setVisible(true);
+				 */
+				dispose();
 			}
 		});
 		lblVoltar.setIcon(new ImageIcon(FrmFornecedor.class.getResource("/assets/sair.png")));

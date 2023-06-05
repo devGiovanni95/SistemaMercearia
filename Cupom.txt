@@ -5,24 +5,30 @@ CNPJ:00.000.000/0000-00
 INCRIÇÃO ESTADUAL: 000.000000.0000				
 INCRIÇÃO MUNICIPAL: 0.000.000/000-0				
 --------------------------------------------------
-DATA: 30/05/2023 20:40:06
-CODIGO DA VENDA:2277iD296712noO
+DATA: 04/06/2023 20:18:33
+CODIGO DA VENDA:6100bl363330Bis
 ----------------CUPOM NÃO FISCAL------------------
 ITEM  CÓDIGO       DESCRIÇÃO           
 QUANTIDADE      VALOR UNITARIO      	VALOR ITEM	
 --------------------------------------------------
-1     7894900012613    Cerveja Heineken
- 1.0  UN             5.0                  5.0
-2     7894900012613    Cerveja Heineken
- 1.0  UN             5.0                  5.0
-3     7894900012613    Cerveja Heineken
- 1.0  UN             5.0                  5.0
-4     7894900012613    Cerveja Heineken
- 1.0  UN             5.0                  5.0
-5     7894900012613    Cerveja Heineken
- 0.0  UN             5.0                  0.0
+1     7890040141527    Suco de Laranja Del Valle
+ 1.0  UN                     7.5                  7.5
+2     7897661285852    Refrigerante Coca-Cola
+ 1.0  UN                     4.8                  4.8
+3     7898070733460    Lentilha
+ 1.0  UN                     6.8                  6.8
+4     7891822851979    Arroz parboilizado
+ 1.0  UN                     12.6                  12.6
+5     7893946750916    Cerveja Heineken
+ 1.0  UN                     7.0                  7.0
+6     7893946750916    Cerveja Heineken
+ 1.0  UN                     7.0                  7.0
+7     7893946750916    Cerveja Heineken
+ 1.0  UN                     7.0                  7.0
+8     7893946750916    Cerveja Heineken
+ 1.0  UN                     7.0                  7.0
 --------------------------------------------------
-Total     R$                        20.0
+Total     R$                        59.7
                   
                   
                   

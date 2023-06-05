@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -29,7 +30,6 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
-import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.MaskFormatter;
@@ -45,6 +45,11 @@ import util.TextFieldLimit;
  * The Class FrmCliente.
  */
 public class FrmCliente extends JFrame {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	/** The content pane. */
 	private JPanel contentPane;
@@ -357,6 +362,7 @@ public class FrmCliente extends JFrame {
 	 * @throws ParseException the parse exception
 	 */
 	public FrmCliente() throws ParseException {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(FrmCategoria.class.getResource("/assets/produto.png")));
 		setBackground(new Color(202, 240, 248));
 		addWindowListener(new WindowAdapter() {
 			@Override
@@ -805,11 +811,12 @@ public class FrmCliente extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				// Fechar a janela atual
-				SwingUtilities.getWindowAncestor(lblNewLabel_1).dispose();
+				// SwingUtilities.getWindowAncestor(lblNewLabel_1).dispose();
 
 				// Abrir a janela principal
-				FrmMenuPrincipal menu = new FrmMenuPrincipal();
-				menu.setVisible(true);
+				// FrmMenuPrincipal menu = new FrmMenuPrincipal();
+				// menu.setVisible(true);
+				dispose();
 			}
 		});
 
