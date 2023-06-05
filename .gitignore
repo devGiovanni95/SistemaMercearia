@@ -34,3 +34,5 @@ dependency-reduced-pom.xml
 README1.md
 src/assets/telas
 /src/assets/telas
+/build/
+/dist/

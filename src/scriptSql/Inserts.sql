@@ -25,6 +25,7 @@ Insert into tb_categoria values ('Produtos de Limpeza','Limpadores multiuso, ama
 Insert into tb_categoria values ('Cereais Matinais','Cereais em flocos, granola');
 Insert into tb_categoria values ('Molhos','Molho de tomate, molho de soja');
 Insert into tb_categoria values ('Utensílios de Cozinha','Panelas, talheres, pratos');
+Insert into tb_categoria values ('Carnes','Bovina');
 
 --verificar criacao no banco
 insert into tb_subcategoria (cod_categoria, nome, descricao) values (1,'Grãos','diversos');
@@ -140,16 +141,26 @@ Insert into tb_subcategoria (cod_categoria, nome, descricao) values (12, 'Molhos
 Insert into tb_subcategoria (cod_categoria, nome, descricao) values (12, 'Molhos de Salada', 'Molhos para temperar saladas');
 Insert into tb_subcategoria (cod_categoria, nome, descricao) values (12, 'Molhos Picantes', 'Molhos com pimenta e picância intensa');
 Insert into tb_subcategoria (cod_categoria, nome, descricao) values (12, 'Molhos Especiais', 'Molhos diversos para diversos usos culinários');
+Insert into tb_subcategoria (cod_categoria, nome, descricao) values (25, 'Contra Filé', 'Peça embalada a vacúo');
 
 
+insert into tb_produto  (descricao, codigo_barras, marca, cod_subcategoria, unidade_medida, quantidade, data_fabricacao, data_validade, lote, ipi, icms, margem_lucro, preco_custo, preco_final) 
+values ('Feijão carioca', '7894803770351', 'Camil', 1, 'UN', 10.0, '2022-01-01', '2024-01-01', '12345', 5.0, 10.0, 0.5, 3.0, 8.5);
+insert into tb_produto  (descricao, codigo_barras, marca, cod_subcategoria, unidade_medida, quantidade, data_fabricacao, data_validade, lote, ipi, icms, margem_lucro, preco_custo, preco_final)
+  values  ('Arroz parboilizado', '7891822851979', 'Tio João', 4, 'UN', 5.0, '2022-01-01', '2024-01-01', '54321', 3.0, 12.0, 0.3, 2.0, 12.6);
+insert into tb_produto  (descricao, codigo_barras, marca, cod_subcategoria, unidade_medida, quantidade, data_fabricacao, data_validade, lote, ipi, icms, margem_lucro, preco_custo, preco_final)
+ values ('Lentilha', '7898070733460', 'Vapza', 1, 'UN', 200.0, '2022-01-01', '2024-01-01', '67890', 0.0, 10.0, 0.4, 1.0, 6.8);
+insert into tb_produto  (descricao, codigo_barras, marca, cod_subcategoria, unidade_medida, quantidade, data_fabricacao, data_validade, lote, ipi, icms, margem_lucro, preco_custo, preco_final)
+ values ('Refrigerante Coca-Cola', '7897661285852', 'Coca-Cola', 6, 'UN', 2, '2022-01-01', '2024-01-01', '123456', 10, 18, 20, 2.50, 4.80);
+insert into tb_produto  (descricao, codigo_barras, marca, cod_subcategoria, unidade_medida, quantidade, data_fabricacao, data_validade, lote, ipi, icms, margem_lucro, preco_custo, preco_final)
+ values ('Cerveja Heineken', '7893946750916', 'Heineken', 5, 'UN', 1, '2022-01-01', '2024-01-01', '654321', 5, 18, 30, 3.00, 7.00);
+insert into tb_produto  (descricao, codigo_barras, marca, cod_subcategoria, unidade_medida, quantidade, data_fabricacao, data_validade, lote, ipi, icms, margem_lucro, preco_custo, preco_final)
+ values ('Suco de Laranja Del Valle', '7890040141527', 'Del Valle', 3, 'UN', 200, '2022-01-01', '2024-01-01', 'ABC123', 0, 18, 40, 1.50, 7.50);
 
-insert into tb_produto  (descricao, codigo_barras, marca, cod_subcategoria, unidade_medida, quantidade, data_fabricacao, data_validade, lote, ipi, icms, margem_lucro, preco_custo, preco_final) values ('Feijão carioca', '7890123456789', 'Camil', 1, 'UN', 10.0, '2022-01-01', '2023-01-01', '12345', 5.0, 10.0, 0.5, 3.0, 4.5);
-insert into tb_produto  (descricao, codigo_barras, marca, cod_subcategoria, unidade_medida, quantidade, data_fabricacao, data_validade, lote, ipi, icms, margem_lucro, preco_custo, preco_final)  values  ('Arroz parboilizado', '1234567890123', 'Tio João', 4, 'UN', 5.0, '2022-01-01', '2023-01-01', '54321', 3.0, 12.0, 0.3, 2.0, 2.6);
-insert into tb_produto  (descricao, codigo_barras, marca, cod_subcategoria, unidade_medida, quantidade, data_fabricacao, data_validade, lote, ipi, icms, margem_lucro, preco_custo, preco_final) values ('Lentilha', '4567890123456', 'Vapza', 1, 'UN', 200.0, '2022-01-01', '2023-01-01', '67890', 0.0, 10.0, 0.4, 1.0, 1.8);
-insert into tb_produto  (descricao, codigo_barras, marca, cod_subcategoria, unidade_medida, quantidade, data_fabricacao, data_validade, lote, ipi, icms, margem_lucro, preco_custo, preco_final) values ('Refrigerante Coca-Cola', '7894900011517', 'Coca-Cola', 6, 'UN', 2, '2022-01-01', '2023-01-01', '123456', 10, 18, 20, 2.50, 3.00);
-insert into tb_produto  (descricao, codigo_barras, marca, cod_subcategoria, unidade_medida, quantidade, data_fabricacao, data_validade, lote, ipi, icms, margem_lucro, preco_custo, preco_final) values ('Cerveja Heineken', '7894900012613', 'Heineken', 5, 'UN', 1, '2022-01-01', '2023-01-01', '654321', 5, 18, 30, 3.00, 5.00);
-insert into tb_produto  (descricao, codigo_barras, marca, cod_subcategoria, unidade_medida, quantidade, data_fabricacao, data_validade, lote, ipi, icms, margem_lucro, preco_custo, preco_final) values ('Suco de Laranja Del Valle', '7894900011678', 'Del Valle', 3, 'UN', 200, '2022-01-01', '2023-01-01', 'ABC123', 0, 18, 40, 1.50, 2.50);
-
+insert into tb_produto  (descricao, codigo_barras, marca, cod_subcategoria, unidade_medida, quantidade, data_fabricacao, data_validade, lote, ipi, icms, margem_lucro, preco_custo, preco_final)
+ values ('Sabonete líquido', '7894646237387', 'Nivea', 81, 'UN', 200, '2022-01-01', '2024-01-01', 'A84123', 0, 18, 40, 1.50, 2.50);
+ insert into tb_produto  (descricao, codigo_barras, marca, cod_subcategoria, unidade_medida, quantidade, data_fabricacao, data_validade, lote, ipi, icms, margem_lucro, preco_custo, preco_final)
+ values ('Contra Filé Peça 1 kG', '7894646237394', 'Boi gorgo', 108, 'KG', 50, '2022-01-01', '2024-01-01', 'ABCyy3', 0, 18, 40, 1.50, 52.50);
 
 insert into tb_cliente values ('João da Silva', 'joao.silva@example.com', '111.222.333-44', '22.333.444-5', 'Rua das Flores, 123', '(19) 5555-5555', '(19) 99999-9999', 456, '13338-000', '1990-01-01', 'Jardim São Conrado', 'Indaiatuba', 'SP', 'Apto 4', 2000);
 insert into tb_cliente values ('Maria da Silva', 'maria.silva@example.com', '111.222.333-55', '22.333.444-6', 'Rua das Palmeiras, 321', '(19) 5555-5555', '(19) 99999-9999', 654, '13338-000', '1995-05-10', 'Jardim São Francisco', 'Indaiatuba', 'SP', '', 1500);
@@ -162,17 +173,17 @@ insert into tb_funcionario values  ('Fernando Silva', 'fernando.silva@gmail.com'
 insert into tb_funcionario values ('Maria Rodrigues', 'maria.rodrigues@gmail.com', '234.567.890-12', '23.456.789-0', 'Rua Campos Salles', '(19) 99999-7777', '(19) 98888-6666', 150, '13330-100', '1987-10-01', 'Centro', 'Indaiatuba', 'SP', 'Casa', 2500, '123456', 'Repositor', 'Estoquista', '23456789012', 3500, '2223334445', 'Casado(a)', '40h semanais', '2022-01-01', NULL, 'Sim');
 insert into tb_funcionario values  ('Ana Clara Oliveira', 'anaclara.oliveira@gmail.com', '345.678.901-23', '34.567.801-2', 'Rua dos Pinheiros', '(19) 99999-9999', '(19) 98888-8888', 300, '13330-000', '1987-10-01', 'Jardim Esplanada', 'Indaiatuba', 'SP', 'Casa 2', 1800, '147258369', 'Caixa', 'Caixa', '3456789012', 3000, '3456789', 'Casado(a)', '36 horas semanais', '2022-01-01', NULL, 'Sim');
 insert into tb_funcionario values  ('Giovanni', 'giovanni', '345.678.901-23', '34.567.801-2', 'Rua dos Pinheiros', '(19) 99999-9999', '(19) 98888-8888', 300, '13330-000', '1987-10-01', 'Jardim Esplanada', 'Indaiatuba', 'SP', 'Casa 2', 1800, '147258369', 'Caixa', 'Caixa', '3456789012', 3000, '1234', 'Casado(a)', '36 horas semanais', '2022-01-01', NULL, 'Sim');
-insert into tb_funcionario values  ('Giovanni', 'caixa', '345.678.941-23', '34.567.801-2', 'Rua dos Pinheiros', '(19) 99999-9999', '(19) 98888-8888', 300, '13330-000', '1987-10-01', 'Jardim Esplanada', 'Indaiatuba', 'SP', 'Casa 2', 1800, 'caixa', 'Caixa', 'Caixa', '3456789012', 3000, 'caixa', 'Casado(a)', '36 horas semanais', '2022-01-01', NULL, 'Sim');
-insert into tb_funcionario values  ('Giovanni', 'estoquista', '345.878.901-23', '34.567.801-2', 'Rua dos Pinheiros', '(19) 99999-9999', '(19) 98888-8888', 300, '13330-000', '1987-10-01', 'Jardim Esplanada', 'Indaiatuba', 'SP', 'Casa 2', 1800, 'estoquista', 'Caixa', 'Estoquista', '3456789012', 3000, 'estoquista', 'Casado(a)', '36 horas semanais', '2022-01-01', NULL, 'Sim');
-insert into tb_funcionario values  ('Giovanni', 'gerente', '345.978.901-23', '34.567.801-2', 'Rua dos Pinheiros', '(19) 99999-9999', '(19) 98888-8888', 300, '13330-000', '1987-10-01', 'Jardim Esplanada', 'Indaiatuba', 'SP', 'Casa 2', 1800, 'gerente', 'Caixa', 'Gerente', '3456789012', 3000, 'gerente', 'Casado(a)', '36 horas semanais', '2022-01-01', NULL, 'Sim');
+insert into tb_funcionario values  ('Caixa', 'caixa', '345.678.941-23', '34.567.801-2', 'Rua dos Pinheiros', '(19) 99999-9999', '(19) 98888-8888', 300, '13330-000', '1987-10-01', 'Jardim Esplanada', 'Indaiatuba', 'SP', 'Casa 2', 1800, 'caixa', 'Caixa', 'Caixa', '3456789012', 3000, 'caixa', 'Casado(a)', '36 horas semanais', '2022-01-01', NULL, 'Sim');
+insert into tb_funcionario values  ('Estoquista', 'estoquista', '345.878.901-23', '34.567.801-2', 'Rua dos Pinheiros', '(19) 99999-9999', '(19) 98888-8888', 300, '13330-000', '1987-10-01', 'Jardim Esplanada', 'Indaiatuba', 'SP', 'Casa 2', 1800, 'estoquista', 'Caixa', 'Estoquista', '3456789012', 3000, 'estoquista', 'Casado(a)', '36 horas semanais', '2022-01-01', NULL, 'Sim');
+insert into tb_funcionario values  ('Gerente', 'gerente', '345.978.901-23', '34.567.801-2', 'Rua dos Pinheiros', '(19) 99999-9999', '(19) 98888-8888', 300, '13330-000', '1987-10-01', 'Jardim Esplanada', 'Indaiatuba', 'SP', 'Casa 2', 1800, 'gerente', 'Caixa', 'Gerente', '3456789012', 3000, 'gerente', 'Casado(a)', '36 horas semanais', '2022-01-01', NULL, 'Sim');
 
 
 
 
 INSERT INTO tb_fornecedor (cnpj, razao_social, nome, email, endereco, numero, bairro, cidade, uf, telefone, celular, cep, complemento, inscricao_estadual)
-VALUES ('12345678901234', 'Empresa A', 'João', 'joao@empresa.com', 'Rua A', 100, 'Centro', 'São Paulo', 'SP', '1111111111', '2222222222', '12345-000', 'Sala 1', 'IE123456');
+VALUES ('12.345.678/9012-34', 'Empresa A', 'João', 'joao@empresa.com', 'Rua A', 100, 'Centro', 'São Paulo', 'SP', '1111111111', '2222222222', '12345-000', 'Sala 1', 'IE123456');
 INSERT INTO tb_fornecedor (cnpj, razao_social, nome, email, endereco, numero, bairro, cidade, uf, telefone, celular, cep, complemento, inscricao_estadual)
-VALUES ('98765432109876', 'Empresa B', 'Maria', 'maria@empresa.com', 'Rua B', 200, 'Vila Nova', 'Rio de Janeiro', 'RJ', '3333333333', '4444444444', '54321-000', 'Sala 2', 'IE654321');
+VALUES ('98.765.432/1098-76', 'Empresa B', 'Maria', 'maria@empresa.com', 'Rua B', 200, 'Vila Nova', 'Rio de Janeiro', 'RJ', '3333333333', '4444444444', '54321-000', 'Sala 2', 'IE654321');
 INSERT INTO tb_fornecedor (cnpj, razao_social, nome, email, endereco, numero, bairro, cidade, uf, telefone, celular, cep, complemento, inscricao_estadual)
 VALUES ('12.345.678/0001-01', 'Fornecedor A', 'João da Silva', 'joao@fornecedora.com', 'Rua dos Fornecedores', 100, 'Centro', 'São Paulo', 'SP', '(11) 1234-5678', '(11) 98765-4321', '01234-567', 'Sala 101', '123456789012345');
 INSERT INTO tb_fornecedor (cnpj, razao_social, nome, email, endereco, numero, bairro, cidade, uf, telefone, celular, cep, complemento, inscricao_estadual)

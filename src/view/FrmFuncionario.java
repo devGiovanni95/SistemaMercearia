@@ -3,45 +3,32 @@ package view;
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.text.ParseException;
 import java.util.Calendar;
 import java.util.List;
-
-import javax.swing.GroupLayout;
+import javax.swing.*;
 import javax.swing.GroupLayout.Alignment;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JFormattedTextField;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JPasswordField;
-import javax.swing.JTabbedPane;
-import javax.swing.JTable;
-import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
-import javax.swing.ListSelectionModel;
-import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
-import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.MaskFormatter;
-
 import controller.FuncionarioController;
 import model.Funcionario;
-import util.DataUtils;
 import util.LengthRestrictedDocument;
 import util.LimparCampos;
 import util.TextFieldLimit;
+import util.DataUtils;
+
+import java.awt.GridLayout;
+import java.awt.Toolkit;
+
+import javax.swing.border.LineBorder;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -153,10 +140,10 @@ public class FrmFuncionario extends JFrame {
 	private DataUtils dataUtils;
 
 	/**
-	 * Método responsavel por limpar a tela referenciada. 
+	 * Método responsavel por limpar a tela referenciada. *
 	 * 
 	 * @param tela -a tela para ser limpada.
-	 *             Uso de Caso (USC-007)
+	 *             Caso de Uso (USC-007)
 	 */
 	private void limparTela(JPanel tela) {
 		LimparCampos limpar = new LimparCampos();
@@ -166,7 +153,7 @@ public class FrmFuncionario extends JFrame {
 	/**
 	 * Método utilizado para cadastrar um novo funcionario com as informações
 	 * preenchidas nos campos do formulário.
-	 * Uso de Caso (USC-007)
+	 * Caso de Uso (USC-007)
 	 */
 	private void cadastrarFuncionario() {
 		try {
@@ -186,7 +173,7 @@ public class FrmFuncionario extends JFrame {
 	 * Método responsável por alterar os dados de um funcionário cadastrado.
 	 * Os dados são obtidos dos campos de texto na interface gráfica e armazenados
 	 * em um objeto do tipo Funcionario,
-	 * Uso de Caso (USC-007)
+	 * Caso de Uso (USC-007)
 	 */
 	private void alterarFuncionario() {
 		try {
@@ -211,7 +198,7 @@ public class FrmFuncionario extends JFrame {
 	 * @return funcionario - Retorna um objeto instanciado do tipo funcionario.
 	 * @throws Exception - Gera uma excessão caso ocorra de um erro na criação do
 	 *                   funcionario.
-	 *                   Uso de Caso (USC-007)
+	 *                   Caso de Uso (USC-007)
 	 */
 	private Funcionario criarFuncionario(boolean novoFuncionario) throws Exception {
 		Funcionario funcionario = new Funcionario();
@@ -262,7 +249,7 @@ public class FrmFuncionario extends JFrame {
 
 	/**
 	 * Metodo utilizado para listar todos os funcionários e adiciona-los na tabela.
-	 * Uso de Caso (USC-007)
+	 * Caso de Uso (USC-007)
 	 */
 	private void consultarFuncionarios() {
 		try {
@@ -281,7 +268,7 @@ public class FrmFuncionario extends JFrame {
 	 * Método utilizado para consultar funcionários pelo nome ou parte do nome para
 	 * exibir na tabela.
 	 * O texto pesquisado é obtido a partir do texto digitado pelo usuário.
-	 * Uso de Caso (USC-007)
+	 * Caso de Uso (USC-007)
 	 */
 	private void consultarFuncionariosPorNome() {
 		try {
@@ -299,7 +286,7 @@ public class FrmFuncionario extends JFrame {
 
 	/**
 	 * Método utilizado para configurar a tabela de funcionários.
-	 * Uso de Caso (USC-007)
+	 * Caso de Uso (USC-007)
 	 */
 	private void configurarTabelaFuncionarios() {
 		dadosTabela = (DefaultTableModel) tabelaFuncionarios.getModel();
@@ -324,7 +311,7 @@ public class FrmFuncionario extends JFrame {
 	 * 
 	 * @param funcionario objeto do tipo Funcionario: funcionário a ser adicionado
 	 *                    na tabela.
-	 *                    Uso de Caso (USC-007)
+	 *                    Caso de Uso (USC-007)
 	 */
 	private void adicionarFuncionarioNaTabela(Funcionario funcionario) {
 		dadosTabela.addRow(new Object[] {
@@ -362,7 +349,7 @@ public class FrmFuncionario extends JFrame {
 	 * Obtém o CPF do funcionário a partir do campo de texto correspondente na tela.
 	 * Em seguida, os campos de texto na interface gráfica são limpos após a
 	 * exclusão.
-	 * Uso de Caso (USC-007)
+	 * Caso de Uso (USC-007)
 	 */
 	private void excluirFuncionario() {
 		Funcionario funcionario = new Funcionario();
@@ -382,7 +369,7 @@ public class FrmFuncionario extends JFrame {
 	 * Método responsável por preencher os campos da tela principal com os dados do
 	 * funcionários selecionado na tabela para que possam ser alterados.
 	 * A partir da linha selecionada na tabela
-	 * Uso de Caso (USC-007)
+	 * Caso de Uso (USC-007)
 	 */
 	private void preencherDadosFuncionario() {
 		abaPrincipal.setSelectedIndex(0);
@@ -435,7 +422,7 @@ public class FrmFuncionario extends JFrame {
 	 * 
 	 * @throws ParseException - Se acontecer algum erro em tempo de execução é
 	 *                        lançado um erro
-	 *                        Uso de Caso (USC-007)
+	 *                        Caso de Uso (USC-007)
 	 */
 	public void setupDemissaoField() throws ParseException {
 
@@ -452,7 +439,7 @@ public class FrmFuncionario extends JFrame {
 	/**
 	 * Método responsável por realizar a conferencia e a validação de uma data no
 	 * campo TfDemissão
-	 * Uso de Caso (USC-007)
+	 * Caso de Uso (USC-007)
 	 */
 	public void saveData() {
 
@@ -503,6 +490,7 @@ public class FrmFuncionario extends JFrame {
 				consultarFuncionarios();
 			}
 		});
+		setIconImage(Toolkit.getDefaultToolkit().getImage(FrmCategoria.class.getResource("/assets/produto.png")));
 		setBackground(new Color(202, 240, 248));
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 1360, 768);
@@ -1176,11 +1164,14 @@ public class FrmFuncionario extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				// Fechar a janela atual
-				SwingUtilities.getWindowAncestor(lblNewLabel_1).dispose();
+				// SwingUtilities.getWindowAncestor(lblNewLabel_1).dispose();
 
 				// Abrir a janela principal
-				FrmMenuPrincipal menu = new FrmMenuPrincipal();
-				menu.setVisible(true);
+				/*
+				 * FrmMenuPrincipal menu = new FrmMenuPrincipal();
+				 * menu.setVisible(true);
+				 */
+				dispose();
 			}
 		});
 

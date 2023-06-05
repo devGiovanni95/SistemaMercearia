@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 import interfaces.InterfaceFuncionario;
@@ -303,7 +305,8 @@ public final class FuncionarioController implements InterfaceFuncionario {
 		 * @param email - parametro a ser conferido como nome de usuário.
 		 * @param senha - parametro a ser conferido como nome de senha.
 		 */
-		public void autenticar(String email, String senha) {
+		public boolean autenticar(String email, String senha) {
+			boolean status = false;
 
 			if(dataBase.getConnection()) {
 
@@ -321,16 +324,18 @@ public final class FuncionarioController implements InterfaceFuncionario {
 
 					if(dataBase.resultSet.getString("nivel_acesso").equals("Gerente")) {
 
-						JOptionPane.showMessageDialog(null, "Seja bem vindo ao Sistema ");
+						JOptionPane.showMessageDialog(null, "Seja bem vindo ao Sistema " + dataBase.resultSet.getString("Nome"));
 						FrmMenuPrincipal frmMenuPrincipal = new FrmMenuPrincipal();
+						frmMenuPrincipal.setExtendedState(JFrame.MAXIMIZED_BOTH);
 						frmMenuPrincipal.setCpfFuncionario(dataBase.resultSet.getString("cpf"));
 						frmMenuPrincipal.setVisible(true);
 						frmMenuPrincipal.setSituacaoCaixa(false);
-
+						status = true;
 
 					}else if (dataBase.resultSet.getString("nivel_acesso").equals("Caixa")) {
 						JOptionPane.showMessageDialog(null, "Seja bem vindo ao Sistema ");
 						FrmMenuPrincipal frmMenuPrincipal = new FrmMenuPrincipal();
+						frmMenuPrincipal.setExtendedState(JFrame.MAXIMIZED_BOTH);
 						frmMenuPrincipal.setCpfFuncionario(dataBase.resultSet.getString("cpf"));
 						frmMenuPrincipal.setVisible(true);
 						frmMenuPrincipal.setSituacaoCaixa(false);
@@ -339,17 +344,20 @@ public final class FuncionarioController implements InterfaceFuncionario {
 						frmMenuPrincipal.mnEstoque.setVisible(false);
 						frmMenuPrincipal.mnFornecedores.setVisible(false);
 						frmMenuPrincipal.mnFuncionarios.setVisible(false);
+						status = true;
 
 
 					}else if (dataBase.resultSet.getString("nivel_acesso").equals("Estoquista")) {
 						JOptionPane.showMessageDialog(null, "Seja bem vindo ao Sistema ");
 						FrmMenuPrincipal frmMenuPrincipal = new FrmMenuPrincipal();
+						frmMenuPrincipal.setExtendedState(JFrame.MAXIMIZED_BOTH);
 						frmMenuPrincipal.setCpfFuncionario(dataBase.resultSet.getString("cpf"));
 						frmMenuPrincipal.setVisible(true);
 						frmMenuPrincipal.setSituacaoCaixa(false);
 						frmMenuPrincipal.mnClientes.setVisible(false);
 						frmMenuPrincipal.mnVendas.setVisible(false);
 						frmMenuPrincipal.mnFuncionarios.setVisible(false);
+						status = true;
 					}
 				}else {
 					JOptionPane.showMessageDialog(null, "Dados incorretos");
@@ -364,6 +372,7 @@ public final class FuncionarioController implements InterfaceFuncionario {
 			}else {
 				JOptionPane.showMessageDialog(null, "Falha na conexão");
 			}
+			return status;
 
 		}
 

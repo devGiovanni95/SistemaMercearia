@@ -6,6 +6,7 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
@@ -27,7 +28,6 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
-import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 
 import controller.FuncionarioController;
@@ -38,6 +38,9 @@ import controller.FuncionarioController;
  */
 public class FrmLogin extends JFrame {
 
+	
+	private static final long serialVersionUID = 1L;
+
 	/** The content pane. */
 	private JPanel contentPane;
 
@@ -46,6 +49,7 @@ public class FrmLogin extends JFrame {
 
 	/** The tf senha. */
 	private JPasswordField tfSenha;
+	
 
 	/**
 	 * Método responsável por autenticar o usuário.
@@ -57,16 +61,23 @@ public class FrmLogin extends JFrame {
 		try {
 			String email;
 			String senha;
+			boolean status;
 
 			email = tfEmail.getText();
-			senha = tfSenha.getText();
+			char[] passwordChars = tfSenha.getPassword();
+			senha = String.valueOf(passwordChars); // ou new String(passwordChars);
+
 
 			FuncionarioController funcionarioController = new FuncionarioController();
 
-			funcionarioController.autenticar(email, senha);
+			status = funcionarioController.autenticar(email, senha);
 			tfEmail.setText("");
 			tfSenha.setText("");
-
+			
+			if(status) {
+				dispose();
+			}
+			
 		} catch (Exception e2) {
 			JOptionPane.showMessageDialog(null, "Erro: " + e2);
 		}
@@ -101,6 +112,7 @@ public class FrmLogin extends JFrame {
 				tfEmail.requestFocusInWindow();
 			}
 		});
+		setIconImage(Toolkit.getDefaultToolkit().getImage(FrmCategoria.class.getResource("/assets/produto.png")));
 		setResizable(false);
 		setAutoRequestFocus(true);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -115,6 +127,11 @@ public class FrmLogin extends JFrame {
 		ImageIcon icon = new ImageIcon(getClass().getResource("/assets/fundo.png"));
 		Image image = icon.getImage();
 		JDesktopPane desktopPane = new JDesktopPane() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
 			public void paintComponent(Graphics g) {
 				g.drawImage(image, 0, 0, getWidth(), getHeight(), this);
 			}
@@ -216,7 +233,6 @@ public class FrmLogin extends JFrame {
 			}
 		});
 		tfSenha.setFont(new Font("Arial", Font.BOLD, 20));
-		// textField_1.setDropMode(DropMode.ON);
 		tfSenha.setColumns(25);
 		GroupLayout gl_panel_8_1 = new GroupLayout(panel_8_1);
 		gl_panel_8_1.setHorizontalGroup(
@@ -253,7 +269,6 @@ public class FrmLogin extends JFrame {
 		btnEntrar.setFont(new Font("Arial", Font.BOLD, 24));
 		btnEntrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
 				conferirAutenticar();
 
 			}
@@ -292,15 +307,12 @@ public class FrmLogin extends JFrame {
 		lblNewLabel_1.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-
-				// Fechar a janela atual
-				SwingUtilities.getWindowAncestor(lblNewLabel_1).dispose();
-
-				// Abrir a janela principal
 				FrmMenuPrincipal menu = new FrmMenuPrincipal();
+				menu.setExtendedState(JFrame.MAXIMIZED_BOTH);
 				if (menu.getFuncionario() == null) {
 					System.exit(1);
 				} else {
+					dispose();
 					menu.setVisible(true);
 				}
 			}

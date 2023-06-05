@@ -1,10 +1,12 @@
 package view;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -33,6 +35,11 @@ import model.Funcionario;
  * The Class FrmMenuPrincipal.
  */
 public class FrmMenuPrincipal extends JFrame {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	/** The usuario logado. */
 	private String usuarioLogado;
@@ -174,6 +181,7 @@ public class FrmMenuPrincipal extends JFrame {
 				try {
 					FrmMenuPrincipal frame = new FrmMenuPrincipal();
 					frame.setVisible(true);
+					frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -193,6 +201,7 @@ public class FrmMenuPrincipal extends JFrame {
 				System.out.println(funcionario);
 			}
 		});
+		setIconImage(Toolkit.getDefaultToolkit().getImage(FrmCategoria.class.getResource("/assets/produto.png")));
 		setBackground(new Color(202, 240, 248));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1360, 768);
@@ -216,7 +225,7 @@ public class FrmMenuPrincipal extends JFrame {
 				FrmFrenteCaixa frenteCaixa = new FrmFrenteCaixa();
 				frenteCaixa.setFuncionario(funcionario);
 				frenteCaixa.setVisible(true);
-				dispose();
+
 			}
 		});
 
@@ -229,7 +238,7 @@ public class FrmMenuPrincipal extends JFrame {
 		mnRelatoriosVendas.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				FrmConsultarVenda menu = null;
-				dispose();
+
 				menu = new FrmConsultarVenda();
 				menu.setVisible(true);
 			}
@@ -249,7 +258,7 @@ public class FrmMenuPrincipal extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				FrmProdutos menu = null;
 				try {
-					dispose();
+
 					menu = new FrmProdutos();
 				} catch (ParseException ex) {
 					throw new RuntimeException(ex);
@@ -273,7 +282,7 @@ public class FrmMenuPrincipal extends JFrame {
 				}
 				menu.abaPrincipal.setSelectedIndex(1);
 				menu.setVisible(true);
-				dispose();
+
 			}
 		});
 
@@ -288,7 +297,7 @@ public class FrmMenuPrincipal extends JFrame {
 				FrmEntradaEstoque menu = null;
 				menu = new FrmEntradaEstoque();
 				menu.setVisible(true);
-				dispose();
+
 			}
 		});
 		mnDevolucao.setFont(new Font("Arial", Font.BOLD, 15));
@@ -305,7 +314,7 @@ public class FrmMenuPrincipal extends JFrame {
 		mnCadastrarCategoria.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					dispose();
+
 					FrmCategoria frmCategoria = new FrmCategoria();
 					frmCategoria.setVisible(true);
 				} catch (ParseException e1) {
@@ -320,7 +329,7 @@ public class FrmMenuPrincipal extends JFrame {
 		mnCadastrarSubcategoria.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					dispose();
+
 					FrmSubCategoria frmSubCategoria = new FrmSubCategoria();
 					frmSubCategoria.setVisible(true);
 				} catch (ParseException e1) {
@@ -336,7 +345,7 @@ public class FrmMenuPrincipal extends JFrame {
 		mnConsultarCategoria.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					dispose();
+
 					FrmCategoria frmCategoria = new FrmCategoria();
 					frmCategoria.setVisible(true);
 					frmCategoria.abaPrincipal.setSelectedIndex(1);
@@ -354,7 +363,7 @@ public class FrmMenuPrincipal extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				FrmSubCategoria frmSubCategoria;
 				try {
-					dispose();
+
 					frmSubCategoria = new FrmSubCategoria();
 					frmSubCategoria.setVisible(true);
 					frmSubCategoria.abaPrincipal.setSelectedIndex(1);
@@ -380,7 +389,7 @@ public class FrmMenuPrincipal extends JFrame {
 		mnCadastrarFornecedor.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				FrmFornecedor menu;
-				dispose(); // Fecha a janela atual (FrmMenuPrincipal)
+
 				try {
 					menu = new FrmFornecedor();
 					menu.setVisible(true);
@@ -401,7 +410,7 @@ public class FrmMenuPrincipal extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				FrmFornecedor menu;
 				try {
-					dispose(); // Fecha a janela atual (FrmMenuPrincipal)
+
 					menu = new FrmFornecedor();
 					menu.abaPrincipal.setSelectedIndex(1);
 					menu.setVisible(true);
@@ -427,7 +436,7 @@ public class FrmMenuPrincipal extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				FrmCliente menu;
 				try {
-					dispose();
+
 					menu = new FrmCliente();
 					menu.setVisible(true);
 				} catch (ParseException e1) {
@@ -446,7 +455,7 @@ public class FrmMenuPrincipal extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				FrmCliente menu;
 				try {
-					dispose();
+
 					menu = new FrmCliente();
 					menu.abaPrincipal.setSelectedIndex(1);
 					menu.setVisible(true);
@@ -471,7 +480,7 @@ public class FrmMenuPrincipal extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				FrmFuncionario menu;
 				try {
-					dispose();
+
 					menu = new FrmFuncionario();
 					menu.setVisible(true);
 				} catch (ParseException e1) {
@@ -489,7 +498,7 @@ public class FrmMenuPrincipal extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				FrmFuncionario menu;
 				try {
-					dispose();
+
 					menu = new FrmFuncionario();
 					menu.abaPrincipal.setSelectedIndex(1);
 					menu.setVisible(true);
@@ -524,7 +533,6 @@ public class FrmMenuPrincipal extends JFrame {
 		mnTrocarUsuario.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
-				dispose();
 				FrmLogin menu = new FrmLogin();
 				menu.setVisible(true);
 
@@ -542,6 +550,9 @@ public class FrmMenuPrincipal extends JFrame {
 		ImageIcon icon = new ImageIcon(getClass().getResource("/assets/fundo.png"));
 		Image image = icon.getImage();
 		JDesktopPane painelDesktop = new JDesktopPane() {
+
+			private static final long serialVersionUID = 1L;
+
 			public void paintComponent(Graphics g) {
 				g.drawImage(image, 0, 0, getWidth(), getHeight(), this);
 			}
@@ -556,12 +567,12 @@ public class FrmMenuPrincipal extends JFrame {
 						.addComponent(painelDesktop, GroupLayout.DEFAULT_SIZE, 596, Short.MAX_VALUE));
 
 		JLabel lblUsuarioLogado = new JLabel("Usuário Logado:");
-		lblUsuarioLogado.setBounds(0, 666, 137, 25);
+		lblUsuarioLogado.setBounds(0, 0, 137, 25);
 		painelDesktop.add(lblUsuarioLogado);
 		lblUsuarioLogado.setFont(new Font("Arial", Font.BOLD, 16));
 
 		lblNomeFuncionarioLogado = new JLabel("");
-		lblNomeFuncionarioLogado.setBounds(131, 666, 173, 25);
+		lblNomeFuncionarioLogado.setBounds(127, 0, 173, 25);
 		painelDesktop.add(lblNomeFuncionarioLogado);
 		lblNomeFuncionarioLogado.setFont(new Font("Arial", Font.BOLD, 14));
 		getContentPane().setLayout(groupLayout);

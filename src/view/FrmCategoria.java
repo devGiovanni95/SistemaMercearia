@@ -21,12 +21,18 @@ import java.awt.Dimension;
 import util.LimparCampos;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.Toolkit;
 
 // TODO: Auto-generated Javadoc
 /**
  * The Class FrmCategoria.
  */
 public class FrmCategoria extends JFrame {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	/** The content pane. */
 	private JPanel contentPane;
@@ -211,6 +217,7 @@ public class FrmCategoria extends JFrame {
 	 * @throws ParseException the parse exception
 	 */
 	public FrmCategoria() throws ParseException {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(FrmCategoria.class.getResource("/assets/produto.png")));
 		setBackground(new Color(202, 240, 248));
 		addWindowListener(new WindowAdapter() {
 			@Override
@@ -353,11 +360,12 @@ public class FrmCategoria extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				// Fechar a janela atual
-				SwingUtilities.getWindowAncestor(lblNewLabel_1).dispose();
+				// SwingUtilities.getWindowAncestor(lblNewLabel_1).dispose();
 
 				// Abrir a janela principal
-				FrmMenuPrincipal menu = new FrmMenuPrincipal();
-				menu.setVisible(true);
+				// FrmMenuPrincipal menu = new FrmMenuPrincipal();
+				// menu.setVisible(true);
+				dispose();
 			}
 		});
 
