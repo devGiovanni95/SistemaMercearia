@@ -15,6 +15,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowStateListener;
+import java.text.DecimalFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -350,6 +351,10 @@ public class FrmFrenteCaixa extends JFrame {
 		}
 		return confere;
 	}
+	
+	public void setFechar(){
+		dispose();
+	}
 
 	/**
 	 * Método responsável por efetuar a abertura caixa.
@@ -472,9 +477,10 @@ public class FrmFrenteCaixa extends JFrame {
 	 * Caso de Uso (USC-005) (USC-010)
 	 */
 	public void formaPagamento() {
-		double totalCompra = Double.parseDouble(lblTotalCompra.getText());
+		double totalCompra = Double.parseDouble(lblTotalCompra.getText().replace(",", "."));
 
 		if (totalCompra > 0) {
+			dispose();
 			FrmFormaDePagamento formaDePagamento = new FrmFormaDePagamento();
 			formaDePagamento.cliente = cliente;
 			formaDePagamento.setTotalCompra(totalCompra);
@@ -485,7 +491,7 @@ public class FrmFrenteCaixa extends JFrame {
 			formaDePagamento.setVenda(venda);
 			formaDePagamento.setFrenteCaixa(this);
 			formaDePagamento.setListaItensCarinho(dadosTabela);
-			formaDePagamento.setListaItensCarinho(dadosTabela);
+			//formaDePagamento.setListaItensCarinho(dadosTabela);
 			
 		} else {
 			JOptionPane.showMessageDialog(null, "Venda não pode ser finalizada pois não há nenhum lançamento");
@@ -544,7 +550,12 @@ public class FrmFrenteCaixa extends JFrame {
 
 			// alimenta a tela com somatoria da compra
 			totalCompra += subTotal;
-			lblTotalCompra.setText(totalCompra.toString());
+			
+			DecimalFormat decimalFormat = new DecimalFormat("###0.00");
+			String totalCompraFormatado = decimalFormat.format(totalCompra);
+			
+			lblTotalCompra.setText(totalCompraFormatado);
+			
 
 			ItemVenda itemVenda = new ItemVenda(produto, getPedido(), quantidade, produto.getPrecoFinal(), subTotal);
 
@@ -909,6 +920,7 @@ public class FrmFrenteCaixa extends JFrame {
 		btnFinalizarVenda.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (conferirSituacaoCaixa == true) {
+					dispose();
 					conferirCpfNaNota();
 					formaPagamento();
 				} else {

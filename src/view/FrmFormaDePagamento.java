@@ -8,14 +8,18 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.PrintWriter;
+import java.text.DecimalFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -38,9 +42,6 @@ import model.Produto;
 import model.Venda;
 import util.GeradorDeCodigo;
 import util.Imprimir;
-import javax.swing.ImageIcon;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -249,6 +250,7 @@ public class FrmFormaDePagamento extends JFrame {
 	 * Caso de Uso (USC-010)
 	 */
 	public void setarValores() {
+		tfDinheiro.setText("0");
 		tfCartaoCredito.setText("0");
 		tfCartaoDebito.setText("0");
 		tfValeAlimentacao.setText("0");
@@ -333,7 +335,14 @@ public class FrmFormaDePagamento extends JFrame {
 	 */
 	public void atualizarComponente() {
 		tfPago.setText(String.valueOf(calcularTotalPago()));
-		tfTroco.setText(String.valueOf(calcularTroco()).replace("-", ""));
+//		tfTroco.setText(String.valueOf(calcularTroco()).replace("-", ""));
+		double troco = calcularTroco();
+		DecimalFormat decimalFormat = new DecimalFormat("###0.00");
+		String trocoFormatado = decimalFormat.format(troco);
+		trocoFormatado = trocoFormatado.replace("-", "");
+		tfTroco.setText(trocoFormatado.replace(",", "."));
+		
+		
 		tfValorAReceber.setText(String.valueOf(calcularSaldoDevedor()));
 	}
 
@@ -398,7 +407,7 @@ public class FrmFormaDePagamento extends JFrame {
 		String operacao = " ";
 		try {
 			int a = 1;
-			PrintWriter pw = new PrintWriter("C:\\Users\\Public\\Documents\\CupomFiscal\\Cupom"+getVenda().getCodigo()+".txt");
+			PrintWriter pw = new PrintWriter("C:\\Users\\Public\\Documents\\CupomFiscal\\Cupom"+getVenda().getCodigo()+".txt", "UTF-8");
 			pw.write("                     MERCEARIA                    \n");
 			pw.write("        RUA SEM NOME, 1254 - VILA SÃO JOSÉ        \n");
 			pw.write("	    	 CEP: 13330-050 INDAIATUBA - SP         \n");
@@ -421,7 +430,7 @@ public class FrmFormaDePagamento extends JFrame {
 				pw.write("\n " + item.getQuantidade());
 				pw.write("  " + item.getProduto().getUnidadeDeMedida());
 				pw.write("             " + item.getPrecoUnitario());
-				pw.write("                  " + item.getSubtotal() + "\n");
+				pw.write("            " + item.getSubtotal() + "\n");
 				a++;
 			}
 			pw.write("--------------------------------------------------\n");
@@ -484,10 +493,12 @@ public class FrmFormaDePagamento extends JFrame {
 	 * Caso de Uso (USC-005)
 	 */
 	public void novaVenda() {
+		frenteCaixa.setFechar();
 		FrmFrenteCaixa frmFrenteCaixa = new FrmFrenteCaixa();
 		frmFrenteCaixa.setVisible(true);
 		frmFrenteCaixa.setFuncionario(frenteCaixa.getFuncionario());
-		this.dispose();
+		dispose();
+		
 	}
 
 	/**
@@ -517,7 +528,7 @@ public class FrmFormaDePagamento extends JFrame {
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowActivated(WindowEvent e) {
-				setFocusable(true);
+				setFocusable(true); 
 				tfTotalCompra.setText(String.valueOf(getTotalCompra()));
 				tfTroco.setText(String.valueOf(getTotalFaltante()));
 				setarValores();
@@ -577,6 +588,19 @@ public class FrmFormaDePagamento extends JFrame {
 					atualizarComponente();
 					tfCartaoCredito.requestFocusInWindow();
 				}
+				if (e.getKeyCode() == KeyEvent.VK_F12) {
+					atualizarComponente();
+					if (validarPagamento()) {
+						cadastrarPagamento();
+						cadastrarVenda();
+						cadastrarItensPedido();
+						JOptionPane.showMessageDialog(null, "" + imprimir());
+						novaVenda();
+
+					} else {
+						JOptionPane.showMessageDialog(null,
+								"Falta receber ainda R$ " + tfValorAReceber.getText() + " Reais");
+					}}
 			}
 		});
 
@@ -609,6 +633,7 @@ public class FrmFormaDePagamento extends JFrame {
 		tfTroco.setFont(new Font("Arial", Font.BOLD, 17));
 		tfTroco.setEditable(false);
 		tfTroco.setColumns(10);
+	
 
 		JLabel lblFalta = new JLabel("Falta:");
 		lblFalta.setBounds(177, 447, 44, 21);
@@ -626,9 +651,9 @@ public class FrmFormaDePagamento extends JFrame {
 						cadastrarItensPedido();
 						JOptionPane.showMessageDialog(null, "" + imprimir());
 						Imprimir.imprimir(
-								"D:\\Analise e Desenvolvimento de Software Fatec\\ProjetoIntegrador3Semestre\\SistemaMercearia\\Cupom.txt");
+								"C:\\Users\\Public\\Documents\\CupomFiscal\\Cupom"+getVenda().getCodigo()+".txt");
 						novaVenda();
-						// System.out.println(pedido);
+
 					} else {
 						JOptionPane.showMessageDialog(null,
 								"Ainda alta receber R$ " + tfValorAReceber.getText() + " Reais");
@@ -644,8 +669,8 @@ public class FrmFormaDePagamento extends JFrame {
 					cadastrarItensPedido();
 					JOptionPane.showMessageDialog(null, "" + imprimir());
 					novaVenda();
-					// imprimir();
-					// System.out.println(pedido);
+
+
 				} else {
 					JOptionPane.showMessageDialog(null,
 							"Falta receber ainda R$ " + tfValorAReceber.getText() + " Reais");
@@ -695,6 +720,18 @@ public class FrmFormaDePagamento extends JFrame {
 					atualizarComponente();
 					tfCartaoDebito.requestFocusInWindow();
 				}
+				if (e.getKeyCode() == KeyEvent.VK_F12) {
+					if (validarPagamento()) {
+						cadastrarPagamento();
+						cadastrarVenda();
+						cadastrarItensPedido();
+						JOptionPane.showMessageDialog(null, "" + imprimir());
+						novaVenda();
+
+					} else {
+						JOptionPane.showMessageDialog(null,
+								"Falta receber ainda R$ " + tfValorAReceber.getText() + " Reais");
+					}}
 			}
 		});
 		tfCartaoCredito.setFont(new Font("Arial", Font.BOLD, 17));
@@ -717,6 +754,18 @@ public class FrmFormaDePagamento extends JFrame {
 					atualizarComponente();
 					tfValeAlimentacao.requestFocusInWindow();
 				}
+				if (e.getKeyCode() == KeyEvent.VK_F12) {
+					if (validarPagamento()) {
+						cadastrarPagamento();
+						cadastrarVenda();
+						cadastrarItensPedido();
+						JOptionPane.showMessageDialog(null, "" + imprimir());
+						novaVenda();
+
+					} else {
+						JOptionPane.showMessageDialog(null,
+								"Falta receber ainda R$ " + tfValorAReceber.getText() + " Reais");
+					}}
 			}
 		});
 		tfCartaoDebito.setFont(new Font("Arial", Font.BOLD, 17));
@@ -739,6 +788,18 @@ public class FrmFormaDePagamento extends JFrame {
 					atualizarComponente();
 					tfValeRefeicao.requestFocusInWindow();
 				}
+				if (e.getKeyCode() == KeyEvent.VK_F12) {
+					if (validarPagamento()) {
+						cadastrarPagamento();
+						cadastrarVenda();
+						cadastrarItensPedido();
+						JOptionPane.showMessageDialog(null, "" + imprimir());
+						novaVenda();
+
+					} else {
+						JOptionPane.showMessageDialog(null,
+								"Falta receber ainda R$ " + tfValorAReceber.getText() + " Reais");
+					}}
 			}
 		});
 		tfValeAlimentacao.setFont(new Font("Arial", Font.BOLD, 17));
@@ -761,6 +822,18 @@ public class FrmFormaDePagamento extends JFrame {
 					atualizarComponente();
 					tfPix.requestFocusInWindow();
 				}
+				if (e.getKeyCode() == KeyEvent.VK_F12) {
+					if (validarPagamento()) {
+						cadastrarPagamento();
+						cadastrarVenda();
+						cadastrarItensPedido();
+						JOptionPane.showMessageDialog(null, "" + imprimir());
+						novaVenda();
+
+					} else {
+						JOptionPane.showMessageDialog(null,
+								"Falta receber ainda R$ " + tfValorAReceber.getText() + " Reais");
+					}}
 			}
 		});
 		tfValeRefeicao.setFont(new Font("Arial", Font.BOLD, 17));
@@ -785,6 +858,18 @@ public class FrmFormaDePagamento extends JFrame {
 					atualizarComponente();
 					btnFinalizarVenda.requestFocusInWindow();
 				}
+				if (e.getKeyCode() == KeyEvent.VK_F12) {
+					if (validarPagamento()) {
+						cadastrarPagamento();
+						cadastrarVenda();
+						cadastrarItensPedido();
+						JOptionPane.showMessageDialog(null, "" + imprimir());
+						novaVenda();
+
+					} else {
+						JOptionPane.showMessageDialog(null,
+								"Falta receber ainda R$ " + tfValorAReceber.getText() + " Reais");
+					}}
 			}
 		});
 
@@ -820,7 +905,7 @@ public class FrmFormaDePagamento extends JFrame {
 		contentPane.add(tfValorAReceber);
 		contentPane.add(tfPago);
 		contentPane.add(btnFinalizarVenda);
-		
+
 		JLabel lblVoltar = new JLabel("Voltar");
 		lblVoltar.addMouseListener(new MouseAdapter() {
 			@Override
