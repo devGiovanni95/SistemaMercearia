@@ -385,7 +385,7 @@ public class FrmFrenteCaixa extends JFrame {
 	 * Caso de Uso (USC-005)
 	 */
 	public void efetuarFechamento() {
-		FrmMenuPrincipal forma = new FrmMenuPrincipal();
+		//FrmMenuPrincipal forma = new FrmMenuPrincipal();
 		AberturaEFechamentoCaixa aberturaEFechamentoCaixa = new AberturaEFechamentoCaixa();
 		AberturaEFechamentoCaixaController aberturaEFechamentoCaixaController = new AberturaEFechamentoCaixaController();
 
@@ -397,7 +397,7 @@ public class FrmFrenteCaixa extends JFrame {
 		aberturaEFechamentoCaixa.setDataFechamento(dataFormatada);
 		aberturaEFechamentoCaixa.setSituacaoCaixa(false);
 		aberturaEFechamentoCaixaController.cadastrarFechamento(aberturaEFechamentoCaixa);
-		forma.setVisible(true);
+		//forma.setVisible(true);
 		this.dispose();
 		textoCaixaFechado();
 

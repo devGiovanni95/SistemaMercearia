@@ -163,3 +163,11 @@ Caixa é responsável apenas por efetuar a venda dos produtos e consultar as ven
  <p>
     <img src="src/assets/telas/13-ConsultaItensVendas.PNG">
  </p>
+
+
+ 
+   ## Cupom não Fiscal
+  Cupom simulando um cupom fiscal mas de formato inicial apenas de conferência sobre aquilo que foi comprado, e o valor final.
+ <p>
+    <img src="src/assets/telas/14-CupomFiscal.PNG">
+ </p>
