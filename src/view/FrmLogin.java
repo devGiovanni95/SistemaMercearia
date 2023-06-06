@@ -38,7 +38,6 @@ import controller.FuncionarioController;
  */
 public class FrmLogin extends JFrame {
 
-	
 	private static final long serialVersionUID = 1L;
 
 	/** The content pane. */
@@ -49,7 +48,6 @@ public class FrmLogin extends JFrame {
 
 	/** The tf senha. */
 	private JPasswordField tfSenha;
-	
 
 	/**
 	 * Método responsável por autenticar o usuário.
@@ -65,19 +63,18 @@ public class FrmLogin extends JFrame {
 
 			email = tfEmail.getText();
 			char[] passwordChars = tfSenha.getPassword();
-			senha = String.valueOf(passwordChars); // ou new String(passwordChars);
-
+			senha = String.valueOf(passwordChars);
 
 			FuncionarioController funcionarioController = new FuncionarioController();
 
 			status = funcionarioController.autenticar(email, senha);
 			tfEmail.setText("");
 			tfSenha.setText("");
-			
-			if(status) {
+
+			if (status) {
 				dispose();
 			}
-			
+
 		} catch (Exception e2) {
 			JOptionPane.showMessageDialog(null, "Erro: " + e2);
 		}
@@ -152,7 +149,7 @@ public class FrmLogin extends JFrame {
 		panel_1.setBackground(new Color(1.0f, 1.0f, 1.0f, 0f));
 		panel_1.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 
-		JLabel lblMercadoSilva = new JLabel("Mercado"
+		JLabel lblMercadoSilva = new JLabel("Mercearia"
 				+ "Tech");
 		lblMercadoSilva.setForeground(new Color(3, 71, 72));
 		lblMercadoSilva.setFont(new Font("Arial", Font.BOLD, 44));

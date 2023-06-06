@@ -1,47 +1,165 @@
 # SistemaMercearia
  Project Creating for PI Fatec - Interdisciplinary Project Integrator
  
-![1-login](https://github.com/devGiovanni95/SistemaMercearia/assets/69327898/5c79ad92-d4d8-4b34-8522-5f6325917c1e)
+ ## Tela de Login
+ Tela responsável por realizar a autenticação do usuário tratando também o nível de acesso de cada funcionário.
+ <p>
+    <img src="src/assets/telas/1-login.PNG">
+ </p>
 
-![2-MenuCaixa](https://github.com/devGiovanni95/SistemaMercearia/assets/69327898/3efed54e-949e-4d77-8662-b197d8527097)
+ ## Tela  Menu Principal - Caixa
+Tela responsável pela navegabilidade das atribuições do funcionário(a) Caixa.
+Onde mostra quais são os acessos permitido para o mesmo(a). Neste caso o(a)
+Caixa é responsável apenas por efetuar a venda dos produtos e consultar as vendas efetuadas.
+   <p>
+    <img src="src/assets/telas/2-MenuCaixa.PNG">
+ </p>
 
-![2-MenuEstoquista](https://github.com/devGiovanni95/SistemaMercearia/assets/69327898/f64b25b9-9768-4b46-b391-83dc061e4a56)
+  ## Tela Menu Principal - Estoquista
+   Tela responsável pela navegabilidade das atribuições do(a) funcionário(a) 
+   Estoquista. Onde mostra quais são os acessos permitido para o(a) mesmo(a).
+   Neste caso o(a) Estoquista é responsável por manter o cadastro de Fornecedores, Produtos, Estoque, Categorias e Subcategorias com quaisquer alteração podendo também efetuar sua exclusão ou atualização.
+ <p>
+    <img src="src/assets/telas/2-MenuEstoquista.PNG">
+ </p>
 
-![2-MenuGerente](https://github.com/devGiovanni95/SistemaMercearia/assets/69327898/2e77bc45-0f56-4680-b69e-186410e607d5)
+  ## Tela Menu Principal - Gerente
+   Tela responsável pela navegabilidade das atribuições do(a) Gerente 
+   Estoquista. Onde mostra quais são os acessos permitido para o(a) mesmo(a).
+   Neste caso o(a) Gerente é tem acesso ao cadastro de Fornecedores, Produtos, Estoque, Categorias e Subcategorias com quaisquer alteração podendo também efetuar sua exclusão ou atualização. Também tem acesso para efetuar a venda dos produtos e consultar as vendas efetuadas, além de ter acesso para cadastro de novos Cliente e Funcionários onde faz o gerenciamento de acessos e de senha podendo resetá-las quando necessárias. 
+ <p>
+    <img src="src/assets/telas/2-MenuGerente.PNG">
+ </p>
 
-![3-Produtos](https://github.com/devGiovanni95/SistemaMercearia/assets/69327898/53bceb03-5c0e-480d-b4e9-f46c44dd4c57)
+  ## Tela Cadastro de Produtos 
+  Tela responsável por realizar a inserção, atualização, exclusão de novos produtos na base de dados,
+  contando também com a informação da data de inserção e de fornecedor.
+  Onde na Base de dados conta com Triggers que efetuam a persistência no banco de dados, sem a necessidade do tratamento por parte do programa.
+ <p>
+    <img src="src/assets/telas/3-Produtos.PNG">
+ </p>
 
-![3-ProdutosConsulta](https://github.com/devGiovanni95/SistemaMercearia/assets/69327898/25303a2f-6c17-4217-91de-e5b093b0b411)
+ 
+  ## Tela Consulta de Produtos
+  Tela responsável por realizar a consulta de todos os produtos cadastrados
+ <p>
+    <img src="src/assets/telas/3-ProdutosConsulta.PNG">
+ </p>
 
-![4-Categorias](https://github.com/devGiovanni95/SistemaMercearia/assets/69327898/243fc5da-1907-41b0-830e-558dde9bf473)
 
-![4-CategoriasConsulta](https://github.com/devGiovanni95/SistemaMercearia/assets/69327898/96993b32-4402-4289-b24a-1c2c3c55f93b)
+  ## Tela Cadastro de Categorias 
+  Tela responsável por realizar a inserção, atualização, exclusão de novas categorias na base de dados.
+ <p>
+    <img src="src/assets/telas/4-Categorias.PNG">
+ </p>
 
-![5-SubCategorias](https://github.com/devGiovanni95/SistemaMercearia/assets/69327898/b9cbb1ba-0676-4873-9726-5652bf2e4952)
+ 
+  ## Tela Consulta de Categorias
+  Tela responsável por realizar a consulta de todas as categorias cadastradas
+ <p>
+    <img src="src/assets/telas/4-CategoriasConsulta.PNG">
+ </p>
 
-![5-SubCategoriasConsulta](https://github.com/devGiovanni95/SistemaMercearia/assets/69327898/85cfabbc-52b1-4031-8506-9cf89c718b7d)
 
-![6-Fornecedores](https://github.com/devGiovanni95/SistemaMercearia/assets/69327898/5bb33f58-8a7b-4473-89e6-17ac00a4dc33)
+  ## Tela Cadastro de SubCategorias 
+  Tela responsável por realizar a inserção, atualização, exclusão de novas subcategorias na base de dados.
+ <p>
+    <img src="src/assets/telas/5-SubCategorias.PNG">
+ </p>
 
-![6-FornecedoresConsulta](https://github.com/devGiovanni95/SistemaMercearia/assets/69327898/94d32f81-81b5-4203-b18e-4ea0282b9c29)
+ 
+  ## Tela Consulta de SubCategorias
+  Tela responsável por realizar a consulta de todas as subcategorias cadastradas
+ <p>
+    <img src="src/assets/telas/5-SubCategoriasConsulta.PNG">
+ </p>
 
-![7-Clientes](https://github.com/devGiovanni95/SistemaMercearia/assets/69327898/cb873399-7f6d-4f7d-a256-ca7793b79a88)
 
-![7-ClientesConsultar](https://github.com/devGiovanni95/SistemaMercearia/assets/69327898/c5e1517c-d272-4de5-8d0d-17d60a206ac6)
+## Tela Cadastro de Fornecedores
+  Tela responsável por realizar a inserção, atualização, exclusão de novos fornecedores na base de dados, para que possa ser mantido um histórico juntamente com produtos para conhecermos e saber de quem compramos quanto pagamos e a quantidade compradas. 
+ <p>
+    <img src="src/assets/telas/6-Fornecedores.PNG">
+ </p>
 
-![8-Funcionarios](https://github.com/devGiovanni95/SistemaMercearia/assets/69327898/7aed4c72-dc67-4535-9a6c-e4a657c2b591)
+ 
+  ## Tela Consulta de Fornecedores
+  Tela responsável por realizar a consulta de todos os fornecedores que temos  cadastrados
+ <p>
+    <img src="src/assets/telas/6-FornecedoresConsulta.PNG">
+ </p>
 
-![8-FuncionariosConsulta](https://github.com/devGiovanni95/SistemaMercearia/assets/69327898/a0056ef1-5de5-477c-9a11-10097fc8974f)
+ ## Tela Cadastro de Clientes
+  Tela responsável por realizar a inserção, atualização, exclusão de novos clientes na base de dados, para que possa ser mantido um histórico e futuramente oferecer descontos exclusivos personalizados alem de uma possível venda a prazo. 
+ <p>
+    <img src="src/assets/telas/7-Clientes.PNG">
+ </p>
 
-![9-Estoque](https://github.com/devGiovanni95/SistemaMercearia/assets/69327898/d261be7f-12f0-4d03-9219-ecf650e14f14)
+ 
+  ## Tela Consulta de Clientes
+  Tela responsável por realizar a consulta de todos os clientes que temos  cadastrados
+ <p>
+    <img src="src/assets/telas/7-ClientesConsulta.PNG">
+ </p>
 
-![9-EstoqueConsulta](https://github.com/devGiovanni95/SistemaMercearia/assets/69327898/b6953be7-f631-4632-bbdf-79fa1eaef910)
 
-![10-Caixa](https://github.com/devGiovanni95/SistemaMercearia/assets/69327898/1d2f64d5-7e28-4a1c-b5cd-1e0e8d3cefce)
 
-![11-FormaPagamento](https://github.com/devGiovanni95/SistemaMercearia/assets/69327898/1d45bd05-1fec-40eb-ade6-59e15f4ce79a)
+  ## Tela Cadastro de Funcionários
+  Tela responsável por realizar a inserção, atualização, exclusão, inativação de novos funcionários na base de dados, para que possa ser mantido um histórico de todos os funcionários que já prestaram serviço ao estabelecimento. 
+ <p>
+    <img src="src/assets/telas/8-Funcionarios.PNG">
+ </p>
 
-![12-ConsultaVendas](https://github.com/devGiovanni95/SistemaMercearia/assets/69327898/70fa8513-6480-4ffc-810e-c24e25f7861f)
+ 
+  ## Tela Consulta de Funcionários
+  Tela responsável por realizar a consulta de todos os funcionários que temos  cadastrados
+ <p>
+    <img src="src/assets/telas/8-FuncionariosConsulta.PNG">
+ </p>
 
-![13-ConsultaItensVendas](https://github.com/devGiovanni95/SistemaMercearia/assets/69327898/8904e836-3853-4a74-9cfc-6e56092e29a8)
+   ## Tela Cadastro de Estoque
+  Tela responsável por realizar a inserção de produtos no estoque informando de qual fornecedor efetuamos a compra a fim de manter um histórico de todas as compras efetuadas e os fornecedores de quem compramos.
+ <p>
+    <img src="src/assets/telas/9-Estoque.PNG">
+ </p>
 
+ 
+  ## Tela Consulta de Estoque
+  Tela responsável por realizar a consulta de todos os produtos que temos  cadastrados e de quem compramos.
+ <p>
+    <img src="src/assets/telas/9-EstoqueConsulta.PNG">
+ </p>
+
+   ## Tela Frente de Caixa
+  Tela responsável por realizar a efetivação de vendas aos nossos clientes finais,
+  além de efetuar a abertura de caixa podendo assim termos um controle ainda melhor do que vendemos no dia, mantendo um histórico de quem efetuou a venda, troco inicial de abertura do caixa, e fechamento do caixa. E um 
+  sistema de consulta de fácil acesso e rápido. 
+
+  #### Pontos não implementados ainda
+  *Nota Paulista e Emissão de Cupom Fiscal - ainda não foram completamente implementadas podendo assim vir numa nova versão do software. 
+ <p>
+    <img src="src/assets/telas/10-Caixa.PNG">
+ </p>
+
+
+  ## Tela Forma de Pagamento
+  Tela responsável por realizar a efetivação e cadastro das forma de pagamento utilizadas naquela venda, além do cálculo do troco quando necessário para otimizar o processo de venda.
+ <p>
+    <img src="src/assets/telas/11-FormaPagamento.PNG">
+ </p>
+
+
+  ## Tela Consulta de Vendas
+  Tela responsável por realizar a consulta das vendas efetuadas no periodo.
+  
+  #### Pontos não implementados ainda
+  *A consulta por data ainda está inativa
+ <p>
+    <img src="src/assets/telas/12-ConsultaVendas.PNG">
+ </p>
+
+   ## Tela Consulta de Vendas
+  Tela responsável por realizar a consulta dos itens ofertados na venda em questão onde ao clicar na tela anterior de consulta de vendas ela preenche automaticamente para conferirmos com mais detalhes importantes sobre a venda efetuada .
+  
+ <p>
+    <img src="src/assets/telas/13-ConsultaItensVendas.PNG">
+ </p>

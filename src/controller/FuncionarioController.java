@@ -333,7 +333,7 @@ public final class FuncionarioController implements InterfaceFuncionario {
 						status = true;
 
 					}else if (dataBase.resultSet.getString("nivel_acesso").equals("Caixa")) {
-						JOptionPane.showMessageDialog(null, "Seja bem vindo ao Sistema ");
+						JOptionPane.showMessageDialog(null, "Seja bem vindo ao Sistema " + dataBase.resultSet.getString("Nome"));
 						FrmMenuPrincipal frmMenuPrincipal = new FrmMenuPrincipal();
 						frmMenuPrincipal.setExtendedState(JFrame.MAXIMIZED_BOTH);
 						frmMenuPrincipal.setCpfFuncionario(dataBase.resultSet.getString("cpf"));
@@ -348,7 +348,7 @@ public final class FuncionarioController implements InterfaceFuncionario {
 
 
 					}else if (dataBase.resultSet.getString("nivel_acesso").equals("Estoquista")) {
-						JOptionPane.showMessageDialog(null, "Seja bem vindo ao Sistema ");
+						JOptionPane.showMessageDialog(null, "Seja bem vindo ao Sistema " + dataBase.resultSet.getString("Nome"));
 						FrmMenuPrincipal frmMenuPrincipal = new FrmMenuPrincipal();
 						frmMenuPrincipal.setExtendedState(JFrame.MAXIMIZED_BOTH);
 						frmMenuPrincipal.setCpfFuncionario(dataBase.resultSet.getString("cpf"));

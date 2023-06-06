@@ -572,9 +572,10 @@ public class FrmMenuPrincipal extends JFrame {
 		lblUsuarioLogado.setFont(new Font("Arial", Font.BOLD, 16));
 
 		lblNomeFuncionarioLogado = new JLabel("");
-		lblNomeFuncionarioLogado.setBounds(127, 0, 173, 25);
+		lblNomeFuncionarioLogado.setForeground(new Color(255, 0, 0));
+		lblNomeFuncionarioLogado.setBounds(134, 0, 173, 25);
 		painelDesktop.add(lblNomeFuncionarioLogado);
-		lblNomeFuncionarioLogado.setFont(new Font("Arial", Font.BOLD, 14));
+		lblNomeFuncionarioLogado.setFont(new Font("Arial", Font.BOLD, 18));
 		getContentPane().setLayout(groupLayout);
 		JMenuBar barraMenu = new JMenuBar();
 		JMenu pontoDeVenda = new JMenu("Arqui");
