@@ -24,7 +24,6 @@ public final class FuncionarioController implements InterfaceFuncionario {
 	private static final String ERROR_CONNECTION = "Falha na conexão com o banco de dados.";
 	private final ConnectionDataBase dataBase = new ConnectionDataBase();
 
-
 	private void checkDatabaseConnection() throws Exception {
 		if (!dataBase.getConnection()) {
 			throw new Exception(ERROR_CONNECTION);
@@ -32,7 +31,8 @@ public final class FuncionarioController implements InterfaceFuncionario {
 	}
 
 	/**
-	 * Método efetua um comando SQL para efetuar a inserção no banco de dados de um novo funcionario.
+	 * Método efetua um comando SQL para efetuar a inserção no banco de dados de um
+	 * novo funcionario.
 	 *
 	 * @param funcionario - objeto do tipo funcionario
 	 */
@@ -42,10 +42,12 @@ public final class FuncionarioController implements InterfaceFuncionario {
 	}
 
 	/**
-	 * Método que efetua a alteração de um funcionário já cadastrado no banco de dados.A partir do id do funcionário,
+	 * Método que efetua a alteração de um funcionário já cadastrado no banco de
+	 * dados.A partir do id do funcionário,
 	 * por meio de um comando SQL.
 	 *
-	 * @param funcionario - objeto do tipo funcionário que identifica o funcionario a ser alterado no banco de dados.
+	 * @param funcionario - objeto do tipo funcionário que identifica o funcionario
+	 *                    a ser alterado no banco de dados.
 	 */
 	public void alterarFuncionario(Funcionario funcionario) throws Exception {
 		String sql = "update tb_funcionario set nome =?, email =?, cpf =?, rg =?, endereco =?, telefone =?, celular =?, numero =?, cep =?, data_nascimento =?, bairro =?, cidade =?, uf =?, complemento =?, limite =?, senha =?, cargo =?, nivel_acesso =?, pis_pasep =?, salario =?, carteira_trabalho =?, estado_civil =?, jornada_trabalho =?, admissao =?, demissao=?, ativo=? where cpf=?";
@@ -64,7 +66,8 @@ public final class FuncionarioController implements InterfaceFuncionario {
 		}
 	}
 
-	private void preencherPreparedStatement(Funcionario funcionario, PreparedStatement stmt, String sql) throws SQLException {
+	private void preencherPreparedStatement(Funcionario funcionario, PreparedStatement stmt, String sql)
+			throws SQLException {
 		stmt.setString(1, funcionario.getNome());
 		stmt.setString(2, funcionario.getEmail());
 		stmt.setString(3, funcionario.getCpf());
@@ -80,7 +83,7 @@ public final class FuncionarioController implements InterfaceFuncionario {
 		stmt.setString(13, funcionario.getUf());
 		stmt.setString(14, funcionario.getComplemento());
 		stmt.setDouble(15, funcionario.getLimite());
-		//stmt.setString(16, funcionario.getSenha());
+		// stmt.setString(16, funcionario.getSenha());
 		stmt.setString(17, funcionario.getCargo());
 		stmt.setString(18, funcionario.getNivelAcesso());
 		stmt.setString(19, funcionario.getPisPasep());
@@ -95,7 +98,7 @@ public final class FuncionarioController implements InterfaceFuncionario {
 			stmt.setString(27, funcionario.getCpf());
 		}
 
-		if(!funcionario.getSenha().isEmpty()) {
+		if (!funcionario.getSenha().isEmpty()) {
 			stmt.setString(16, funcionario.getSenha());
 		} else {
 			stmt.setString(16, getCurrentPassword(funcionario.getCpf()));
@@ -105,7 +108,10 @@ public final class FuncionarioController implements InterfaceFuncionario {
 
 	/*
 	 * Método que retorna a senha atual do funcionário no banco de dados.
-	 * @param cpf - cpf do funcionário que identifica o funcionário no banco de dados.
+	 * 
+	 * @param cpf - cpf do funcionário que identifica o funcionário no banco de
+	 * dados.
+	 * 
 	 * @return - retorna a senha atual do funcionário no banco de dados.
 	 */
 	private String getCurrentPassword(String cpf) {
@@ -116,7 +122,7 @@ public final class FuncionarioController implements InterfaceFuncionario {
 			PreparedStatement stmt = dataBase.con.prepareStatement(sql);
 			stmt.setString(1, cpf);
 			ResultSet rs = stmt.executeQuery();
-			if(rs.next()) {
+			if (rs.next()) {
 				password = rs.getString("senha");
 			}
 		} catch (Exception e) {
@@ -127,10 +133,12 @@ public final class FuncionarioController implements InterfaceFuncionario {
 		return password;
 	}
 
-
 	/**
-	 * Método que a partir do código passado, executa o comando SQL para a exclusão do funcionário no banco de dados.
-	 * @param funcionario - objeto do tipo funcionário que identifica o funcionário a ser excluído no banco de dados.
+	 * Método que a partir do código passado, executa o comando SQL para a exclusão
+	 * do funcionário no banco de dados.
+	 * 
+	 * @param funcionario - objeto do tipo funcionário que identifica o funcionário
+	 *                    a ser excluído no banco de dados.
 	 */
 	public void excluirFuncionario(Funcionario funcionario) throws Exception {
 		checkDatabaseConnection();
@@ -147,7 +155,8 @@ public final class FuncionarioController implements InterfaceFuncionario {
 	}
 
 	/**
-	 * Método que cria um ArrayList do tipo Funcionario para listar todos os funcionários do banco de dados.
+	 * Método que cria um ArrayList do tipo Funcionario para listar todos os
+	 * funcionários do banco de dados.
 	 * A partir de um comando SQL.
 	 *
 	 * @return
@@ -175,7 +184,8 @@ public final class FuncionarioController implements InterfaceFuncionario {
 	}
 
 	/**
-	 * Método que cria um ArrayList do tipo Funcionario para listar os funcionários do banco de dados que
+	 * Método que cria um ArrayList do tipo Funcionario para listar os funcionários
+	 * do banco de dados que
 	 * corresponde ao nome digitado. A partir de um comando SQL.
 	 *
 	 * @param nome - parametro utilizado como base de pesquisa.
@@ -221,7 +231,7 @@ public final class FuncionarioController implements InterfaceFuncionario {
 		funcionario.setUf(resultSet.getString("uf"));
 		funcionario.setComplemento(resultSet.getString("complemento"));
 		funcionario.setLimite(resultSet.getDouble("limite"));
-		//funcionario.setSenha(resultSet.getString("senha"));
+		// funcionario.setSenha(resultSet.getString("senha"));
 		funcionario.setCargo(resultSet.getString("cargo"));
 		funcionario.setNivelAcesso(resultSet.getString("nivel_acesso"));
 		funcionario.setPisPasep(resultSet.getString("pis_pasep"));
@@ -236,95 +246,94 @@ public final class FuncionarioController implements InterfaceFuncionario {
 		return funcionario;
 	}
 
+	/**
+	 * Consultar funcionarios por cpf.
+	 *
+	 * @param cpf the cpf
+	 * @return the funcionario
+	 */
+	public Funcionario consultarFuncionariosPorCpf(String cpf) {
+		if (dataBase.getConnection()) {
+			try {
+				String sql = "select nome,email,cpf,rg,endereco,telefone,celular,numero,cep,FORMAT(data_nascimento, 'dd/MM/yyyy')as data_nascimento,bairro,cidade,uf,complemento,"
+						+ "limite, senha , cargo , nivel_acesso , pis_pasep , salario , carteira_trabalho , estado_civil , jornada_trabalho , admissao ,"
+						+ "demissao, ativo from tb_funcionario WHERE cpf = ?";
+				dataBase.preparedStatement = dataBase.con.prepareStatement(sql);
+				dataBase.preparedStatement.setString(1, cpf);
+				dataBase.resultSet = dataBase.preparedStatement.executeQuery();
+				Funcionario funcionario = new Funcionario();
 
-		/**
-		 * Consultar funcionarios por cpf.
-		 *
-		 * @param cpf the cpf
-		 * @return the funcionario
-		 */
-		public Funcionario consultarFuncionariosPorCpf(String cpf) {
-			if (dataBase.getConnection()) {
-				try {
-					String sql = "select nome,email,cpf,rg,endereco,telefone,celular,numero,cep,FORMAT(data_nascimento, 'dd/MM/yyyy')as data_nascimento,bairro,cidade,uf,complemento,"
-							+ "limite, senha , cargo , nivel_acesso , pis_pasep , salario , carteira_trabalho , estado_civil , jornada_trabalho , admissao ,"
-							+ "demissao, ativo from tb_funcionario WHERE cpf = ?";
-					dataBase.preparedStatement = dataBase.con.prepareStatement(sql);
-					dataBase.preparedStatement.setString(1, cpf);
-					dataBase.resultSet = dataBase.preparedStatement.executeQuery();
-					Funcionario funcionario = new Funcionario();
+				if (dataBase.resultSet.next()) {
+					funcionario.setNome(dataBase.resultSet.getString("nome"));
+					funcionario.setEmail(dataBase.resultSet.getString("email"));
+					funcionario.setCpf(dataBase.resultSet.getString("cpf"));
+					funcionario.setRg(dataBase.resultSet.getString("rg"));
+					funcionario.setEndereco(dataBase.resultSet.getString("endereco"));
+					funcionario.setTelefone(dataBase.resultSet.getString("telefone"));
+					funcionario.setCelular(dataBase.resultSet.getString("celular"));
+					funcionario.setNumero(dataBase.resultSet.getInt("numero"));
+					funcionario.setCep(dataBase.resultSet.getString("cep"));
+					funcionario.setDataNascimento(dataBase.resultSet.getString("data_nascimento"));
+					funcionario.setBairro(dataBase.resultSet.getString("bairro"));
+					funcionario.setCidade(dataBase.resultSet.getString("cidade"));
+					funcionario.setUf(dataBase.resultSet.getString("uf"));
+					funcionario.setComplemento(dataBase.resultSet.getString("complemento"));
+					funcionario.setLimite(dataBase.resultSet.getDouble("limite"));
+					funcionario.setSenha(dataBase.resultSet.getString("senha"));
+					funcionario.setCargo(dataBase.resultSet.getString("cargo"));
+					funcionario.setNivelAcesso(dataBase.resultSet.getString("nivel_acesso"));
+					funcionario.setPisPasep(dataBase.resultSet.getString("pis_pasep"));
+					funcionario.setSalario(dataBase.resultSet.getDouble("salario"));
+					funcionario.setCarteiraTrabalho(dataBase.resultSet.getString("carteira_trabalho"));
+					funcionario.setEstadoCivil(dataBase.resultSet.getString("estado_civil"));
+					funcionario.setJornadaTrabalho(dataBase.resultSet.getString("jornada_trabalho"));
+					funcionario.setAdmissao(dataBase.resultSet.getString("admissao"));
+					funcionario.setDemissao(dataBase.resultSet.getString("demissao"));
+					funcionario.setAtivo(dataBase.resultSet.getString("ativo"));
 
-
-					if (dataBase.resultSet.next()) {
-						funcionario.setNome(dataBase.resultSet.getString("nome"));
-						funcionario.setEmail(dataBase.resultSet.getString("email"));
-						funcionario.setCpf(dataBase.resultSet.getString("cpf"));
-						funcionario.setRg(dataBase.resultSet.getString("rg"));
-						funcionario.setEndereco(dataBase.resultSet.getString("endereco"));
-						funcionario.setTelefone(dataBase.resultSet.getString("telefone"));
-						funcionario.setCelular(dataBase.resultSet.getString("celular"));
-						funcionario.setNumero(dataBase.resultSet.getInt("numero"));
-						funcionario.setCep(dataBase.resultSet.getString("cep"));
-						funcionario.setDataNascimento(dataBase.resultSet.getString("data_nascimento"));
-						funcionario.setBairro(dataBase.resultSet.getString("bairro"));
-						funcionario.setCidade(dataBase.resultSet.getString("cidade"));
-						funcionario.setUf(dataBase.resultSet.getString("uf"));
-						funcionario.setComplemento(dataBase.resultSet.getString("complemento"));
-						funcionario.setLimite(dataBase.resultSet.getDouble("limite"));
-						funcionario.setSenha(dataBase.resultSet.getString("senha"));
-						funcionario.setCargo(dataBase.resultSet.getString("cargo"));
-						funcionario.setNivelAcesso(dataBase.resultSet.getString("nivel_acesso"));
-						funcionario.setPisPasep(dataBase.resultSet.getString("pis_pasep"));
-						funcionario.setSalario(dataBase.resultSet.getDouble("salario"));
-						funcionario.setCarteiraTrabalho(dataBase.resultSet.getString("carteira_trabalho"));
-						funcionario.setEstadoCivil(dataBase.resultSet.getString("estado_civil"));
-						funcionario.setJornadaTrabalho(dataBase.resultSet.getString("jornada_trabalho"));
-						funcionario.setAdmissao(dataBase.resultSet.getString("admissao"));
-						funcionario.setDemissao(dataBase.resultSet.getString("demissao"));
-						funcionario.setAtivo(dataBase.resultSet.getString("ativo"));
-
-					}
-
-					return funcionario;
-
-				} catch (SQLException e) {
-					JOptionPane.showMessageDialog(null, "Erro: " + e);
-				} finally {
-					dataBase.close();
 				}
-			} else {
-				JOptionPane.showMessageDialog(null, "Falha na conexão");
+
+				return funcionario;
+
+			} catch (SQLException e) {
+				JOptionPane.showMessageDialog(null, "Erro: " + e);
+			} finally {
+				dataBase.close();
 			}
-			return null;
+		} else {
+			JOptionPane.showMessageDialog(null, "Falha na conexão");
 		}
+		return null;
+	}
 
+	/**
+	 * Método que a partir de um comando de pesquisa do SQL, efetua uma verificação
+	 * para
+	 * conferir se há um funcionário cadastrado com permissão de uso no sistema.
+	 * 
+	 * @param email - parametro a ser conferido como nome de usuário.
+	 * @param senha - parametro a ser conferido como nome de senha.
+	 */
+	public boolean autenticar(String email, String senha) {
+		boolean status = false;
 
-		/**
-		 * Método que a partir de um comando de pesquisa do SQL, efetua uma verificação para
-		 *  conferir se há um funcionário cadastrado com permissão de uso no sistema.
-		 * @param email - parametro a ser conferido como nome de usuário.
-		 * @param senha - parametro a ser conferido como nome de senha.
-		 */
-		public boolean autenticar(String email, String senha) {
-			boolean status = false;
-
-			if(dataBase.getConnection()) {
+		if (dataBase.getConnection()) {
 
 			try {
 				String sql = "select * from tb_funcionario where email=? and senha=?";
 
 				dataBase.preparedStatement = dataBase.con.prepareStatement(sql);
-				dataBase.preparedStatement.setString(1,email);
-				dataBase.preparedStatement.setString(2,senha);
-
+				dataBase.preparedStatement.setString(1, email);
+				dataBase.preparedStatement.setString(2, senha);
 
 				dataBase.resultSet = dataBase.preparedStatement.executeQuery();
 
-				if(dataBase.resultSet.next()) {
+				if (dataBase.resultSet.next()) {
 
-					if(dataBase.resultSet.getString("nivel_acesso").equals("Gerente")) {
+					if (dataBase.resultSet.getString("nivel_acesso").equals("Gerente")) {
 
-						JOptionPane.showMessageDialog(null, "Seja bem vindo ao Sistema " + dataBase.resultSet.getString("Nome"));
+						JOptionPane.showMessageDialog(null,
+								"Seja bem vindo ao Sistema " + dataBase.resultSet.getString("Nome"));
 						FrmMenuPrincipal frmMenuPrincipal = new FrmMenuPrincipal();
 						frmMenuPrincipal.setExtendedState(JFrame.MAXIMIZED_BOTH);
 						frmMenuPrincipal.setCpfFuncionario(dataBase.resultSet.getString("cpf"));
@@ -332,8 +341,9 @@ public final class FuncionarioController implements InterfaceFuncionario {
 						frmMenuPrincipal.setSituacaoCaixa(false);
 						status = true;
 
-					}else if (dataBase.resultSet.getString("nivel_acesso").equals("Caixa")) {
-						JOptionPane.showMessageDialog(null, "Seja bem vindo ao Sistema " + dataBase.resultSet.getString("Nome"));
+					} else if (dataBase.resultSet.getString("nivel_acesso").equals("Caixa")) {
+						JOptionPane.showMessageDialog(null,
+								"Seja bem vindo ao Sistema " + dataBase.resultSet.getString("Nome"));
 						FrmMenuPrincipal frmMenuPrincipal = new FrmMenuPrincipal();
 						frmMenuPrincipal.setExtendedState(JFrame.MAXIMIZED_BOTH);
 						frmMenuPrincipal.setCpfFuncionario(dataBase.resultSet.getString("cpf"));
@@ -346,9 +356,9 @@ public final class FuncionarioController implements InterfaceFuncionario {
 						frmMenuPrincipal.mnFuncionarios.setVisible(false);
 						status = true;
 
-
-					}else if (dataBase.resultSet.getString("nivel_acesso").equals("Estoquista")) {
-						JOptionPane.showMessageDialog(null, "Seja bem vindo ao Sistema " + dataBase.resultSet.getString("Nome"));
+					} else if (dataBase.resultSet.getString("nivel_acesso").equals("Estoquista")) {
+						JOptionPane.showMessageDialog(null,
+								"Seja bem vindo ao Sistema " + dataBase.resultSet.getString("Nome"));
 						FrmMenuPrincipal frmMenuPrincipal = new FrmMenuPrincipal();
 						frmMenuPrincipal.setExtendedState(JFrame.MAXIMIZED_BOTH);
 						frmMenuPrincipal.setCpfFuncionario(dataBase.resultSet.getString("cpf"));
@@ -359,21 +369,21 @@ public final class FuncionarioController implements InterfaceFuncionario {
 						frmMenuPrincipal.mnFuncionarios.setVisible(false);
 						status = true;
 					}
-				}else {
+				} else {
 					JOptionPane.showMessageDialog(null, "Dados incorretos");
 				}
 
 			} catch (Exception e) {
-				JOptionPane.showMessageDialog(null, "Erro: " + e );
-			}finally {
+				JOptionPane.showMessageDialog(null, "Erro: " + e);
+			} finally {
 				dataBase.close();
 			}
 
-			}else {
-				JOptionPane.showMessageDialog(null, "Falha na conexão");
-			}
-			return status;
-
+		} else {
+			JOptionPane.showMessageDialog(null, "Falha na conexão");
 		}
+		return status;
 
 	}
+
+}

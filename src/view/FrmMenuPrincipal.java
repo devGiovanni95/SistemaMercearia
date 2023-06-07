@@ -532,7 +532,7 @@ public class FrmMenuPrincipal extends JFrame {
 		mnSair.add(mnTrocarUsuario);
 		mnTrocarUsuario.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
+				dispose();
 				FrmLogin menu = new FrmLogin();
 				menu.setVisible(true);
 

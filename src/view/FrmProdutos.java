@@ -15,6 +15,8 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Vector;
@@ -355,6 +357,17 @@ public class FrmProdutos extends JFrame {
 		limparTela(abaDadosProdutos);
 	}
 
+	/**
+	 * Método utilizado para efertuar o preenchimento da hora
+	 * no campo da data de entrada no cadastro de uma nova compra
+	 */
+	private void preencherHora() {
+		LocalDateTime dataHoraAtual = LocalDateTime.now();
+		DateTimeFormatter formatada = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+		String dataHoraFormatada = dataHoraAtual.format(formatada);
+		tfDataEntrada.setText(dataHoraFormatada);
+	}
+
 	/*
 	 * Método utilizado para preencher os dados do produto na tela.
 	 * Caso de Uso (USC-002)
@@ -627,7 +640,7 @@ public class FrmProdutos extends JFrame {
 			@Override
 			public void windowActivated(WindowEvent e) {
 				consultarProdutos();
-				// consultarSubcategorias();
+				preencherHora();
 			}
 		});
 

@@ -39,7 +39,7 @@ CREATE TABLE tb_fornecedor (
 create table tb_produto(
    codigo_barras char (13) primary key,
    descricao varchar (255) not null,
-   marca varchar (30)not null,
+   marca varchar (30) not null,
    cod_subcategoria integer not null references tb_subcategoria,
    unidade_medida char(10) not null,
    quantidade decimal(10,3) not null,

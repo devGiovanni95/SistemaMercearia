@@ -118,6 +118,12 @@ public class FrmEntradaEstoque extends JFrame {
 		limpar.Limpar(tela);
 	}
 
+	/**
+	 * Método responsavel pro realizar o cadastro de uma nova
+	 * compra no sistema, mantendo assim um historico das compras
+	 * efetuadas com os respectivos fornecedores.
+	 * Caso de Uso (USC-002)
+	 */
 	private void cadastrarProdutoEstoque() {
 		CadastroProdutoFornecedorEstoque cadastroProdutoFornecedorEstoque = new CadastroProdutoFornecedorEstoque();
 		CadastroProdutoFornecedorEstoqueController cadastroProdutoFornecedorEstoqueController = new CadastroProdutoFornecedorEstoqueController();
@@ -127,15 +133,10 @@ public class FrmEntradaEstoque extends JFrame {
 		produto = produtosController.consultarProdutosPorCodigoBarras(tfCodigoDeBarras.getText());
 
 		Fornecedor fornecedor = new Fornecedor();
-		//FornecedorController fornecedorController = new FornecedorController();
 
 		fornecedor = (Fornecedor) cbFornecedor.getSelectedItem();
 
-		//conferir aki
-		//double precoUnitario = 0;
 		double subtotal = 0;
-
-		//SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
 		cadastroProdutoFornecedorEstoque.setProduto(produto);
 		cadastroProdutoFornecedorEstoque.setFornecedor(fornecedor);
@@ -156,6 +157,10 @@ public class FrmEntradaEstoque extends JFrame {
 
 	}
 
+	/**
+	 * Método utilizado para efertuar o preenchimento da hora
+	 * no campo da data de entrada no cadastro de uma nova compra
+	 */
 	private void preencherHora() {
 		LocalDateTime dataHoraAtual = LocalDateTime.now();
 		DateTimeFormatter formatada = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
@@ -357,14 +362,6 @@ public class FrmEntradaEstoque extends JFrame {
 		lblVoltar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				// Fechar a janela atual
-				// SwingUtilities.getWindowAncestor(lblVoltar).dispose();
-
-				// Abrir a janela principal
-				/*
-				 * FrmMenuPrincipal menu = new FrmMenuPrincipal();
-				 * menu.setVisible(true);
-				 */
 				dispose();
 			}
 		});
@@ -510,7 +507,7 @@ public class FrmEntradaEstoque extends JFrame {
 
 		btnAlterar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// alterarProduto();
+
 			}
 		});
 
@@ -579,7 +576,7 @@ public class FrmEntradaEstoque extends JFrame {
 		tfPrecoUnitario.setFont(new Font("Arial", Font.BOLD, 14));
 		tfPrecoUnitario.setColumns(10);
 		tfPrecoUnitario.addKeyListener(new KeyAdapter() {
-			// Metodo confere se o valor digitado é numerico se nçao é impede de ser
+			// Metodo confere se o valor digitado é numerico se não é impede de ser
 			// digitado
 			@Override
 			public void keyTyped(KeyEvent e) {
@@ -745,7 +742,7 @@ public class FrmEntradaEstoque extends JFrame {
 				preencherDadosProduto();
 				tfQuantidadeComprada.setEditable(true);
 				tfPrecoUnitario.setEditable(true);
-				// tfDataEntrada.setEditable(true);
+
 				preencherHora();
 			}
 

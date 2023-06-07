@@ -23,6 +23,7 @@ public class AberturaEFechamentoCaixa {
 	/** The troco inicial. */
 	private double trocoInicial;
 	
+	/** The situacao caixa. */
 	private boolean situacaoCaixa;
 	
 
@@ -117,14 +118,29 @@ public class AberturaEFechamentoCaixa {
 	}
 	
 	
+	/**
+	 * Checks if is situacao caixa.
+	 *
+	 * @return true, if is situacao caixa
+	 */
 	public boolean isSituacaoCaixa() {
 		return situacaoCaixa;
 	}
 	
+	/**
+	 * Sets the situacao caixa.
+	 *
+	 * @param situacaoCaixa the new situacao caixa
+	 */
 	public void setSituacaoCaixa(boolean situacaoCaixa) {
 		this.situacaoCaixa = situacaoCaixa;
 	}
 
+	/**
+	 * To string.
+	 *
+	 * @return the string
+	 */
 	@Override
 	public String toString() {
 		return "AberturaEFechamentoCaixa [codigo=" + codigo + ", dataAbertura=" + dataAbertura + ", dataFechamento="
