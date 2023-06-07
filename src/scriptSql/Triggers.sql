@@ -8,11 +8,12 @@ BEGIN
 	DECLARE @QUANTIDADE DECIMAL(10,3),
 			@CODIGO VARCHAR(13)
 
-	SELECT @QUANTIDADE = quantidade, @CODIGO = COD_PRODUTO FROM INSERTED
+	SELECT @QUANTIDADE = quantidade, 
+	@CODIGO = COD_PRODUTO FROM INSERTED
 	
-
 	UPDATE tb_produto
-	SET quantidade = quantidade + @QUANTIDADE WHERE codigo_barras = @CODIGO;
+	SET quantidade = quantidade + @QUANTIDADE 
+	WHERE codigo_barras = @CODIGO;
 END;
 
 
@@ -30,8 +31,10 @@ BEGIN
 	DECLARE @QUANTIDADE DECIMAL(10,3),
 			@CODIGO VARCHAR(13)
 
-	SELECT @QUANTIDADE = quantidade_produto, @CODIGO = CODIGO_PRODUTO FROM INSERTED
+	SELECT @QUANTIDADE = quantidade_produto, 
+	@CODIGO = CODIGO_PRODUTO FROM INSERTED
 	
 	UPDATE tb_produto
-	SET quantidade = quantidade - @QUANTIDADE WHERE codigo_barras = @CODIGO;
+	SET quantidade = quantidade - @QUANTIDADE 
+	WHERE codigo_barras = @CODIGO;
 END;
